@@ -53,16 +53,16 @@
         </div>
 
         <div class="flex justify-between items-center mt-10">
-            <x-primary-button class="font-semibold">
+            <x-primary-button class="font-semibold bg-accent2 lg:text-base">
                 {{ __('Create Account') }}
             </x-primary-button>
-            <span class="text-sm 2xl:text-base font-semibold text-secondary 
+            <span class="lg:text-sm xl:text-sm font-semibold text-secondary 
                             rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Already registered? 
                 <a class="underline hover:text-white " href="{{ route('login') }}">
                     {{ __('Log In') }}
                 </a> 
-            </span>
+            </span> 
 
         </div>
         <div class=" py-6 pt-14">

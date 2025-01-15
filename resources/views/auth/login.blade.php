@@ -50,7 +50,7 @@
             </div>
 
             <div class="font-poppins flex items-center justify-between mt-4">
-                <x-primary-button class=" font-semibold">
+                <x-primary-button class=" font-semibold bg-accent2">
                     {{ __('Sign In') }}
                 </x-primary-button>
                 <div>

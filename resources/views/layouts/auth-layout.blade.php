@@ -18,8 +18,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="overflow-x-hidden bg-accent">
-    <div class="flex justify-center items-center bg-accent">
+<body class="overflow-x-hidden bg-[#FFF8E1]">
+    <div class="flex justify-center items-center bg-[#FFF8E1] bg-[url('/storage/images/gridlines.png')]">
        {{ $slot }}
     </div>
 </body>
