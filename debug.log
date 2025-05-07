@@ -1,0 +1,580 @@
+2024-12-10 12:53:15,486 - ERROR - Error occurred: list index out of range
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 20, in main
+    auth_id = int(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range
+2024-12-11 10:48:51,100 - ERROR - Error occurred: list index out of range
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 20, in main
+    auth_id = int(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range
+2024-12-11 10:49:11,399 - ERROR - Error occurred: Error running the matchmaking algorithm: (KeyError('user_id'), 1)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 49, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 12, in match_tutors
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 12, in <genexpr>
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+                                                         ~~~~~~~^^^^^^^^^^^
+KeyError: 'user_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 51, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (KeyError('user_id'), 1)
+2024-12-11 10:49:28,445 - ERROR - Error occurred: Error running the matchmaking algorithm: 'user_id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 49, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 13, in match_tutors
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 13, in <genexpr>
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+                                                         ~~~~~~~^^^^^^^^^^^
+KeyError: 'user_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 51, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e}")
+RuntimeError: Error running the matchmaking algorithm: 'user_id'
+2024-12-11 10:54:26,210 - ERROR - Error occurred: Error running the matchmaking algorithm: 'user_id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 48, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 13, in match_tutors
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 13, in <genexpr>
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+                                                         ~~~~~~~^^^^^^^^^^^
+KeyError: 'user_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 50, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e}")
+RuntimeError: Error running the matchmaking algorithm: 'user_id'
+2024-12-11 10:55:05,216 - ERROR - Error occurred: Error running the matchmaking algorithm: 'user_id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 48, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 13, in match_tutors
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 13, in <genexpr>
+    auth_user = next((student for student in students if student['user_id'] == auth_id), None)
+                                                         ~~~~~~~^^^^^^^^^^^
+KeyError: 'user_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 50, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e}")
+RuntimeError: Error running the matchmaking algorithm: 'user_id'
+2024-12-11 11:00:47,995 - ERROR - Error occurred: Error running the matchmaking algorithm: unhashable type: 'list'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 48, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 16, in match_tutors
+    studentSubject = auth_user['subjects', []]
+                     ~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 50, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e}")
+RuntimeError: Error running the matchmaking algorithm: unhashable type: 'list'
+2024-12-11 11:02:45,985 - ERROR - Error occurred: Error preprocessing data: 'id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 41, in main
+    tutors = preprocess_tutors(tutors, connection)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/data_preprocessor.py", line 35, in preprocess_tutors
+    cursor.execute("SELECT subj_code FROM tutor_Subjects WHERE tutor_id = %s", (tutor['id'],))
+                                                                                ~~~~~^^^^^^
+KeyError: 'id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 44, in main
+    raise RuntimeError(f"Error preprocessing data: {e}")
+RuntimeError: Error preprocessing data: 'id'
+2024-12-11 11:02:57,383 - ERROR - Error occurred: Error preprocessing data: 'id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 41, in main
+    tutors = preprocess_tutors(tutors, connection)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/data_preprocessor.py", line 35, in preprocess_tutors
+    cursor.execute("SELECT subj_code FROM tutor_Subjects WHERE tutor_id = %s", (tutor['id'],))
+                                                                                ~~~~~^^^^^^
+KeyError: 'id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 44, in main
+    raise RuntimeError(f"Error preprocessing data: {e}")
+RuntimeError: Error preprocessing data: 'id'
+2024-12-11 11:03:27,871 - ERROR - Error occurred: Error preprocessing data: 'id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 41, in main
+    tutors = preprocess_tutors(tutors, connection)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/data_preprocessor.py", line 35, in preprocess_tutors
+    cursor.execute("SELECT subj_code FROM tutor_Subjects WHERE tutor_id = %s", (tutor['id'],))
+                                                                                ~~~~~^^^^^^
+KeyError: 'id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 44, in main
+    raise RuntimeError(f"Error preprocessing data: {e}")
+RuntimeError: Error preprocessing data: 'id'
+2024-12-11 11:03:42,835 - ERROR - Error occurred: Error preprocessing data: 'id'
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 42, in main
+    students = preprocess_students(students, connection)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/data_preprocessor.py", line 46, in preprocess_students
+    cursor.execute("SELECT subj_code FROM student_Subjects WHERE student_id = %s", (student['id'],))
+                                                                                    ~~~~~~~^^^^^^
+KeyError: 'id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 44, in main
+    raise RuntimeError(f"Error preprocessing data: {e}")
+RuntimeError: Error preprocessing data: 'id'
+2024-12-11 16:56:18,270 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 16:56:56,867 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 16:58:13,363 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 16:58:19,600 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 16:58:35,051 - ERROR - Error occurred: Error running the matchmaking algorithm: can only concatenate str (not "list") to str
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 48, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 30, in match_tutors
+    print("Matches:" + (matches))
+          ~~~~~~~~~~~^~~~~~~~~~~
+TypeError: can only concatenate str (not "list") to str
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 50, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e}")
+RuntimeError: Error running the matchmaking algorithm: can only concatenate str (not "list") to str
+2024-12-11 16:59:04,934 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 16:59:21,327 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 17:03:34,175 - ERROR - Error occurred: Error running the matchmaking algorithm: can only concatenate str (not "list") to str
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 48, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 30, in match_tutors
+    print("Matches:" + matches)
+          ~~~~~~~~~~~^~~~~~~~~
+TypeError: can only concatenate str (not "list") to str
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 50, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e}")
+RuntimeError: Error running the matchmaking algorithm: can only concatenate str (not "list") to str
+2024-12-11 17:04:06,286 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 17:04:59,933 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 17:05:59,992 - ERROR - Error occurred: Error converting matches to JSON: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    print(json.dumps(matches))
+          ~~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 231, in dumps
+    return _default_encoder.encode(obj)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type set is not JSON serializable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error converting matches to JSON: {e}")
+RuntimeError: Error converting matches to JSON: Object of type set is not JSON serializable
+2024-12-11 17:14:12,161 - ERROR - Error occurred: list index out of range
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 20, in main
+    auth_id = int(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range
+2024-12-11 22:43:07,241 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError("No student found with user_id {'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}"), 20)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 51, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 36, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_user}")
+ValueError: No student found with user_id {'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 53, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError("No student found with user_id {'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}"), 20)
+2024-12-11 22:50:31,344 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError("No student found with user_id [{'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}, {'user_id': 2, 'name': '3 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': ['Algorithms and Complexity', 'Programming Languages', 'Operating Systems']}, {'user_id': 3, 'name': '4 Jd', 'year_level': 'Canlas', 'department': '2nd Year', 'subjects': ['Operating Systems', 'Web Systems and Technologies', 'Information Assurance and Security']}, {'user_id': 4, 'name': '10 Ian', 'year_level': 'Gonzales', 'department': '2nd Year', 'subjects': ['Algorithms and Complexity', 'Operating Systems']}, {'user_id': 5, 'name': '13 kay', 'year_level': 'suto', 'department': '1st Year', 'subjects': []}, {'user_id': 6, 'name': '17 Hajinomoto', 'year_level': 'Mix', 'department': '3rd Year', 'subjects': []}, {'user_id': 7, 'name': '19 fggrg', 'year_level': 'efgregrger', 'department': '4th Year', 'subjects': []}, {'user_id': 8, 'name': '20 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': []}, {'user_id': 9, 'name': '24 cecil', 'year_level': 'trinidad', 'department': '3rd Year', 'subjects': []}]"), 8)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 36, in match_tutors
+    raise ValueError(f"No student found with user_id {students}")
+ValueError: No student found with user_id [{'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}, {'user_id': 2, 'name': '3 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': ['Algorithms and Complexity', 'Programming Languages', 'Operating Systems']}, {'user_id': 3, 'name': '4 Jd', 'year_level': 'Canlas', 'department': '2nd Year', 'subjects': ['Operating Systems', 'Web Systems and Technologies', 'Information Assurance and Security']}, {'user_id': 4, 'name': '10 Ian', 'year_level': 'Gonzales', 'department': '2nd Year', 'subjects': ['Algorithms and Complexity', 'Operating Systems']}, {'user_id': 5, 'name': '13 kay', 'year_level': 'suto', 'department': '1st Year', 'subjects': []}, {'user_id': 6, 'name': '17 Hajinomoto', 'year_level': 'Mix', 'department': '3rd Year', 'subjects': []}, {'user_id': 7, 'name': '19 fggrg', 'year_level': 'efgregrger', 'department': '4th Year', 'subjects': []}, {'user_id': 8, 'name': '20 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': []}, {'user_id': 9, 'name': '24 cecil', 'year_level': 'trinidad', 'department': '3rd Year', 'subjects': []}]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError("No student found with user_id [{'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}, {'user_id': 2, 'name': '3 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': ['Algorithms and Complexity', 'Programming Languages', 'Operating Systems']}, {'user_id': 3, 'name': '4 Jd', 'year_level': 'Canlas', 'department': '2nd Year', 'subjects': ['Operating Systems', 'Web Systems and Technologies', 'Information Assurance and Security']}, {'user_id': 4, 'name': '10 Ian', 'year_level': 'Gonzales', 'department': '2nd Year', 'subjects': ['Algorithms and Complexity', 'Operating Systems']}, {'user_id': 5, 'name': '13 kay', 'year_level': 'suto', 'department': '1st Year', 'subjects': []}, {'user_id': 6, 'name': '17 Hajinomoto', 'year_level': 'Mix', 'department': '3rd Year', 'subjects': []}, {'user_id': 7, 'name': '19 fggrg', 'year_level': 'efgregrger', 'department': '4th Year', 'subjects': []}, {'user_id': 8, 'name': '20 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': []}, {'user_id': 9, 'name': '24 cecil', 'year_level': 'trinidad', 'department': '3rd Year', 'subjects': []}]"), 8)
+2024-12-11 22:51:13,213 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError("No student found with user_id [{'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}, {'user_id': 2, 'name': '3 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': ['Algorithms and Complexity', 'Programming Languages', 'Operating Systems']}, {'user_id': 3, 'name': '4 Jd', 'year_level': 'Canlas', 'department': '2nd Year', 'subjects': ['Operating Systems', 'Web Systems and Technologies', 'Information Assurance and Security']}, {'user_id': 4, 'name': '10 Ian', 'year_level': 'Gonzales', 'department': '2nd Year', 'subjects': ['Algorithms and Complexity', 'Operating Systems']}, {'user_id': 5, 'name': '13 kay', 'year_level': 'suto', 'department': '1st Year', 'subjects': []}, {'user_id': 6, 'name': '17 Hajinomoto', 'year_level': 'Mix', 'department': '3rd Year', 'subjects': []}, {'user_id': 7, 'name': '19 fggrg', 'year_level': 'efgregrger', 'department': '4th Year', 'subjects': []}, {'user_id': 8, 'name': '20 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': []}, {'user_id': 9, 'name': '24 cecil', 'year_level': 'trinidad', 'department': '3rd Year', 'subjects': []}]"), 8)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 36, in match_tutors
+    raise ValueError(f"No student found with user_id {students}")
+ValueError: No student found with user_id [{'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}, {'user_id': 2, 'name': '3 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': ['Algorithms and Complexity', 'Programming Languages', 'Operating Systems']}, {'user_id': 3, 'name': '4 Jd', 'year_level': 'Canlas', 'department': '2nd Year', 'subjects': ['Operating Systems', 'Web Systems and Technologies', 'Information Assurance and Security']}, {'user_id': 4, 'name': '10 Ian', 'year_level': 'Gonzales', 'department': '2nd Year', 'subjects': ['Algorithms and Complexity', 'Operating Systems']}, {'user_id': 5, 'name': '13 kay', 'year_level': 'suto', 'department': '1st Year', 'subjects': []}, {'user_id': 6, 'name': '17 Hajinomoto', 'year_level': 'Mix', 'department': '3rd Year', 'subjects': []}, {'user_id': 7, 'name': '19 fggrg', 'year_level': 'efgregrger', 'department': '4th Year', 'subjects': []}, {'user_id': 8, 'name': '20 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': []}, {'user_id': 9, 'name': '24 cecil', 'year_level': 'trinidad', 'department': '3rd Year', 'subjects': []}]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError("No student found with user_id [{'user_id': 1, 'name': '2 Juanito Galabanoto', 'year_level': 'Gagambino', 'department': '3rd Year', 'subjects': []}, {'user_id': 2, 'name': '3 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': ['Algorithms and Complexity', 'Programming Languages', 'Operating Systems']}, {'user_id': 3, 'name': '4 Jd', 'year_level': 'Canlas', 'department': '2nd Year', 'subjects': ['Operating Systems', 'Web Systems and Technologies', 'Information Assurance and Security']}, {'user_id': 4, 'name': '10 Ian', 'year_level': 'Gonzales', 'department': '2nd Year', 'subjects': ['Algorithms and Complexity', 'Operating Systems']}, {'user_id': 5, 'name': '13 kay', 'year_level': 'suto', 'department': '1st Year', 'subjects': []}, {'user_id': 6, 'name': '17 Hajinomoto', 'year_level': 'Mix', 'department': '3rd Year', 'subjects': []}, {'user_id': 7, 'name': '19 fggrg', 'year_level': 'efgregrger', 'department': '4th Year', 'subjects': []}, {'user_id': 8, 'name': '20 jca', 'year_level': 'student', 'department': '3rd Year', 'subjects': []}, {'user_id': 9, 'name': '24 cecil', 'year_level': 'trinidad', 'department': '3rd Year', 'subjects': []}]"), 8)
+2024-12-11 22:52:45,062 - ERROR - Error occurred: Error running the matchmaking algorithm: (TypeError('can only concatenate str (not "int") to str'), 8)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 55, in match_tutors
+    print(f"Matches: " + str(matches) + auth_id)
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+TypeError: can only concatenate str (not "int") to str
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (TypeError('can only concatenate str (not "int") to str'), 8)
+2024-12-11 22:53:03,037 - ERROR - Error occurred: Error running the matchmaking algorithm: (TypeError('can only concatenate str (not "set") to str'), 8)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 55, in match_tutors
+    print(f"Matches: " + str(matches) + {auth_id})
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+TypeError: can only concatenate str (not "set") to str
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (TypeError('can only concatenate str (not "set") to str'), 8)
+2024-12-11 22:55:07,792 - ERROR - Error occurred: Invalid or missing auth_id argument: Missing auth_id argument
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 21, in main
+    raise ValueError("Missing auth_id argument")
+ValueError: Missing auth_id argument
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 28, in main
+    raise ValueError(f"Invalid or missing auth_id argument: {ve}")
+ValueError: Invalid or missing auth_id argument: Missing auth_id argument
+2024-12-11 23:20:26,913 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 27
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+2024-12-11 23:20:42,028 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 20'), 20)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 54, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 20
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 56, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 20'), 20)
+2024-12-11 23:33:21,020 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 27
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 76, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+2024-12-11 23:37:52,421 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 27
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 76, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+2024-12-11 23:38:41,084 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 27
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 76, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+2024-12-11 23:40:19,104 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 27
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 76, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+2024-12-11 23:41:00,677 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 75, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/matcher.py", line 38, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 27
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 77, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)

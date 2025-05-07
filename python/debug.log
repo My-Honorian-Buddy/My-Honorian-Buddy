@@ -1,0 +1,18 @@
+2024-12-10 12:48:29,462 - ERROR - Error occurred: list index out of range
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 20, in main
+    auth_id = int(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range
+2024-12-10 12:50:50,863 - ERROR - Error occurred: list index out of range
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 20, in main
+    auth_id = int(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range
+2024-12-10 12:52:13,081 - ERROR - Error occurred: list index out of range
+Traceback (most recent call last):
+  File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 20, in main
+    auth_id = int(sys.argv[1])
+                  ~~~~~~~~^^^
+IndexError: list index out of range

@@ -1,0 +1,6 @@
+.sidebar{
+    position: fixed;
+    z-index: 999;
+    display: none;
+    justify-content: flex-end;
+}
