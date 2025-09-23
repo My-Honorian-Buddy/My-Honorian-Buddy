@@ -9,8 +9,7 @@
             </div>
             <div class="flex w-full justify-end text-2xl text-accent2 text-stroke font-black mr-8">SCHEDULE</div>
         </div>  
-                <!--Google Calendar JS-->
-        <!-- calendar content -->
+               
 
             <div class="p-4 pb-16">
                 <div class="flex justify-evenly items-center w-full">
