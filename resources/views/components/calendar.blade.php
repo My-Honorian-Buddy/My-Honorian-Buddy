@@ -1,11 +1,11 @@
-<section class="m-8">
+<section class="mb-8 h-full">
     <!-- container -->
-    <div class="bg-accent rounded-[20px] h-auto pt-2 pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-        <div class="flex bg-white -mt-2 items-center w-full border-b-2 border-black py-2 rounded-t-[20px]">
+    <div class="bg-accent3 rounded-[20px] h-full pt-2 pb-2 overflow-hidden mb-4 shadow-custom-button shadow-black border-black border-2">
+        <div class="flex bg-primary -mt-2 items-center w-full border-b-2 border-black py-2">
             <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                 <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
             </div>
             <div class="flex w-full justify-end text-2xl text-accent2 text-stroke font-black mr-8">SCHEDULE</div>
         </div>  
@@ -33,7 +33,9 @@
                     <div class="text-center font-bold text-black">Fri</div>
                     <div class="text-center font-bold text-black">Sat</div>
                 </div>
-            </div>    
+            </div>
+            
+
     </div>
 </section>
 
@@ -41,7 +43,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
                 let currentDate = new Date();
-                
+
                 function createCalendar(date) {
                     const monthDays = document.querySelector('.grid-cols-7');
                     const month = date.getMonth();
@@ -74,21 +76,21 @@
                         const dayElement = document.createElement('div');
                         dayElement.classList.add('justify-center','text-primary','font-bold',"text-xl","flex", "items-center", "px-0.5", "m-2", "rounded-full");
                         dayElement.innerText = day;
-
+                        
                         if (
                             day === new Date().getDate() &&
                             month === new Date().getMonth() &&
                             year === new Date().getFullYear()
                         ) {
-                            dayElement.classList.add("border-2", "border-black", "bg-primary", "text-yellow-300", "cursor-pointer", "h-[75px]", "w-[75px]");
+                            dayElement.classList.add("border-2", "border-black", "bg-primary", "text-yellow-400", "cursor-pointer", "h-[75px]", "w-[75px]");
                         }else {
-                            dayElement.classList.add("transition","ease-in-out","hover:bg-primary", "hover:text-yellow-300", "cursor-pointer", "h-[75px]", "w-[75px]");
+                            dayElement.classList.add("transition","ease-in-out","hover:bg-primary", "hover:text-accent2", "cursor-pointer", "h-[75px]", "w-[75px]");
                         }
                         
                         monthDays.appendChild(dayElement);
                     }
                 }
-
+                
                 document.getElementById('prev-month').addEventListener('click', () => {
                     currentDate.setMonth(currentDate.getMonth() - 1);
                     createCalendar(currentDate);

@@ -53,8 +53,9 @@ class ReviewController extends Controller
         }
         $tutor->rating = round($avgRating, 1);
 
-    
+        
         $bookedSession->reviewed = true;
+        $tutor->NoOfReviews += 1;
         $bookedSession->save();
         $tutor->save();
 

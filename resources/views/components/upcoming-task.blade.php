@@ -1,13 +1,13 @@
-<section class="m-8">
+<section class="">
     <!-- container SINIRA MO NO-->
-    <div class="bg-accent2 rounded-[20px] pt-2 pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-        <div class="flex bg-white -mt-2 items-center w-full border-b-2 border-black py-2 rounded-t-[20px]">
+    <div class="bg-accent2 rounded-[20px] overflow-hidden pt-2 pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
+        <div class="flex bg-primary -mt-2 items-center w-full border-b-2 border-black py-2">
             <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                 <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
             </div>
-            <div class="flex w-full justify-end text-2xl text-accent text-stroke font-black mr-8">UPCOMING TASK</div>
+            <div class="flex w-full justify-end text-2xl text-accent2 text-stroke font-black mr-8">UPCOMING TASK</div>
         </div> 
         <!-- upcoming tasks, checkboxes -->
         <div class="bg-accent2 w-full p-2 space-y-3 rounded-[20px]">
@@ -24,7 +24,7 @@
             @endphp
             <div id="taskList" class="space-y-3 pt-10 px-6">
                 @foreach ($todolists as $task)
-                    <div id="task-{{ $task->id }}" class="bg-white flex items-center justify-between h-12 border-2 border-black rounded-md">
+                    <div id="task-{{ $task->id }}" class="bg-accent3 flex items-center justify-between h-12 border-2 border-black rounded-md">
                         <input type="checkbox" 
                             onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
                             class="peer ml-4" 

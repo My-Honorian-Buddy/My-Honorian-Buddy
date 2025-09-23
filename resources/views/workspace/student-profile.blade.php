@@ -89,10 +89,11 @@
 
     {{-- main content --}}
     <x-slot name="main_content">
+        <div class="flex flex-col m-8">
         {{-- card --}}
-        <section class="m-8">
+        <section class="mb-8">
             <!-- container -->
-            <div class="w-full bg-gray-300 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
+            <div class="w-full bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
                 <div class="flex items-center bg-accent2 w-full border-b-2 border-black py-2 rounded-t-[5px]">
                     <div class="flex w-full space-x-2 ml-4 mb-2">
                         <span class="h-6 w-6 bg-primary border-2 border-black rounded-full"></span>
@@ -170,18 +171,18 @@
         
         <div class="flex lg:flex-row sm:flex-col " >
             <!-- left side column -->
-            <div class="w-full">
+            <div class="w-[70%] mr-4">
                 <section class="">
                     <x-calendar />
                 </section>
             </div>
 
             <!-- upcoming tasks - stats -->
-            <div class="lg:ml-0 sm:ml-7">
-                <section class="mt-8 mr-6" style="min-width: 20%">
+            <div class="w-[30%] lg:ml-0 sm:ml-7">
+                <section class="ml-4" style="min-width: 20%">
                     <!-- container -->
-                    <div class="bg-accent rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2 overflow-hidden">
-                        <div class="bg-white rounded-t-[20px] md:text-2xl text-accent text-stroke font-black p-3 border-b-2 border-black">
+                    <div class="bg-accent3 rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2 overflow-hidden">
+                        <div class="bg-accent2 rounded-t-[20px] md:text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
                             STATS
                         </div>
                         <div class="border-black p-4"></div>
@@ -198,6 +199,6 @@
                 </section>
             </div>
         </div>
-        
+        </div>
     </x-slot>
 </x-workspace-layout>

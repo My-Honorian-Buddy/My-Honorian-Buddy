@@ -8,6 +8,7 @@
     $hasBookedSessions = false;
     $userID = Auth::user()->id;
     $percentage = 0;
+    
 
     if ($role === 'Student') {
         $student = Auth::user()->student;
@@ -46,12 +47,12 @@
         $session = null;
     }
 @endphp
-<div class="w-full h-full mt-10 bg-gray-300 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 "> 
-    <div class="flex items-center w-full border-b-2 border-black py-2">
+<div class="w-full h-auto mt-10 bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 "> 
+    <div class="flex bg-primary items-center w-full border-b-2 border-black py-2">
         <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
             <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-            <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-            <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+            <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+            <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
         </div>
         <div class="flex w-full justify-end text-2xl text-[#ffdd57] text-stroke font-black mr-8">CURRENT SESSIONS</div>
     </div>
@@ -129,16 +130,17 @@
                                                 Drop the session
                                             </x-bladewind::button>
 
-                                            <x-bladewind::button
+                                            
+                                            {{--<x-bladewind::button
                                                 type="button"
                                                 class="bg-accent2 text-primary hover:bg-secondary border-2 border-black mx-4"
                                                 size="small"
                                                 rounded="true"
                                                 can_submit="false"
                                                 close_after_action="true"
-                                                onclick="showModal('confirm-payment');">
+                                                onclick="showModal('session-complete');">
                                                 Complete with payment
-                                            </x-bladewind::button>
+                                            </x-bladewind::button>--}}
                                             
                                             <x-bladewind::button
                                                     type="button"
@@ -155,7 +157,7 @@
                                 <!-- Modal of Drop Session for Tutor-->
                                 @if (Auth::user()->role === 'Tutor')
                                     <x-bladewind.modal
-                                        name="confirm-drop"
+                                        name="session-complete"
                                         type="warning"
                                         title="Confirm Drop Session"
                                         footer="false"
@@ -244,7 +246,7 @@
                                 @endif
 
                                     <!-- Modal of Complete Payment for Tutor -->
-                                    @if(Auth::user()->role === 'Tutor')
+                                {{--    @if(Auth::user()->role === 'Tutor')
                                         <x-bladewind.modal
                                             name="confirm-payment"
                                             type="warning"
@@ -329,13 +331,13 @@
                                                 </form> 
                                             </div>
                                         </x-bladewind.modal>
-                                    @endif
+                                    @endif --}}
                         </div>
                     </div>
                 </div>
             @endif
         @else
-            <div class="font-poppins bg-gray-300 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
+            <div class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
                 
                 <div class="flex flex-col  text-primary justify-center items-center h-full w-full">
                     <img src="{{ asset('images/autumn.svg') }}">

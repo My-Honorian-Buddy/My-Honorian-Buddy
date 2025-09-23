@@ -53,10 +53,10 @@
 
                             <!-- Buttons -->
                             <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
-                                <x-primary-button onclick="history.back()" type="button"  class="bg-gray-300 text-black-800 font-bold w-full max-w-[120px]">
+                                <x-primary-button onclick="history.back()" type="button"  class="bg-primary text-accent2 font-bold w-full max-w-[120px]">
                                     {{ __('Back') }} 
                                 </x-primary-button>
-                                <x-primary-button id='submitBtn' class="text-black-800 font-bold w-full max-w-[120px]">
+                                <x-primary-button id='submitBtn' class="bg-accent2 text-primary font-bold w-full max-w-[120px]">
                                     {{ __('Next') }}
                                 </x-primary-button>     
                             </div>
@@ -180,6 +180,7 @@
                             'items-center',
                             'p-2',
                             'rounded-full',
+                            'min-w-[100px]',
                             'max-w-[175px]',
                             'bg-accent2',
                             'border-2',

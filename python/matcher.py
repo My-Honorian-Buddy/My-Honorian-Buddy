@@ -1,9 +1,16 @@
-def calculate_match_score(tutor_subjects, student_subjects):
+def calculate_match_score(tutor_subjects, student_subjects, tutor_days, student_days):
     # Calculate the number of overlapping subjects
-    match = set(tutor_subjects).intersection(set(student_subjects))
-    match_score = len(match)  # The score is the number of matched subjects
+    matched_subjects = set(tutor_subjects).intersection(set(student_subjects))
+    subject_score = len(matched_subjects) 
+
+    # Calculate the number of overlapping days (like yung mga days matched)
+    matchched_days = set(tutor_days).intersection(set(student_days))
+    schedule_score = len(matchched_days)
+
+    # Total score
+    total_score = subject_score + schedule_score
     
-    return match_score, match  # Return both the score and the matched subjects
+    return total_score, matched_subjects, matchched_days  # Return both the score and the matched subjects and matched days
 
 # def match_tutors(tutors, students, auth_id):
 #     matches = []
@@ -38,19 +45,26 @@ def match_tutors(tutors, students, auth_id, min_match_score=1):
         raise ValueError(f"No student found with user_id {auth_id}")
 
     student_subjects = auth_user.get('subjects', [])
+    student_days = auth_user.get('days_week', [])
+
     matches = []
 
-    print(f"Student: {auth_id}, Subjects: {student_subjects}")
+    print(f"Student: {auth_id}, Subjects: {student_subjects}, Days: {student_days}")
     for tutor in tutors:
         tutor_subjects = tutor.get('subjects', [])
-        match_score, matched_subjects = calculate_match_score(tutor_subjects, student_subjects)
+        tutor_days = tutor.get('days_week', [])
+
+        match_score, matched_subjects, matched_days = calculate_match_score(tutor_subjects, student_subjects, tutor_days, student_days)
 
         if match_score >= min_match_score:
             matches.append({
                 'tutor_id': tutor['user_id'],
                 'match_score': match_score,
+                'matched_subjects': list(matched_subjects),
+                'matched_days': list(matched_days),
             })
 
-        matches.sort(key=lambda x: x['match_score'], reverse=True)  # Prioritize high scores
+    matches.sort(key=lambda x: x['match_score'], reverse=True)  # Prioritize high scores
+    
     logging.info(f"Matches: {matches}")
     return matches

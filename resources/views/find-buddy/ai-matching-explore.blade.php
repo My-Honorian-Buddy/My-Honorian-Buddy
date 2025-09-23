@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -24,12 +25,13 @@
         <!-- nav bar -->
         <x-nav-bar />
         <!-- find buddy section -->
+    @if($user->role === 'Student')
         <form id="BuddyForm" action="{{ route('ai-matching-result') }}" method="POST">
             @csrf
             <div class="flex flex-col items-center justify-center h-4/5 font-dela py-56">
                 <div class="relative text-center space-y-6" >
                     <h1 class="relative z-30 font-bold leading-snug text-center" >
-                        <div class="bg-accent inline-block text-[55px] shadow-custom-button text-stroke ml-6 border-2 border-black px-4 py-2 rounded-[10px] transform rotate-[-3deg]">
+                        <div class="bg-accent3 inline-block text-[55px] shadow-custom-button text-stroke ml-6 border-2 border-black px-4 py-2 rounded-[10px] transform rotate-[-3deg]">
                             GET MATCHED WITH
                         </div>
                         <img src="{{ asset('images/firstPageSvg/star.svg') }}"
@@ -55,7 +57,7 @@
 
                     {{-- find your buddy button --}}
                     <div class="flex justify-center">
-                        <button id="BuddyButton" class="border-2 border-black bg-accent text-black font-bold mt-20 px-4 py-4 rounded-full shadow-custom-button transform active:scale-95 transition duration-300 hover:scale-105">
+                        <button id="BuddyButton" class="border-2 border-black bg-accent2 text-black font-bold mt-20 px-4 py-4 rounded-full shadow-custom-button transform active:scale-95 transition duration-300 hover:scale-105">
                             <p class="text-[40px] px-8">FIND YOUR BUDDY</p>
                         </button>
                     </div>
@@ -78,6 +80,11 @@
                 </div>
             </div>
         </form>
+    @else
+        <div class="bg-accent3 inline-block text-[55px] shadow-custom-button text-stroke ml-6 border-2 border-black px-4 py-2 rounded-[10px] transform rotate-[-3deg]">
+                            Not Available for Tutors
+        </div>
+    @endif
 </div>
 
 <script>

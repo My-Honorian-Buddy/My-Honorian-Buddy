@@ -25,28 +25,61 @@ use App\Models\Schedule;
 use App\Models\Student;
 use App\Models\studentSubject;
 use App\Models\Task;
+use App\Http\Controllers\Auth\RewardRedemptionController;
 use App\Models\Tutor;
 use App\Models\ToDoLists;
 use App\Models\tutorSubject;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RoleSwitchController;
+use App\Http\Controllers\Auth\CorController;
+use App\Models\RewardRedemption;
+use App\Http\Controllers\EventController;
+use App\Events\NewNotification;
 
+Route::get('/broadcast', function(){
+    $message = "Hello World";
+    $id = Auth::user()->id;
+    broadcast(new NewNotification($message, $id));
+    return 'Message broadcasted.';
+});
 
+// paayos route pag okay na sainyo function nya :>
+// TEMPO COR VERIFY PAGE
 
+Route::get('/trynotif', function () {
+    return view('notifsomething');
+});
 
+Route::get('/jca', function () {
+    return view('auth.verify-cor');
+});
+
+// UPLOAD COR
+Route::get('/cor-verification', [CorController::class, 'view'])
+    ->middleware('auth')
+    ->name('cor.view');
+
+Route::post('/upload-cor', [CorController::class, 'upload'])->name('cor.upload');
+
+Route::get('/son', function () {
+    return view('redeemed-rewards');
+});
 
 Route::get('/', function () {
     return view('landing-page');
-});
+})->name('landing-page');
+
+Route::get('/rewards', [RewardRedemptionController::class, 'index'])->name('rewards.view');
+Route::post('/rewards/redeem/{rewardID}', [RewardRedemptionController::class, 'redeem'])->name('rewards.redeem');
+Route::get('/view/rewards', [RewardRedemptionController::class, 'myRedemptions'])->name('rewards.myRedemptions');
+Route::post('/claim/rewards/{claimID}', [RewardRedemptionController::class, 'claimReward'])->name('rewards.claim');
 
 Route::get('/contactus', function () {
     return view('contact-us');
-});
+})->name('contact-us');
 
-Route::get('/jd', function () {
-    return view('settingup-profile.profile-picture');
-});
 
 Route::get('/api/notifications/status', function () {
     return response()->json(['hasNotification' => Auth::user()->hasNotification]);
@@ -121,11 +154,17 @@ Route::middleware('auth', 'verified')->group(function () {
         })->name('profile.tutor');
 
         Route::post('/tutor', [TutorController::class, 'store'])->name('profile.tutor.store');
+
+        Route::get('/tutor/department', function () {
+            return view('settingup-profile.tutor-yearlevel-program');
+        })->name('department.tutor');
+        Route::post('/tutor/department', [TutorController::class, 'store_dept'])->name('department.tutor.store');
+
         });
 
-        Route::get('/tutor/experience', function () {
-            return view('settingup-profile.tutor-rate-and-exp');
-        })->name('experience.tutor');
+        // Route::get('/tutor/experience', function () {
+        //     return view('settingup-profile.tutor-rate-and-exp');
+        // })->name('experience.tutor');
 
         Route::post('/tutor/experience', [TutorController::class, 'store_exp'])->name('experience.tutor.store');
         Route::get('/schedule', [ScheduleController::class, 'create'])->name('user.schedule');
@@ -141,7 +180,6 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::get('/subjects/student', [StudentSubjectController::class, 'create'])->name('subjects.create');
         Route::post('/subjects/student/store', [StudentSubjectController::class, 'store'])->name('subjects.store');
         
-
     });
 
     Route::middleware('auth')->group(function () {
@@ -183,10 +221,10 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::get('/check-notifications', [NotificationController::class, 'hasUnreadNotifications'])->name('check.notifications');
     });
 
-    Route::get('/check-payment-status', function () {
-        Artisan::call('payment:check-status'); // Call the Artisan command
-        return response()->noContent(); // Return a 204 No Content response
-    });
+    // Route::get('/check-payment-status', function () {
+    //     Artisan::call('payment:check-status'); // Call the Artisan command
+    //     return response()->noContent(); // Return a 204 No Content response
+    // });
 
     
 
@@ -208,116 +246,27 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::get('/explore/card', [TutorController::class, 'showCard'])->name('show.card');
     });
 
-    //Route::
     
-    //temporary routes below \/ \/ \/ \/ \/ \/ \/
-    
-    Route::get('/mireyl', function () {
-        return view('components.card-yourstudent');
-    });
-
-    Route::get('/mireyl2', function () {
-        return view('workspace.current-session');
-    });
-
-    Route::get('/mireyl3', function () {
-        return view('workspace.favorite-buddies');
-    });
-
-    Route::get('/mireyl4', function () {
-        return view('settingup-profile.subject-improvement');
-    });
-
-    Route::get('/mireyl5', function () {
-        return view('settingup-profile.subject-expertise');
-    });
-
-    Route::get('/mireyl6', function () {
-        return view('settingup-profile.tutor-rate-and-exp');
-    });
-    
-    Route::get('/anton', function () {
-        return view('settingup-profile.choose-role');
-    });
-
-    Route::get('/anton5', function () {
-        return view('workspace.student-profile');
-    });
-    
-    Route::get('/anton6', function () {
-        return view('workspace.tutor');
-    });
-
-    Route::get('/ian', function () {
-        return view('workspace-tutor-profile');
-    });
-
     Route::get('/tutor/profile', [TaskController::class, 'connectTutor'])->name('connect.tutor');
     Route::get('/student/profile', [TaskController::class, 'connectStudent'])->name('connect.student');
 
-    Route::get('/ian2/profile', function () {
-        return view('profile.student.profile');
-    });
-    Route::get('/ian2/editprofile', function () {
-        return view('profile.student.edit-profile');
-    });
-    Route::get('/ian2/accountsettings', function () {
-        return view('profile.student.account-settings');
-    });
-
-    Route::get('/cecil', function () {
-        return view('try');
-    });
-
-    Route::get('/cecil2', function () {
-        return view('try2');
-    });
-
-    Route::get('/cecil3/profile', function () {
-        return view('profile.tutor.profile');
-    });
-
-    Route::get('/cecil3/editprofile', function () {
-        return view('profile.tutor.edit-profile');
-    });
-
-    Route::get('/cecil3/accountsettings', function () {
-        return view('profile.tutor.account-settings');
-    });
-
-    Route::get('/sampleslot', function () {
-        $todolists = ToDoLists::all();
-        return view('sampleslot', compact('todolists'));
-    });
+    
+    // Route::get('/sampleslot', function () {
+    //     $todolists = ToDoLists::all();
+    //     return view('sampleslot', compact('todolists'));
+    // });
 
     Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
     
-    Route::get('/jca', function () {
-        return view('settingup-profile.tutorUser');
-    });
-    
-   
-    Route::get('/jca3', [MatchController::class, 'match']);
-
-    Route::get('/jca4', [MatchController::class, 'showMatches'])->name('matches.show');
-
-    //ai matching page
-
-    
-    Route::get('/son', function () {
-        return view('workspace.student');
-    });
-
-    Route::get('/pyo', function () {
-        return view('aboutus');
-    });
-
-    Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
-    Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
-    Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
+    // Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
+    // Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
+    // Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
     // Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/view/reviews', [ReviewController::class, 'index'])->name('reviews.show');
 
-    //temporary routes above ^^^^^^^^^^^^
+     Route::post('/switch-role', [RoleSwitchController::class, 'switchRole'])->name('role.switch');
+
+    Route::get('/cecill', [EventController::class, 'index']);
+    Route::post('/cecill/action', [EventController::class, 'action']);

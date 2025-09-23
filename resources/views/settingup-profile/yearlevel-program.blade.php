@@ -66,7 +66,3 @@
         
     </x-folder>
 </x-auth-layout>
-
-<style>
-    
-</style>

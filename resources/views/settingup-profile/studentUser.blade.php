@@ -71,12 +71,12 @@
                            <!-- Buttons -->
                            <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                             
-                                <x-primary-button onclick="history.back()" class="font-bold font-poppins bg-gray-300 text-black w-full sm:w-auto">
+                                <x-primary-button onclick="history.back()" class="font-bold font-poppins bg-primary text-accent2 w-full sm:w-auto">
                                     {{__('Back')}}
                                 </x-primary-button>
                                 
                                 <div>
-                                <x-primary-button class="font-bold font-poppins w-full sm:w-auto">
+                                <x-primary-button class="bg-primary text-accent2 font-bold font-poppins w-full sm:w-auto">
                                     {{__('Next')}}
                                 </x-primary-button>
                             </div>

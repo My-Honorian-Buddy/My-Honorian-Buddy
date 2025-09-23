@@ -1,4 +1,4 @@
-<div class="flex mt-8 mb-8">
+<div class="hidden mt-8 mb-8">
     <div class="w-full bg-gray-300 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
         <div class="relative rounded-[20px] px-6">
 

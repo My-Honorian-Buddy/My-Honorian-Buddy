@@ -13,7 +13,7 @@ $user = Auth::user();
 @endphp
 <div class="grid xl:grid-cols-[1fr_2fr] bg-secondary border-b border-black">
     <div class="flex justify-center items-center w-3/5 lg:w-3/5 md:w-3/5 sm:w-3/5 sm:shrink-0 text-center ">
-        <a href="{{ route('workspace.start') }}">
+        <a href="{{ route('landing-page') }}">
             <img src="{{ asset('images/logo.svg') }}" alt="logo" class="mx-auto w-2/3">
         </a>
     </div>
@@ -85,7 +85,7 @@ $user = Auth::user();
                             </div>
                         </div>
                         
-                        <ul class="bladewind-dropmenunotif overflow-auto max-h-96" style="scrollbar-width: none;">
+                        <ul class="bladewind-dropmenunotif overflow-auto max-h-96" style="scrollbar-width: none;" onclick="markAsRead()">
                             {{-- Notifications will be dynamically inserted here by the script --}}
                         </ul>                     
                     
@@ -112,7 +112,7 @@ $user = Auth::user();
                             </x-bladewind.dropmenu-item>
                             </form>
 
-                            <form method="GET" action="{{ route('contact-us') }}">
+                            <form method="GET" action="{{ route('contact-us') }}"></form>
                                 @csrf
                                 <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
                                     onclick="event.preventDefault();
@@ -120,7 +120,23 @@ $user = Auth::user();
                                     Contact Us
                                 </x-bladewind.dropmenu-item>
                             </form>
-                            
+
+                            <form method="POST" action="{{ route('role.switch') }}">
+                                @csrf
+                                <input type="hidden" name="mode" value="{{ strtolower($user->role === 'Student' ? 'tutor' : 'student')}}">
+                                <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                    this.closest('form').submit();" >
+                                    Switch to 
+                                    @if ($user -> role === 'Student')
+                                        Tutor
+                                    @else
+                                        Student
+                                    @endif
+                                    
+                                </x-bladewind.dropmenu-item>
+                            </form>
+
                             <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
@@ -143,6 +159,12 @@ $user = Auth::user();
 
     const editButton = document.getElementById('edit-button');
     const bulkActions = document.getElementById('bulk-actions');
+    const bell = document.getElementById("bell");
+
+    bell.addEventListener('click', () => {
+        bell.setAttribute("show_dot", "false");
+        bell.setAttribute("animate_dot", "false");
+    });
     
     
     editButton.addEventListener('click', () => {
@@ -150,6 +172,19 @@ $user = Auth::user();
         bulkActions.classList.toggle('hidden');
         actions.forEach(action => action.classList.toggle('hidden'));
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        Echo.channel('new-notification')
+        .listen('NewNotification', () => {
+
+            
+            loadNotifications(); // Reload notifications when a new one is received
+            
+            
+        });
+    });
+
+    //haiiiii
 
     
     // Function to load notifications
@@ -167,8 +202,8 @@ $user = Auth::user();
             .then(response => response.json())
             .then(data => {
                 const { notifications, hasUnreadNotification } = data;
+                const bell = document.getElementById("bell");
 
-                
                 notifContainer.innerHTML = ''; // Clear loading message
             
                 
@@ -184,14 +219,17 @@ $user = Auth::user();
                         const bgClass = notification['read_at'] === null ? 'bg-[#FFFCEF]' : 'bg-secondary';
                         const fontClass = notification['read_at'] === null ? 'font-black' : 'font-semibold';
                         const dateColor = notification['read_at'] === null ? 'text-primary' : 'text-gray-400';
-                        const hoverClass = 'hover:bg-blue-100';
+                        const hoverClass = 'hover:bg-accent3';
 
                         console.log(notification['read_at'] === null)
+                        bell.setAttribute("show_dot", "true");
+                        bell.setAttribute("animate_dot", "true");
+                        
                         // Check if NotifType is "Tutor Request"
                         if (info['NotifType'] === "Tutor Request") {
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
-                                    <div class="flex justify-between">
+                                    <div class="flex justify-between" onclick="markRead(${notification.id})">
                                         <div class="${fontClass}">
                                             <p>${info['NotifType'] || 'Notification'}</p>
                                             <p class="text-sm text-gray-500">from ${info['studentName'] || ''}</p>
@@ -212,7 +250,7 @@ $user = Auth::user();
                                                 ✖
                                             </button>
                                         </div>
-                                    </div>
+                                    </div> 
                                     
                                     <div class="flex space-x-2 mt-2">
                                         <!-- Accept Form -->
@@ -244,7 +282,8 @@ $user = Auth::user();
                             `;
                         } else if (info['NotifType'] === "Tutor Request Accepted" || info['NotifType'] === "Tutor Request Rejected") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b  border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b  border-black transition-colors duration-200 cursor-pointer" 
+                                onclick="markRead(${notification.id})">
                                 <div class="flex justify-between">
                                     <div class="${fontClass}">
                                         <p>${info['NotifType'] || 'Notification'}</p>
@@ -268,43 +307,10 @@ $user = Auth::user();
                                 </div>
                                 </li>
                             `;
-                        } else if (info['NotifType'] === "PaymentLink") {
-                            // PaymentLink notification display
+                        } else if(info['NotifType'] === "AddNumSession") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
-                                    <div class="flex justify-between">
-                                        <div class="${fontClass}">
-                                            <p>Payment Request</p>
-                                            <p class="text-sm text-gray-500">Amount: PHP ${info['amount']}</p>
-                                            <p class="text-sm text-gray-500 mb-2">
-                                                Click the link below to complete your payment:
-                                            </p> 
-                                            <a 
-                                                href="${info['payment_url']}" 
-                                                target="_blank" 
-                                                class="text-blue-500 hover:underline">
-                                                    Complete Your Payment Here
-                                            </a>
-                                            <p class="${dateColor} text-xs mt-2">${new Date(notification.created_at).toLocaleString()}</p>
-                                        </div>
-                                        <div class="hidden notification-actions self-center space-x-2">
-                                            <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
-                            `;
-                        }else if(info['NotifType'] === "AddNumSession") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p>Session Confirmation</p>
@@ -338,10 +344,11 @@ $user = Auth::user();
                                             </button>
                                         </div>
                                 </li>
-                            `;
+                            `; 
                         }else if(info['NotifType'] === "SessionDisagreed") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p>Session Disagreed</p>
@@ -365,7 +372,8 @@ $user = Auth::user();
                             `;
                         }else if(info['NotifType'] === "SessionUpdated") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p>Session updated</p>
@@ -390,37 +398,19 @@ $user = Auth::user();
                             `;
                         }else if(info['NotifType'] === "SessionDidNotUpdate") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
-                                            <p>Session Did Not Update</p>
-                                            <p class="text-sm text-gray-500">${info['message'] || ''}</p>
-                                            <p class="text-sm text-gray-500">because the other party has already disagreed.</p>
+                                            <p class="font-semibold">COR Verification Required</p>
+                                            <p class="text-sm text-gray-500">${info['message']} ${info['schoolYear']}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
-                                        <div class="hidden notification-actions self-center space-x-2">
-                                            <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
-                            `;
-                        }else if(info['NotifType'] === "PaymentReceived") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
-                                    <div class="flex justify-between">
-                                        <div class="${fontClass}">
-                                            <p>Payment Received</p>
-                                            <p class="text-sm text-gray-500">${info['message'] || ''}</p>
-                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        <div class="self-center">
+                                            <a href="/cor-verification-${info['schoolYear']}" 
+                                            class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]">
+                                                Please Verify
+                                            </a>
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
@@ -439,7 +429,8 @@ $user = Auth::user();
                             `;
                         }else if(info['NotifType'] === "DropSession") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p>Session Drop Request</p>
@@ -489,7 +480,8 @@ $user = Auth::user();
                             `;
                         }else if(info['NotifType'] === "SessionSuccessfullyDropped") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p>Session Successfully Dropped</p>
@@ -516,7 +508,8 @@ $user = Auth::user();
                             `;
                         } else if(info['NotifType'] === "SessionDropRequestDenied") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p>Request Denied</p>
@@ -542,7 +535,64 @@ $user = Auth::user();
                                     </div>
                                 </li>
                             `;
-                        } 
+                        } else if(info['NotifType'] === "PointsUpdated") {
+                                notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p>Session updated</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || ''}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                            <p class="text-sm text-gray-500">Session: ${info['num_session']} of ${info['total_session']}</p>
+                                        </div>
+                                        <div class="hidden notification-actions self-center space-x-2">
+                                            <button 
+                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
+                                            </button>
+                                            <button 
+                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        } else if (info['NotifType'] === "CorVerification") {
+                                notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p>Cor Verification</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || ''}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                        <div class="self-center">
+                                            <a href="{{ route('cor.view') }}" 
+                                            class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]">
+                                                Please Verify
+                                            </a>
+                                        </div>
+                                        <div class="hidden notification-actions self-center space-x-2">
+                                            <button 
+                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
+                                            </button>
+                                            <button 
+                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        }
                     });
                 }
             })
@@ -552,6 +602,29 @@ $user = Auth::user();
                     <li class="px-4 py-2 text-red-500">Failed to load notifications.</li>
                 `;
             });
+    }
+    
+    function markRead(notificationId) {
+        fetch(`/notifications/${notificationId}/read`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("Notification marked as read:", notificationId);
+
+                loadNotifications();
+            }
+            console.log(data.message);
+
+        })
+        .catch(error => {
+            console.error("Error marking notification as read:", error);
+        });
     }
 
     function markAsRead(notificationId) {

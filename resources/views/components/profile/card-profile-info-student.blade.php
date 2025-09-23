@@ -13,14 +13,14 @@
 @endphp
 
 <div class="flex mt-8 mb-8">
-    <div class="w-full bg-gray-300 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
+    <div class="w-full bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
         <div class="relative rounded-[20px] px-6 py-10">
 
             <!-- Profile Picture -->
             <div class="absolute -top-[75px] left-1/2 transform -translate-x-1/2">
                 <img src="{{ Auth::user()->profile_pic ?? asset('https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_neytiri_16x9_1098_01_0e7d844a.jpeg') }}"
                 alt="Profile" 
-                class="w-[150px] h-[150px] bg-gray-100 rounded-full border-4 border-white shadow-md">
+                class="w-[150px] h-[150px] bg-accent3 object-cover rounded-full border-4 border-white shadow-md">
             </div>
             
             <!-- Card Content -->
@@ -36,7 +36,7 @@
                     accepted_file_types="image/*"  />
 
                 <div class="w-ful flex justify-end">
-                    <x-primary-button type="submit">Upload</x-primary-button>
+                    <x-primary-button type="submit" class="bg-accent2">Upload</x-primary-button>
                 </div>
             </form>
 
@@ -74,7 +74,7 @@
                 
                 <!-- Button-->
                     <div class="flex justify-end m-8">
-                    <x-primary-button type="submit" class="">Save</x-primary-button>
+                    <x-primary-button type="submit" class="bg-accent2">Save</x-primary-button>
                     </div>
                 </form>
             </div>

@@ -5,7 +5,7 @@
 
         <!-- Name -->
         <div>
-            <x-input-label  class="text-secondary" for="name" :value="__('Username')" />
+            <x-input-label  class="text-accent3" for="name" :value="__('Username')" />
             <x-text-input id="name" 
                             class="block mt-1 w-full" type="text" 
                             name="name" :value="old('name')"
@@ -16,7 +16,7 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label class="text-secondary" for="email" :value="__('Email')" />
+            <x-input-label class="text-accent3" for="email" :value="__('Email')" />
             <x-text-input id="email" 
                             class="block mt-1 w-full" 
                             type="email" name="email"
@@ -28,7 +28,7 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label class="text-secondary" for="password" :value="__('Password')" />
+            <x-input-label class="text-accent3" for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -41,7 +41,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label class="text-secondary" for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label class="text-accent3" for="password_confirmation" :value="__('Confirm Password')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"

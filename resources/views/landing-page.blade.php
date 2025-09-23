@@ -26,7 +26,7 @@
 {{-- First Page --}}
 
 <body class="font-poppins font-semibold antialiased">
-    <div class="w-full h-auto bg-secondary ">
+    <div class="w-full h-auto bg-accent3 ">
         <header class="grid grid-cols-2 items-center gap-2 p-5 py-12 lg:grid-cols-2 border-b-[1px] border-black mb-[-3%]" >
             <div class="flex justify-center pl-4">
                 <img src="{{ asset('images/logo.svg') }}" alt="My Honorian Buddy logo" class="w-2/12">
@@ -36,14 +36,14 @@
                 @if (Auth::check())
                     <a
                         href="{{ route('workspace.start') }}"
-                        class="border-2 border-black shadow-custom-button rounded-md px-3 py-2 text-black font-black ring-1 ring-transparent transition hover:bg-accent hover:text-primary active:scale-95 hover:scale-[1.1]"
+                        class="border-2 border-black shadow-custom-button rounded-md px-3 py-2 text-black font-black ring-1 ring-transparent transition hover:bg-accent2 hover:text-primary active:scale-95 hover:scale-[1.1]"
                     >
                         WORKSPACE
                     </a>
                 @else
                     <a
                         href="{{ route('login') }}"
-                        class="border-2 border-black shadow-custom-button rounded-md px-3 py-2 text-black font-black ring-1 ring-transparent transition hover:bg-accent hover:text-primary active:scale-95 hover:scale-[1.1]"
+                        class="border-2 border-black shadow-custom-button rounded-md px-3 py-2 text-primary bg-secondary font-black ring-1 ring-transparent transition hover:bg-primary hover:text-accent2 active:scale-95 hover:scale-[1.1]"
                     >
                         LOG IN
                     </a>
@@ -51,7 +51,7 @@
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
-                                class="border-2 border-black bg-primary shadow-custom-button rounded-md px-3 py-2 text-secondary font-black ring-1 ring-transparent transition hover:bg-accent active:scale-95 hover:text-primary hover:scale-[1.1] "
+                                class="border-2 border-black bg-primary shadow-custom-button rounded-md px-3 py-2 text-accent2 font-black ring-1 ring-transparent transition hover:bg-secondary active:scale-95 hover:text-primary hover:scale-[1.1] "
                             >
                                 SIGN UP
                             </a>
@@ -74,7 +74,7 @@
                         <div class="  bg-primary text-[96px] shadow-custom-button text-stroke px-2 py-1 border-2 border-black mb-6 rounded-[20px] transform rotate-[-3deg]">
                             ADVENTURE
                         </div> 
-                        BEGINS <span class="text-accent drop-shadow-custom-drop-shadow text-stroke">HERE!</span>
+                        BEGINS <span class="text-accent2 drop-shadow-custom-drop-shadow text-stroke">HERE!</span>
                             <img src="{{ asset('images/firstPageSvg/spark.svg') }}"
                             class="absolute w-[100px] bottom-[30px] right-[140px] h-[100px] transform z-50" 
                             alt="Curly Bracket Icon" />
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="absolute top-[-100px] right-[-420px] space-y-4 z-0" data-aos="fade-left" data-aos-delay="300" data-aos-duration="1500">
-                        <img src="{{ asset('images/notebook.svg') }}"
+                        <img src="/storage/images/glasses-notebook.png)"
                     </div>
                 </div>
             </div>
@@ -102,21 +102,21 @@
 
     <div class="h-[86px] overflow-hidden bg-primary font-dela  text-stroke">
         <div class="animate-marquee whitespace-nowrap flex h-full items-center space-x-8">
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <span class="text-yellow-400 text-2xl">☀️</span>
-            <span class="text-accent font-bold text-[40px]">FIND YOUR BUDDY</span>
+            <span class="text-secondary font-bold text-[40px]">FIND YOUR BUDDY</span>
             <!-- Repeat as needed for the marquee effect -->
         </div>
     </div>
@@ -126,15 +126,15 @@
     <div class="relative h-auto bg-accent2">
         <div class="relative" >
             <div class="flex flex-col items-start w-auto h-auto pt-[7%] pl-[7%] text-[64px] font-dela" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1500">
-                <div class=" flex rounded-[20px] w-auto px-8 p-1 bg-gray-200
-                text-accent text-stroke border-2 border-black shadow-custom-button
+                <div class=" flex rounded-[20px] w-auto px-8 p-1 bg-accent3
+                text-primary text-stroke border-2 border-black shadow-custom-button
                 transform rotate-[-3deg]" >
                     BUDDY SYSTEM
                 </div>
 
                 <div class="flex items-center justify-center pl-6 mt-2 space-x-2">
                     <div class="relative mt-4">
-                        <div class="relative w-24 h-24 bg-accent border-2 rounded-full flex top-[-1rem] z-10 right-[-1rem]
+                        <div class="relative w-24 h-24 bg-secondary border-2 rounded-full flex top-[-1rem] z-10 right-[-1rem]
                         border-black items-center justify-center">
                             <span class="text-xl font-bold text-gray-900">FOR</span>
                         </div>
@@ -192,11 +192,11 @@
         </div>
 
         <div class="p-16 ">
-            <div class="h-[510px] w-[705px] border-2 border-black rounded-[20px] ml-16 mb-8 shadow-maroon-shadow bg-accent" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1500">
-                <div class="flex gap-2 pl-8 items-center rounded-t-[20px] border-b-2 border-black w-full h-[15%] bg-secondary">
-                    <div class="w-8 h-8 bg-accent rounded-full border-2 border-black "></div>
+            <div class="h-[510px] w-[705px] border-2 border-black rounded-[20px] ml-16 mb-8 shadow-custom-button bg-secondary" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1500">
+                <div class="flex gap-2 pl-8 items-center rounded-t-[20px] border-b-2 border-black w-full h-[15%] bg-primary">
+                    <div class="w-8 h-8 bg-secondary rounded-full border-2 border-black "></div>
                     <div class="w-8 h-8 bg-accent2 rounded-full border-2 border-black "></div>
-                    <div class="w-8 h-8 bg-gray-300 rounded-full border-2 border-black "></div>
+                    <div class="w-8 h-8 bg-accent3 rounded-full border-2 border-black "></div>
                 </div>
                 <div class="h-[85%] flex items-center justify-center ">
                     <div class="animate_animated animate__fadeInDown flex flex-col w-4/5 h-full py-6">
@@ -209,7 +209,7 @@
                             knowledge, and grow together.
                         </p>
                         <a class="flex items-center justify-center font-black mt-8 bg-accent2 self-end rounded-[15px] hover:cursor-pointer
-                        text-black-800 text-[20px] w-auto py-3 px-6 border-2 border-black shadow-maroon-shadow transition transform hover:scale-[1.1] ">
+                        text-black-800 text-[20px] w-auto py-3 px-6 border-2 border-black shadow-custom-button transition transform hover:scale-[1.1] ">
                             READ MORE
                         </a>
                     </div>
@@ -247,7 +247,7 @@
     
 
     {{-- Third Page --}}
-    <div class="flex flex-col h-screen  bg-accent">
+    <div class="flex flex-col h-screen  bg-secondary">
         <div class="flex items-center py-20 justify-center h-[550px] w-full">
             <div class="relative h-auto w-4/5 " data-aos="fade-up">
                 <div>
@@ -299,19 +299,19 @@
                 </div>
             </div>
         </div>
-        <div class="flex-1 flex justify-evenly bg-accent items-center p-20">
+        <div class="flex-1 flex justify-evenly bg-secondary items-center p-20">
             <div class="h-[500px] w-[355px]">
             <div class="group [perspective:1000px]" data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-delay="100" data-aos-duration="1500" data-aos-offset="0">
                 <div class="relative shadow-maroon-shadow rounded-[20px] h-[500px] w-[355px] transition-all duration-500 [transform-style:preserve-3d] 
                 group-hover:[transform:rotateY(180deg)] border-2 border-black">
-                    <div class="backface-hidden absolute flex flex-col h-full w-full items-center justify-center bg-pointedGrid bg-center bg-secondary
+                    <div class="backface-hidden absolute flex flex-col h-full w-full items-center justify-center bg-pointedGrid bg-center bg-accent3
                     text-white rounded-[20px]">
                         <img src="{{ asset('images/3.svg') }}" alt="placeholder" class="max-w-full h-auto mt-8">
                         <h1 class="mt-2 text-center drop-shadow-custom-drop-shadow-small text-accent2 text-[32px] font-black text-stroke">
                             AI-POWERED <br> MATCHMAKING
                         </h1>
                     </div>
-                    <div class="backface-hidden rounded-[20px] absolute flex flex-col h-full w-full items-center justify-center bg-secondary text-white
+                    <div class="backface-hidden rounded-[20px] absolute flex flex-col h-full w-full items-center justify-center bg-accent3 text-white
                     [transform:rotateY(180deg)] [backface-visibility:hidden]">
                         <p class="w-4/5 text-black text-center text-[24px] font-black">
                             Find the perfect study buddy with AI-powered matching that understands your learning style and academic needs.
@@ -332,14 +332,14 @@
             <div class="group [perspective:1000px]" data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-delay="200" data-aos-duration="1500" data-aos-offset="0">
                 <div class="relative shadow-maroon-shadow rounded-[20px] h-[500px] w-[355px] transition-all duration-500 [transform-style:preserve-3d] 
                 group-hover:[transform:rotateY(180deg)] border-2 border-black">
-                    <div class="backface-hidden absolute flex flex-col h-full w-full items-center justify-center bg-pointedGrid bg-secondary
+                    <div class="backface-hidden absolute flex flex-col h-full w-full items-center justify-center bg-pointedGrid bg-accent3
                     text-white rounded-[20px]">
                         <img src="{{ asset('images/2.svg') }}" alt="placeholder" class="max-w-full h-auto mt-8">
                         <h1 class="mt-2 text-center drop-shadow-custom-drop-shadow-small text-accent2 text-[32px] font-black text-stroke">
                             REAL-TIME <br>   CHAT
                         </h1>
                     </div>
-                    <div class="backface-hidden rounded-[20px] absolute flex flex-col h-full w-full items-center justify-center bg-secondary text-white
+                    <div class="backface-hidden rounded-[20px] absolute flex flex-col h-full w-full items-center justify-center bg-accent3 text-white
                     [transform:rotateY(180deg)] [backface-visibility:hidden]">
                         <p class="w-4/5 text-black text-center text-[24px] font-black">
                             Connect instantly with your buddy to share ideas, resources, and support whenever you need it.
@@ -360,14 +360,14 @@
             <div class="group [perspective:1000px]" data-aos="fade-up" data-aos-easing="ease-in-back" data-aos-delay="300" data-aos-duration="1500" data-aos-offset="0">
                 <div class="relative shadow-maroon-shadow rounded-[20px] h-[500px] w-[355px] transition-all duration-500 [transform-style:preserve-3d] 
                 group-hover:[transform:rotateY(180deg)] border-2 border-black">
-                    <div class="backface-hidden absolute flex flex-col h-full w-full items-center justify-center bg-pointedGrid bg-secondary
+                    <div class="backface-hidden absolute flex flex-col h-full w-full items-center justify-center bg-pointedGrid bg-accent3
                             text-white rounded-[20px]">
                         <img src="{{ asset('images/1.svg') }}" alt="placeholder" class="max-w-full h-auto mt-8">
                         <h1 class=" mt-2 text-center drop-shadow-custom-drop-shadow-small text-accent2 text-[32px] font-black text-stroke">
                             VIDEO <br> CONFERENCING
                         </h1>
                     </div>
-                    <div class="backface-hidden rounded-[20px] absolute flex flex-col h-full w-full items-center justify-center bg-secondary text-white
+                    <div class="backface-hidden rounded-[20px] absolute flex flex-col h-full w-full items-center justify-center bg-accent3 text-white
                     [transform:rotateY(180deg)] [backface-visibility:hidden]">
                         <p class="w-4/5 text-black text-center text-[24px] font-black">
                             Seamless video calls for collaborative study sessions, so you can tackle your goals together in real-time.

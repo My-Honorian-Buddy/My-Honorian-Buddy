@@ -1,5 +1,13 @@
-<section class="mx-8 my-8 max-w-s lg:mx-auto">
-<div class=" bg-white rounded-[20px] pb-2 shadow-custom-button shadow-black border-black border-2">
+<section class="h-full mx-8 lg:mx-auto">
+<div class=" bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
+    <div class="bg-accent2 rounded-t-[20px] text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
+        <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
+            <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
+            <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+            <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
+        </div>
+    </div>
+
     <div class="border-black"></div>
     <!-- content -->
     <div class="grid grid-cols-2 items-center p-4">
@@ -7,9 +15,9 @@
         @php
             $user = Auth::user();
         @endphp
-        <div class="flex justify-center">
+        <div class="flex h-ful w-full items-center justify-center">
             <img src="{{$user->profile_pic}}" alt="Profile" 
-            class="md:w-48 md:h-48 lg:w-full lg:h-full w-full h-full border-4 border-black rounded-lg">
+            class="  h-32 w-32 lg:h-40 lg:w-40 object-cover border-4 border-black rounded-lg">
         </div>    
         <!-- profile infos -->
         @php
@@ -36,7 +44,7 @@
         </div>
     </div>
     <!-- go to my profile button -->
-    <div class="flex justify-center mb-5 mt-4 p-2">
+    <div class="flex justify-center mb-4 p-2">
         <a href="{{route('profile.update')}}">
             <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-8 py-1 h-11 text-l border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
                 <x-bladewind::icon name="user-circle" class="h-10 w-10" />

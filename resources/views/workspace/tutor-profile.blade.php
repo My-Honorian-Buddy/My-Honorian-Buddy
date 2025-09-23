@@ -98,7 +98,7 @@
         
         <section class="m-8 flex justify-center items-center">
             <!-- container -->
-            <div class="w-full max-w-7xl bg-gray-300 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
+            <div class="w-full max-w-7xl bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
                 <div class="flex items-center bg-accent2 w-full border-b-2 border-black py-2 rounded-t-[5px]">
                     <div class="flex w-full space-x-2 ml-4 mb-2">
                         <span class="h-6 w-6 bg-primary border-2 border-black rounded-full"></span>
@@ -193,15 +193,15 @@
     {{-- Reviews --}}
     <section class="m-8 flex justify-center items-center">
         {{-- container --}}
-        <div class="w-full max-w-7xl bg-gray-300 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
+        <div class="w-full max-w-7xl bg-secondary rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
             <div class="flex bg-accent2 mb-2 items-center w-full border-b-2 border-black py-2 rounded-t-[5px]">
                 <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                     <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                 </div>
 
-                <div class="flex w-full justify-end text-2xl text-accent text-stroke font-black mr-8">REVIEWS</div>
+                <div class="flex w-full justify-end text-2xl text-primary text-stroke font-black mr-8">REVIEWS</div>
             </div> 
                             
                             
@@ -331,9 +331,9 @@
                 </section>
             </div> --}}
             <section class="ml-4 mt-12 max-w-full">
-                <div class="bg-accent rounded-[20px] pb-3 mt-1 shadow-custom-button shadow-black border-black border-2">
+                <div class="bg-accent3 rounded-[20px] pb-3 mt-1 shadow-custom-button shadow-black border-black border-2">
                     <!-- Header -->
-                    <div class="bg-white rounded-t-[20px] text-2xl md:text-2xl text-accent text-stroke font-black p-4 border-b-2 border-black text-center">
+                    <div class="bg-primary rounded-t-[20px] text-2xl md:text-2xl text-accent2 text-stroke font-black p-4 border-b-2 border-black text-center">
                         STATS
                     </div>
 

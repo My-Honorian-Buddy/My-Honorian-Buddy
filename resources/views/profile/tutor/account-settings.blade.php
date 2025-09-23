@@ -1,11 +1,11 @@
-<x-workspace-layout>
-    <x-slot name="sidebar_content">
+<x-profile-layout>
+    <x-slot name="sidebars">
         <!-- Sidebar Content -->
         <x-profile.tutor-sidebar />
 
     </x-slot>
     
-    <x-slot name="main_content">
+    <x-slot name="maincontent">
         <div class="m-8">
             <!-- Update Card -->
             <x-profile.card-update />
@@ -15,4 +15,4 @@
 
         </div>
     </x-slot>
-</x-workspace-layout>
+</x-profile-layout>

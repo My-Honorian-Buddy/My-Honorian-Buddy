@@ -1,5 +1,5 @@
 <div class="flex mt-8 mb-8">
-    <div class="w-full bg-gray-300 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
+    <div class="w-full bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
         <div class="relative rounded-[20px] px-6 py-10">
 
             <!-- Profile Picture -->
@@ -56,7 +56,7 @@
 
                 <!-- Button-->
                 <div class="flex justify-end m-8">
-                    <x-primary-button type="submit" class=" bg-accent text-black ">Save</x-primary-button>
+                    <x-primary-button type="submit" class=" bg-accent2 text-black ">Save</x-primary-button>
                 </div>
             </form>
             </div>

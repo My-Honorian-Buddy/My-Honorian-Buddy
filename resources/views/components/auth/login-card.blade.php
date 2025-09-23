@@ -1,4 +1,4 @@
-<div class="overflow-hidden flex flex-col justify-center items-center border-black md:flex-row h-screen bg-secondary border-4 rounded-[16px] shadow-custom-button w-4/5 my-24 mx-auto">
+<div class="overflow-hidden flex flex-col justify-center items-center border-[#110606] md:flex-row h-screen bg-secondary border-4 rounded-[16px] shadow-custom-button w-4/5 my-24 mx-auto">
     <div class="flex flex-col justify-center md:w-1/2 w-full bg-primary p-10 px-20 h-full">
             
         <h2 class=" text-secondary text-5xl mb-6 [text-shadow:4px_4px_0px_#000000] [-webkit-text-stroke:2px_#000000] font-bold font-poppins">

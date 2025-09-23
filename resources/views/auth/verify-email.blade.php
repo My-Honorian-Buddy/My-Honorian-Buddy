@@ -1,8 +1,3 @@
-<!-- PROGRAMMERS: GONZALES, IAN JOSHUA B.
-             TRINIDAD, CECIL RIC -->
-
-
-
 <x-auth-layout>
     <x-folder>
         <!-- header with a title -->
@@ -34,9 +29,8 @@
                         <!-- Slot for the paragraph -->
                         <x-slot name="paragraph">
                             <p class="font-poppins text-left text-[16px] text-primary font-semibold">
-                                Before getting started, could you verify your email address
-                                by clicking on the link we just emailed to you? If you didn't receive  
-                                the email, we will gladly send you another.
+                                Almost there! Click the button below to receive a
+                                verification email and complete your account setup.
                             </p>
                         </x-slot>
                     </x-auth.description-text>
@@ -54,7 +48,8 @@
                         
                         <form method="POST" action="{{ route('verification.send') }}" >
                             @csrf
-                            <x-primary-button class="mt-[20px] font-bold ml-[95px] text-black md:mt-3">
+                            <x-primary-button class="bg-primary text-accent2 hover:bg-accent2
+                            hover:text-primary mt-[20px] font-bold ml-[95px] md:mt-3">
                                 {{ __('Send Verification Email') }}
                             </x-primary-button>
                         </form>
@@ -62,7 +57,8 @@
                         <!-- Form to log out the user -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-primary-button type="submit" class=" font-bold text-black bg-white mt-[20px] md:mt-3">
+                            <x-primary-button type="submit" class=" font-bold text-primary bg-accent2 
+                            hover:text-accent2 hover:bg-primary mt-[20px] md:mt-3">
                                 {{ __('Log Out') }}
                             </x-primary-button>
                         </form>

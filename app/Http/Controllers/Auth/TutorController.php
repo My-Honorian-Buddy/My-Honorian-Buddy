@@ -38,17 +38,14 @@ class TutorController extends Controller
             Session::put('add', $request->add);
             Session::put('bio_tutor', $request->bio_tutor);
             
-        return redirect()->route('experience.tutor');
+        return redirect()->route('department.tutor');
     }
 
-    public function store_exp(Request $request){
+    public function store_dept(Request $request){
 
         $request->validate([
-            'rate_session' => ['required', 'numeric', 'max:50000'],
-            'exp' => ['required', 'string', 'max:255'],
-            'gcash' => ['required', 'string', 'max:255'],
-            'grabpay' => ['nullable', 'string', 'max:255'],
-            'maya' => ['nullable', 'string', 'max:255'],
+            'year_level' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string', 'max:255'],
 
         ]);
 
@@ -60,26 +57,23 @@ class TutorController extends Controller
            'lname' => Session::get('last_name'),
            'gender' => Session::get('gend'),
            'address' => Session::get('add'),
-           'rate_session' => $request->input('rate_session', 0),
-           'exp' => $request->input('exp', 0),
-           'gcash' => $request->input('gcash'),
-           'grabpay' => $request->input('grabpay'),
-           'maya' => $request->input('maya'),
+           'year_level' => $request->year_level,
+           'department' => $request->department,
            'bio' => Session::get('bio_tutor'),
-            
         ]);
 
-    
-        Session::forget(['first_name', 'last_name', 'gend', 'add', 'bio_tutor']);
+            Session::forget(['first_name', 'last_name', 'gend', 'add', 'bio_tutor']);
 
-        return redirect()->route('tutor.create');
+            return redirect()->route('tutor.create');
+        
     }
 
     public function showCard(){
-        $users = User::all();
+         $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(2);
 
-        Log::info('All users:', $users->toArray());
+         Session::forget('initiator');
 
+        
         return view('components.card', ['users' => $users]);
     }
 
@@ -96,6 +90,7 @@ class TutorController extends Controller
                 'max_price' => 'nullable|numeric|required_if:price_range,custom',
                 'rating' => 'nullable|numeric|min:0|max:5',
                 'query' => 'nullable|string',
+                'sort' => 'nullable|string|in:asc,desc',
             ]);
 
             if($validator->fails()){
@@ -109,12 +104,14 @@ class TutorController extends Controller
             $maxPrice = $request->input('max_price', null);
             $rating = $request->input('rating', 0);
             $query = $request->input('query', '');
+            $sort = $request->input('sort', 'asc');
 
             Log::info('Selected days: ', $days);
             Log::info('Selected experience: ', $experience);
             Log::info('Selected price range: ', ['price_range' => $priceRange,'min' => $minPrice, 'max' => $maxPrice]);
             Log::info('Selected Query: ', ['query' => $query]);
             Log::info('Selected Rating: ', ['rating' => $rating]);
+            Log::info('Selected Sort: ', ['sort' => $sort]);
             
 
             if (!is_array($days)){
@@ -128,22 +125,29 @@ class TutorController extends Controller
             }
 
             try{
-                $users = User::with('tutor', 'schedule')->where('role', 'tutor')->get();
+
+                $users = User::with('tutor', 'schedule')->whereHas('tutor')->get();
+                
                 Log::info('All tutors with their schedules:', $users->toArray());
 
             }catch(\Exception $e){
                 Log::error('Error fetching tutors: ' . $e->getMessage());
                 return redirect()->back()->withErrors(['message' => 'Error fetching tutors']);
             }
-                $search = User::where('role', 'tutor')
-                ->whereHas('schedule', function ($query) use ($days) {
-                $query->where(function($query) use ($days) {
-                foreach($days as $day){
-                    $query->orWhereJsonContains('days_week', $day);
+                $search = User::whereHas('tutor')
+                ->join('tutors', 'users.id', '=', 'tutors.user_id')
+                ->select('users.*')
+                ->orderBy('tutors.fname', $sort);
+
+                if (!empty($days)) {
+                    $search->whereHas('schedule', function ($query) use ($days) {
+                        $query->where(function($query) use ($days) {
+                            foreach($days as $day){
+                                $query->orWhereJsonContains('days_week', $day);
+                            }
+                        });
+                    });
                 }
-                session(['initiator' => 'filter-page']);
-                 });
-            });
 
             if(!empty($experience)){
                 $search->whereHas('tutor', function ($query) use ($experience) {
@@ -184,8 +188,10 @@ class TutorController extends Controller
 
             Log::info('Users variable:', ['users' => $users]);
             Log::info('Search variable:', ['search' => $search]);
-        
-            return view('explore-manual', compact('users', 'search'));
+            Log::info('Request Data', $request->all());
+            
+            Session::put('initiator', 'filter-page');
+            return view('explore-manual-copy', compact('users', 'search'));
 
         } catch (\Exception $e) {
             Log::error('Error in showWebAndSearch function: ', ['error' => $e->getMessage()] );

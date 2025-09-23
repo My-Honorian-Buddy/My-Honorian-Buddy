@@ -1,0 +1,9 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.fi-sidebar {
+    background-color: #FFF8E1 !important;
+    color: #000000 !important;
+}
+

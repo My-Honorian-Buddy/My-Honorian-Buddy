@@ -30,7 +30,7 @@
         'py-2 px-3.5' => (!$divider && $padded),
         'p-0' => (!$divider && !$padded),
         'flex-row-reverse justify-between' => ($iconRight && !empty($icon)),
-        'hover:rounded-md hover:dark:text-dark-100 hover:bg-white hover:dark:!bg-dark-800' => (!$header && $hover),
+        'hover:rounded-md hover:dark:text-accent2 hover:bg-primary hover:dark:!bg-dark-800' => (!$header && $hover),
         '!cursor-default border-b border-b-slate-200/75  dark:!border-b-gray-100/10 mb-1' => $header,
 ]) {{$attributes->merge(['data-item' => "true"])}}>
     @if(!empty($icon) && !$header)

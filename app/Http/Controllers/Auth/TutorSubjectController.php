@@ -39,5 +39,5 @@ class TutorSubjectController extends Controller
         Log::info('Stored subjects', $subjectData);
         }
     }
-    
+
 }

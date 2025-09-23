@@ -44,7 +44,7 @@
     <div class="opacity-0 hidden bw-dropmenu-items  !z-20 animate__animated animate__fadeIn animate__faster"
          data-open="0">
         <div @class([
-                'absolute bg-secondary w-48 dark:bg-dark-700 mt-1 rounded-md',
+                'absolute bg-secondary w-100 dark:bg-dark-700 mt-1 {{$class}} rounded-md',
                 'border-2 border-black dark:border-dark-800/20 bw-items-list ring-1 ring-slate-800 ring-opacity-5',
                 'shadow-sm shadow-slate-200/50 dark:shadow-dark-800/70 whitespace-nowrap',
                 '-right-1' => ($position=='right'),

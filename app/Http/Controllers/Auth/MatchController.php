@@ -9,11 +9,13 @@ use App\Models\studentSubject;
 use App\Models\tutorSubject;   
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
 
 class MatchController extends \App\Http\Controllers\Controller
 {
     public function view(){
-        return view('find-buddy.ai-matching-explore');
+        $user = Auth::user();
+        return view('find-buddy.ai-matching-explore', compact('user'));
     }
     public function showMatches()
     {

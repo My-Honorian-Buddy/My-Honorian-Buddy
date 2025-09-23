@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\SessionController;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use App\Events\NewNotification;
 
 
 
@@ -311,16 +312,31 @@ class NotificationController extends Controller
     
             // Check if both parties agreed
             if ($bookedSession->accept === 2) {
+
+                $tutor = Tutor::where('user_id', $bookedSession->tutor_id)->first();
+
                 // Increment the num_session
                 $bookedSession->num_session += 1;
                 $bookedSession->sesUpdate = now()->toDateString();
                 $bookedSession->accept = 0; // Reset accept counter
                 $bookedSession->save();
+
+
+                
+                // Increment the exp and points
+                if ($tutor) {
+                    $tutor->exp += 1;
+                    $earnedPoints = $bookedSession->num_session * 10;
+                    $tutor->points += $earnedPoints;
+                    $tutor->save();
+                }
     
 
                 // Notify both tutor and student
                 $this->sendNotification($bookedSession, 'SessionUpdated', 'Your session count has been updated.', $bookedSession->student_id);
                 $this->sendNotification($bookedSession, 'SessionUpdated', 'Your session count has been updated.', $bookedSession->tutor_id);
+                $this->sendNotification($bookedSession, 'PointsUpdated', 'You earned ' . $earnedPoints . ' points.', $bookedSession->tutor_id);
+                
             }
     
             $notification->update(['read_at' => now()]);
@@ -366,7 +382,7 @@ class NotificationController extends Controller
      */
     protected function sendNotification($bookedSession, $type, $message, $recipientId)
     {
-        notifSession::create([
+        $notif = notifSession::create([
             'notif_info' => json_encode([
                 'NotifType' => $type,
                 'message' => $message,
@@ -378,7 +394,9 @@ class NotificationController extends Controller
             'user_id' => Auth::id(),
             'read_at' => null,
         ]);
-    }
+
+        event(new NewNotification($notif, $recipientId));
+    }   
     
     /**
      * Get the other party's user ID.

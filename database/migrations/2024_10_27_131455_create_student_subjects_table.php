@@ -21,6 +21,13 @@ return new class extends Migration
     }
 
     /**
+     * 
+     * SKILLS - > name/ category
+     * 
+     * 
+     */
+
+    /**
      * Reverse the migrations.
      */
     public function down(): void

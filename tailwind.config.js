@@ -18,8 +18,9 @@ export default {
             colors: {
                 primary: '#550000',
                 accent: '#FFC7C7',
-                secondary: '#EAE7DC',
+                secondary: '#FFF8E1',
                 accent2: '#FFD95C',
+                accent3: '#F6F6F6',
               },
               boxShadow: {
                 'custom-button': '5px 5px 1px rgba(0, 0, 0, 1)',

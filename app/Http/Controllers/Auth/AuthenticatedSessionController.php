@@ -24,11 +24,23 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
+        if(Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
 
-        return redirect()->intended(route('workspace.start', absolute: false));
+            return redirect()->intended('/admin');
+        }
+
+        if(Auth::guard('web')->attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('workspace.start', absolute: false));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     /**
@@ -36,12 +48,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+            Auth::guard('web')->logout();
+            Auth::guard('admin')->logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+            return redirect('/');
     }
 }

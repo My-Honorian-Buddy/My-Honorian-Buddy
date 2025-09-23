@@ -34,7 +34,7 @@
                 WE BELIEVE THAT
             </h1>
                 <div class="flex items-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
-                    <div class="relative inline-block font-dela bg-accent text-[80px] shadow-custom-button
+                    <div class="relative inline-block font-dela bg-primary text-accent2 text-[80px] shadow-custom-button
                         text-stroke px-6 border-2 border-black mb-6 rounded-[50px]">
                         LEARNING
                         <img src="{{ asset('images/firstPageSvg/spark.svg') }}"
@@ -61,66 +61,66 @@
                 </div>
         </div>
         <div class="absolute right-[800px] h-full w-auto" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1500">     
-            <img src="{{ asset('images/bro.svg') }}">
+            <img src="{{ asset('/storage/IMGS/bro.png') }}">
         </div>
     </div>
 </div>
 
 <div class="font-dela text-stroke bg-primary overflow-hidden h-[86px] relative">
     <div class="animate-marquee items-center whitespace-nowrap flex space-x-8 h-full">
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+        <span class="font-bold text-[40px] text-secondary">BETTER TOGETHER</span>
         <span class="text-2xl">☀️</span> 
     </div>
 </div>
 
 <!-- second page -->
-<div class="bg-accent relative w-full h-full p-20">
+<div class="bg-secondary relative w-full h-full p-20">
 
     <!-- our mission contents container -->
     <div class="flex items-center relative mt-10 p-10" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1000">
@@ -129,8 +129,8 @@
             <div class="flex bg-stone-200 -mt-2 items-center w-full border-b-2 border-black py-2 rounded-t-[10px]">
                 <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                     <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                 </div>
             </div> 
             
@@ -158,8 +158,8 @@
                     <div class="flex bg-stone-200 -mt-2 items-center w-full border-b-2 border-black py-2 rounded-t-[10px]">
                         <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                             <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                            <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                            <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                            <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                            <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                         </div>
                     </div>
 
@@ -182,8 +182,8 @@
             <div class="flex bg-stone-200 -mt-2 items-center w-full border-b-2 border-black py-2 rounded-t-[10px]">
                 <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                     <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                 </div>
             </div> 
             
@@ -207,8 +207,8 @@
                     <div class="flex bg-stone-200 -mt-2 items-center w-full border-b-2 border-black py-2 rounded-t-[10px]">
                         <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                             <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                            <span class="h-6 w-6 bg-[#ffb6c1] border-2 border-black rounded-full"></span>
-                            <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                            <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                            <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                         </div>
                     </div>
 
@@ -279,9 +279,9 @@
 </div>
 
 <!-- third page -->
-<div class="bg-stone-200 relative w-full h-full p-20">
+<div class="bg-secondary relative w-full h-full p-20">
     <div class="flex justify-center items-center mt-[100px] mb-[100px] space-x-10 space-y-[-100px]" data-aos="zoom-in-down" data-aos-delay="300" data-aos-duration="1000"">
-        <h1 class="text-accent drop-shadow-custom-drop-shadow text-stroke font-dela text-8xl ml-[-100px] mt-[100px]"> 
+        <h1 class="text-accent2 drop-shadow-custom-drop-shadow text-stroke font-dela text-8xl ml-[-100px] mt-[100px]"> 
             HOW IT <br> WORKS
         </h1>
             <div class="flex items-center justify-center">
@@ -294,7 +294,7 @@
     <div class="flex flex-col space-y-10 items-center justify-center relative mt-5">
 
         <!-- sign up -->
-        <div class="relative bg-accent rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
+        <div class="relative bg-accent2 rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
             border-black border-2 p-10" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300" data-aos-duration="1000">
             <h1 class="font-poppins font-black text-7xl ml-[300px]">
                 Sign Up
@@ -308,7 +308,7 @@
         </div>
 
         <!-- match with a buddy -->
-        <div class="relative bg-accent rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
+        <div class="relative bg-accent2 rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
             border-black border-2 p-10 overflow-hidden" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300" data-aos-duration="1000">
             <h1 class="font-poppins font-black text-6xl ml-[20px]">
                 Match with a Buddy
@@ -323,7 +323,7 @@
         </div>
 
         <!-- book sessions -->
-        <div class="relative bg-accent rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
+        <div class="relative bg-accent2 rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
             border-black border-2 p-10" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300" data-aos-duration="1000">
             <h1 class="font-poppins font-black text-7xl ml-[350px]">
                 Book Sessions
@@ -337,7 +337,7 @@
         </div>
 
         <!-- learn and connect -->
-        <div class="relative bg-accent rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
+        <div class="relative bg-accent2 rounded-[10px] h-[260px] w-[1000px] shadow-custom-button shadow-black
             border-black border-2 p-10 overflow-hidden" data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300" data-aos-duration="1000">
             <h1 class="font-poppins font-black text-6xl ml-[20px]">
                 Learn and Connect
@@ -355,59 +355,59 @@
     
 <div class="font-dela text-stroke bg-primary overflow-hidden h-[86px] relative">
     <div class="animate-marquee items-center whitespace-nowrap flex space-x-8 h-full">
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span>
-        <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+        <span class="font-bold text-[40px] text-accent2">MEET THE TEAM</span>
         <span class="text-2xl">☀️</span> 
     </div>
 </div>
 
 <!-- fourth page -->
-<div class="w-full h-auto bg-accent2 absolute">
+<div class="w-full h-auto bg-secondary absolute">
 
     <!-- group image -->
     <div class="flex items-center justify-center space-x-5 pt-10">
@@ -418,7 +418,7 @@
                 ABOUT THE
             </h1>
             <div class="flex items-center">
-                <div class="font-black bg-accent text-primary text-[80px] shadow-custom-button text-stroke
+                <div class="font-black bg-accent2 text-primary text-[80px] shadow-custom-button text-stroke
                     border-2 px-4 border-black rounded-[10px]">
                     CREATORS
                 </div>
@@ -435,13 +435,13 @@
     <div class="p-20">
     <!-- Founding Story Container -->
     <div class="flex items-center justify-center relative mt-10 mb-20">
-        <div class="bg-accent rounded-[10px] h-[700px] w-[850px] shadow-custom-button shadow-black border-black
+        <div class="bg-accent3 rounded-[10px] h-[700px] w-[850px] shadow-custom-button shadow-black border-black
             border-2 overflow-hidden" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-            <div class="flex bg-stone-200 items-center w-full border-b-2 border-black py-2 rounded-t-[10px]">
+            <div class="flex bg-accent2 items-center w-full border-b-2 border-black py-2 rounded-t-[10px]">
                 <div class="flex space-x-2 ml-4">
                     <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-accent border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-[#d3d3d3] border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                 </div>
             </div>
             <!-- Founding Story Content -->
@@ -480,7 +480,7 @@
             </h1>
         </div>
         <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
             <div class="h-auto w-auto">
                 <img src="/storage/images/nion.jpg" alt="tongol" class="mb-6 rounded-full object-cover border-2 border-black">
             </div>
@@ -488,6 +488,18 @@
                 Nion Czryll <br> Tongol
             </h1>
         </div>
+        
+        
+        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
+            <div class="h-auto w-auto">
+                <img src="/storage/images/jc.jpg" alt="bulaon" class="mb-6 rounded-full object-cover border-2 border-black">
+            </div>
+            <h1 class="text-center font-poppins font-black text-lg">
+                John Carl <br> Angelo Bulaon
+            </h1>
+        </div>
+        {{--
         <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
             border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
             <div class="h-auto w-auto">
@@ -500,21 +512,12 @@
         <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
             border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
             <div class="h-auto w-auto">
-                <img src="/storage/images/jc.jpg" alt="bulaon" class="mb-6 rounded-full object-cover border-2 border-black">
-            </div>
-            <h1 class="text-center font-poppins font-black text-lg">
-                John Carl <br> Angelo Bulaon
-            </h1>
-        </div>
-        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
-            <div class="h-auto w-auto">
                 <img src="/storage/images/jd.jpg" alt="canlas" class="mb-6 rounded-full object-cover border-2 border-black">
             </div>
             <h1 class="text-center font-poppins font-black text-lg">
                 John Daniel <br> Canlas
             </h1>
-        </div>
+        </div>--}}
     </div>
 
     <!-- members second row -->
@@ -529,7 +532,7 @@
             </h1>
         </div>
         <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
             <div class="h-auto w-auto">
                 <img src="/storage/images/mireyl.jpg" alt="nulud" class="mb-6 rounded-full object-cover border-2 border-black">
             </div>
@@ -537,6 +540,16 @@
                 Mireyl Fatima <br> Nulud
             </h1>
         </div>
+        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
+        border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
+        <div class="h-auto w-auto">
+            <img src="/storage/images/cil.jpg" alt="trinidad" class="mb-6 rounded-full object-cover border-2 border-black">
+        </div>
+        <h1 class="text-center font-poppins font-black text-lg">
+            Cecil Rico <br> Trinidad
+        </h1>
+    </div>
+    {{--
         <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
             border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
             <div class="h-auto w-auto">
@@ -549,21 +562,13 @@
         <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
             border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
             <div class="h-auto w-auto">
-                <img src="/storage/images/cil.jpg" alt="trinidad" class="mb-6 rounded-full object-cover border-2 border-black">
-            </div>
-            <h1 class="text-center font-poppins font-black text-lg">
-                Cecil Rico <br> Trinidad
-            </h1>
-        </div>
-        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
-            <div class="h-auto w-auto">
                 <img src="/storage/images/ian.jpg" alt="gonzales" class="mb-6 rounded-full object-cover border-2 border-black">
             </div>
             <h1 class="text-center font-poppins font-black text-lg">
                 Ian Joshua <br> Gonzales
             </h1>
         </div>
+        --}}
     </div>
 
 </div>

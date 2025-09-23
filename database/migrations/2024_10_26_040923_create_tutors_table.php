@@ -16,15 +16,15 @@ return new class extends Migration
             $table->bigInteger('user_id');  
             $table->string('fname');
             $table->string('lname');
-            $table->float('rate_session'); //price
-            $table->string('exp');         //experience    
+            $table->integer('exp')->default(0);         //experience    
             $table->integer('rating')->default(0); //rating
+            $table->integer('NoOfReviews')->default(0);
             $table->string('gender')->nullable();
+            $table->integer('points')->default(0);
             $table->string('address')->nullable();
-            $table->string('gcash')->nullable(); // Required
-            $table->string('grabpay')->nullable();
-            $table->string('maya')->nullable();
             $table->string('bio')->nullable();
+            $table->string('year_level');       
+            $table->string('department');
             $table->timestamps();
         });
     }

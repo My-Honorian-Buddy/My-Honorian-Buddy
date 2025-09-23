@@ -1,7 +1,7 @@
 <section class="m-4 mt-8 mr-8 max-w-s">
     <!-- container -->
-    <div class="bg-accent rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-        <div class="bg-accent2 rounded-t-[20px] text-2xl text-accent text-stroke font-black p-3 border-b-2 border-black">
+    <div class="bg-accent3 rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
+        <div class="bg-primary rounded-t-[20px] text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
             YOUR BUDDY
         </div>
         <div class="border-black p-4"></div>

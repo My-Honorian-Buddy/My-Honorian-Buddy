@@ -2,8 +2,8 @@
     $user = auth()->user()->tutor;
 @endphp
 
-<div class="flex mt-8 mb-8">
-    <div class="w-full bg-gray-300 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
+<div class="hidden mt-8 mb-8">
+    <div class="w-full bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
         <div class="relative rounded-[20px] px-6">
 
             <!-- Card Content -->
@@ -28,7 +28,7 @@
 
                 <!-- Button-->
                 <div class="flex justify-end m-8">
-                    <x-primary-button type="submit" class="">Save</x-primary-button>
+                    <x-primary-button type="submit" class="bg-accent2">Save</x-primary-button>
                 </div>
             </form>
 

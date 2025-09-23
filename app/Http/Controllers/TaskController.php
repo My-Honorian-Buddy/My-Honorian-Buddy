@@ -29,6 +29,7 @@ class TaskController extends Controller
             $student = $user->student;
             if($student){
                 $pickedSubjects = $student->subject_student;
+                Log::info("Picked Subjects: ", $pickedSubjects->toArray());
             }else{
                 Log::info("No Sessions Found");
             }
@@ -37,6 +38,7 @@ class TaskController extends Controller
             $tutor = $user->tutor;
             if($tutor){
                 $pickedSubjects = $tutor->subject_tutor;
+                Log::info("Picked Subjects: ", $pickedSubjects->toArray());
             }else{
                 Log::info("No Sessions Found");
             } 

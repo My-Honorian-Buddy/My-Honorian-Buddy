@@ -16,6 +16,7 @@ use App\Models\notifSession;
 use Chatify\Facades\ChatifyMessenger as Chatify;
 use Illuminate\Support\Facades\Auth;
 use App\Models\bookingHistoryLogs;
+use App\Events\NewNotification;
 
 class SessionController extends Controller
 {
@@ -121,9 +122,7 @@ class SessionController extends Controller
         ];
 
         Log::info('Data: ', $notifInfo);
-
         
-
             notifSession::create([
                 'notif_info' => json_encode($notifInfo),
                 'to' => $validated['tutor_id'],
@@ -137,12 +136,16 @@ class SessionController extends Controller
 
             $tutor = tutorSubject::find($validated['tutor_id']);
 
-            Log::info('Tutor Subjects: ', $tutor->toArray());
-
+            // Log::info('Tutor Subjects: ', $tutor->toArray());
+            broadcast(new NewNotification($userID));
+            
             return redirect()->route('workspace.start')->with([
                 'success' => 'Tutor request sent successfully!',
                 'tutor' => $tutor,
+                
             ]);
+
+            
             
     }
 
@@ -302,8 +305,6 @@ class SessionController extends Controller
             };
             
         }
-
-
 
         if (Auth::user()->role == 'Student') {
 

@@ -1,3 +1,5 @@
+console.log('Hello, Laravel!');
+
 import './bootstrap';
 
 import Alpine from 'alpinejs';
@@ -9,3 +11,4 @@ window.Alpine = Alpine;
 window.swal = swal;
 
 Alpine.start();
+

@@ -13,8 +13,6 @@ return new class extends Migration
     {
             Schema::create('bookedsessions', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                // $table->bigInteger('student_id'); 
-                // $table->bigInteger('tutor_id'); 
                 $table->bigInteger('student_id')->references('user_id')->on('students')->onDelete('cascade');
                 $table->bigInteger('tutor_id')->references('user_id')->on('tutors')->onDelete('cascade');
 

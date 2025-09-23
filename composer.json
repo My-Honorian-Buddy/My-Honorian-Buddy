@@ -6,9 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "filament/filament": "^3.3",
         "google/apiclient": "^2.12.1",
         "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^11.9",
+        "laravel/reverb": "^1.0",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
@@ -16,6 +18,7 @@
         "mkocansey/bladewind": "^2.8",
         "munafio/chatify": "^1.6",
         "paymongo/paymongo-php": "^0.0.0",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-google-calendar": "^3.8"
     },
     "require-dev": {
@@ -44,7 +47,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

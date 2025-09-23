@@ -7,7 +7,13 @@
     <title>My Honorian Buddy</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        
+        body {
+            background-color: #000000; /* Light yellow background */
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+            background-size: 5px 5px; /* Adjust grid size */
+        }
     </style>
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
     <script src="{{ asset('vendor/bladewind/js/notification.js') }}"></script>
@@ -18,8 +24,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="overflow-x-hidden bg-[#FFF8E1]">
-    <div class="flex justify-center items-center bg-[#FFF8E1] bg-[url('/storage/images/gridlines.png')]">
+<body class="overflow-x-hidden bg-accent3">
+    <div class="flex justify-center items-center bg-accent3">
        {{ $slot }}
     </div>
 </body>

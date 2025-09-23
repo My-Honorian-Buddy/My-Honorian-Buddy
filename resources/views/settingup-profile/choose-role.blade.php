@@ -34,7 +34,8 @@
 
                     <!-- button for next --> 
                     <div class="flex justify-end mr-16 mt-4">
-                        <x-primary-button class="font-bold">
+                        <x-primary-button class="bg-accent2 text-primary 
+                        hover:bg-primary hover:text-accent2 font-bold">
                             {{ __('Next') }}
                         </x-primary-button>
                     </div>

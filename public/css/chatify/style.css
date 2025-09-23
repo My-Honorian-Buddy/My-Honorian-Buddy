@@ -21,12 +21,12 @@ body {
   --listView-header-height: 110px;
 
   /* Light theme variables */
-  --primary-bg-color: #EAE7DC;
-  --secondary-bg-color: #E1DED1;
+  --primary-bg-color: #FFF8E1;
+  --secondary-bg-color: #ebe5cfd0;
   --border-color: #202020;
-  --messagingView-bg-color: #DBD8CC;
+  --messagingView-bg-color: #ebe5cfd0;
   --scrollbar-thumb-color: #cfcfcf;
-  --modal-bg-color: #fff;
+  --modal-bg-color: #9e2727;
   --send-input-icons-color: #4b4b4b;
   --message-hint-bg-color: #fff;
   --message-hint-color: #4b4b4b;
