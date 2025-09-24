@@ -5,6 +5,8 @@ use App\Models\bookedSession;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Tutor;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 $reviews = Review::all();
 $tutors = Tutor::all();
@@ -207,7 +209,10 @@ $tutors = Tutor::all();
                     </div>         
             </section>
         </body>
-    @endforeach
+@endforeach
+</div>
+<div class="flex justify-center mt-6 mb-6">
+    {{ $users->links('custom-pagination') }}
 </div>
 
 <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">

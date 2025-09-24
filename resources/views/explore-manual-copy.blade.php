@@ -265,7 +265,7 @@
             @endphp
             
                 
-                <x-card :users="$showUsers" :per-page="6"/>  
+                <x-card :users="$showUsers" :per-page="1"/>  
                 
         </div>
 

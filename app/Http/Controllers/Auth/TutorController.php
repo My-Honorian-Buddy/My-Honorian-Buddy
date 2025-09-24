@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -69,8 +70,7 @@ class TutorController extends Controller
     }
 
     public function showCard(){
-         $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(2);
-
+         $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(1);
          Session::forget('initiator');
 
         
@@ -182,7 +182,7 @@ class TutorController extends Controller
             }
 
 
-            $search = $search->get();
+            $search = $search->paginate(2);
 
             Log::info('Filtered tutors based on days:', $search->toArray());
 
