@@ -40,7 +40,11 @@ class RewardRedemptionResource extends Resource
             ->columns([
                 TextColumn::make('tutor.user.name')->label('Tutor')->sortable(),
                 TextColumn::make('reward.name')->label('Reward')->sortable(),
-                TextColumn::make('status')->badge(),
+                TextColumn::make('status')->badge()->formatStateUsing(fn ($state) => ucfirst($state))->colors([
+                    'warning' => 'pending',
+                    'success' => 'accepted',
+                    'danger' => 'rejected',
+                ]),
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([

@@ -16,10 +16,6 @@ class RewardRedemption extends Model
         'status',
     ];
 
-    // protected $casts = [
-    //     'stats' => Status::class,
-    // ];
-
     const STATUS_PENDING = 'pending';
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_REJECTED = 'rejected'; 
