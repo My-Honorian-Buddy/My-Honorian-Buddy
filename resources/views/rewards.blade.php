@@ -44,28 +44,36 @@ $tutors = Tutor::all();
             <div class="grid grid-cols-3 gap-8">
                     
                         @foreach ($rewards as $reward)
-                        <div class="flex flex-col justify-center shadow-custom-button h-[300px] w-[500px] overflow-hidden bg-accent3 border-black border-2 rounded-[20px]">
-                            <div class="bg-primary border-b-2 border-black">
-                                <h2 class="text-2xl py-2 text-center justify-items-start text-accent2 font-bold">
-                                    {{$reward->name}}
-                                </h2>
+                        <div class="flex flex-col justify-center shadow-custom-button h-[300px] w-[450px] overflow-hidden bg-accent3 border-black border-2 rounded-[20px]">
+                            <div class="h-[20%] flex bg-primary items-center w-full border-b-2 border-black py-2">
+                                <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
+                                    <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
+                                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
+                                </div>
                             </div>
-                            <div class="flex h-full p-6 justify-center items-center">
-                                <div class=" overflow-hidden flex border-2 border-black rounded-xl justify-center items-center mr-6 h-32 w-32">
+                            <div class="h-[80%]">
+                            <h2 class="h-[20%] text-2xl pt-6 text-stroke text-center justify-items-start text-accent2 font-bold">
+                                    {{$reward->name}}
+                            </h2>
+                            <div class="flex h-[80%] p-6 justify-center items-center">
+                                <div class=" overflow-hidden flex border-2 border-black rounded-xl justify-center items-center h-32 w-32">
                                     <img class="w-full h-full object-cover" src="{{ asset('storage/' . $reward->image) }}" alt="{{$reward->name}}" >
                                 </div>
                                 
-                                <div class="w-[70%] ml-4">
-                                    
-                                    <p>{{$reward->description}}</p>
-                                    <p>{{$reward->pointsReq}} Points Required</p>
+                                <div class="flex items-center justify-center w-[70%] ml-4">
+                                    <div>
+                                        <p class="text-lg text-center">{{$reward->description}}</p>
+                                        <p class="text-lg text-center">{{$reward->pointsReq}} Points Required</p>
 
-                                <form action="{{route('rewards.redeem', $reward->id)}}" method="POST">
-                                    @csrf
-                                    <button class="mt-4 border-black border-2 rounded-full text-primary bg-accent2 text-lg px-6" type="submit">Collect</button> 
-                                </form>
-
+                                        <form action="{{route('rewards.redeem', $reward->id)}}" method="POST" class="flex justify-center">
+                                            @csrf
+                                            <button class="mt-4 border-black border-2 rounded-full text-primary bg-accent2 text-lg 
+                                            hover:text-accent2 hover:bg-primary px-6" type="submit">Collect</button> 
+                                        </form>
+                                    </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                         @endforeach

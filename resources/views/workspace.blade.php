@@ -168,12 +168,12 @@ $sessionId = $bookedId ? $bookedId->id : null;
                             <div class="flex justify-between items-center m-2 gap-2">
                                 <a href="{{route('connect.student')}}">
                                         <button class="justify-center w-full bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3
-                                        h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
+                                        h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
                                         <a href="{{route('rewards.myRedemptions')}}"><span>My REWARDS</span></a>    
                                         </button>
                                 </a>
                                 <a href="{{route('connect.student')}}">
-                                        <button class="justify-center w-full bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
+                                        <button class="justify-center w-full bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
                                         <a href="{{route('rewards.view')}}"><span>SEE AVAILABLE REWARDS</span></a>    
                                         </button>
                                 </a>
@@ -207,9 +207,10 @@ $sessionId = $bookedId ? $bookedId->id : null;
                         showNotification('{{session('MeetEnded')}}', 'Meeting ended', 'success');
                     @endif
 
+                    /*
                     @if (session('linkSent'))
                         showNotification('{{ session('linkSent')}}', 'Payment link sent', 'success');
-                    @endif
+                    @endif*/
 
                     @if (session('cannotComplete'))
                         showNotification('{{ session('cannotComplete')}}', 'Cannot complete session', 'warning');
@@ -234,12 +235,12 @@ $sessionId = $bookedId ? $bookedId->id : null;
                     
                 });
 
-                setInterval(() => {
+                /*setInterval(() => {
                     fetch('/check-payment-status')
                         .catch(error => {
                             console.error('Error checking payment status:', error);
                         });
-                }, 50000); // (50 seconds)
+                }, 50000); // (50 seconds)*/
     </script>
 
     </x-slot>

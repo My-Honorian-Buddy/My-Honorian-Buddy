@@ -43,48 +43,58 @@
 
                 @forelse($redemptions as $item)
                         <div class="flex flex-col justify-center shadow-custom-button h-[300px] w-[500px] overflow-hidden bg-accent3 border-black border-2 rounded-[20px]">
-                            <div class="bg-primary border-b-2 border-black">
-                                <h2 class="text-2xl py-2 text-center justify-items-start text-accent2 font-bold">{{$item->reward->name}}</h2>
-                            </div>
-                            <div class="flex h-full justify-center items-center">
-                                <div class="overflow-hidden flex border-2 border-black rounded-xl justify-center items-center mr-6 h-32 w-32">
-                                    <img class="w-full h-full object-cover" src="{{ asset('storage/' . $item->reward->image) }}" alt="{{$item->reward->name}}" srcset="">
+                            <div class="h-[20%] flex bg-primary items-center w-full border-b-2 border-black py-2">
+                                <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
+                                    <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
+                                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
+                                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
                                 </div>
-                                <div class="w-[70%] ml-4">
+                            </div>
+                            <div class="h-[80%]">
+                                <h2 class="h-[20%] text-2xl pt-6 text-stroke text-center justify-items-start text-accent2 font-bold">{{$item->reward->name}}</h2>
+                                <div class="flex h-[80%] p-6 justify-center items-center">
+                                    <div class="flex h-full justify-center items-center">
                                     
-                                    <p>{{$item->reward->description}}</p> 
-                                    <p>{{$item->reward->pointsReq}} Points Required</p>
-
-                                    <p>STATUS: 
-                                        <span class="capitalize {{
-                                        $item->status === 'accepted' ? 'text-green-600' : 
-                                        ($item->status === 'rejected' ? 'text-red-600' : 
-                                        ($item->status === 'claimed' ? 'text-gray-600' : 'text-yellow-600'))
-                                        }}">
-                                            {{$item->status}}
-                                        </span>
-                                    </p>
-
-                                    @if($item->status === 'accepted')
-                                        
-                                            <form action="{{route('rewards.claim', $item->id)}}" method="POST">
- 
-                                                @csrf
-
-                                                <button type="submit" class="mt-4 justify-center w-[80%] bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 ml-2 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
-                                                    CLAIM THIS REWARD
-                                                </button>
-
-                                            </form>
+                                    <div class="overflow-hidden flex border-2 border-black rounded-xl justify-center items-center mr-6 h-32 w-32">
+                                        <img class="w-full h-full object-cover" src="{{ asset('storage/' . $item->reward->image) }}" alt="{{$item->reward->name}}" srcset="">
+                                    </div>
+                                        <div class="w-[70%]">
                                             
-                                    @elseif ($item->status === 'claimed')
-                                        <p class="text-gray-600">YOU HAVE ALREADY CLAIMED THIS REWARD</p>
-                                    @elseif ($item->status === 'rejected')
-                                        <p class="text-red-600">THIS REQUEST WAS REJECTED</p>
-                                    @elseif ($item->status === 'pending')
-                                        <p class="text-yellow-600">THIS REQUEST IS WAITING FOR ADMIN APPROVAL</p>
-                                    @endif
+                                            <p>{{$item->reward->description}}</p> 
+                                            <p>{{$item->reward->pointsReq}} Points Required</p>
 
+                                            <p>STATUS: 
+                                                <span class="capitalize {{
+                                                $item->status === 'accepted' ? 'text-green-600' : 
+                                                ($item->status === 'rejected' ? 'text-red-600' : 
+                                                ($item->status === 'claimed' ? 'text-gray-600' : 'text-yellow-600'))
+                                                }}">
+                                                    {{$item->status}}
+                                                </span>
+                                            </p>
+
+                                            @if($item->status === 'accepted')
+                                                
+                                                    <form action="{{route('rewards.claim', $item->id)}}" method="POST">
+        
+                                                        @csrf
+
+                                                        <button type="submit" class="mt-4 justify-center w-[80%] bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 ml-2 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
+                                                            CLAIM THIS REWARD
+                                                        </button>
+
+                                                    </form>
+                                                    
+                                            @elseif ($item->status === 'claimed')
+                                                <p class="text-gray-600">YOU HAVE ALREADY CLAIMED THIS REWARD</p>
+                                            @elseif ($item->status === 'rejected')
+                                                <p class="text-red-600">THIS REQUEST WAS REJECTED</p>
+                                            @elseif ($item->status === 'pending')
+                                                <p class="text-yellow-600">THIS REQUEST IS WAITING FOR ADMIN APPROVAL</p>
+                                            @endif
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

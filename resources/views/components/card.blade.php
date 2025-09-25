@@ -212,7 +212,7 @@ $tutors = Tutor::all();
 @endforeach
 </div>
 <div class="flex justify-center mt-6 mb-6">
-    {{ $users->links('custom-pagination') }}
+    {{ $users->appends(request()->query())->links('custom-pagination') }}
 </div>
 
 <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">

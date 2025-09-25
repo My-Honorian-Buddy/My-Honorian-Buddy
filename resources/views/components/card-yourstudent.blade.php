@@ -89,22 +89,27 @@
                     <p class="font-bold ml-5 text-[18px] -mt-1">{{$fname}}</p>
                     <p class="font-bold ml-5 text-primary text-[16px]">Lastname</p>
                     <p class="font-bold ml-5 text-[18px] -mt-1">{{$lname}}</p>
-                    @if($user->role === 'Student')
-                    <a href="{{route('connect.tutor')}}">
-                        <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 ml-2 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
-                            <span>VISIT PROFILE</span>
-                        </button>
-                    </a>
-                        <!-- review and feedback -->
-                        <x-drop :tutor_id="$tutor_id"/> 
-                    @elseif ($user->role === 'Tutor')
-                    <a href="{{route('connect.student')}}">
-                        <button class="w-[80%] bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 ml-2 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
-                            <span>VISIT PROFILE</span>
-                        </button>
-                    </a>
-                    @endif
+                    
                 </div>
+                
+            </div>
+            <div class="flex justify-center mb-4 p-2">
+            @if($user->role === 'Student')
+                <a href="{{route('connect.tutor')}}">
+                    <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 ml-2 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
+                        <span>VISIT PROFILE</span>
+                    </button>
+                </a>
+                        <!-- review and feedback -->
+                <x-drop :tutor_id="$tutor_id"/> 
+            @elseif ($user->role === 'Tutor')
+                <a href="{{route('connect.student')}}">
+                    <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-8 py-1 h-11 text-l border-2 border-black 
+            shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
+                        <span>VISIT PROFILE</span>
+                    </button>
+                </a>
+            @endif
             </div>
         </div>
     </section>

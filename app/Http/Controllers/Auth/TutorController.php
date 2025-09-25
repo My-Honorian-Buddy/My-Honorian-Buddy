@@ -70,7 +70,7 @@ class TutorController extends Controller
     }
 
     public function showCard(){
-         $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(1);
+         $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(2);
          Session::forget('initiator');
 
         
@@ -81,6 +81,7 @@ class TutorController extends Controller
         $tutors = Tutor::all();
         $tutorsSubjects = Tutor::with('subject_tutor')->get();
         $subjects = tutorSubject::all();
+        
         try {
             $validator = Validator::make($request->all(), [
                 'days' => 'nullable|array',
@@ -126,7 +127,7 @@ class TutorController extends Controller
 
             try{
 
-                $users = User::with('tutor', 'schedule')->whereHas('tutor')->get();
+                $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(2);
                 
                 Log::info('All tutors with their schedules:', $users->toArray());
 
@@ -135,9 +136,8 @@ class TutorController extends Controller
                 return redirect()->back()->withErrors(['message' => 'Error fetching tutors']);
             }
                 $search = User::whereHas('tutor')
-                ->join('tutors', 'users.id', '=', 'tutors.user_id')
-                ->select('users.*')
-                ->orderBy('tutors.fname', $sort);
+                ->with('tutor', 'schedule')
+                ->orderBy(User::select('fname')->from('tutors')->whereColumn('users.id', 'tutors.user_id'), $sort);
 
                 if (!empty($days)) {
                     $search->whereHas('schedule', function ($query) use ($days) {

@@ -46,7 +46,8 @@
     <!-- go to my profile button -->
     <div class="flex justify-center mb-4 p-2">
         <a href="{{route('profile.update')}}">
-            <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-8 py-1 h-11 text-l border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
+            <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-8 py-1 h-11 text-l border-2 border-black 
+            shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
                 <x-bladewind::icon name="user-circle" class="h-10 w-10" />
                 <span>GO TO MY PROFILE</span>
             </button>
