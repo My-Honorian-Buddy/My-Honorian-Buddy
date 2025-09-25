@@ -108,8 +108,6 @@ class MessagesController extends Controller
     }
 
     /**
-     * Send a message to database
-     *
      * @param Request $request
      * @return JsonResponse
      */
