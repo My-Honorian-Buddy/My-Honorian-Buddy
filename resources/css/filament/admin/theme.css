@@ -3,7 +3,40 @@
 @config 'tailwind.config.js';
 
 .fi-sidebar {
-    background-color: #FFF8E1 !important;
-    color: #000000 !important;
+    @apply bg-[#FFF8E1];
+    @apply font-bold;
+}
+
+.fi-sidebar-item-label {
+    @apply text-blue-600;
+    @apply text-inherit;
+}
+
+.fi-sidebar-item-icon {
+    @apply text-[#550000];
+    @apply text-inherit;
+}
+
+.fi-sidebar-item-button {
+    @apply hover:bg-[#550000] ;
+    @apply hover:text-white;
+    @apply focus-visible:bg-blue-400;
+}
+
+.fi-active {
+    @apply focus-visible:bg-black;
+}
+
+.fi-sidebar-header {
+    @apply bg-[#FFF8E1];
+}
+
+.fi-topbar {
+    @apply bg-[#FFF8E1];
+    @apply [&_*]:bg-inherit
+}
+
+.fi-body {
+    @apply bg-[#FFF8E1];
 }
 

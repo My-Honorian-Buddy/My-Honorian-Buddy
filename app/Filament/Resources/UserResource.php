@@ -32,7 +32,9 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('id')->required()->label('ID'),
+                Forms\Components\TextInput::make('id')
+                    ->required()
+                    ->label('ID'),
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\Select::make('role') 
                     ->options([
