@@ -95,10 +95,10 @@
     </x-slot>
 
     <x-slot name="main_content">
-        
-        <section class="m-8 flex justify-center items-center">
+    <div class="flex flex-col m-8">
+        <section class="flex mb-8 justify-center items-center">
             <!-- container -->
-            <div class="w-full max-w-7xl bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
+            <div class="w-full bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
                 <div class="flex items-center bg-accent2 w-full border-b-2 border-black py-2 rounded-t-[5px]">
                     <div class="flex w-full space-x-2 ml-4 mb-2">
                         <span class="h-6 w-6 bg-primary border-2 border-black rounded-full"></span>
@@ -191,9 +191,9 @@
         </section>
         
     {{-- Reviews --}}
-    <section class="m-8 flex justify-center items-center">
+    <section class="flex justify-center items-center">
         {{-- container --}}
-        <div class="w-full max-w-7xl bg-secondary rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
+        <div class="w-full bg-secondary rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2">
             <div class="flex bg-accent2 mb-2 items-center w-full border-b-2 border-black py-2 rounded-t-[5px]">
                 <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
                     <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
@@ -427,6 +427,7 @@
                 </div>
             </section>  --}}
         </div>
+    </div>
     </x-slot>
 </x-workspace-layout>
 

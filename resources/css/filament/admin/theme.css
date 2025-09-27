@@ -33,10 +33,13 @@
 
 .fi-topbar {
     @apply bg-[#FFF8E1];
-    @apply [&_*]:bg-inherit
+    @apply [&_*]:bg-inherit;
 }
 
 .fi-body {
     @apply bg-[#FFF8E1];
 }
 
+.fi-sidebar-item-active {
+    @apply [&_*]:bg-inherit
+}
