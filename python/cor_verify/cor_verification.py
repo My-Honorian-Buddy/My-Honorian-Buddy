@@ -8,6 +8,7 @@ REQUIRED_KEYWORDS = ['Don Honorio Ventura State University', # to be changed to 
                     'DHVSU - Bacolor Campus', 
                     'AY 2024-2025'] # to be change ang AY
 
+print("DEBUG PRINT TEST COMMIT")
 
 def verify_cor(pdf_path, fname, lname):
     
