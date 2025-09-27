@@ -36,9 +36,6 @@ class MessagesController extends Controller
         );
     }
 
-
-
-
     /**
      * Returning the view of the app with the required data.
      *
@@ -63,8 +60,7 @@ class MessagesController extends Controller
      * @return JsonResponse
      */
     public function idFetchData(Request $request)
-    {       
-        $authUser = Auth::user();
+    {
         $user = User::find($request['id']);
 
         if (!$user) {
@@ -79,16 +75,7 @@ class MessagesController extends Controller
             'user_avatar' => $user->avatar ?? 'default-avatar.png', // Replace with your default avatar path
             'user_name' => $user->name ?? 'Unknown User', // Replace 'name' with your desired field
         ]);
-        // $favorite = Chatify::inFavorite($request['id']);
-        // $fetch = User::where('id', $request['id'])->first();
-        // if($fetch){
-        //     $userAvatar = Chatify::getUserWithAvatar($fetch)->avatar;
-        // }
-        // return Response::json([
-        //     'favorite' => $favorite,
-        //     'fetch' => $fetch ?? null,
-        //     'user_avatar' => $userAvatar ?? null,
-        // ]);
+
     }
 
     /**

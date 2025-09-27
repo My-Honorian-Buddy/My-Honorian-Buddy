@@ -34,8 +34,8 @@ $tutors = Tutor::all();
 
                 $days = [];
                 if ($user->schedule && $user->schedule->days_week) {
-                    $days = is_string($user->schedule->days_week) 
-                    ? json_decode($user->schedule->days_week, true) 
+                    $days = is_string($user->schedule->days_week)
+                    ? json_decode($user->schedule->days_week, true)
                     : $user->schedule->days_week;
                 }
                 $subjects = [];
@@ -59,7 +59,7 @@ $tutors = Tutor::all();
         <body class="bg-primary font-poppins font-semibold">
             <section class="flex  mt-8 justify-center w-full">
             
-                {{-- container --}} 
+                {{-- container --}}
                 <div class="bg-accent3 rounded-[20px] w-full mb-4 shadow-custom-button shadow-black border-black border-2 md" >
                     <div class="p-4">
                         {{-- content --}}
@@ -68,10 +68,10 @@ $tutors = Tutor::all();
                             <div class="flex flex-col justify-center items-center md:-mt-4 md:w-[25%] sm:mt-5">
                                 {{-- profile image --}}
                                 <div class="flex h-40 w-40 justify-center shrink-0 items-center  space-x-4 p-1">
-                                    <img src="{{ $user->profile_pic }}" 
-                                    alt="Profile" 
+                                    <img src="{{ $user->profile_pic }}"
+                                    alt="Profile"
                                     class="w-full h-full object-cover border-4 border-black rounded-lg">
-                                </div> 
+                                </div>
                                 
                                 @if (Auth::user()->role === 'Student')
                                     @if (Auth::user()->student->bookedsessions()->exists() ?? false)
@@ -135,7 +135,7 @@ $tutors = Tutor::all();
                                                     <p class="font-bold text-primary text-[16px]">Experience</p>
                                                     <div class="flex justify-start space-x-4 -mt-1 -ml-5 mb-2">
                                                         <div class=" my-1 py-1 px-2 rounded-2xl border-2 border-black text-primary text-[20px] text-center font-bold ml-5">
-                                                            <p class="font-bold text-[18px]"> 
+                                                            <p class="font-bold text-[18px]">
                                                                 @if ($user->tutor->exp === 0)
                                                                     No Experience Yet!
                                                                 @else
@@ -164,9 +164,9 @@ $tutors = Tutor::all();
                                                                             clickable="false" />
 
                                                                             <p class="font-bold text-primary text-[16px]">
-                                                                                {{ '(' . $user->tutor->NoOfReviews . ')' }} 
+                                                                                {{ '(' . $user->tutor->NoOfReviews . ')' }}
                                                                             </p>
-                                                                    </div>  
+                                                                    </div>
                                                                 @endforeach
                                                             @elseif($user->tutor->NoOfReviews === 0)
                                                                 {{-- No ratings yet --}}
@@ -178,35 +178,35 @@ $tutors = Tutor::all();
                                                     </div>
                                                 </div>
                                                 
-                                            </div>    
+                                            </div>
                                         </div>
-                                    </div>  
-                                </div>     
-                            </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- view more --}}
                             <div class="mb-1 pb-1 px-2 text-primary text-[50px] text-center font-bold">
                                 
-                                <p class="font-bold text-[20px] cursor-pointer transition delay-150 ease-in-out 
+                                <p class="font-bold text-[20px] cursor-pointer transition delay-150 ease-in-out
                                     hover:underline"
 
                                     onclick='openTutorModal(
-                                    @json ($user->tutor->fname), 
-                                    @json ($user->tutor->lname), 
-                                    @json ($user->profile_pic), 
+                                    @json ($user->tutor->fname),
+                                    @json ($user->tutor->lname),
+                                    @json ($user->profile_pic),
                                     @json ($days),
                                     @json ($subjects),
                                     @json($reviews),
-                                    @json ($user->tutor->year_level), 
+                                    @json ($user->tutor->year_level),
                                     @json ($user->tutor->department),
                                     @json ($user->tutor->gender),
                                     @json ($user->tutor->address)
-
                                     )'>
                                         View More
                                         
                                 </p>
-                            </div> 
-                        </div>    
-                    </div>         
+                            </div>
+                        </div>
+                    </div>
             </section>
         </body>
 @endforeach

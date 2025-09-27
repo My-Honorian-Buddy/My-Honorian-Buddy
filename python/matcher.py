@@ -40,7 +40,7 @@ def match_tutors(tutors, students, auth_id, min_match_score=1):
 
     auth_user = next((student for student in students if student['user_id'] == auth_id), None)
 
-  
+
     if not auth_user:
         raise ValueError(f"No student found with user_id {auth_id}")
 

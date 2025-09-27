@@ -1,4 +1,9 @@
 @include('Chatify::layouts.headLinks')
+
+@php
+
+@endphp
+
 <x-nav-bar/>
 
 <div class="messenger" style="height: 82.6%;">

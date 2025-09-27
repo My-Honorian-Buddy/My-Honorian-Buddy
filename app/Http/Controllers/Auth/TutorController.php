@@ -68,12 +68,15 @@ class TutorController extends Controller
             return redirect()->route('tutor.create');
         
     }
-
+    
     public function showCard(){
-         $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(2);
-         Session::forget('initiator');
+        $users = User::with('tutor', 'schedule')
+        ->whereHas('tutor')
+        ->verified()
+        ->paginate(2);
 
-        
+        Session::forget('initiator');
+
         return view('components.card', ['users' => $users]);
     }
 

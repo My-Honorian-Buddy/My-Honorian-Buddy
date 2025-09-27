@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('role')->nullable();
             $table->string('profile_pic')->nullable();
             $table->boolean('hasNotification')->default(false);
+            $table->enum('cor_status', ['pending', 'verified', 'rejected'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -268,5 +268,5 @@ Route::middleware('auth', 'verified')->group(function () {
 
      Route::post('/switch-role', [RoleSwitchController::class, 'switchRole'])->name('role.switch');
 
-    Route::get('/cecill', [EventController::class, 'index']);
-    Route::post('/cecill/action', [EventController::class, 'action']);
+    Route::get('/calendar/event', [EventController::class, 'index']);
+    Route::post('/calendar/action', [EventController::class, 'action']);

@@ -29,7 +29,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'mode',
         'profile_pic',
         'hasNotification',
+        'cor_status',
     ];
+
+    public function scopeVerified ($query){
+        return $query->where('cor_status', 'verified');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

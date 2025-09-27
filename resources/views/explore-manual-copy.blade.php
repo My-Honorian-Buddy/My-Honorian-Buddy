@@ -92,8 +92,8 @@
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
                                     <span class="flex-1 text-center">MONDAY</span>
                                 </label>
-                        </x-bladewind.dropmenu-item>    
-                        <x-bladewind.dropmenu-item>   
+                        </x-bladewind.dropmenu-item>
+                        <x-bladewind.dropmenu-item>
                                 <label class="w-full h-full cursor-pointer flex items-center">
                                     <input type="checkbox" class="hidden peer" name="days[]" id="tuesday" value="Tuesday">
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
@@ -106,15 +106,15 @@
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
                                     <span class="flex-1 text-center">WEDNESDAY</span>
                                 </label>
-                        </x-bladewind.dropmenu-item>    
-                        <x-bladewind.dropmenu-item>   
+                        </x-bladewind.dropmenu-item>
+                        <x-bladewind.dropmenu-item>
                                 <label class="w-full h-full cursor-pointer flex items-center">
                                     <input type="checkbox" class="hidden peer" name="days[]" id="thursday" value="Thursday">
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
                                     <span class="flex-1 text-center">THURSDAY</span>
                                 </label>
-                        </x-bladewind.dropmenu-item>   
-                        <x-bladewind.dropmenu-item>   
+                        </x-bladewind.dropmenu-item>
+                        <x-bladewind.dropmenu-item>
                                 <label class="w-full h-full cursor-pointer flex items-center">
                                     <input type="checkbox" class="hidden peer" name="days[]" id="friday" value="Friday">
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
@@ -127,8 +127,8 @@
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
                                     <span class="flex-1 text-center">SATURDAY</span>
                                 </label>
-                        </x-bladewind.dropmenu-item>    
-                        <x-bladewind.dropmenu-item>   
+                        </x-bladewind.dropmenu-item>
+                        <x-bladewind.dropmenu-item>
                                 <label class="w-full h-full cursor-pointer flex items-center">
                                     <input type="checkbox" class="hidden peer" name="days[]" id="sunday" value="Sunday">
                                     <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
@@ -195,19 +195,19 @@
                                 <div class="bg-accent2 my-3 py-1 rounded-2xl border-2 border-black shadow-custom-button text-primary text-[20px] text-center font-bold cursor-pointer">
                                         <div class="flex flex-col mx-2">
                                             <div class="flex items-center justify-center">
-                                                <input type="text" name="" id="" placeholder="MIN" 
-                                                class="rounded-xl mt-2 border-2 border-black shadow-custom-button placeholder:text-primary 
+                                                <input type="text" name="" id="" placeholder="MIN"
+                                                class="rounded-xl mt-2 border-2 border-black shadow-custom-button placeholder:text-primary
                                                 placeholder:text-[18px] w-24" min="0">
                                                 <span class="mx-4">
-                                                    -
+                                                -
                                                 </span>
-                                                <input type="text" name="" id="" placeholder="MAX" 
-                                                class="rounded-xl mt-2 border-2 border-black shadow-custom-button placeholder:text-primary 
+                                                <input type="text" name="" id="" placeholder="MAX"
+                                                class="rounded-xl mt-2 border-2 border-black shadow-custom-button placeholder:text-primary
                                                 placeholder:text-[18px] w-24" min="0">
-                                            </div>    
-                                                <div class="bg-accent p-1 w-24 mt-2 mb-2 rounded-full border-2 border-black shadow-custom-button 
+                                            </div>
+                                                <div class="bg-accent p-1 w-24 mt-2 mb-2 rounded-full border-2 border-black shadow-custom-button
                                                 text-[20px] text-center font-bold cursor-pointer hover:bg-[#FFECEC] hover:text-[#8B3A3A]">
-                                                    <button type="submit">GO</button>
+                                                <button type="submit">GO</button>
                                                 </div>
                                         </div>
                                     

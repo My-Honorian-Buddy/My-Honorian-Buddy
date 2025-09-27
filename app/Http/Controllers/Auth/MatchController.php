@@ -43,6 +43,7 @@ class MatchController extends \App\Http\Controllers\Controller
         // Run the Python script, passing the subjects as an argument
 
         $command = "python3 " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($auth_id) . " 2>&1";
+
         Log::info($command);
         $output = shell_exec($command);
         $output = trim($output);
@@ -53,8 +54,6 @@ class MatchController extends \App\Http\Controllers\Controller
             $output = substr($output, $startPos);
         }
 
-
-
         $matches = json_decode($output, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -64,6 +63,7 @@ class MatchController extends \App\Http\Controllers\Controller
 
 
         return view('find-buddy.ai-matching-result', compact('matches', 'tutors', 'auth_id', 'students', 'tutorSubjects', 'studentSubjects', 'users'));
+
         // Log::info('Output: ' . $output);
         // dd($output);
         // if (!$output) {
