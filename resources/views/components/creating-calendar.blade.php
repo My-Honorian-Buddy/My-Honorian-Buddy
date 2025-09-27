@@ -42,7 +42,7 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: '/cecill',
+            events: '/calendar/event',
             displayEventTime: false,
 
             // Adding of ur event
@@ -50,7 +50,7 @@
                 var title = prompt('Enter Event Title:');
                 if (title) {
                     $.ajax({
-                        url: "/cecill/action",
+                        url: "/calendar/action",
                         type: "POST",
                         data: {
                             title: title,
@@ -71,7 +71,7 @@
             // Update (drag/drop or resize)
             eventDrop: function(info) {
                 $.ajax({
-                    url: "/cecill/action",
+                    url: "/calendar/action",
                     type: "POST",
                     data: {
                         id: info.event.id,
@@ -88,7 +88,7 @@
             },
             eventResize: function(info) {
                 $.ajax({
-                    url: "/cecill/action",
+                    url: "/calendar/action",
                     type: "POST",
                     data: {
                         id: info.event.id,
@@ -108,7 +108,7 @@
             eventClick: function(info) {
                 if (confirm("Do you really want to delete this event?")) {
                     $.ajax({
-                        url: "/cecill/action",
+                        url: "/calendar/action",
                         type: "POST",
                         data: {
                             id: info.event.id,

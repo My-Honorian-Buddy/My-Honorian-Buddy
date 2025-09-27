@@ -38,6 +38,11 @@ use App\Models\RewardRedemption;
 use App\Http\Controllers\EventController;
 use App\Events\NewNotification;
 
+Route::get('/cecill', [EventController::class, 'index'])->name('events.index');
+
+// For add/update/delete actions
+Route::post('/cecill/action', [EventController::class, 'action'])->name('events.action');
+
 Route::get('/broadcast', function(){
     $message = "Hello World";
     $id = Auth::user()->id;
@@ -190,7 +195,6 @@ Route::middleware('auth', 'verified')->group(function () {
             Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
             Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
             Route::delete('/tasks/{task}', [TaskController::class, 'delete'])->name('tasks.delete');
-
             Route::get('/profile', function () {return view('profile.tutor.profile');}) ->name('tutor.profile');
 
         });
@@ -233,7 +237,7 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::get('/chaty', function () { return view('components.settingUp_profile.chat'); })->name('chaty');
         Route::post('/chatty', [AiController::class, 'chatty'])->name('chatty.send');
         Route::get('/about', function () { return view('aboutus'); })->name('about');
-        Route::get('/contact-us', function () { return view('contact-us'); })->name('contact-us');
+        Route::get('/contact-us', function () { return view('contact-us'); })->name('contact');
     });
     
     Route::middleware(['auth', 'verified'])->group(function () {

@@ -112,9 +112,9 @@ $user = Auth::user();
                             </x-bladewind.dropmenu-item>
                             </form>
 
-                            <form method="GET" action="{{ route('contact-us') }}"></form>
+                            <form method="GET" action="{{ route('contact') }}">
                                 @csrf
-                                <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
+                                <x-bladewind.dropmenu-item padded="true" :href="route('contact-us')"
                                     onclick="event.preventDefault();
                                     this.closest('form').submit();" >
                                     Contact Us

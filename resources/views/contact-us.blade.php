@@ -51,20 +51,20 @@
             <form action="">
                 <div class="font-poppins font-bold mt-6 lg:ml-8 mb-10">
                     <p class="text-[18px]">Name:</p>
-                    <input type="text" class="w-full mb-4 rounded-md bg-gray-300">
+                    <input type="text" class="w-full mb-4 rounded-md bg-accent3">
                     <p class="text-[18px]">Email:</p>
-                    <input type="email" class="w-full mb-4 rounded-md bg-gray-300">
+                    <input type="email" class="w-full mb-4 rounded-md bg-accent3">
                     <p class="text-[18px]">Address:</p>
-                    <input type="text" class="w-full mb-4 rounded-md bg-gray-300">
+                    <input type="text" class="w-full mb-4 rounded-md bg-accent3">
                     <p class="text-[18px]">Mobile Number:</p>
-                    <input type="text" class="w-full mb-4 rounded-md bg-gray-300">
+                    <input type="text" class="w-full mb-4 rounded-md bg-accent3">
                 </div>
         </div>
 
                 {{-- concerns --}}
                 <div class="mx-[100px] -mt-[60px]">
                     <label for="concerns" class="text-[18px] font-poppins font-bold">Concerns:</label>
-                    <textarea id="concerns" rows="4" class="w-full px-3 py-2 border border-black rounded-md bg-gray-300"></textarea>
+                    <textarea id="concerns" rows="4" class="w-full px-3 py-2 border border-black rounded-md bg-white"></textarea>
                 </div>
                 {{-- submit button --}}
                 <div class="mx-[100px]  flex justify-end">
