@@ -48,7 +48,7 @@ class CorController extends Controller
         if ($user -> role === 'Student' && $user->student) {
             
                 $fname = $user->student->fname;
-                $lname = $user->studentlname;
+                $lname = $user->student->lname;
             
         } elseif ($user -> role === 'Tutor' && $user->tutor) {
             
@@ -59,27 +59,29 @@ class CorController extends Controller
 
         // Run Python verification
         // naka hard code, lipat sa .env pag uupload na sa hosting service
-        $pythonPath = "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3";
-        $pythonScriptPath = base_path('/python/cor_verify/cor_verification.py');
+        $pythonPath = env('PYTHON_PATH', 'python');
+        $pythonScriptPath = base_path('python/cor_verify/cor_verification.py');
 
         // check if same name and same cor :)
-        dd([
-        'role' => $user->role,
-        'fname' => $fname,
-        'lname' => $lname,
-        auth::user()
-        ]);
+        // dd([
+        // 'role' => $user->role,
+        // 'fname' => $fname,
+        // 'lname' => $lname,
+        // auth::user()
+        // ]);
 
         $command = $pythonPath . " "
         . escapeshellarg($pythonScriptPath) . " " 
         . escapeshellarg($fullPath) . " "
         . escapeshellarg($fname) . " "
-        . escapeshellarg($lname);
+        . escapeshellarg($lname) . " 2>&1"; // capture errors
 
-        $command = trim($command);
+        // $command = trim($command);
         $output = shell_exec($command);
         // dd($output);
-        // dd($command);
+        // dd($command, $output);
+        // \Log::info('COR command', ['command' => $command]);
+        // \Log::info('COR output', ['output' => $output]);
     
         // Delete file after checking (to be revised na dedelete kasi agad)
         if (file_exists($fullPath)) {
@@ -88,12 +90,12 @@ class CorController extends Controller
     
         // Handle Python output
 
-        if (str_contains(strtolower($output), 'invalid')) {
-            return back()->with('status', '❌ COR is invalid!');
-        } elseif (str_contains(strtolower($output), 'valid')) {
-            return back()->with('status', '✅ COR is valid!');
+        if (stripos($output, 'invalid') !== false) {
+            return back()->with('status', 'COR is invalid!');
+        } elseif (stripos($output, 'valid') !== false) {
+            return back()->with('status', 'COR is valid!');
         } else {
-            return back()->with('status', '⚠️ Error during COR verification.');
+            return back()->with('status', 'Error during COR verification.');
         }
     }
 }

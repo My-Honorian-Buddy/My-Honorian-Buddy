@@ -6,13 +6,14 @@ REQUIRED_KEYWORDS = ['Don Honorio Ventura State University', # to be changed to 
                     'Certificate of Registration',
                     'Student No', 
                     'DHVSU - Bacolor Campus', 
-                    'AY 2024-2025'] # to be change ang AY
+                    'AY 2025-2026'] # to be change ang AY
 
-print("DEBUG PRINT TEST COMMIT")
+print("TEST RUN TEST RUN TEST RUN") #debug print lang
+print("TEST RUN TEST RUN TEST RUN") #debug print lang
 
 def verify_cor(pdf_path, fname, lname):
-    
     try:
+        print("TEST RUN TEST RUN TEST RUN", f"Name ({fname} {lname})") #debug print lang
         with open(pdf_path, 'rb') as file:
             reader = PyPDF2.PdfReader(file)
             text = ''
@@ -30,36 +31,12 @@ def verify_cor(pdf_path, fname, lname):
             missing_keywords.append(f"Name ({fname} {lname})")
 
         if not missing_keywords:
-            return {
-                "status": "verified",
-                "message": "✅ COR Verification complete. You are now verified!",
-                "verified": True
-            }
+            return "COR is valid."
         else:
-            return {
-                "status": "rejected",
-                "message": f"❌ COR Verification failed. Missing or incorrect information: {', '.join(missing_keywords)}",
-                "verified": False,
-                "missing_keywords": missing_keywords
-            }
-    except FileNotFoundError:
-        return {
-            "status": "error",
-            "message": "❌ PDF file not found",
-            "verified": False
-        }
-    except PermissionError:
-        return {
-            "status": "error", 
-            "message": "❌ Permission denied accessing the PDF file",
-            "verified": False
-        }
+            return f"COR is invalid. Missing: {', '.join(missing_keywords)}"
+
     except Exception as e:
-        return {
-            "status": "error",
-            "message": f"❌ Unexpected error processing COR: {str(e)}",
-            "verified": False
-        }
+        return f"Error processing COR: {str(e)}"
 
 if __name__ == "__main__":
     if len(sys.argv) == 4:
