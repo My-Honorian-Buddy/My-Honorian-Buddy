@@ -130,7 +130,10 @@ class TutorController extends Controller
 
             try{
 
-                $users = User::with('tutor', 'schedule')->whereHas('tutor')->paginate(2);
+                $users = User::with('tutor', 'schedule')
+                ->whereHas('tutor')
+                ->where('cor_status', 'verified')
+                ->paginate(2);
                 
                 Log::info('All tutors with their schedules:', $users->toArray());
 
@@ -140,6 +143,7 @@ class TutorController extends Controller
             }
                 $search = User::whereHas('tutor')
                 ->with('tutor', 'schedule')
+                ->where('cor_status', 'verified')
                 ->orderBy(User::select('fname')->from('tutors')->whereColumn('users.id', 'tutors.user_id'), $sort);
 
                 if (!empty($days)) {

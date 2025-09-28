@@ -41,8 +41,8 @@ class MatchController extends \App\Http\Controllers\Controller
         Log::info($pythonScriptPath);
 
         // Run the Python script, passing the subjects as an argument
-
-        $command = "python3 " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($auth_id) . " 2>&1";
+        $pythonPath = env('PYTHON_PATH', 'python');
+        $command = $pythonPath . " " . escapeshellarg($pythonScriptPath) . " " . escapeshellarg($auth_id) . " 2>&1";
 
         Log::info($command);
         $output = shell_exec($command);

@@ -89,13 +89,16 @@ class CorController extends Controller
         }
     
         // Handle Python output
-
+        // Much better if toast message
         if (stripos($output, 'invalid') !== false) {
-            return back()->with('status', 'COR is invalid!');
+            return back()->with('status', '❌ COR is invalid!');
         } elseif (stripos($output, 'valid') !== false) {
-            return back()->with('status', 'COR is valid!');
+            $user = Auth::user();
+            $user->cor_status = 'verified';
+            $user->save();
+            return back()->with('status', '✅ COR is valid!');
         } else {
-            return back()->with('status', 'Error during COR verification.');
+            return back()->with('status', '⚠️ Error during COR verification.');
         }
     }
 }

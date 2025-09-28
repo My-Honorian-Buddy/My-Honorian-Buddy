@@ -8,6 +8,12 @@
 
     $reviews = Review::all();
 @endphp
+@php
+    // Verified tutors only yung papalitaw here
+    $users = $users->filter(function($user) {
+        return $user->cor_status === 'verified';
+    });
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
