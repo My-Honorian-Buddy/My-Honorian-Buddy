@@ -91,8 +91,8 @@
                         alt="Curly Bracket Icon" />
                     </div>
 
-                    <div class="absolute top-[-100px] right-[-420px] space-y-4 z-0" data-aos="fade-left" data-aos-delay="300" data-aos-duration="1500">
-                        <img src="/storage/images/glasses-notebook.png)"
+                    <div class="absolute top-[-100px] right-[-360px] space-y-4 z-0" data-aos="fade-left" data-aos-delay="300" data-aos-duration="1500">
+                        <img src="/storage/images/glasses-notebook.png"
                     </div>
                 </div>
             </div>

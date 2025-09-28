@@ -1,5 +1,7 @@
 <title>{{ config('chatify.name') }}</title>
 
+
+
 {{-- Meta tags --}}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="id" content="{{ $id }}">
@@ -15,6 +17,7 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src='https://unpkg.com/nprogress@0.2.0/nprogress.js'></script>
 <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
+<script src="{{ asset('vendor/bladewind/js/notification.js') }}"></script>
 
 
 
@@ -28,6 +31,7 @@
 @endif
 <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="burger.css">
     <link
     rel="stylesheet"
@@ -35,6 +39,7 @@
     />
 
     <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
+    
 
 
 {{-- Setting messenger primary color to css --}}
