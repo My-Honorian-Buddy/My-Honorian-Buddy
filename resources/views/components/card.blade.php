@@ -10,16 +10,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 $reviews = Review::all();
 $tutors = Tutor::all();
-
-//dd($reviews);
-
-
+$authUser = Auth::user();
 @endphp
 
-
-@php
-    $authUser = Auth::user();
-@endphp
 
 @if($authUser && $authUser->cor_status === 'verified')
     <div class="grid grid-cols-1 p-8 lg:grid-cols-2 gap-6">
@@ -361,18 +354,17 @@ $tutors = Tutor::all();
     </script>
 @else
     {{-- temporary design for not verified users --}}
-    <div class="flex flex-col items-center justify-center min-h-[300px]">
-        <div class="bg-white border-l-4 border-red-500 text-yellow-700 p-6 mb-2 rounded shadow mt-10">
-            <p class="font-bold text-red-500 text-2xl mb-2 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                    <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01"/>
+    <div class="flex flex-col items-center justify-center min-h-screen bg-secondary">
+            <div class="bg-accent3 border-2 border-black text-black p-10 rounded-2xl shadow-custom-button mt-20 max-w-xl w-full text-center">
+                <svg class="mx-auto mb-4" width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="orange">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                You are not verified yet.
-            </p>
-            <p class="text-lg">Please upload your valid Certificate of Registration (COR) to access this feature.</p>
+                <p class="font-bold text-3xl mb-2">You are not verified yet</p>
+                <p class="text-lg mb-4">Please upload your valid Certificate of Registration (COR) to access Explore and matching features.</p>
+                <a href="{{ route('workspace.start') }}" class="inline-block border-2 border-black bg-primary text-white font-bold px-6 py-3 rounded-full shadow-custom-button
+                 hover:bg-accent2 hover:text-primary transition">Back to Workspace</a>
+            </div>
         </div>
-    </div>
 
 @endif
 
