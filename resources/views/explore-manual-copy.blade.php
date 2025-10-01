@@ -43,6 +43,7 @@
                         <button type="submit"><x-bladewind::icon name="magnifying-glass" /></button>
                     </span>
                 </div>
+            </div>
         </form>
         
         <div class="w-full h-[60px] flex justify-center items-center">

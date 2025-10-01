@@ -1,4 +1,5 @@
 <x-auth-layout>
+    
     <x-folder class="h-full">
         <x-slot name="header">
             Subject Expertise
@@ -33,6 +34,18 @@
                                 
                                 <!-- Dropdown menu -->
                                 <div id="dropdownMenu" class="absolute left-0 right-0 mt-2 mb-10 hidden bg-white border-2 border-black rounded shadow-lg z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
+                                    <form action="{{route('tutor.search')}}" method="GET">
+                                        <div class="flex flex-col items-center space-y-4">
+                                            {{-- search bar --}}
+                                            <div class="relative w-full m-2 px-6">
+                                                <input type="text" placeholder="Find Your Buddy..." name="query" value="{{request('query')}}"class="w-full py-3 pl-4 pr-10 rounded-full 
+                                                border-2 border-black bg-accent3 shadow-inner focus:outline-none font-bold focus:text-[20px] placeholder:text-[20px] text-gray-900"/>
+                                                <span class="absolute right-10 top-3.5 cursor-pointer">
+                                                    <button type="submit"><x-bladewind::icon name="magnifying-glass" /></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <div class="space-y-2 p-2" id="dropdownSubjects">
 
                                     </div>
@@ -67,8 +80,8 @@
             </div>
 
 
-             <!-- dropdown script -->
-             <script>
+            <!-- dropdown script -->
+            <script>
                 const dropdownButton = document.getElementById('dropdownButton');
                 const dropdownMenu = document.getElementById('dropdownMenu');
             
@@ -85,9 +98,15 @@
             
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
-
+                
                 // Subject Mapping
-                const subjectMap = {
+                let subjectMap = @json($subjects);
+                
+                console.log(subjectMap);
+
+                /*const subjectMap = {
+                    
+                    
                     // FIRST YR - 1ST SEM
                     "CSS 113" : "Computer System Servicing",
                     "CC 113 (A)" : "Introduction to Computing",
@@ -116,12 +135,14 @@
                     "CSSE1 313" : "Software Engineering 1",
                     "CSWEBSYS 313" : "Web Systems and Technologies",
                     "CSIAS 313" : "Information Assurance and Security",
-                };
+                };*/
 
                 const container = document.getElementById('dropdownSubjects');   
                 const subjectContainer = document.getElementById('subject-container');
                 const subjectList = document.getElementById('subject-list');
                 let selectedSubjects = [];
+
+
                 
                 for (const [code, name] of Object.entries(subjectMap)) {
                     const label = document.createElement('label');
@@ -176,7 +197,7 @@
                         const listItem =document.createElement('li');
                         listItem.classList.add(
                             'flex',
-                            'justify-between',
+                            'justify-center',
                             'items-center',
                             'p-2',
                             'rounded-full',
@@ -193,8 +214,8 @@
                         listItem.textContent = `${subject.subj_code}`;
                         
                         const removeButton = document.createElement('button');
-                        // removeButton.textContent = 'x';
-                        removeButton.classList.add('ml-2', 'text-red-500', 'hover:text-red-700');
+                        //removeButton.textContent = 'x';
+                        removeButton.classList.add('hidden','text-red-500', 'hover:text-red-700');
                         removeButton.onclick = function() {
                             selectedSubjects = selectedSubjects.filter(
                                 (s) => s.subj_code !== subject.subj_code
