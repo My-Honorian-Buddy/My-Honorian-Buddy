@@ -38,6 +38,7 @@ use App\Models\RewardRedemption;
 use App\Http\Controllers\EventController;
 use App\Events\NewNotification;
 
+
 Route::get('/cecill', [EventController::class, 'index'])->name('events.index');
 
 // For add/update/delete actions
@@ -174,12 +175,10 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::post('/tutor/experience', [TutorController::class, 'store_exp'])->name('experience.tutor.store');
         Route::get('/schedule', [ScheduleController::class, 'create'])->name('user.schedule');
         Route::post('/schedule', [ScheduleController::class, 'store'])->name('user.schedule.store');
-        Route::get('/settingup-profile/subject-expertise', [App\Http\Controllers\SubjectController::class, 'showSubjects'])->name('subject.expertise');
     });
 
     Route::middleware(['auth', 'verified'])->group(function () {
         
-
         Route::get('/subjects/tutor', [TutorSubjectController::class, 'create'])->name('tutor.create');
         Route::post('/subjects/tutor/store', [TutorSubjectController::class, 'store'])->name('tutor.store');
 

@@ -7,15 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\studentSubject;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Subject;
 
 
 class StudentSubjectController extends Controller
 {
 
     public function create(){
-        
-        return view('settingup-profile.subject-improvement');
-        Log::info('successfully created student subject');
+
+        $subjects = Subject::pluck('subj_name', 'subj_code');
+        return view('settingup-profile.subject-improvement', compact('subjects'));
     }
 
     public function store(Request $request){
@@ -42,7 +43,7 @@ class StudentSubjectController extends Controller
             ]);
 
         Log::info('Stored subjects', $subjectData);
-         }
+        }
         }catch(\Exception $e){
             Log::error('Error storing subjects', ['error' => $e->getMessage()]);
             return response()->json(['message' => 'Error storing subjects'], 500);

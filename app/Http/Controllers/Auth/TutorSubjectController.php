@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TutorSubjectController extends Controller
 {
-   
+    
     public function create(){
         $subjects = Subject::pluck('subj_name', 'subj_code');
         return view('settingup-profile.subject-expertise', compact('subjects'));

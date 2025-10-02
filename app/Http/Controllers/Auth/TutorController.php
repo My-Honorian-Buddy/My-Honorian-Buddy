@@ -53,18 +53,18 @@ class TutorController extends Controller
         $userID = Auth::id();
 
         $tutor = Tutor::create([
-           'user_id' => $userID,
-           'fname' => Session::get('first_name'),
-           'lname' => Session::get('last_name'),
-           'gender' => Session::get('gend'),
-           'address' => Session::get('add'),
-           'year_level' => $request->year_level,
-           'department' => $request->department,
-           'bio' => Session::get('bio_tutor'),
+        'user_id' => $userID,
+        'fname' => Session::get('first_name'),
+        'lname' => Session::get('last_name'),
+        'gender' => Session::get('gend'),
+        'address' => Session::get('add'),
+        'year_level' => $request->year_level,
+        'department' => $request->department,
+        'bio' => Session::get('bio_tutor'),
         ]);
 
             Session::forget(['first_name', 'last_name', 'gend', 'add', 'bio_tutor']);
-
+            
             return redirect()->route('tutor.create');
         
     }
