@@ -11,6 +11,8 @@ use App\Models\Student;
 use App\Models\Tutor;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
+use App\Models\tutorSubject;
+use App\Models\studentSubject;
 
 class RoleSwitchController extends Controller
 {
@@ -68,7 +70,31 @@ class RoleSwitchController extends Controller
             return redirect()->route('tutor.create')->with('success', 'Please fill out your tutor profile.');
         }
 
-        return redirect()->back()->with('success', 'Swtiched to ' . ucfirst($mode). " mode");
+        if ($mode === 'student') {
+            $student = $user->student ?? Student::where('user_id', $user->id)->first();
+            if ($student) {
+                $subjectsCount = studentSubject::where('student_id', $student->user_id)->count();
+                if ($subjectsCount === 0) {
+                    return redirect()->route('subjects.create')->with('success', 'Please fill out your student subjects.');
+                }else {
+                    return redirect()->back()->with('success', 'Swtiched to ' . ucfirst($mode). " mode");
+                }
+            }
+        }
+
+        if ($mode === 'tutor') {
+            $tutor = $user->tutor ?? Tutor::where('user_id', $user->id)->first();
+            if ($tutor) {
+                $subjectsCount = tutorSubject::where('tutor_id', $tutor->user_id)->count();
+                if ($subjectsCount === 0) {
+                    return redirect()->route('subjects.create')->with('success', 'Please fill out your tutor subject expertise.');
+                }else {
+                    return redirect()->back()->with('success', 'Swtiched to ' . ucfirst($mode). " mode");
+                }
+            }
+        }
+
+        
 
     }
 }
