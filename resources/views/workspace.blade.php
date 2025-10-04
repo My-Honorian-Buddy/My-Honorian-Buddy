@@ -5,6 +5,7 @@ use App\Models\Review;
 
 $bookedId = bookedSession::where('tutor_id', Auth::user()->id)->orWhere('student_id', Auth::user()->id)->first();
 $sessionId = $bookedId ? $bookedId->id : null;
+$authUser = Auth::user();
 
 @endphp
 <x-workspace-layout>
@@ -37,6 +38,7 @@ $sessionId = $bookedId ? $bookedId->id : null;
     {{-- main content --}}
     <x-slot name="main_content">
         <div class="m-8">
+            
         @if(Auth::check())
             @php
                 $user = Auth::user();                   
@@ -189,8 +191,17 @@ $sessionId = $bookedId ? $bookedId->id : null;
                 
             </div>
         </div>
-
-
+        @if($authUser->cor_status !== 'verified')
+            <div class="fixed bottom-6 right-6 bg-accent3 text-primary px-5 py-6 border-2 
+            border-black rounded-[4px] shadow-custom-button z-[9999]">
+                It appears that your COR has not been verified yet. <br>
+                Please verify it 
+                <a class=" font-bold underline" href="{{ route('cor.view') }}">
+                    here
+                </a>
+                .
+            </div>
+        @endif
     <script>
             document.addEventListener('DOMContentLoaded', function () {
 

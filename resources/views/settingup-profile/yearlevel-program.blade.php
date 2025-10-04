@@ -47,6 +47,8 @@
                                             <option value="College of Education">College of Education</option>
                                             <option value="College of Engineering and Architecture">College of Engineering and Architecture</option>
                                             <option value="College of Social Sciences and Philosophy">College of Social Sciences and Philosophy</option>
+                                            <option value="College of Business Studies">College of Business Studies</option>
+                                            <option value="College of Hospitality and Tourism Management">College of Hospitality and Tourism Management</option>
                                         </select>
 
                                         <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Program:</label>
@@ -110,7 +112,22 @@
                                     'Bachelor of Science in Psychology',
                                     'Bachelor of Arts in Sociology',
                                     'Bachelor of Science in Social Work',
-                                ]
+                                ],
+                                'College of Business Studies': [
+                                    'Bachelor of Public Administration',
+                                    'Bachelor of Science in Accountancy',
+                                    'Bachelor of Science in Accounting Information System',
+                                    'Bachelor of Science in Business Administration Major in Business Economics',
+                                    'Bachelor of Science in Business Administration Major in Marketing Management',
+                                    'Bachelor of Science in Entrepreneurship',
+                                    'Bachelor of Science in Legal Management',
+                                    'Bachelor of Science in Logistic and Supply Chain Management',
+                                    'Bachelor of Science in Real Estate Management',
+                                ],
+                                'College of Hospitality and Tourism Management': [
+                                    'Bachelor of Science in Hospitality Management',
+                                    'Bachelor of Science in Tourism Management',
+                                ],
                             };
                             
                             function updateDepartmentOptions() {
