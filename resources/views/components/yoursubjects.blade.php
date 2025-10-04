@@ -1,6 +1,6 @@
 @props(['pickedSubjects', 'user'])
-<div class="w-full mt-10 bg-primary rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 "> 
-    <div class="flex items-center w-full border-b-2 border-black py-2">
+<div class="w-full mt-10 bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 "> 
+    <div class="flex bg-primary items-center w-full border-b-2 border-black py-2">
         <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
             <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
             <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
