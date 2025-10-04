@@ -137,7 +137,7 @@ $authUser = Auth::user();
                                                                     @if ($user->tutor->exp === 0)
                                                                         No Experience Yet!
                                                                     @else
-                                                                        {{$user->exp}} Session Completed
+                                                                        {{$user->tutor->exp}} Session Completed
                                                                     @endif
                                                                 </p><!--$user->tutor->exp-->
                                                             </div>

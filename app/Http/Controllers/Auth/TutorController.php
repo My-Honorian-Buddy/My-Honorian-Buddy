@@ -90,10 +90,10 @@ class TutorController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'days' => 'nullable|array',
-                'experience' => 'nullable|array',
-                'price_range' => 'nullable|string|in:any,custom',
-                'min_price' => 'nullable|numeric|required_if:price_range,custom',
-                'max_price' => 'nullable|numeric|required_if:price_range,custom',
+                // 'experience' => 'nullable|array',
+                'exp_range' => 'nullable|string|in:any,custom',
+                'min_exp' => 'nullable|numeric|required_if:exp_range,custom',
+                'max_exp' => 'nullable|numeric|required_if:exp_range,custom',
                 'rating' => 'nullable|numeric|min:0|max:5',
                 'query' => 'nullable|string',
                 'sort' => 'nullable|string|in:asc,desc',
@@ -104,17 +104,17 @@ class TutorController extends Controller
             }
 
             $days = $request->input('days', []);
-            $experience = $request->input('experience', []);
-            $priceRange = $request->input('price_range', 'any');
-            $minPrice = $request->input('min_price', null);
-            $maxPrice = $request->input('max_price', null);
+            // $experience = $request->input('experience', []);
+            $expRange = $request->input('exp_range', 'any');
+            $minExp = $request->input('min_exp', null);
+            $maxExp = $request->input('max_exp', null);
             $rating = $request->input('rating', 0);
             $query = $request->input('query', '');
             $sort = $request->input('sort', 'asc');
 
             Log::info('Selected days: ', $days);
-            Log::info('Selected experience: ', $experience);
-            Log::info('Selected price range: ', ['price_range' => $priceRange,'min' => $minPrice, 'max' => $maxPrice]);
+            // Log::info('Selected experience: ', $experience);
+            Log::info('Selected experience range: ', ['exp_range' => $expRange,'min' => $minExp, 'max' => $maxExp]);
             Log::info('Selected Query: ', ['query' => $query]);
             Log::info('Selected Rating: ', ['rating' => $rating]);
             Log::info('Selected Sort: ', ['sort' => $sort]);
@@ -124,9 +124,9 @@ class TutorController extends Controller
                 $days = json_decode($days, true);
             }
 
-            if($priceRange === 'custom'){
-                if($minPrice === null || $maxPrice === null){
-                    return redirect()->back()->withErrors(['min_price' => 'Minimum price is required', 'max_price' => 'Maximum price is required']);
+            if($expRange === 'custom'){
+                if($minExp === null || $maxExp === null){
+                    return redirect()->back()->withErrors(['min_exp' => 'Minimum experience is required', 'max_exp' => 'Maximum experience is required']);
                 }
             }
 
@@ -158,15 +158,15 @@ class TutorController extends Controller
                     });
                 }
 
-            if(!empty($experience)){
-                $search->whereHas('tutor', function ($query) use ($experience) {
-                    $query->whereIn('exp', $experience);
-                });
-            }
+            // if(!empty($experience)){
+            //     $search->whereHas('tutor', function ($query) use ($experience) {
+            //         $query->whereIn('exp', $experience);
+            //     });
+            // }
 
-            if($priceRange ==='custom' && $minPrice !== null && $maxPrice !== null){
-                $search->whereHas('tutor', function ($query) use ($minPrice, $maxPrice) {
-                    $query->whereBetween('rate_session', [$minPrice, $maxPrice]);
+            if($expRange ==='custom' && $minExp !== null && $maxExp !== null){
+                $search->whereHas('tutor', function ($query) use ($minExp, $maxExp) {
+                    $query->whereBetween('exp', [$minExp, $maxExp]);
                 });
             }
 

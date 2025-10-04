@@ -200,13 +200,13 @@
                                 <div class="bg-accent2 my-3 py-1 rounded-2xl border-2 border-black shadow-custom-button text-primary text-[20px] text-center font-bold cursor-pointer">
                                         <div class="flex flex-col mx-2">
                                             <div class="flex items-center justify-center">
-                                                <input type="text" name="" id="" placeholder="MIN"
+                                                <input type="text" name="min_exp" id="" placeholder="MIN"
                                                 class="rounded-xl mt-2 border-2 border-black shadow-custom-button placeholder:text-primary
                                                 placeholder:text-[18px] w-24" min="0">
                                                 <span class="mx-4">
                                                 -
                                                 </span>
-                                                <input type="text" name="" id="" placeholder="MAX"
+                                                <input type="text" name="max_exp" id="" placeholder="MAX"
                                                 class="rounded-xl mt-2 border-2 border-black shadow-custom-button placeholder:text-primary
                                                 placeholder:text-[18px] w-24" min="0">
                                             </div>
