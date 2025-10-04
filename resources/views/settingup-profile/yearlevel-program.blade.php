@@ -50,12 +50,8 @@
                                         </select>
 
                                         <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Program:</label>
-                                        <select class="border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full" name="department">
-                                            <option value=""disabled selected>College Program...</option>
-                                            <option value="Bachelor of Science in Computer Engineering">Bachelor of Science in Computer Engineering</option>
-                                            <option value="Bachelor of Science in Computer Science">Bachelor of Science in Computer Science</option>
-                                            <option value="Bachelor of Science in Information Systems">Bachelor of Science in Information Systems</option>
-                                            <option value="Bachelor of Science in Information Technology">Bachelor of Science in Information Technology</option>
+                                        <select class="border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full" name="department" disabled>
+                                            <option value="" disabled selected>College Program...</option>
                                         </select>
 
                                         <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
@@ -71,6 +67,58 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const collegeSelect = document.querySelector('select[name="college"]');
+                            const departmentSelect = document.querySelector('select[name="department"]');
+                            
+                            
+                            const collegePrograms = {
+                                'College Of Computing Studies': [
+                                    'Bachelor of Science in Computer Engineering',
+                                    'Bachelor of Science in Computer Science',
+                                    'Bachelor of Science in Information Systems',
+                                    'Bachelor of Science in Information Technology'
+                                ],
+                                'College of Education': [
+                                    'Bachelor of edukasyon ng pangkabuhayanan',
+                                ],
+                                'College of Engineering and Architecture': [
+                                    'Bachelor of Science in Civil Engineering',
+                                    'Bachelor of Science in Architecture',
+                                ],
+                                'College of Arts': [
+                                    'Bachelor of Arts in BlahBlah',
+                                ]
+                            };
+                            
+                            function updateDepartmentOptions() {
+                                const selectedCollege = collegeSelect.value;
+                                
+                                departmentSelect.innerHTML = '<option value="" disabled selected>College Program...</option>';
+                                
+                                if (!selectedCollege) {
+                                    departmentSelect.disabled = true;
+                                    return;
+                                }
+                                
+                                departmentSelect.disabled = false;
+                                const programs = collegePrograms[selectedCollege] || [];
+                                
+                                programs.forEach(program => {
+                                    const option = document.createElement('option');
+                                    option.value = program;
+                                    option.textContent = program;
+                                    departmentSelect.appendChild(option);
+                                });
+                            }
+                            
+                            
+                            collegeSelect.addEventListener('change', updateDepartmentOptions);
+                            
+                            departmentSelect.disabled = true;
+                        });
+                </script>
         </x-slot>
         
     </x-folder>

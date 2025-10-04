@@ -161,7 +161,7 @@ $sessionId = $bookedId ? $bookedId->id : null;
                                  
                                 <div>
                                     <p class="font-bold text-primary text-[22px]">Your Total Points:</p>
-                                    <p class="font-bold text-[18px] -mt-1"> {{Auth::user()->tutor->points}} points</p>
+                                    <p class="font-bold text-[18px] -mt-1"> {{Auth::user()->tutor->college}} points</p>
                                     
                                 </div> 
                             </div>
