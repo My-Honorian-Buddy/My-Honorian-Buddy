@@ -34,6 +34,7 @@ class Tutor extends Model
         'points',
         'NoOfReviews',
         'year_level',
+        'college',
         'department',
     ];
 

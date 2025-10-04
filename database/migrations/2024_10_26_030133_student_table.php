@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
-            $table->string('fname');                
+            $table->string('fname');
             $table->string('lname');
-            $table->string('year_level');       
+            $table->string('year_level');
+            $table->string('college');
             $table->string('department');
             $table->string('gender')->nullable();
             $table->string('address')->nullable();

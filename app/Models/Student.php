@@ -20,7 +20,7 @@ class Student extends Model
     use HasFactory, Notifiable;
 
     protected $fillable =[
-        'user_id', 
+        'user_id',
         'department',
         'fname',
         'lname',
@@ -28,6 +28,7 @@ class Student extends Model
         'address',
         'gender',
         'bio',
+        'college',
     ];
 
     public function user(): BelongsTo

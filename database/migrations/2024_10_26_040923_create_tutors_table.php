@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('tutors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');  
+            $table->bigInteger('user_id');
             $table->string('fname');
             $table->string('lname');
-            $table->integer('exp')->default(0);         //experience    
+            $table->integer('exp')->default(0);//experience
             $table->integer('rating')->default(0); //rating
             $table->integer('NoOfReviews')->default(0);
             $table->string('gender')->nullable();
             $table->integer('points')->default(0);
             $table->string('address')->nullable();
             $table->string('bio')->nullable();
-            $table->string('year_level');       
+            $table->string('year_level');
+            $table->string('college');
             $table->string('department');
             $table->timestamps();
         });

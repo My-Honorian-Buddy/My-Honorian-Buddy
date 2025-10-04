@@ -35,6 +35,7 @@ class StudentController extends Controller
 
         $request->validate([
             'year_level' => ['required', 'string', 'max:255'],
+            'college' => ['required', 'string', 'max:255'],
             'department' => ['required', 'string', 'max:255'],
 
         ]);
@@ -49,6 +50,7 @@ class StudentController extends Controller
            'address' => Session::get('add'),
            'year_level' => $request->year_level,
            'department' => $request->department,
+           'college' => $request->college,
            'bio' => Session::get('bio_student'),
         ]);
 
