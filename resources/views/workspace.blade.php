@@ -171,12 +171,12 @@ $authUser = Auth::user();
                                 <a href="{{route('connect.student')}}">
                                         <button class="justify-center w-full bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3
                                         h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
-                                        <a href="{{route('rewards.myRedemptions')}}"><span>My REWARDS</span></a>    
+                                        <span><a href="{{route('rewards.myRedemptions')}}">My REWARDS</a></span>    
                                         </button>
                                 </a>
                                 <a href="{{route('connect.student')}}">
                                         <button class="justify-center w-full bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
-                                        <a href="{{route('rewards.view')}}"><span>SEE AVAILABLE REWARDS</span></a>    
+                                        <span><a href="{{route('rewards.view')}}">SEE AVAILABLE REWARDS</a></span>    
                                         </button>
                                 </a>
                                 <div></div>
