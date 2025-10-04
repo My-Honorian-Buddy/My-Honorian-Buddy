@@ -46,7 +46,7 @@
                                             <option value="College Of Computing Studies">College Of Computing Studies</option>
                                             <option value="College of Education">College of Education</option>
                                             <option value="College of Engineering and Architecture">College of Engineering and Architecture</option>
-                                            <option value="College of Arts">College of Arts</option>
+                                            <option value="College of Social Sciences and Philosophy">College of Social Sciences and Philosophy</option>
                                         </select>
 
                                         <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Program:</label>
@@ -81,14 +81,35 @@
                                     'Bachelor of Science in Information Technology'
                                 ],
                                 'College of Education': [
-                                    'Bachelor of edukasyon ng pangkabuhayanan',
+                                    'Bachelor of Culture and Arts Education',
+                                    'Bachelor of Earyl Childhood Education',
+                                    'Bachelor of Elementary Education',
+                                    'Bachelor of Secondary Education',
+                                    'Bachelor of Secondary Education Major in Filipino',
+                                    'Bachelor of Secondary Education Major in General Science',
+                                    'Bachelor of Secondary Education Major in Mathematics',
+                                    'Bachelor of Secondary Education Major in Social Studies',
+                                    'Bachelor of Sciencce in Exercise and Sports Sciences Major in Fitness and Sports Coaching',
+                                    'Bachelor of Science in Exercise and Sports Sciences Major in Fitness and Sports Management',
+                                    'Bachelor of Physical Education',
+                                    'Bachelor of Technical-Vocational Teacher Education Major in Food and Service Management',
+                                    'Bachelor of Techonology & Livelihood Education Major in Home Economics',
+                                    'Bachelor of Techonology & Livelihood Education Major in Industrial Arts',
                                 ],
                                 'College of Engineering and Architecture': [
                                     'Bachelor of Science in Civil Engineering',
                                     'Bachelor of Science in Architecture',
+                                    'Bachelor of Science in Electrical Engineering',
+                                    'Bachelor of Science in Electronics Engineering',
+                                    'Bachelor of Science in Mechanical Engineering',
+                                    'Bachelor of Science in Computer Engineering',
+                                    'Bachelor of Science in Industrial Engineering',
                                 ],
-                                'College of Arts': [
-                                    'Bachelor of Arts in BlahBlah',
+                                'College of Social Sciences and Philosophy': [
+                                    'Bachelor in Human Services',
+                                    'Bachelor of Science in Psychology',
+                                    'Bachelor of Arts in Sociology',
+                                    'Bachelor of Science in Social Work',
                                 ]
                             };
                             

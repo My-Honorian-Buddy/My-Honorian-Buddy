@@ -42,7 +42,7 @@ $tutors = Tutor::all();
         @endif
 
         @if($rewards->isEmpty())
-            <div class="text-center text-gray-600 mt-10">No rewards available at the moment.</div>
+            <div class="text-center text-gray-600 mt-10 ">No rewards available at the moment.</div>
         @else
             <div class="flex mt-8 justify-center items-center">
                 <div class="grid grid-cols-3 gap-8">
