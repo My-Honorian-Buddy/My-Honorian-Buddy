@@ -49,6 +49,21 @@ class StudentSubjectController extends Controller
             return response()->json(['message' => 'Error storing subjects'], 500);
         }
         
-        // return redirect()->route('user.schedule');
+        if ($request->session()->has('changing_subjects')) {
+            
+            $request->session()->forget('changing_subjects');
+            
+            // redirect to workspace if sched exists
+            return response()->json([
+                'status' => 'success',
+                'redirect' => route('workspace.start')
+            ]);
+        } else {
+            // redirect to schedule if no sched exists
+            return response()->json([
+                'status' => 'success',
+                'redirect' => route('user.schedule')
+            ]);
+        }
     }
 }

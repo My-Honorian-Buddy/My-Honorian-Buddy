@@ -124,5 +124,44 @@ class ProfileController extends Controller
         Log::error("Profile picture upload failed - no file detected.");
         return redirect()->back()->with('error', 'Something went wrong!');
     }
-    
+
+    public function changeSubjects(Request $request){
+        $user = $request->user();
+        
+        try {
+            $request->session()->put('changing_subjects', true);
+            
+            if ($user->role === 'Student') {
+
+                //delete existing subjects for student
+                if ($user->student && $user->student->subject_student()->exists()) {
+                    $user->student->subject_student()->delete();
+                    Log::info('Student subjects reset', ['user_id' => $user->id]);
+                }
+
+                return redirect()->route('subjects.create')->with('success', 'Your subjects have been reset. Please select your subjects again.');
+
+            } elseif ($user->role === 'Tutor') {
+
+                //delete existing subjects for tutor
+                if ($user->tutor && $user->tutor->subject_tutor()->exists()) {
+                    $user->tutor->subject_tutor()->delete();
+                    Log::info('Tutor subjects reset', ['user_id' => $user->id]);
+                }
+                
+                return redirect()->route('tutor.create')->with('success', 'Your subject expertise has been reset. Please select your subjects again.');
+            }
+            
+            return redirect()->back()->with('error', 'Unable to determine user role.');
+            
+        } catch (\Exception $e) {
+            Log::error('Error resetting subjects', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage()
+            ]);
+            
+            return redirect()->back()->with('error', 'An error occurred while resetting your subjects. Please try again.');
+        }
+    }
+
 }

@@ -41,6 +41,22 @@ class TutorSubjectController extends Controller
     
         Log::info('Stored subjects', $subjectData);
         }
+
+        if ($request->session()->has('changing_subjects')) {
+            $request->session()->forget('changing_subjects');
+            
+            // redirect to workspace if sched exists
+            return response()->json([
+                'status' => 'success',
+                'redirect' => route('workspace.start')
+            ]);
+        } else {
+            // redirect to schedule if no sched exists
+            return response()->json([
+                'status' => 'success',
+                'redirect' => route('user.schedule')
+            ]);
+        }
     }
 
 }

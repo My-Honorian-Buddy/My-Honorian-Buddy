@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/account-settings', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::patch('/updateProfile', [ProfileController::class, 'uploadProfilePicture'])->name('picture.upload');
+    Route::post('/profile/change-subjects', [ProfileController::class, 'changeSubjects'])->name('profile.change-subjects');
 });
 
 Route::get('/email/verify', function() {

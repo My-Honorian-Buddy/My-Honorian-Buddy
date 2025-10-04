@@ -350,12 +350,13 @@
                         },
                         body: JSON.stringify({ subjects: selectedSubjects })
                     })
-                    .then(response => {
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
                             console.log('Subjects added successfully');
                             selectedSubjects = [];
                             document.getElementById('subject-list').innerHTML = '';
-                            window.location.href = "{{ route('user.schedule') }}";
+                            window.location.href = data.redirect;
                         } else {
                             console.log('Failed to add subjects');
                             alert('Failed to add subjects');
@@ -363,6 +364,7 @@
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        alert('An error occurred while saving subjects. Please try again.');
                     });
                 }
             </script>
