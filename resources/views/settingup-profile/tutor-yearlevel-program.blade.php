@@ -43,10 +43,10 @@
                                         <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Department:</label>
                                         <select class="border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full" name="college">
                                             <option value=""disabled selected>College Department...</option>
-                                            <option value="Bachelor of Science in Computer Engineering">College Of Computing Studies</option>
-                                            <option value="Bachelor of Science in Computer Science">College of Education</option>
-                                            <option value="Bachelor of Science in Information Systems">College of Engineering and Architecture</option>
-                                            <option value="Bachelor of Science in Information Technology">College of Arts</option>
+                                            <option value="College Of Computing Studies">College Of Computing Studies</option>
+                                            <option value="College of Education">College of Education</option>
+                                            <option value="College of Engineering and Architecture">College of Engineering and Architecture</option>
+                                            <option value="College of Arts">College of Arts</option>
                                         </select>
 
                                         <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Program:</label>
