@@ -8,7 +8,7 @@
 
             <!-- Card Tittle-->
             <div class="flex flex-col mt-8 text-left">
-                <span class="font-bold text-4xl m-5 leading-relaxed">Date Availability</span>   
+                <span class="font-bold text-4xl m-5 mb-0 leading-relaxed">Date Availability</span>   
             </div>
                 <span class="font-bold font-sm text-red-900 m-5 leading-relaxed">Update Date and Time availability</span>
 

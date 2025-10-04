@@ -42,8 +42,8 @@
 
                
                 <div class="grid grid-rows-2">
-                    <span class="font-bold text-4xl m-5 leading-relaxed">Profile Information</span>
-                    <span class="font-semibold text-red-900 text-1xl mb-8 ml-5">Update your account's profile information and email address.</span>
+                    <span class="font-bold text-4xl m-5 mb-0 leading-relaxed">Profile Information</span>
+                    <span class="font-semibold text-primary text-1xl mb-8 ml-5">Update your account's profile information and email address.</span>
                 </div>
                 
                 <form action="{{ route('profile.update') }}" method="POST">
