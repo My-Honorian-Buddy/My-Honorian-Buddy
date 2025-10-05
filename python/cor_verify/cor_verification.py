@@ -5,7 +5,7 @@ import sys
 REQUIRED_KEYWORDS = ['Don Honorio Ventura State University', # to be changed to PAMSU
                     'Certificate of Registration',
                     'Student No', 
-                    'DHVSU - Bacolor Campus', 
+                    'Bacolor Campus', 
                     'AY 2025-2026'] # to be change ang AY
 
 print("TEST RUN TEST RUN TEST RUN") #debug print lang

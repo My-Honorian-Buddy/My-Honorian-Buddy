@@ -82,9 +82,9 @@ class TutorController extends Controller
     public function showCard()
     {
         $users = User::with('tutor', 'schedule')
-            ->whereHas('tutor')
-            ->verified()
-            ->paginate(2);
+        ->whereHas('tutor')
+        ->verified()
+        ->paginate(6);
 
         Session::forget('initiator');
 
@@ -199,7 +199,7 @@ class TutorController extends Controller
             }
 
 
-            $search = $search->paginate(2);
+            $search = $search->paginate(6);
 
             Log::info('Filtered tutors based on days:', $search->toArray());
 

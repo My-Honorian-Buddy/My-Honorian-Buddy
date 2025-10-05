@@ -437,7 +437,9 @@
         <p>No matches or tutors found.</p>
     @endif
 </div>
-
+<div class="flex justify-center mt-8">
+    
+</div>
 <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
     <div class="flex flex-col items-center justify-center p-6">
         <div class="h-32 w-32 border-white border-8 rounded-full overflow-hidden">

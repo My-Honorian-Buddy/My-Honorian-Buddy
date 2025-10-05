@@ -128,7 +128,8 @@
                             </section>
                         @else
                             <section>
-                                <section class="w-full h-full max-h-[322px]" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <section class="w-full h-full max-h-[322px]" data-aos="fade-up"
+                                    data-aos-anchor-placement="top-bottom">
                                     <div
                                         class="bg-accent3 rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
                                         <div
@@ -163,7 +164,8 @@
 
 
                         @if (Auth::user()->role === 'Tutor')
-                            <section class="flex align-center h-full w-full " data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                            <section class="flex align-center h-full w-full " data-aos="fade-up"
+                                data-aos-anchor-placement="top-bottom">
                                 <!-- container -->
                                 <div
                                     class="w-full max-h-[390px] bg-accent3 overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
@@ -208,12 +210,13 @@
                                         </a>
                                     </div>
                                     <div class="border-black p-2"></div>
-                                </div></section>
+                                </div>
+                            </section>
                         @else
                             <section class="flex align-center h-full w-full ">
                             </section>
                         @endif
-                        
+
                     </div>
                 </div>
 
