@@ -3,7 +3,7 @@
         <x-slot name="header">
             Subject Improvement
         </x-slot>
-        
+
         <x-slot name="content">
             <div class="text-center font-bold text-5xl mt-8">
                 Specify subjects that needed improvement
@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- Right side -->
-                <div class="w-full md:w-1/2 flex flex-col justify-center p-3"> 
+                <div class="w-full md:w-1/2 flex flex-col justify-center p-3">
                     <div class="w-4/5">
                         <form method="POST">
                             {{-- subjects dropdown --}}
@@ -30,14 +30,14 @@
                                 <button type="button" id="dropdownButton" class="bg-white border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full text-left ">
                                     Select Subjects
                                 </button>
-                                
+
                                 <!-- Dropdown menu -->
                                 <div id="dropdownMenu" class="absolute left-0 right-0 mt-2 mb-10 hidden bg-white border-2 border-black rounded shadow-lg z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
                                     <div class="flex flex-col items-center space-y-4">
                                         {{-- search bar --}}
                                         <div class="relative w-full m-2 px-6">
                                             <input type="text" placeholder="Search subjects..." name="query" class="w-full py-3 pl-4 pr-10 rounded-full 
-                                            border-2 border-black bg-accent3 shadow-inner focus:outline-none font-bold focus:text-[20px] placeholder:text-[20px] text-gray-900"/>
+                                            border-2 border-black bg-accent3 shadow-inner focus:outline-none font-bold focus:text-[20px] placeholder:text-[20px] text-gray-900" />
                                             <span class="absolute right-10 top-3.5 cursor-pointer">
                                                 <x-bladewind::icon name="magnifying-glass" />
                                             </span>
@@ -48,8 +48,8 @@
                                 </div>
                                 <div class="mt-2 text-gray-500 font-bold">Please choose up to 3 subjects only</div>
                             </div>
-                        
-                                        
+
+
 
                             <!-- container ng list and add para aligned -->
                             <div class="mt-2 flex items-center justify-between">
@@ -62,12 +62,12 @@
 
                             <!-- Buttons -->
                             <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
-                                <x-primary-button onclick="history.back()" type="button"  class="bg-primary text-accent2 font-bold w-full max-w-[120px]">
+                                <x-primary-button onclick="history.back()" type="button" class="bg-primary text-accent2 font-bold w-full max-w-[120px]">
                                     {{ __('Back') }}
                                 </x-primary-button>
                                 <x-primary-button id='submitBtn' class="bg-accent2 text-primary font-bold w-full max-w-[120px]">
                                     {{ __('Next') }}
-                                </x-primary-button>     
+                                </x-primary-button>
                             </div>
                         </form>
 
@@ -79,64 +79,30 @@
             <script>
                 const dropdownButton = document.getElementById('dropdownButton');
                 const dropdownMenu = document.getElementById('dropdownMenu');
-            
+
                 dropdownButton.addEventListener('click', () => {
                     dropdownMenu.classList.toggle('hidden');
                 });
 
                 document.addEventListener('click', (event) => {
-                if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.classList.add('hidden');
-        }
+                    if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.add('hidden');
+                    }
                 });
             </script>
 
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
             <script>
-            
                 let subjectMap = @json($subjects);
                 console.log(subjectMap);
-
-                /*const subjectMap = {
-                        
-                        
-                        // FIRST YR - 1ST SEM
-                        "CSS 113" : "Computer System Servicing",
-                        "CC 113 (A)" : "Introduction to Computing",
-                        "CC 113(B)" : "Fundamentals of Programming",
-                        // FIRST YR - 2ND SEM
-                        "CS 123" : "Discrete Structures",
-                        "CC 123 (C)" : "Intermediate Programming (Advanced C++)",
-                        "CSS 123" : "Networking Fundamentals",
-
-                        // SECOND YR - 1ST SEM
-                        "CC 213 (D)": "Data Structure",
-                        "CC 213 (E)" : "Information Management (DBMS)",
-                        "CPC 213" : "Object Oriented Programming (JAVA)",
-
-                        // SECOND YR - 2ND SEM
-                        "MOBDEV 223" : "Mobile Application Development",
-                        "CPC 223(A)" : "Database Programming",
-                        "CSDA 223" : "Design Analysis and Algorithms",
-                        "SAD 223" : "Software Analysis and Design",
-                        "CPC 223(B)" : "Web Application Development",
-
-                        // THIRD YR - 1ST SEM
-                        "CSAC 313" : "Algorithms and Complexity",
-                        "CSPL 313" : "Programming Languages",
-                        "CSOS 313" : "Operating Systems",
-                        "CSSE1 313" : "Software Engineering 1",
-                        "CSWEBSYS 313" : "Web Systems and Technologies",
-                        "CSIAS 313" : "Information Assurance and Security",
-                    };*/
 
                 const container = document.getElementById('dropdownSubjects');
                 const subjectContainer = document.getElementById('subject-container');
                 const subjectList = document.getElementById('subject-list');
                 const searchInput = document.querySelector('input[name="query"]');
                 let selectedSubjects = [];
-                let allSubjects = []; 
+                let allSubjects = [];
 
                 for (const [code, name] of Object.entries(subjectMap)) {
                     const label = document.createElement('label');
@@ -157,36 +123,36 @@
                 // ETO NA SON SEARCH FILTER LFG
                 function filterSubjects(query) {
                     const searchTerm = query.toLowerCase().trim();
-                    
-                    
+
+
                     container.innerHTML = '';
-                    
+
                     if (searchTerm === '') {
-                        
+
                         allSubjects.forEach(subject => {
                             const clonedSubject = subject.cloneNode(true);
                             container.appendChild(clonedSubject);
-                            
-                            
+
+
                             const checkbox = clonedSubject.querySelector('.courseCheckbox');
                             const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
                             checkbox.checked = isSelected;
                         });
                     } else {
-                        
+
                         const filteredSubjects = allSubjects.filter(subject => {
                             const text = subject.textContent.toLowerCase();
                             const checkbox = subject.querySelector('input[type="checkbox"]');
                             const subjCode = checkbox ? checkbox.value.toLowerCase() : '';
                             const subjName = checkbox ? checkbox.getAttribute('subject-name').toLowerCase() : '';
-                            
+
                             return subjCode.includes(searchTerm) ||
                                 subjName.includes(searchTerm) ||
                                 text.includes(searchTerm);
                         });
-                        
+
                         if (filteredSubjects.length === 0) {
-                            
+
                             const noResults = document.createElement('div');
                             noResults.classList.add('p-4', 'text-center', 'text-gray-500', 'font-poppins');
                             noResults.textContent = 'No subjects found';
@@ -195,8 +161,8 @@
                             filteredSubjects.forEach(subject => {
                                 const clonedSubject = subject.cloneNode(true);
                                 container.appendChild(clonedSubject);
-                                
-                                
+
+
                                 const checkbox = clonedSubject.querySelector('.courseCheckbox');
                                 const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
                                 checkbox.checked = isSelected;
@@ -205,7 +171,7 @@
                     }
                 }
 
-                
+
                 searchInput.addEventListener('input', function(e) {
                     e.preventDefault();
                     filterSubjects(this.value);
@@ -218,19 +184,19 @@
                     }
                 });
 
-                
+
                 const searchForm = searchInput.closest('form');
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     filterSubjects(searchInput.value);
                 });
 
-                
+
                 container.addEventListener('change', function(e) {
                     const checkbox = e.target;
-                    if (!checkbox.classList.contains('courseCheckbox')) 
+                    if (!checkbox.classList.contains('courseCheckbox'))
                         return;
-                    
+
                     const checkedCheckboxes = Array.from(
                         document.querySelectorAll('.courseCheckbox:checked')
                     );
@@ -251,17 +217,17 @@
                         subj_code: cb.value,
                         subj_name: cb.getAttribute('subject-name'),
                     }));
-                    
+
                     console.log('Selected Subjects After checkedCheckboxes: ', selectedSubjects);
 
                     updateSubjectList();
                     toggleSubjectContainer();
-                    
-                    
+
+
                     updateAllCheckboxStates();
                 });
 
-                
+
                 function updateAllCheckboxStates() {
                     const currentQuery = searchInput.value;
                     if (currentQuery.trim() !== '') {
@@ -291,19 +257,19 @@
                             'border-black'
                         );
                         listItem.textContent = `${subject.subj_code}`;
-                        
+
                         const removeButton = document.createElement('button');
-                        removeButton.classList.add('hidden','text-red-500', 'hover:text-red-700');
+                        removeButton.classList.add('hidden', 'text-red-500', 'hover:text-red-700');
                         removeButton.onclick = function() {
                             selectedSubjects = selectedSubjects.filter(
                                 (s) => s.subj_code !== subject.subj_code
                             );
-                            
-                            
+
+
                             document.querySelectorAll(`.courseCheckbox[value="${subject.subj_code}"]`).forEach(cb => {
                                 cb.checked = false;
                             });
-                            
+
                             updateSubjectList();
                             toggleSubjectContainer();
                             updateAllCheckboxStates();
@@ -341,31 +307,31 @@
                         );
                         return;
                     }
-                    
+
                     fetch("{{ route('subjects.store') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({ subjects: selectedSubjects })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            console.log('Subjects added successfully');
-                            selectedSubjects = [];
-                            document.getElementById('subject-list').innerHTML = '';
-                            window.location.href = data.redirect;
-                        } else {
-                            console.log('Failed to add subjects');
-                            alert('Failed to add subjects');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while saving subjects. Please try again.');
-                    });
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                subjects: selectedSubjects
+                            })
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                console.log('Subjects added successfully');
+                                selectedSubjects = [];
+                                document.getElementById('subject-list').innerHTML = '';
+                                window.location.href = "{{ route('user.schedule') }}";
+                            } else {
+                                console.log('Failed to add subjects');
+                                alert('Failed to add subjects');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
                 }
             </script>
         </x-slot>
