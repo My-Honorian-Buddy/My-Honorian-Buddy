@@ -1,5 +1,5 @@
 @props(['tutor_id'])
-<div class="flex items-center ml-2 mt-4">
+<div class="flex items-center">
 
   <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 mr-5 h-10 text-[12px] 
                 border-2 border-black shadow-custom-button hover:bg-secondary hover:text-[#8B3A3A] flex items-center space-x-2" 

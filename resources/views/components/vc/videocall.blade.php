@@ -96,7 +96,7 @@
         }
     </style>
 
-    <script src="https://meet.jit.si/external_api.js"></script>
+    <script src='https://8x8.vc/vpaas-magic-cookie-2b61ef21745249ebb86a91088e86a9e0/external_api.js'></script>
     <script>
         
         
@@ -122,8 +122,8 @@
             });
         }
         
-
-        const domain = "meet.jit.si";
+        
+        const domain = "8x8.vc";
         const options = {
             roomName: "{{ $roomName }}",
             width: '100%',
@@ -145,6 +145,8 @@
                 SETTINGS_SECTIONS: [ 'devices', 'language', 'sounds', 'more' ],
             }
         };
+        console.log(options);
+        window.onload = () => {
         const api = new JitsiMeetExternalAPI(domain, options);
 
         api.addListener('readyToClose', function () {
@@ -186,7 +188,7 @@
             console.log('The meeting has ended');
             document.getElementById('hangup-button').classList.add('hidden');
         });
-
+    }
 
     </script>
 </body>

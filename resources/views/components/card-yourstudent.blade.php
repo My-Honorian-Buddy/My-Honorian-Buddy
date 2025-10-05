@@ -68,9 +68,9 @@
     <section class="h-full max-h-[322px]" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
         <!-- container -->
 
-        <div class="bg-accent3 h-full overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-            <div
-                class="bg-accent2 text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
+        <div
+            class="bg-accent3 h-full overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
+            <div class="bg-accent2 text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
                 @if (Auth::user()->role === 'Student')
                     YOUR BUDDY
                 @else
@@ -82,7 +82,8 @@
             <div class="grid grid-cols-2 items-center p-4">
                 <!-- profile image -->
                 <div class="flex justify-center">
-                    <img src="{{ $profile_pic }}" alt="Profile" class="h-32 w-32 lg:h-40 lg:w-40 border-4 border-black rounded-lg">
+                    <img src="{{ $profile_pic }}" alt="Profile"
+                        class="h-32 w-32 lg:h-40 lg:w-40 border-4 border-black rounded-lg">
                 </div>
                 <!-- profile infos -->
                 <div>
@@ -95,28 +96,18 @@
 
             </div>
             <div class="flex justify-center">
-                <!-- @if ($user->role === 'Student')
-<a href="{{ route('connect.tutor') }}">
-                    <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 ml-2 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2">
-                        <span>VISIT PROFILE</span>
-                    </button>
-                </a>
-                        review and feedback
-                <x-drop :tutor_id="$tutor_id"/>
-@elseif ($user->role === 'Tutor')
-<a href="{{ route('connect.student') }}">
-                    <button class="bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-8 py-1 h-11 text-l border-2 border-black 
-            shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
-                        <span>VISIT PROFILE</span>
-                    </button>
-                </a>
-@endif -->
+                @if ($user->role === 'Student')
+                    <x-drop :tutor_id="$tutor_id" />
+                @endif
+
+                
             </div>
         </div>
     </section>
 @else
-    <section class="m-4 mt-8 mr-8 max-w-s" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-        <div class="bg-[#D9D9D9] overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
+    <section class="m-4 max-h-[322px] mt-8 mr-8 max-w-s" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+        <div
+            class="bg-[#753434] overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
             <div class=" text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
                 @if (Auth::user()->role === 'Student')
                     YOU HAVE NO BUDDYs
@@ -135,7 +126,7 @@
                         <span class="leading-6 pt-2"><em>"The tutor's desk is clear—someone’s about to have a very free
                                 schedule!"</em></span>
                     @else
-                        <span class="text-2xl text-black font-black ">No Students Booked You Yet!</span>
+                        <span class="text-2xl text-black font-black ">No Student Booked You Yet!</span>
                         <span class="leading-6 pt-2"><em>"Looks like the student seats are still empty—time to spread
                                 the word!"</em></span>
                     @endif

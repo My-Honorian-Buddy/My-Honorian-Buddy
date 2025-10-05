@@ -16,6 +16,12 @@ export default defineConfig({
         strictPort: true,
         hmr: {
             host: 'localhost',
-        }
+        },
+        port: 5173, // or any port you prefer
+        https: false,
+    },
+    https: {
+    key: './localhost+1-key.pem',
+    cert: './localhost+1.pem',
     },
 });

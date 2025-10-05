@@ -56,7 +56,7 @@
                 @endphp
             @endif
             <div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
-            class="text-5xl sm:text-1xl text-accent2 text-stroke-thick2 stroke-black font-black mb-5 m-8 ">
+                class="text-5xl sm:text-1xl text-accent2 text-stroke-thick2 stroke-black font-black mb-5 m-8 ">
                 Welcome, {{ $firstName ?: 'User' }}!
             </div>
             <div>
@@ -67,7 +67,7 @@
 
                 {{-- ROW 2 --}}
                 <div class="flex gap-x-6">
-                    <x-current-session  :subjects="$subjects" :user="$user" :tutor="$tutor" :student="$student" />
+                    <x-current-session :subjects="$subjects" :user="$user" :tutor="$tutor" :student="$student" />
                     <x-yoursubjects :pickedSubjects="$pickedSubjects" :user="$user" />
                 </div>
 
@@ -128,7 +128,7 @@
                             </section>
                         @else
                             <section>
-                                <section class="w-full h-full">
+                                <section class="w-full h-full max-h-[322px]" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                                     <div
                                         class="bg-accent3 rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
                                         <div
@@ -162,10 +162,9 @@
                         @endif
 
 
-
-                        <section class="flex align-center h-full w-full ">
-                            <!-- container -->
-                            @if (Auth::user()->role === 'Tutor')
+                        @if (Auth::user()->role === 'Tutor')
+                            <section class="flex align-center h-full w-full " data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <!-- container -->
                                 <div
                                     class="w-full max-h-[390px] bg-accent3 overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
                                     <div
@@ -207,13 +206,14 @@
                                                         REWARDS</a></span>
                                             </button>
                                         </a>
-                                        <div></div>
                                     </div>
                                     <div class="border-black p-2"></div>
-
-                                </div>
-                            @endif
-                        </section>
+                                </div></section>
+                        @else
+                            <section class="flex align-center h-full w-full ">
+                            </section>
+                        @endif
+                        
                     </div>
                 </div>
 
@@ -246,38 +246,8 @@
                     showNotification('{{ session('MeetEnded') }}', 'Meeting ended', 'success');
                 @endif
 
-                /*
-                @if (session('linkSent'))
-                showNotification('{{ session('cannotComplete') }}', 'Cannot complete session', 'warning');
-            @endif
-
-            @if (session('dropSuccess'))
-                showNotification('{{ session('dropSuccess') }}', 'Session dropped successfully', 'success');
-            @endif
-
-            @if (session('dropRequest'))
-                showNotification('{{ session('dropRequest') }}', 'Session dropped request sent to tutor', 'success');
-            @endif
-
-            @if (session('cannotSend'))
-                @if (Auth::user()->role === 'Student')
-                    showNotification('{{ session('cannotSend') }}', 'Please check your notifications.', 'error');
-                @elseif (Auth::user()->role === 'Tutor')
-                    showNotification('Pending Payment', 'A payment link has already been provided to your buddy.',
-                        'error');
-                @endif
-            @endif
-
 
             });
-
-            /*setInterval(() => {
-                fetch('/check-payment-status')
-                    .catch(error => {
-                        console.error('Error checking payment status:', error);
-                    });
-            }, 50000); // (50 seconds)*/
         </script>
-
     </x-slot>
 </x-workspace-layout>
