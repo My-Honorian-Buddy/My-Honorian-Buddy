@@ -1,9 +1,9 @@
 <x-auth-layout>
     <x-folder class="overflow-hidden-x">
         <x-slot name="header">
-            Tell us more! 
+            Tell us more!
         </x-slot>
-        
+
         <x-slot name="content">
             <div class="text-center font-bold text-6xl my-8">
                 Who are you?
@@ -19,19 +19,19 @@
                 </div>
 
                 <!-- Right side -->
-                <div class="w-full md:w-1/2 flex flex-col justify-center p-3"> 
+                <div class="w-full md:w-1/2 flex flex-col justify-center p-3">
                     <div class="w-4/5">
-                        <form method="POST" action="{{ route('profile.tutor.store') }}"> 
-                            @csrf 
+                        <form method="POST" action="{{ route('profile.tutor.store') }}">
+                            @csrf
 
                             <div class="flex flex-col lg:flex-row gap-4">
                                 <!-- First Name -->
                                 <div class="mt-4 w-full">
                                     <x-input-label class="text-primary" for="first_name" :value="__('First Name:')" />
-                                    <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" placeholder="First Name..." :value="old('first_name')" required  />
+                                    <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" placeholder="First Name..." :value="old('first_name')" required />
                                     <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                                 </div>
-                                
+
                                 <!-- Last Name -->
                                 <div class="lg:mt-4 w-full">
                                     <x-input-label class="text-primary" for="last_name" :value="__('Last Name:')" />
@@ -39,7 +39,7 @@
                                     <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                                 </div>
                             </div>
-                            
+
                             <!-- Gender -->
                             <div class="mt-4">
                                 <x-input-label class="text-primary" for="gend" :value="__('Gender:')" />
@@ -50,41 +50,93 @@
                                 <!-- Address  -->
                                 <div class="w-full">
                                     <x-input-label class="text-primary" for="address" :value="__('Address:')" />
-                                    <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="add" placeholder="Address..." :value="old('add')" required  />
+                                    <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="add" placeholder="Address..." :value="old('add')" required />
                                     <x-input-error :messages="$errors->get('add')" class="mt-2" />
                                 </div>
-                                
+
                                 <!-- Date of Birth -->
                                 <div class="w-full">
                                     <x-input-label class="text-primary" for="Birthday" :value="__('Date of Birth:')" />
-                                    <x-text-input id="last_name" class="block mt-1 w-full" type="date" name="birthday" placeholder="Last Name..." :value="old('birthday')" required />
+                                    <x-text-input id="Birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday')" required />
                                     <x-input-error :messages="$errors->get('birthday')" class="mt-2" />
                                 </div>
                             </div>
-                            
+
                             <div class="mt-4">
                                 <label class="font-poppins block text-primary font-bold mt-4"> Bio <span class="font-normal"> <b> (Optional): </b> </span> </label>
-                                 <textarea id="bio" name="bio_tutor" class="block mt-1 w-full border-black border-[3px] rounded-[4px] focus:border-indigo-500 focus:ring-indigo-500 font-poppins shadow-custom-button px-4 py-2" placeholder="Brief introduction of yourself..."></textarea>
+                                <textarea id="bio" name="bio_tutor" class="block mt-1 w-full border-black border-[3px] rounded-[4px] focus:border-indigo-500 focus:ring-indigo-500 font-poppins shadow-custom-button px-4 py-2" placeholder="Brief introduction of yourself..."></textarea>
                             </div>
-    
-                           
-                           <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
+
+
+                            <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                 <x-primary-button onclick="history.back()" type="button" class="font-bold font-poppins bg-primary text-accent2
                                 w-full sm:w-auto">
                                     {{__('Back')}}
                                 </x-primary-button>
-                                
+
                                 <div>
-                                <x-primary-button class="bg-accent2 text-primary font-bold font-poppins w-full sm:w-auto">
-                                    {{__('Next')}}
-                                </x-primary-button>
-                            </div>
-    
-                            </form> 
+                                    <x-primary-button class="bg-accent2 text-primary font-bold font-poppins w-full sm:w-auto">
+                                        {{__('Next')}}
+                                    </x-primary-button>
+                                </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
-                
-        </x-slot>    
+
+        </x-slot>
     </x-folder>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const birthdayInput = document.getElementById('Birthday');
+            const form = document.querySelector('form');
+
+            function calculateAge(birthDate) {
+                const today = new Date();
+                const birth = new Date(birthDate);
+                let age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+
+            function validateAge() {
+                if (!birthdayInput.value) return true;
+
+                const age = calculateAge(birthdayInput.value);
+                const errorElement = document.getElementById('age-error');
+
+                if (age < 18) {
+                    if (!errorElement) {
+                        const error = document.createElement('div');
+                        error.id = 'age-error';
+                        error.className = 'text-red-600 text-sm mt-1';
+                        error.textContent = 'You must be at least 18 years old to register.';
+                        birthdayInput.parentNode.appendChild(error);
+                    }
+                    birthdayInput.classList.add('border-red-500');
+                    return false;
+                } else {
+                    if (errorElement) {
+                        errorElement.remove();
+                    }
+                    birthdayInput.classList.remove('border-red-500');
+                    return true;
+                }
+            }
+
+            birthdayInput.addEventListener('change', validateAge);
+            birthdayInput.addEventListener('blur', validateAge);
+
+            form.addEventListener('submit', function(event) {
+                if (!validateAge()) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 </x-auth-layout>
