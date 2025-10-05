@@ -176,7 +176,6 @@ $authUser = Auth::user();
                                                 <div class="flex flex-row justify-center gap-4 mt-8 mb-8">
                                                     <span class="font-bold text-2xl">{{\Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A')}} - {{\Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A')}}</span>
                                                 </div>
-
                                             </div>
                                         </div>
 
@@ -204,7 +203,6 @@ $authUser = Auth::user();
                                         @json ($user->tutor->address)
                                         )'>
                             View More
-
                         </p>
                     </div>
                 </div>

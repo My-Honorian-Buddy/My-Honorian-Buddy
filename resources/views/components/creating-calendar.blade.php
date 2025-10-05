@@ -6,6 +6,41 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
+
+    <style>
+        .fc-button {
+        background-color: #FFD95C !important;
+        border-color: #550000 !important;
+        color: #550000 !important; 
+        font-weight: bold !important;
+        }
+
+        .fc-button:hover {
+        background-color: #550000 !important; 
+        border-color: black !important;
+        color: #FFD95C !important; 
+        font-weight: bold !important;
+        }
+
+        .fc-col-header-cell {
+        background-color: #550000 !important;
+        color: #FFD95C !important; 
+        font-weight: bold !important;
+        border-color: black !important;
+        }
+
+        .fc-day-today {
+        background-color: #FFECAE !important;
+        color: #550000 !important;
+        }
+
+        .fc-toolbar-title {
+        color: #550000 !important;
+        font-weight: bold !important;
+        font-size: 2rem !important;
+        }
+    </style>   
+
 </head>
 <body>
     <section class="mb-8 h-full">
@@ -42,6 +77,10 @@
             },
             events: '/calendar/event',
             displayEventTime: false,
+
+            // backgroundColor: '#F6F6F6',
+            // eventColor: '#550000',
+            // eventTextColor: '#FFD95C',
 
             // Adding of ur event
             select: function(info) {
