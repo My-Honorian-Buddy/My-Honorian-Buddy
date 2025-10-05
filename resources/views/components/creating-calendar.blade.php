@@ -11,12 +11,10 @@
     <section class="mb-8 h-full">
         <div class="bg-accent3 rounded-[20px] h-full pt-2 pb-2 overflow-hidden mb-4 shadow-custom-button shadow-black border-black border-2">
             <div class="flex bg-primary -mt-2 items-center w-full border-b-2 border-black py-2">
-                <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
-                    <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
-                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
+                
+                <div class="flex w-full justify-start text-2xl text-accent2 text-stroke font-black ml-8">
+                    CALENDAR
                 </div>
-                <div class="flex w-full justify-end text-2xl text-accent2 text-stroke font-black mr-8">SCHEDULE</div>
             </div>
 
             <div class="p-4 pb-16">

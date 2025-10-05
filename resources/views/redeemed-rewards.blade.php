@@ -23,8 +23,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <x-bladewind.notification />
 </head>
-<body class="font-poppins font-semibold bg-secondary">
-    <div class="flex-1">
+<body class="font-poppins w-full h-full font-semibold bg-secondary">
+    <div class="flex-1 w-full h-full">
         <x-nav-bar />
 
         @if(session('success'))
@@ -98,12 +98,33 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        </div>
                 @empty
-                        <p>You have no redeemed rewards</p>
+                        </div>
+                        </div>
+                        <div class="flex items-start justify-center pt-28 w-screen h-screen ">
+                            
+                                <div class="flex flex-col gap-y-4 justify-center items-center px-4">
+                                    <img src="{{ asset('images/snowman.svg') }}">
+                                    <div class="flex flex-col text-lg text-center  text-primary ">
+                                        <span class="text-2xl text-black font-black ">No Redeem Rewards Yet!</span>
+                                        <span class="leading-6 pt-2"><em>"Don’t let your points gather dust — redeem a reward today!"</em></span>
+                                    </div>
+                                    <a href="{{route('connect.student')}}">
+                                        <button class="justify-center w-auto bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 h-10 text-[12px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
+                                        <span><a href="{{route('rewards.view')}}">SEE AVAILABLE REWARDS</a></span>    
+                                        </button>
+                                    </a>
+                                </div>
+                            
+                            
+                        </div>
+                        
                 @endforelse
   
-            </div>
-        </div>
+            
+        
         
     </div>
 </body>

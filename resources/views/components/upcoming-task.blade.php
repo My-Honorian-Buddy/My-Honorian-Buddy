@@ -1,22 +1,23 @@
 <section class="">
     <!-- container SINIRA MO NO-->
-    <div class="bg-accent2 rounded-[20px] overflow-hidden pt-2 pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
+    <div
+        class="bg-accent3 rounded-[20px] overflow-hidden pt-2 pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
         <div class="flex bg-primary -mt-2 items-center w-full border-b-2 border-black py-2">
-            <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
-                <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
-                <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
-            </div>
-            <div class="flex w-full justify-end text-2xl text-accent2 text-stroke font-black mr-8">UPCOMING TASK</div>
-        </div> 
+
+            <div class="flex w-full justify-start text-2xl text-accent2 text-stroke font-black ml-8">TO-DO LIST</div>
+        </div>
         <!-- upcoming tasks, checkboxes -->
-        <div class="bg-accent2 w-full p-2 space-y-3 rounded-[20px]">
+        <div class="w-full p-2 space-y-3 rounded-[20px]">
             <form id="addTaskForm" class="flex flex-col px-6 space-y-4"method="POST" action="{{ route('tasks.store') }}">
                 @csrf
-                <input type="text" name="title" placeholder="To Do Task" class="py-3 px-6 bg-gray-100 rounded-md">
-                    
-                <button type="submit" class="flex items-center justify-center w-28 h-12 border-2 border-primary py-4 px-8 text-primary rounded-md 
-                hover:bg-primary hover:text-accent2 transition ease-in-out">Add</button>
+                <input type="text" name="title" placeholder="To Do Task"
+                    class="text-primary py-3 px-6 bg-secondary rounded-md">
+                <div class="w-full flex justify-end">
+                    <button type="submit"
+                        class="flex bg-primary items-center justify-center w-28 h-12 border-2
+                    border-black py-4 px-8 text-accent2 rounded-md 
+                    hover:bg-accent2 hover:text-primary transition ease-in-out">Add</button>
+                </div>
             </form>
 
             @php
@@ -24,15 +25,16 @@
             @endphp
             <div id="taskList" class="space-y-3 pt-10 px-6">
                 @foreach ($todolists as $task)
-                    <div id="task-{{ $task->id }}" class="bg-accent3 flex items-center justify-between h-12 border-2 border-black rounded-md">
-                        <input type="checkbox" 
-                            onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
-                            class="peer ml-4" 
-                            {{ $task->is_completed ? 'checked' : '' }}>
+                    <div id="task-{{ $task->id }}"
+                        class="bg-accent3 flex items-center justify-between h-12 border-2
+                        text-primary border-primary rounded-md">
+                        <input type="checkbox" onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
+                            class="peer ml-4" {{ $task->is_completed ? 'checked' : '' }}>
                         <label class="{{ $task->is_completed ? 'line-through text-red-600' : '' }}">
                             {{ $task->title }}
                         </label>
-                        <button onclick="deleteTask({{ $task->id }})" class="text-primary mr-4 hover:underline">Delete</button>
+                        <button onclick="deleteTask({{ $task->id }})"
+                            class="text-primary mr-4 hover:underline">Delete</button>
                     </div>
                 @endforeach
             </div>
@@ -42,7 +44,7 @@
 
         <div class="mt-2">
             <div class="py-4 flex items-center px-3">
-            
+
             </div>
         </div>
     </div>
@@ -51,9 +53,8 @@
 {{-- script for upcoming task --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    
     $('#addTaskForm').on('submit', function(event) {
-        event.preventDefault(); 
+        event.preventDefault();
 
         $.ajax({
             url: '{{ route('tasks.store') }}',
@@ -61,7 +62,7 @@
             data: $(this).serialize(),
             success: function(response) {
                 console.log("Task added successfully!");
-                
+
                 $('#taskList').append(`
                     <div id="task-${response.task.id}" class="bg-white flex items-center justify-between h-12 border-2 border-black rounded-md">
                         <input type="checkbox" onchange="toggleTaskStatus(${response.task.id}, this.checked)"
@@ -80,7 +81,7 @@
         });
     });
 
-    
+
     function toggleTaskStatus(taskId, isChecked) {
         $.ajax({
             url: `/workspace/tasks/${taskId}`,

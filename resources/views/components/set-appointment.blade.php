@@ -11,7 +11,7 @@
         <x-bladewind.modal
             title="Application Form"
             name="set-appointment"
-            size="medium"
+            size="large"
             ok_button_label=""
             cancel_button_label="">
             

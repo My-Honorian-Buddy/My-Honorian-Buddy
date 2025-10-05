@@ -94,7 +94,8 @@
                         <x-bladewind.dropmenu-item >
                                 <label class="w-full h-full cursor-pointer flex items-center">
                                     <input type="checkbox" class="hidden peer" name="days[]" id="monday" value="Monday">
-                                    <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
+                                    <span class="h-6 w-6 bg-accent3 rounded-full border-2 border-black cursor-pointer ml-2 hover:peer-checked:bg-accent2 
+                                    hover:peer-checked:border-accent2 peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200""></span>
                                     <span class="flex-1 text-center">MONDAY</span>
                                 </label>
                         </x-bladewind.dropmenu-item>
@@ -272,38 +273,6 @@
             
         </div>
 
-    {{-- dropdown (relevance)--}}
-    {{--<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const relevanceBtn = document.querySelector('#relevance-btn');
-            const dropdownRelevance = document.querySelector('#dropdown-relevance');
-            const relevanceOptions = dropdownRelevance.querySelectorAll('.dropdown-option');
-    
-                relevanceBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                dropdownRelevance.classList.toggle('hidden');
-            });
-    
-                relevanceOptions.forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    relevanceOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    dropdownRelevance.classList.add('hidden');
-                });
-            });
-    
-                document.addEventListener('click', function(event) {
-                if (!dropdownRelevance.contains(event.target) && !relevanceBtn.contains(event.target)) {
-                    dropdownRelevance.classList.add('hidden');
-                }
-            });
-            });
-
-
-        </script>--}}
-    
-    
     
         {{-- dropdown (rating)--}}
         <script>

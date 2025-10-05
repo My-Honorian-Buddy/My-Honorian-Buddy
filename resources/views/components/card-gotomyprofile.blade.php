@@ -1,10 +1,10 @@
+
+
 <section class="h-full mx-8 lg:mx-auto">
-<div class=" bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
-    <div class="bg-accent2 rounded-t-[20px] text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
-        <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
-            <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-            <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
-            <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
+<div data-aos="fade-up"
+     data-aos-anchor-placement="center-bottom" class=" bg-accent3 overflow-hidden rounded-[20px] shadow-custom-button shadow-black border-black border-2">
+    <div class="bg-accent2 text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
+        <div class="flex w-full space-x-2 h-8 -mt-1 -mb-1 ml-4">
         </div>
     </div>
 
@@ -15,7 +15,7 @@
         @php
             $user = Auth::user();
         @endphp
-        <div class="flex h-ful w-full items-center justify-center">
+        <div class="flex h-full w-full items-center justify-center">
             <img src="{{$user->profile_pic}}" alt="Profile" 
             class="  h-32 w-32 lg:h-40 lg:w-40 object-cover border-4 border-black rounded-lg">
         </div>    
