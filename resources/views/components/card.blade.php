@@ -185,12 +185,8 @@
                                                             </div>
                                                         @endif
 
-                                                <div class="flex flex-row justify-center gap-4 mt-8 mb-8">
-                                                    <span class="font-bold text-2xl">{{\Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A')}} - {{\Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A')}}</span>
+                                                    </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
 
                                             </div>
                                         </div>
@@ -214,19 +210,19 @@
                                         @json ($user->tutor->gender),
                                         @json ($user->tutor->address)
                                         )'>
-                            View More
+                                    View More
 
-                        </p>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
-    </body>
-    @endforeach
-</div>
-<div class="flex justify-center mt-6 mb-6">
-    {{ $users->appends(request()->query())->links('custom-pagination') }}
-</div>
+                </section>
+            </body>
+        @endforeach
+    </div>
+    <div class="flex justify-center mt-6 mb-6">
+        {{ $users->appends(request()->query())->links('custom-pagination') }}
+    </div>
 
     <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
         <div class="flex flex-col items-center justify-center p-6">
@@ -297,7 +293,7 @@
 
     <script>
         function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
-        address) {
+            address) {
             document.getElementById('tutor-name').textContent = fname + ' ' + lname;
             document.getElementById('profile-pic').src = profilePic;
             document.getElementById('tutor-year-level').textContent = year_level + ' ' + department;
