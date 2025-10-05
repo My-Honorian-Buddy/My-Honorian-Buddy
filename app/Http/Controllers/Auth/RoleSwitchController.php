@@ -47,6 +47,7 @@ class RoleSwitchController extends Controller
                 'address' => $tutor->address,
                 'year_level' => $tutor->year_level,
                 'department' => $tutor->department,
+                'college' => $tutor->college,
                 'bio' => $tutor->bio,
             ]);
             Log::info('Switch role', ['mode'], $mode);
@@ -63,6 +64,7 @@ class RoleSwitchController extends Controller
                 'address' => $student->address,
                 'year_level' => $student->year_level,
                 'department' => $student->department,
+                'college' => $student->college,
                 'bio' => $student->bio,
             ]);
             Log::info('Switch role', ['mode'], $mode);
