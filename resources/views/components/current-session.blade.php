@@ -46,7 +46,7 @@
         $session = null;
     }
 @endphp
-<div 
+<div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
     class="w-full h-auto mt-10 bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 ">
     <div class="flex bg-primary items-center w-full border-b-2 border-black py-2">
 
@@ -196,99 +196,14 @@
                             </x-bladewind.modal>
                         @endif
 
-                        <!-- Modal of Complete Payment for Tutor -->
-                        {{--    @if (Auth::user()->role === 'Tutor')
-                                        <x-bladewind.modal
-                                            name="confirm-payment"
-                                            type="warning"
-                                            title="Confirm Complete Payment"
-                                            footer="false"
-                                            size="big"
-                                            ok_button_label=""
-                                            cancel_button_label=""
-                                            cancel_button_action="hideModal('confirm-payment')"
-                                            backdrop_can_close="true">
-                                            
-                                            <p class="mx-4 mt-4">A link will be provided to the student for the purpose of sending 
-                                                                the payment for the total number of meetings or sessions attended. </p><br>
 
-                                            <div class="mt-4 flex justify-end space-x-4">
-                                                <x-bladewind::button
-                                                    type="button"
-                                                    class="bg-primary text-accent2 hover:bg-red-900 hover:text-accent2 border-2 border-black"
-                                                    size="small"
-                                                    stretched_action_buttons="false"
-                                                    rounded="true"
-                                                    can_submit="false"
-                                                    onclick="hideModal('confirm-payment')">
-                                                    Cancel
-                                                </x-bladewind::button>
-
-                                                <form action="{{ route('complete.session') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="session_id" value="{{ $session->id }}">
-                                                    <x-bladewind::button 
-                                                        type="submit"
-                                                        class="bg-accent2 text-primary hover:bg-primary hover:text-accent2 border-2 border-black"
-                                                        size="small"
-                                                        stretched_action_buttons="false"
-                                                        rounded="true"
-                                                        can_submit="true">
-                                                        Confirm
-                                                    </x-bladewind::button>
-                                                </form> 
-                                            </div>
-                                        </x-bladewind.modal>
-                                        <!-- Modal of Complete Payment for Student -->
-                                    @elseif(Auth::user()->role === 'Student')
-                                        <x-bladewind.modal
-                                            name="confirm-payment"
-                                            type="warning"
-                                            title="Confirm Complete Payment"
-                                            footer="false"
-                                            size="big"
-                                            ok_button_label=""
-                                            cancel_button_label=""
-                                            cancel_button_action="hideModal('confirm-payment')"
-                                            backdrop_can_close="true">
-                                            
-                                            <p class="mx-4 mt-4">A notification will be delivered to you containing a link for the payment 
-                                                                according to the number of meetings or sessions with your honorian buddy.</p><br>
-
-                                            <div class="mt-4 flex justify-end space-x-4">
-                                                <x-bladewind::button
-                                                    type="button"
-                                                    class="bg-primary text-accent2 hover:bg-red-900 hover:text-accent2 border-2 border-black"
-                                                    size="small"
-                                                    stretched_action_buttons="false"
-                                                    rounded="true"
-                                                    can_submit="false"
-                                                    onclick="hideModal('confirm-payment')">
-                                                    Cancel
-                                                </x-bladewind::button>
-
-                                                <form action="{{ route('complete.session') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="session_id" value="{{ $session->id }}">
-                                                    <x-bladewind::button 
-                                                        type="submit"
-                                                        class="bg-accent2 text-primary hover:bg-primary hover:text-accent2 border-2 border-black"
-                                                        size="small"
-                                                        stretched_action_buttons="false"
-                                                        rounded="true"
-                                                        can_submit="true">
-                                                        Confirm
-                                                    </x-bladewind::button>
-                                                </form> 
-                                            </div>
-                                        </x-bladewind.modal>
-                                    @endif --}}
                     </div>
                 </div>
             </div>
         @endif
     @else
-        <div class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
+        <div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
+            class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
 
             <div class="flex flex-col  text-primary justify-center items-center h-full w-full">
                 <img src="{{ asset('images/autumn.svg') }}">
