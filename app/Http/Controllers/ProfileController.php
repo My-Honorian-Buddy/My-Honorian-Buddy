@@ -141,6 +141,7 @@ class ProfileController extends Controller
                 }
 
                 return redirect()->route('subjects.create')->with('success', 'Your subjects have been reset. Please select your subjects again.');
+
             } elseif ($user->role === 'Tutor') {
 
                 //delete existing subjects for tutor
