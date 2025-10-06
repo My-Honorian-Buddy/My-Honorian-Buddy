@@ -20,8 +20,5 @@ export default defineConfig({
         port: 5173, // or any port you prefer
         https: false,
     },
-    https: {
-    key: './localhost+1-key.pem',
-    cert: './localhost+1.pem',
-    },
+    
 });

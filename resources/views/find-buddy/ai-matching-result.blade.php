@@ -374,7 +374,7 @@
                                                             <p class="font-bold text-primary text-[16px]">Schedule
                                                             </p>
                                                             <div
-                                                                class="flex flex-wrap justify-start gap-x-2 gap-y-0.5 -mt-1 mb-2">
+                                                                class="flex flex-wrap justify-start gap-x-2 gap-y-0.5 -mt-1">
                                                                 @if (is_array($days))
                                                                     @foreach ($days as $day)
                                                                         <div
@@ -390,7 +390,22 @@
                                                                             schedule available</p>
                                                                     </div>
                                                                 @endif
+                        
                                                             </div>
+
+                                                            <div class="w-full mb-2">
+
+                                                                {{-- time --}}
+                                                                <p class="font-bold text-primary text-[16px]">Time
+                                                                </p>
+                                                                <div class="flex flex-row gap-4">
+                                                                    <span
+                                                                        class="flex text-primary font-bold text-base">{{ \Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A') }}
+                                                                        -
+                                                                        {{ \Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A') }}</span>
+                                                                </div>
+                                                            </div>
+
                                                             <div class="flex w-full">
                                                                 {{-- Experience --}}
                                                                 <div class="w-full">

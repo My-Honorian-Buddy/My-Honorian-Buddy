@@ -120,7 +120,7 @@
 
                                                 {{-- schedule --}}
                                                 <p class="font-bold text-primary text-[16px]">Schedule</p>
-                                                <div class="flex flex-wrap justify-start gap-x-2 gap-y-0.5 -mt-1 mb-2">
+                                                <div class="flex flex-wrap justify-start gap-x-2 gap-y-0.5 -mt-1">
                                                     @if (is_array($days))
                                                         @foreach ($days as $day)
                                                             <div
@@ -134,9 +134,17 @@
                                                             <p class="font-bold text-[18px]">No schedule available</p>
                                                         </div>
                                                     @endif
-                                                    <div class="flex flex-row justify-center gap-4">
+
+                                                </div>
+
+                                                <div class="w-full">
+
+                                                    {{-- time --}}
+                                                    <p class="font-bold text-primary text-[16px]">Time
+                                                    </p>
+                                                    <div class="flex flex-row gap-4">
                                                         <span
-                                                            class="flex items-center justify-center font-bold text-lg">{{ \Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A') }}
+                                                            class="flex text-primary font-bold text-base">{{ \Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A') }}
                                                             -
                                                             {{ \Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A') }}</span>
                                                     </div>
@@ -196,7 +204,7 @@
                             {{-- view more --}}
                             <div class="mb-1 pb-1 px-2 text-primary text-[50px] text-center font-bold">
 
-                                <p class="font-bold text-[20px] cursor-pointer transition delay-150 ease-in-out
+                                <p class="font-bold w-auto text-[20px] cursor-pointer transition-all duration-6000 ease-in-out
                                         hover:underline"
                                     onclick='openTutorModal(
                                         @json ($user->tutor->fname),

@@ -1,7 +1,7 @@
 <div class="mt-4 flex justify-center items-center">
 
         <button class="bg-primary text-accent2 text-center font-poppins font-bold rounded-full px-3 py-1 h-11 text-l border-2 border-black shadow-custom-button
-                    hover:bg-[#FFECEC] hover:text-[#8B3A3A] flex items-center space-x-2 mb-4" 
+                    transition-all duration-600 ease-in-out hover:bg-accent2 hover:text-primary flex items-center space-x-2 mb-4" 
                     onclick="showModal('set-appointment')"
                     type="button"
                     >
