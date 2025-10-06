@@ -85,14 +85,14 @@ class NotificationController extends Controller
                 
                 // Extract the required data from the notification
                 $data = [
-                    'student_id' => $notifInfo['student_id'], // Assuming the student is the logged-in user
-                    'tutor_id' => Auth::id(), // Tutor ID from the notification
-                    'tutoring_subject' => $notifInfo['subjects'],     // Replace with actual logic
-                    'schedule_time' => $notifInfo['Schedule Time'],
+                    'student_id' => $notifInfo['student_id'],
+                    'tutor_id' => Auth::id(),
+                    'tutoring_subject' => $notifInfo['subjects'],
+                    'schedule_time' => $notifInfo['schedule_time'],
                     'num_session' => '0',
-                    'total_session' => $notifInfo['Total Session'], // Adjust as needed
+                    'total_session' => $notifInfo['total_session'],
                     'duration' => null,
-                    'room' => null, // Default or from additional fields
+                    'room' => null,
                 ];
                 Log::info('Data: ', $data);
                 // Validate the data
@@ -153,7 +153,7 @@ class NotificationController extends Controller
                     'NotifType' => 'Tutor Request Rejected',
                     'subjects' => $notifInfo['subjects'],
                     'tutor_name' => $tutor->fname .' '. $tutor->lname,
-                    'total_session' => $notifInfo['Total Session']
+                    'total_session' => $notifInfo['total_session']
                 ];
                 notifSession::create([
                     'notif_info' => json_encode($data),

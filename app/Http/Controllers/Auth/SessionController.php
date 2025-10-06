@@ -17,6 +17,8 @@ use Chatify\Facades\ChatifyMessenger as Chatify;
 use Illuminate\Support\Facades\Auth;
 use App\Models\bookingHistoryLogs;
 use App\Events\NewNotification;
+use Carbon\Carbon;
+use App\Models\Schedule;
 
 class SessionController extends Controller
 {
@@ -48,11 +50,16 @@ class SessionController extends Controller
 
 
         if ($session) {
+            $appointmentDateTime = Carbon::parse($validated['schedule_time']);
+            
             $notifInfo = [
                 'NotifType' => 'Tutor Request Accepted',
                 'subjects' => $subjects,
                 'tutor_name' => $tutor->fname . ' ' . $tutor->lname,
                 'schedule_time' => $validated['schedule_time'],
+                'appointment_day' => $appointmentDateTime->format('l'),
+                'appointment_date' => $appointmentDateTime->format('F j, Y'),
+                'appointment_time' => $appointmentDateTime->format('g:i A'),
                 'total_session' => $validated['total_session'],
             ];
             notifSession::create([
@@ -109,12 +116,17 @@ class SessionController extends Controller
         Log::info("VALIDATED DATA: ", $validated);
         $scheduleTime = "{$validated['date']} {$validated['time']}";
 
+        // get the date and time to show inside the notif
+        $appointmentDate = Carbon::parse($validated['date']);
+        $appointmentTime = Carbon::parse($validated['time']);
 
         $notifInfo = [
-
             'NotifType' => $validated['NotifType'],
-            'Schedule Time' => $scheduleTime,
-            'Total Session' => $validated['total_session'],
+            'schedule_time' => $scheduleTime,
+            'appointment_day' => $appointmentDate->format('l'),
+            'appointment_date' => $appointmentDate->format('F j, Y'),
+            'appointment_time' => $appointmentTime->format('g:i A'),
+            'total_session' => $validated['total_session'],
             'subjects' => $validated['subjects'],
             'unique_message' => $validated['unique_message'] ?? '',
             'studentName' => $studentName,
@@ -244,6 +256,138 @@ class SessionController extends Controller
 
         return redirect()->route('workspace.start')->with([
             'linkSent' => 'Session marked as completed and payment link has been sent to student',
+        ]);
+    }
+
+    public function getMatchingSchedules(Request $request)
+    {
+        $tutorId = $request->get('tutor_id');
+        $studentId = Auth::id();
+
+        if (!$tutorId || !$studentId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Missing tutor or student information'
+            ]);
+        }
+
+        // Get student and tutor schedules
+        $studentSchedule = Schedule::where('user_id', $studentId)->first();
+        $tutorSchedule = Schedule::where('user_id', $tutorId)->first();
+
+        if (!$studentSchedule || !$tutorSchedule) {
+            return response()->json([
+                'success' => false,
+                'message' => 'One or both users have not set up their schedules yet',
+                'student_has_schedule' => !!$studentSchedule,
+                'tutor_has_schedule' => !!$tutorSchedule
+            ]);
+        }
+
+        // match the days bet student and tutor
+        $studentDays = $studentSchedule->days_week ?? [];
+        $tutorDays = $tutorSchedule->days_week ?? [];
+        
+        \Log::info('Student days: ' . implode(', ', $studentDays));
+        \Log::info('Tutor days: ' . implode(', ', $tutorDays));
+        
+        $matchingDays = array_intersect($studentDays, $tutorDays);
+        $matchingDays = array_values($matchingDays);
+        
+        \Log::info('Matching days found: ' . implode(', ', $matchingDays));
+        \Log::info('Number of matching days: ' . count($matchingDays));
+
+        if (empty($matchingDays)) {
+            \Log::info('No matching days found - Student: [' . implode(', ', $studentDays) . '] vs Tutor: [' . implode(', ', $tutorDays) . ']');
+            return response()->json([
+                'success' => false,
+                'message' => 'No matching schedule days found - kahit isang araw lang walang match',
+                'student_days' => $studentDays,
+                'tutor_days' => $tutorDays
+            ]);
+        }
+        
+        \Log::info('SUCCESS: Found ' . count($matchingDays) . ' matching day(s): ' . implode(', ', $matchingDays));
+
+        // arrayed the days to manipulate the dates
+        $availableDates = [];
+        $dayMap = [
+            'Monday' => 1, 'Tuesday' => 2, 'Wednesday' => 3, 'Thursday' => 4,
+            'Friday' => 5, 'Saturday' => 6, 'Sunday' => 0
+        ];
+
+        $today = now();
+        for ($week = 0; $week < 4; $week++) {
+            foreach ($matchingDays as $day) {
+                if (isset($dayMap[$day])) {
+                    $date = $today->copy()->addWeeks($week)->startOfWeek()->addDays($dayMap[$day] - 1);
+                    
+                    
+                    if ($date->isFuture() || $date->isToday()) {
+                        $availableDates[] = [
+                            'date' => $date->format('Y-m-d'),
+                            'formatted_date' => $date->format('M j, Y'),
+                            'day_name' => $day,
+                            'full_date' => $date->format('l, F j, Y')
+                        ];
+                    }
+                }
+            }
+        }
+
+        usort($availableDates, function($a, $b) {
+            return strtotime($a['date']) - strtotime($b['date']);
+        });
+
+        // get the overlapping time
+        try {
+            $studentStartTime = Carbon::parse($studentSchedule->start_time);
+            $studentEndTime = Carbon::parse($studentSchedule->end_time);
+            $tutorStartTime = Carbon::parse($tutorSchedule->start_time);
+            $tutorEndTime = Carbon::parse($tutorSchedule->end_time);
+
+            \Log::info('Schedule Times - Student: ' . $studentStartTime->format('g:i A') . ' - ' . $studentEndTime->format('g:i A'));
+            \Log::info('Schedule Times - Tutor: ' . $tutorStartTime->format('g:i A') . ' - ' . $tutorEndTime->format('g:i A'));
+
+            $overlapStart = $studentStartTime->gt($tutorStartTime) ? $studentStartTime : $tutorStartTime; // max st
+            $overlapEnd = $studentEndTime->lt($tutorEndTime) ? $studentEndTime : $tutorEndTime; // min et
+
+            $overlappingTime = null;
+            if ($overlapStart->lt($overlapEnd)) {
+                
+                $overlappingTime = $overlapStart->format('g:i A') . ' - ' . $overlapEnd->format('g:i A');
+                \Log::info('Calculated overlap: ' . $overlappingTime);
+            } else {
+                \Log::info('No overlap - Start: ' . $overlapStart->format('g:i A') . ' End: ' . $overlapEnd->format('g:i A'));
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No overlapping time found between your schedules',
+                    'student_time' => $studentSchedule->start_time . ' - ' . $studentSchedule->end_time,
+                    'tutor_time' => $tutorSchedule->start_time . ' - ' . $tutorSchedule->end_time,
+                    'student_days' => $studentDays,
+                    'tutor_days' => $tutorDays
+                ]);
+            }
+
+        } catch (Exception $e) {
+            \Log::error('Error calculating overlapping time: ' . $e->getMessage());
+            $overlappingTime = 'Time calculation error';
+        }
+
+        return response()->json([
+            'success' => true,
+            'matching_days' => $matchingDays,
+            'available_dates' => $availableDates,
+            'overlapping_time' => $overlappingTime,
+            'student_schedule' => [
+                'days' => $studentDays,
+                'time' => $studentSchedule->start_time . ' - ' . $studentSchedule->end_time
+            ],
+            'tutor_schedule' => [
+                'days' => $tutorDays,
+                'time' => $tutorSchedule->start_time . ' - ' . $tutorSchedule->end_time
+            ]
         ]);
     }
 

@@ -249,6 +249,12 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
+    Route::get('session/matching-schedules', [SessionController::class, 'getMatchingSchedules'])->name('session.matching-schedules');
+    
+    // Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
+    // Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
+    // Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
     Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');
     Route::match(['get', 'post'], '/ai-matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
@@ -265,8 +271,6 @@ Route::get('/student/profile', [TaskController::class, 'connectStudent'])->name(
 //     $todolists = ToDoLists::all();
 //     return view('sampleslot', compact('todolists'));
 // });
-
-Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
 
 // Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
 // Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
