@@ -233,9 +233,10 @@ $user = Auth::user();
                                         <div class="${fontClass}">
                                             <p>${info['NotifType'] || 'Notification'}</p>
                                             <p class="text-sm text-gray-500">from ${info['studentName'] || ''}</p>
-                                            <p class="text-sm text-gray-500">${info['subjects'] || ''}</p>
-                                            <p class="text-sm text-gray-500">${info['Schedule Time'] || ''}</p>
-                                            <p class="text-sm text-gray-500">${info['unique_message'] || ''}</p>
+                                            <p class="text-sm text-gray-500">Sub: ${info['subjects'] || ''}</p>
+                                            <p class="text-sm text-gray-500">Date & Time: ${info['appointment_day'] + ' | ' + info['appointment_date'] + ' | ' + info['appointment_time'] || ''}</p>
+                                            <p class="text-sm text-gray-500">Total Session: ${info['total_session'] || ''}</p>
+                                            <p class="text-sm text-gray-500">Note: ${info['unique_message'] || ''}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">

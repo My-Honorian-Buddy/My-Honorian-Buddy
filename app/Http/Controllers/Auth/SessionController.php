@@ -96,11 +96,8 @@ class SessionController extends Controller
         Log::info('All Data for Notif Tutor Request: ', $request->all());
 
         $userID = Auth::user()->id;
-
         $user = User::find($userID);
-
         $student = $user->student;
-
         $studentName = $student->fname . ' ' . $student->lname;
 
 
@@ -185,54 +182,54 @@ class SessionController extends Controller
             $tutorPoints = $tutor->points ?? 0;
             $tutorPoints += 10;
             // Calculate payment
-            $totalAmount = $tutor->rate_session * $bookedSession->num_session;
-            $tutorname = $tutor->fname . ' ' . $tutor->lname;
+            // $totalAmount = $tutor->rate_session * $bookedSession->num_session;
+            // $tutorname = $tutor->fname . ' ' . $tutor->lname;
             // Initialize Guzzle client
-            $client = new Client([
-                'base_uri' => 'https://api.paymongo.com/v1/',
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
-                    'Content-Type' => 'application/json',
-                ],
-            ]);
+            // $client = new Client([
+            //     'base_uri' => 'https://api.paymongo.com/v1/',
+            //     'headers' => [
+            //         'Accept' => 'application/json',
+            //         'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
+            //         'Content-Type' => 'application/json',
+            //     ],
+            // ]);
 
             try {
 
                 // Create Payment Link
-                $paymentLinkResponse = $client->post('links', [
-                    'json' => [
-                        'data' => [
-                            'attributes' => [
-                                'amount' => $totalAmount * 100,  // Amount in cents
-                                'description' => "Payment for tutoring session #{$bookedSession->id} for {$tutorname}",
-                                'remarks' => 'Honorian Buddy Payment',  // Optional remarks
-                            ],
-                        ],
-                    ],
-                ]);
+                // $paymentLinkResponse = $client->post('links', [
+                //     'json' => [
+                //         'data' => [
+                //             'attributes' => [
+                //                 'amount' => $totalAmount * 100,  // Amount in cents
+                //                 'description' => "Payment for tutoring session #{$bookedSession->id} for {$tutorname}",
+                //                 'remarks' => 'Honorian Buddy Payment',  // Optional remarks
+                //             ],
+                //         ],
+                //     ],
+                // ]);
 
                 // Parse the response
-                $paymentLink = json_decode($paymentLinkResponse->getBody()->getContents(), true);
+                // $paymentLink = json_decode($paymentLinkResponse->getBody()->getContents(), true);
 
-                // Log the Payment Link response for debugging
-                $bookedSession->payment_link_sent = true;
-                $bookedSession->payment_link_url = $paymentLink['data']['id'];
-                $bookedSession->is_completed = true;
-                $bookedSession->save();
+                // // Log the Payment Link response for debugging
+                // $bookedSession->payment_link_sent = true;
+                // $bookedSession->payment_link_url = $paymentLink['data']['id'];
+                // $bookedSession->is_completed = true;
+                // $bookedSession->save();
 
                 // Notify student with the payment link
                 notifSession::create([
                     'notif_info' => json_encode([
-                        'NotifType' => 'PaymentLink',
-                        'payment_url' => $paymentLink['data']['attributes']['checkout_url'],
-                        'amount' => $totalAmount,
-                        'booked_session_id' => $bookedSession->id,
+                        'NotifType' => 'CompleteSession',
+                        'message' => 'Your tutoring session has been marked as completed.',
                     ]),
                     'to' => $bookedSession->student_id,
                     'user_id' => $bookedSession->tutor_id,
                     'read_at' => null,
                 ]);
+
+                $bookedSession->delete();
 
                 return redirect()->route('workspace.start')->with([
                     'linkSent' => 'Session marked as completed and payment link has been sent to student',
@@ -240,19 +237,16 @@ class SessionController extends Controller
             } catch (\GuzzleHttp\Exception\RequestException $e) {
                 // Extract and log detailed error information
                 $responseBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-                Log::error('Failed to create payment link', [
-                    'session_id' => $sessionId,
-                    'error' => $e->getMessage(),
-                    'response' => $responseBody,
-                ]);
-
+                
                 return response()->json([
-                    'error' => 'Failed to create payment link',
+                    'error' => 'Failed to complete the session.',
                     'details' => $e->getMessage(),
                     'response' => $responseBody,
                 ], 500);
             }
         }
+
+
 
         return redirect()->route('workspace.start')->with([
             'linkSent' => 'Session marked as completed and payment link has been sent to student',

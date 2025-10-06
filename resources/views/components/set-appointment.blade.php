@@ -28,8 +28,6 @@
                         </div>
                     </div>
                     
-
-                    
                         <input type="hidden" id="NotifType" name="NotifType" value="Tutor Request">
 
                         <!-- Date (Available Days Only) -->
