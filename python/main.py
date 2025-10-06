@@ -9,7 +9,7 @@ from matcher import match_tutors  # file is named matcher.py
 # Set up logging
 logging.basicConfig(
     filename='debug.log',  # Log file for storing errors
-    level=logging.ERROR,   # Log only error-level messages
+    level=logging.INFO,    # Log info-level messages for better debugging
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
@@ -72,14 +72,23 @@ def main():
         # Step 4: Run matchmaking algorithm
         try:
             matches = match_tutors(tutors, students, auth_id)
-            
+            # Ensure we always return a valid response even if no matches found
+            if not matches:
+                matches = {"message": "No tutors found matching your criteria", "matches": []}
+            else:
+                matches = {"message": "Matches found successfully", "matches": matches}
         except Exception as e:
-            raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")    
+            raise RuntimeError(f"Error running the matchmaking algorithm: {e}")    
 
         # Step 5: Output matches in JSON format
         try:
-            print(json.dumps(matches))
+            # Ensure the output is always valid JSON
+            output = json.dumps(matches, indent=2, ensure_ascii=False)
+            print(output)
         except Exception as e:
+            # If JSON serialization fails, return a proper error response
+            error_response = {"error": f"Error converting matches to JSON: {str(e)}", "matches": []}
+            print(json.dumps(error_response))
             raise RuntimeError(f"Error converting matches to JSON: {e}")
 
         # Step 6: Close the database connection

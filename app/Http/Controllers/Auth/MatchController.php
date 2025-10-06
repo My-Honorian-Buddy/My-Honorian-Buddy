@@ -59,7 +59,16 @@ class MatchController extends \App\Http\Controllers\Controller
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             Log::error('JSON Decode Error: ' . json_last_error_msg());
-            return response()->json(['error' => 'Invalid JSON output from Python script.'], 500);
+            Log::error('Python output: ' . $output);
+            
+            // Handle the case where Python returns an error or no matches
+            $matches = [];
+        }
+
+        // If matches is not an array, set it to empty array
+        if (!is_array($matches)) {
+            Log::error('Matches is not an array: ' . gettype($matches));
+            $matches = [];
         }
 
         $perPage = 6;

@@ -578,3 +578,65 @@ Traceback (most recent call last):
   File "/Applications/XAMPP/xamppfiles/htdocs/Web_System/final-project/python/main.py", line 77, in main
     raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
 RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 27'), 27)
+2025-10-06 20:32:41,003 - ERROR - Error occurred: Invalid or missing auth_id argument: Missing auth_id argument
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 41, in main
+    raise ValueError("Missing auth_id argument")
+ValueError: Missing auth_id argument
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 48, in main
+    raise ValueError(f"Invalid or missing auth_id argument: {ve}")
+ValueError: Invalid or missing auth_id argument: Missing auth_id argument
+2025-10-06 22:04:55,011 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 1'), 1)
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\matcher.py", line 45, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 77, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 1'), 1)
+2025-10-06 22:09:18,599 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 1'), 1)
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\matcher.py", line 45, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 77, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 1'), 1)
+2025-10-06 22:09:20,106 - ERROR - Error occurred: Error running the matchmaking algorithm: (ValueError('No student found with user_id 1'), 1)
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 74, in main
+    matches = match_tutors(tutors, students, auth_id)
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\matcher.py", line 45, in match_tutors
+    raise ValueError(f"No student found with user_id {auth_id}")
+ValueError: No student found with user_id 1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Comsci things\Thesis\MHB\MHBR\python\main.py", line 77, in main
+    raise RuntimeError(f"Error running the matchmaking algorithm: {e, auth_id}")
+RuntimeError: Error running the matchmaking algorithm: (ValueError('No student found with user_id 1'), 1)
+2025-10-06 22:12:35,244 - INFO - Received auth_id: 3
+2025-10-06 22:12:35,315 - INFO - Connected to MySQL database
+2025-10-06 22:12:35,318 - INFO - Connected to MySQL database
+2025-10-06 22:12:35,323 - INFO - Connected to MySQL database
+2025-10-06 22:17:43,405 - INFO - Received auth_id: 3
+2025-10-06 22:17:43,478 - INFO - Connected to MySQL database
+2025-10-06 22:17:43,482 - INFO - Connected to MySQL database
+2025-10-06 22:17:43,485 - INFO - Connected to MySQL database

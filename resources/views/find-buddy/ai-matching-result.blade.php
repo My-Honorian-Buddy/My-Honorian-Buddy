@@ -250,16 +250,23 @@
         <div class="grid grid-cols-1 p-8 lg:grid-cols-2 gap-6">
 
             {{-- Match and Tutor Information --}}
-            @if (!empty($pagedMatches) && !empty($tutors))
+            @if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors))
 
                 @foreach ($pagedMatches as $match)
                     @php
+                        // Check if match is an array and has required keys
+                        if (!is_array($match) || !isset($match['tutor_id'])) {
+                            continue;
+                        }
+                        
                         $user = $users->first(function ($u) use ($match) {
                             return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
                         });
-                        $user = $users->first(function ($u) use ($match) {
-                            return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
-                        });
+                        
+                        // Skip if user not found
+                        if (!$user || !isset($user->tutor)) {
+                            continue;
+                        }
                         $authUser = Auth::user();
 
                         $isSameUser = $authUser->id === $user->id;
@@ -495,12 +502,25 @@
                     @endif
                 @endforeach
             @else
-                <p>No matches or tutors found.</p>
+                <div class="col-span-1 lg:col-span-2 flex flex-col items-center justify-center py-12">
+                    <div class="bg-accent2 rounded-[20px] p-8 shadow-custom-button border-2 border-black">
+                        <h3 class="text-2xl font-bold text-primary text-center mb-4">No Matches Found</h3>
+                        <p class="text-lg text-primary text-center">
+                            We couldn't find any tutors that match your subjects and preferences at the moment.
+                        </p>
+                        <p class="text-lg text-primary text-center mt-2">
+                            Try manual searching or check back later!
+                        </p>
+                    </div>
+                </div>
             @endif
         </div>
+        
+        @if (!empty($pagedMatches) && count($pagedMatches) > 0)
         <div class="flex justify-center mt-8">
             {{ $pagedMatches->appends(request()->query())->links('custom-pagination') }}
         </div>
+        @endif
         <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
             <div class="flex flex-col items-center justify-center p-6">
                 <div class="h-32 w-32 border-white border-8 rounded-full overflow-hidden">

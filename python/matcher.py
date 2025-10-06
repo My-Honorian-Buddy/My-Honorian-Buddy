@@ -35,11 +35,7 @@ def calculate_match_score(tutor_subjects, student_subjects, tutor_days, student_
 #     return matches
 
 def match_tutors(tutors, students, auth_id, min_match_score=1):
-    import logging
-    logging.basicConfig(level=logging.INFO)
-
     auth_user = next((student for student in students if student['user_id'] == auth_id), None)
-
 
     if not auth_user:
         raise ValueError(f"No student found with user_id {auth_id}")
@@ -49,7 +45,6 @@ def match_tutors(tutors, students, auth_id, min_match_score=1):
 
     matches = []
 
-    print(f"Student: {auth_id}, Subjects: {student_subjects}, Days: {student_days}")
     for tutor in tutors:
         tutor_subjects = tutor.get('subjects', [])
         tutor_days = tutor.get('days_week', [])
@@ -66,5 +61,4 @@ def match_tutors(tutors, students, auth_id, min_match_score=1):
 
     matches.sort(key=lambda x: x['match_score'], reverse=True)  # Prioritize high scores
     
-    logging.info(f"Matches: {matches}")
     return matches
