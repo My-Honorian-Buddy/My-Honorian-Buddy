@@ -6,7 +6,7 @@
                     type="button"
                     >
                     
-            <span class="text-[17px] py-4">SET APPOINTMENT</span>
+            <span class="text-[12px] py-4">SET APPOINTMENT</span>
         </button>
         <x-bladewind.modal
             title="Application Form"

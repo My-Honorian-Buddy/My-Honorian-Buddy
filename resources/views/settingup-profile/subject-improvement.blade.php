@@ -13,7 +13,8 @@
                 <!-- Left side -->
                 <div class="w-auto md:w-1/2 flex justify-center mt-6 md:mt-0">
                     <div class="flex flex-col px-4 justify-center">
-                        <img src="{{ asset('/images/profiling/Student.svg') }}" alt="placeholder" class="ml-[20px] max-w-full h-auto mt-8">
+                        <img src="{{ asset('/images/profiling/Student.svg') }}" alt="placeholder"
+                            class="ml-[20px] max-w-full h-auto mt-8">
                         <p class="text-center font-poppins font-bold text-[22px] mt-2">You're a Student!</p>
                     </div>
                 </div>
@@ -23,20 +24,24 @@
                     <div class="w-4/5">
                         <form method="POST">
                             {{-- subjects dropdown --}}
-                            <label class="text-primary font-bold font-poppins text-2xl mt-8 mb-2">Select Subjects:</label>
+                            <label class="text-primary font-bold font-poppins text-2xl mt-8 mb-2">Select
+                                Subjects:</label>
 
                             <div class="relative">
                                 <!-- Button to open the dropdown, type="button" prevents form submission -->
-                                <button type="button" id="dropdownButton" class="bg-white border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full text-left ">
+                                <button type="button" id="dropdownButton"
+                                    class="bg-white border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full text-left ">
                                     Select Subjects
                                 </button>
 
                                 <!-- Dropdown menu -->
-                                <div id="dropdownMenu" class="absolute left-0 right-0 mt-2 mb-10 hidden bg-white border-2 border-black rounded shadow-lg z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
+                                <div id="dropdownMenu"
+                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-white border-2 border-black rounded shadow-lg z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
                                     <div class="flex flex-col items-center space-y-4">
                                         {{-- search bar --}}
-                                        <div class="relative w-full m-2 px-6">
-                                            <input type="text" placeholder="Search subjects..." name="query" class="w-full py-3 pl-4 pr-10 rounded-full 
+                                        <div class="relative w-full mt-4 m-2 px-6">
+                                            <input type="text" placeholder="Search subjects..." name="query"
+                                                class="w-full py-1 pl-4 pr-10 rounded-full 
                                             border-2 border-black bg-accent3 shadow-inner focus:outline-none font-bold focus:text-[20px] placeholder:text-[20px] text-gray-900" />
                                             <span class="absolute right-10 top-3.5 cursor-pointer">
                                                 <x-bladewind::icon name="magnifying-glass" />
@@ -61,11 +66,14 @@
                             </div>
 
                             <!-- Buttons -->
-                            <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
-                                <x-primary-button onclick="history.back()" type="button" class="bg-primary text-accent2 font-bold w-full max-w-[120px]">
+                            <div
+                                class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
+                                <x-primary-button onclick="history.back()" type="button"
+                                    class="bg-primary text-accent2 font-bold w-full max-w-[120px]">
                                     {{ __('Back') }}
                                 </x-primary-button>
-                                <x-primary-button id='submitBtn' class="bg-accent2 text-primary font-bold w-full max-w-[120px]">
+                                <x-primary-button id='submitBtn'
+                                    class="bg-accent2 text-primary font-bold w-full max-w-[120px]">
                                     {{ __('Next') }}
                                 </x-primary-button>
                             </div>
@@ -106,7 +114,8 @@
 
                 for (const [code, name] of Object.entries(subjectMap)) {
                     const label = document.createElement('label');
-                    label.classList.add('flex', 'gap-2', 'font-poppins', 'font-bold', 'items-center', 'p-2', 'hover:bg-gray-100', 'cursor-pointer');
+                    label.classList.add('flex', 'gap-2', 'font-poppins', 'font-bold', 'items-center', 'p-2', 'hover:bg-gray-100',
+                        'cursor-pointer');
                     label.innerHTML = `
                         <input
                             type="checkbox"
@@ -332,6 +341,73 @@
                         .catch(error => {
                             console.error('Error:', error);
                         });
+                }
+                let showCount = 10;
+                let showAll = false;
+
+                function renderSubjects() {
+                    container.innerHTML = '';
+                    let subjectsToShow = showAll ? allSubjects : allSubjects.slice(0, showCount);
+
+                    subjectsToShow.forEach(subject => {
+                        const clonedSubject = subject.cloneNode(true);
+                        container.appendChild(clonedSubject);
+                        const checkbox = clonedSubject.querySelector('.courseCheckbox');
+                        const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
+                        checkbox.checked = isSelected;
+                    });
+
+                    if (!showAll && allSubjects.length > showCount) {
+                        const showMoreBtn = document.createElement('button');
+                        showMoreBtn.textContent = 'Show more...';
+                        showMoreBtn.classList.add('w-full', 'text-accent2', 'hover:text-primary', 'hover:bg-accent2', 'p-2',
+                            'border-2', 'border-black', 'bg-primary', 'rounded', 'mt-2', 'font-bold');
+                        showMoreBtn.onclick = function() {
+                            event.stopPropagation();
+                            showAll = true;
+                            renderSubjects();
+                        };
+                        container.appendChild(showMoreBtn);
+                    }
+                }
+
+
+                renderSubjects();
+
+
+                function filterSubjects(query) {
+                    const searchTerm = query.toLowerCase().trim();
+                    container.innerHTML = '';
+                    showAll = false;
+
+                    if (searchTerm === '') {
+                        renderSubjects();
+                    } else {
+                        const filteredSubjects = allSubjects.filter(subject => {
+                            const text = subject.textContent.toLowerCase();
+                            const checkbox = subject.querySelector('input[type="checkbox"]');
+                            const subjCode = checkbox ? checkbox.value.toLowerCase() : '';
+                            const subjName = checkbox ? checkbox.getAttribute('subject-name').toLowerCase() : '';
+                            return subjCode.includes(searchTerm) ||
+                                subjName.includes(searchTerm) ||
+                                text.includes(searchTerm);
+                        });
+
+                        filteredSubjects.forEach(subject => {
+                            const clonedSubject = subject.cloneNode(true);
+                            container.appendChild(clonedSubject);
+                            const checkbox = clonedSubject.querySelector('.courseCheckbox');
+                            const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
+                            checkbox.checked = isSelected;
+                        });
+
+                        if (filteredSubjects.length === 0) {
+                            const noResults = document.createElement('div');
+                            noResults.classList.add('p-4', 'text-center', 'text-gray-500', 'font-poppins');
+                            noResults.textContent = 'No subjects found';
+                            container.appendChild(noResults);
+                        }
+                    }
                 }
             </script>
         </x-slot>
