@@ -49,13 +49,8 @@ class MatchController extends \App\Http\Controllers\Controller
         $output = shell_exec($command);
         $output = trim($output);
 
-        $startPos = strpos($output, '[{');
-
-        if ($startPos !== false) {
-            $output = substr($output, $startPos);
-        }
-
-        $matches = json_decode($output, true);
+        // Parse the JSON response from Python script
+        $pythonResponse = json_decode($output, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             Log::error('JSON Decode Error: ' . json_last_error_msg());
@@ -63,12 +58,16 @@ class MatchController extends \App\Http\Controllers\Controller
             
             // Handle the case where Python returns an error or no matches
             $matches = [];
-        }
-
-        // If matches is not an array, set it to empty array
-        if (!is_array($matches)) {
-            Log::error('Matches is not an array: ' . gettype($matches));
-            $matches = [];
+        } else {
+            // Extract matches array from the response
+            if (isset($pythonResponse['matches']) && is_array($pythonResponse['matches'])) {
+                $matches = $pythonResponse['matches'];
+                Log::info('Successfully extracted matches: ' . json_encode($matches));
+            } else {
+                Log::error('No matches found in Python response or matches is not an array');
+                Log::error('Python response: ' . json_encode($pythonResponse));
+                $matches = [];
+            }
         }
 
         $perPage = 6;
