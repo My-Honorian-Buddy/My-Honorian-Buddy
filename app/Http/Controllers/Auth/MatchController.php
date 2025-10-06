@@ -29,12 +29,12 @@ class MatchController extends \App\Http\Controllers\Controller
         }
 
         // ilalagay dito ano kung sino naka login na student ganun
-        $users = User::all();
-        $tutors = Tutor::paginate(1);
+        $users = User::where('cor_status', 'verified')->get();
+        $tutors = Tutor::all();
         $students = Student::all();
         Log::info("Tutor: " . $tutors);
         // Log::info("Student: " . $students);
-        $tutorSubjects = tutorSubject::paginate(1);
+        $tutorSubjects = tutorSubject::all();
         $studentSubjects = studentSubject::all();
 
         // Path to the Python script
@@ -62,8 +62,18 @@ class MatchController extends \App\Http\Controllers\Controller
             return response()->json(['error' => 'Invalid JSON output from Python script.'], 500);
         }
 
+        $perPage = 6;
+        $page = request()->input('page', 1);
+        $matchesCollection = collect($matches);
+        $pagedMatches = new LengthAwarePaginator(
+            $matchesCollection->forPage($page, $perPage),
+            $matchesCollection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
 
-        return view('find-buddy.ai-matching-result', compact('matches', 'tutors', 'auth_id', 'students', 'tutorSubjects', 'studentSubjects', 'users'));
+        return view('find-buddy.ai-matching-result', compact('pagedMatches', 'tutors', 'auth_id', 'students', 'tutorSubjects', 'studentSubjects', 'users'));
 
         // Log::info('Output: ' . $output);
         // dd($output);

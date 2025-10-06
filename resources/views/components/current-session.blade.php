@@ -202,7 +202,7 @@
             </div>
         @endif
     @else
-        <div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
+        <div
             class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
 
             <div class="flex flex-col  text-primary justify-center items-center h-full w-full">

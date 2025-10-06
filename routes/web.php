@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\StudentController;
@@ -44,7 +44,7 @@ Route::get('/cecill', [EventController::class, 'index'])->name('events.index');
 // For add/update/delete actions
 Route::post('/cecill/action', [EventController::class, 'action'])->name('events.action');
 
-Route::get('/broadcast', function(){
+Route::get('/broadcast', function () {
     $message = "Hello World";
     $id = Auth::user()->id;
     broadcast(new NewNotification($message, $id));
@@ -112,11 +112,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/change-subjects', [ProfileController::class, 'changeSubjects'])->name('profile.change-subjects');
 });
 
-Route::get('/email/verify', function() {
+Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
-Route::get('/email/verify/{id}/{hash}', function(EmailVerificationRequest $request) {
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect('/choose-role');
 })->middleware(['auth', 'signed'])->name('verification.verify');
@@ -124,8 +124,8 @@ Route::get('/email/verify/{id}/{hash}', function(EmailVerificationRequest $reque
 // Route::post('/email/verification-notification', [ProfileController::class, 'sendEmailVerificationNotification'
 // ])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('/auth/google',[GoogleAuthController::class,'redirect'])->name('google.auth');
-Route::get('/auth/google/call-back',[GoogleAuthController::class,'callbackGoogle']); 
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google.auth');
+Route::get('/auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::get('/show', function () {
 
@@ -166,112 +166,117 @@ Route::middleware('auth', 'verified')->group(function () {
             return view('settingup-profile.tutor-yearlevel-program');
         })->name('department.tutor');
         Route::post('/tutor/department', [TutorController::class, 'store_dept'])->name('department.tutor.store');
-
-        });
-
-        // Route::get('/tutor/experience', function () {
-        //     return view('settingup-profile.tutor-rate-and-exp');
-        // })->name('experience.tutor');
-
-        Route::post('/tutor/experience', [TutorController::class, 'store_exp'])->name('experience.tutor.store');
-        Route::get('/schedule', [ScheduleController::class, 'create'])->name('user.schedule');
-        Route::post('/schedule', [ScheduleController::class, 'store'])->name('user.schedule.store');
     });
 
-    Route::middleware(['auth', 'verified'])->group(function () {
-        
-        Route::get('/subjects/tutor', [TutorSubjectController::class, 'create'])->name('tutor.create');
-        Route::post('/subjects/tutor/store', [TutorSubjectController::class, 'store'])->name('tutor.store');
+    // Route::get('/tutor/experience', function () {
+    //     return view('settingup-profile.tutor-rate-and-exp');
+    // })->name('experience.tutor');
 
-        Route::get('/subjects/student', [StudentSubjectController::class, 'create'])->name('subjects.create');
-        Route::post('/subjects/student/store', [StudentSubjectController::class, 'store'])->name('subjects.store');
-        
+    Route::post('/tutor/experience', [TutorController::class, 'store_exp'])->name('experience.tutor.store');
+    Route::get('/schedule', [ScheduleController::class, 'create'])->name('user.schedule');
+    Route::post('/schedule', [ScheduleController::class, 'store'])->name('user.schedule.store');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/subjects/tutor', [TutorSubjectController::class, 'create'])->name('tutor.create');
+    Route::post('/subjects/tutor/store', [TutorSubjectController::class, 'store'])->name('tutor.store');
+
+    Route::get('/subjects/student', [StudentSubjectController::class, 'create'])->name('subjects.create');
+    Route::post('/subjects/student/store', [StudentSubjectController::class, 'store'])->name('subjects.store');
+});
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/workspace', [TaskController::class, 'index'])->name('workspace.start');
+
+    Route::prefix('workspace')->group(function () {
+        Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+        Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+        Route::delete('/tasks/{task}', [TaskController::class, 'delete'])->name('tasks.delete');
+        Route::get('/profile', function () {
+            return view('profile.tutor.profile');
+        })->name('tutor.profile');
     });
 
-    Route::middleware('auth')->group(function () {
+    Route::post('/session', [SessionController::class, 'SessionComplete'])->name('complete.session');
+    Route::post('/end/session', [SessionController::class, 'dropSession'])->name('drop.session');
+    //Video Call Controller Routes
+    Route::get('/video-call/join', [VideoCallController::class, 'handleJoinMeet'])->name('video.join.meet');
+    Route::get('/video-call/create/', [VideoCallController::class, 'createRoom'])->name('video.call.create');
 
-        Route::get('/workspace', [TaskController::class, 'index'])->name('workspace.start');
-        
-        Route::prefix('workspace')->group(function () {
-            Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-            Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-            Route::delete('/tasks/{task}', [TaskController::class, 'delete'])->name('tasks.delete');
-            Route::get('/profile', function () {return view('profile.tutor.profile');}) ->name('tutor.profile');
+    Route::get('/video-call/ended', [VideoCallController::class, 'participantLeft'])->name('participant.left');
+    Route::get('/video-call/{roomName}', function ($roomName) {
+        return view('components.vc.videocall', compact('roomName'));
+    })->name('video.call.room');
+});
 
-        });
+//Notification Controller Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/user-notifications', [NotificationController::class, 'getUserNotifications'])->name('user.notifications');
 
-        Route::post('/session',[SessionController::class,'SessionComplete'])->name('complete.session');
-        Route::post('/end/session', [SessionController::class, 'dropSession'])->name('drop.session');
-        //Video Call Controller Routes
-        Route::get('/video-call/join', [VideoCallController::class, 'handleJoinMeet'])->name('video.join.meet');
-        Route::get('/video-call/create/', [VideoCallController::class, 'createRoom'])->name('video.call.create');
-        
-        Route::get('/video-call/ended',[VideoCallController::class, 'participantLeft'])->name('participant.left');
-        Route::get('/video-call/{roomName}', function ($roomName) { return view('components.vc.videocall', compact('roomName')); })->name('video.call.room');
-    });
-    
-    //Notification Controller Routes
-    Route::middleware('auth')->group(function () {
-        Route::get('/user-notifications', [NotificationController::class, 'getUserNotifications'])->name('user.notifications');
-        
-        Route::post('/notifications/{id}/read', [NotificationController::class,'markAsRead'])->name('notification.read');
-        Route::delete('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification'])->name('notification.delete');
-        Route::post('/notifications/mark-all-as-read', [NotificationController::class,'markAllAsRead'])->name('notification.markAllAsRead');
-        Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAllNotifications'])->name('notification.deleteAll');
-            
-        Route::post('/notifications/session-confirm/{notification}', [NotificationController::class, 'sessionConfirm']);
-        Route::post('/notifications/tutor-request/{id}', [NotificationController::class, 'handleTutorRequest'])->name('notifications.tutor-request');
-            
-  
-        Route::get('/check-notifications', [NotificationController::class, 'hasUnreadNotifications'])->name('check.notifications');
-    });
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.read');
+    Route::delete('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification'])->name('notification.delete');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notification.markAllAsRead');
+    Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAllNotifications'])->name('notification.deleteAll');
 
-    // Route::get('/check-payment-status', function () {
-    //     Artisan::call('payment:check-status'); // Call the Artisan command
-    //     return response()->noContent(); // Return a 204 No Content response
-    // });
+    Route::post('/notifications/session-confirm/{notification}', [NotificationController::class, 'sessionConfirm']);
+    Route::post('/notifications/tutor-request/{id}', [NotificationController::class, 'handleTutorRequest'])->name('notifications.tutor-request');
 
-    
 
-    //not working yet, for future if ever
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/chaty', function () { return view('components.settingUp_profile.chat'); })->name('chaty');
-        Route::post('/chatty', [AiController::class, 'chatty'])->name('chatty.send');
-        Route::get('/about', function () { return view('aboutus'); })->name('about');
-        Route::get('/contact-us', function () { return view('contact-us'); })->name('contact');
-    });
-    
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/check-notifications', [NotificationController::class, 'hasUnreadNotifications'])->name('check.notifications');
+});
 
-        Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');
-        
-        Route::post('/ai-matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
+// Route::get('/check-payment-status', function () {
+//     Artisan::call('payment:check-status'); // Call the Artisan command
+//     return response()->noContent(); // Return a 204 No Content response
+// });
 
-        Route::get('/explore/manual', [TutorController::class, 'showWebAndSearch'])->name('tutor.search'); //explore-manual
-        Route::get('/explore/card', [TutorController::class, 'showCard'])->name('show.card');
-    });
 
-    
-    Route::get('/tutor/profile', [TaskController::class, 'connectTutor'])->name('connect.tutor');
-    Route::get('/student/profile', [TaskController::class, 'connectStudent'])->name('connect.student');
 
-    
-    // Route::get('/sampleslot', function () {
-    //     $todolists = ToDoLists::all();
-    //     return view('sampleslot', compact('todolists'));
-    // });
+//not working yet, for future if ever
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chaty', function () {
+        return view('components.settingUp_profile.chat');
+    })->name('chaty');
+    Route::post('/chatty', [AiController::class, 'chatty'])->name('chatty.send');
+    Route::get('/about', function () {
+        return view('aboutus');
+    })->name('about');
+    Route::get('/contact-us', function () {
+        return view('contact-us');
+    })->name('contact');
+});
 
-    Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
-    
-    // Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
-    // Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
-    // Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    Route::get('/view/reviews', [ReviewController::class, 'index'])->name('reviews.show');
+    Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');
+    Route::match(['get', 'post'], '/ai-matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
+    Route::get('/explore/manual', [TutorController::class, 'showWebAndSearch'])->name('tutor.search'); //explore-manual
+    Route::get('/explore/card', [TutorController::class, 'showCard'])->name('show.card');
+});
 
-     Route::post('/switch-role', [RoleSwitchController::class, 'switchRole'])->name('role.switch');
 
-    Route::get('/calendar/event', [EventController::class, 'index']);
-    Route::post('/calendar/action', [EventController::class, 'action']);
+Route::get('/tutor/profile', [TaskController::class, 'connectTutor'])->name('connect.tutor');
+Route::get('/student/profile', [TaskController::class, 'connectStudent'])->name('connect.student');
+
+
+// Route::get('/sampleslot', function () {
+//     $todolists = ToDoLists::all();
+//     return view('sampleslot', compact('todolists'));
+// });
+
+Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
+
+// Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
+// Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
+// Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
+
+// Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/view/reviews', [ReviewController::class, 'index'])->name('reviews.show');
+
+Route::post('/switch-role', [RoleSwitchController::class, 'switchRole'])->name('role.switch');
+
+Route::get('/calendar/event', [EventController::class, 'index']);
+Route::post('/calendar/action', [EventController::class, 'action']);
