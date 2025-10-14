@@ -1,4 +1,4 @@
-<div class="text-center text-primary pt-12 px-24">
+<div class="text-center text-accent3 pt-12 px-24">
     <h2 class="font-semibold lg:text-base xl:text-xl">
         {{ $title }}
     </h2>

@@ -7,8 +7,10 @@
  
             <!-- Email Address -->
             <div>
-                <x-input-label class="text-secondary" for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full " 
+            
+                <x-input-label class="text-black" for="email" :value="__('Email')" />
+                <x-text-input id="email" class="block mt-1 w-full outline-none duration-200 ring-2 
+                            ring-[transparent] focus:ring-primary/70 " 
                                 type="email" 
                                 name="email" 
                                 placeholder="Enter your Email" 
@@ -21,7 +23,7 @@
             <div class="mt-4">
                 <div class="flex justify-between">
                     <div>
-                        <x-input-label class="text-secondary" for="password" :value="__('Password')" />
+                        <x-input-label class="text-black" for="password" :value="__('Password')" />
                     </div>
                     <div>
                         @if (Route::has('password.request'))
@@ -32,7 +34,8 @@
                     </div>
                 </div>
                 
-                <x-text-input id="password" class="block mt-1 w-full"
+                <x-text-input id="password" class="block mt-1 w-full outline-none duration-200 ring-2 
+                            ring-[transparent] focus:ring-primary/70 "
                                 type="password"
                                 name="password"
                                 placeholder="Enter your Password"
@@ -45,19 +48,19 @@
             <div class="block mt-4 font-poppins">
                 <label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ms-2 text-sm text-white">{{ __('Remember me') }}</span>
+                    <span class="ms-2 text-sm text-gray-900">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
             <div class="font-poppins flex items-center justify-between mt-4">
-                <x-primary-button class=" font-semibold bg-accent2">
+                <x-primary-button class=" font-semibold bg-accent3 border-primary/25 text-primary hover:text-accent3 hover:bg-primary">
                     {{ __('Sign In') }}
                 </x-primary-button>
                 <div>
-                        <span class="text-md font-semibold text-secondary 
+                        <span class="text-md font-semibold text-black 
                             rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             New User?
-                            <a class="underline hover:text-white " href="{{ route('register') }}">
+                            <a class="underline hover:text-primary " href="{{ route('register') }}">
                                 {{ __('Create Account') }}
                             </a> 
                         </span>   

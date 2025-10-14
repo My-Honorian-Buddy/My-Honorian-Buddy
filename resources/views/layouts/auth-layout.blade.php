@@ -25,7 +25,7 @@
 </head>
 
 <body class="overflow-x-hidden bg-accent3">
-    <div class="flex justify-center items-center bg-accent3">
+    <div class="flex justify-center items-center bg-primary/5">
        {{ $slot }}
     </div>
 </body>

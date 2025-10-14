@@ -5,9 +5,10 @@
 
         <!-- Name -->
         <div>
-            <x-input-label  class="text-accent3" for="name" :value="__('Username')" />
+            <x-input-label  class="text-black" for="name" :value="__('Username')" />
             <x-text-input id="name" 
-                            class="block mt-1 w-full" type="text" 
+                            class="block mt-1 w-full outline-none duration-200 ring-2 
+                            ring-[transparent] focus:ring-primary/70" type="text" 
                             name="name" :value="old('name')"
                             placeholder="Enter your Username"
                             required autofocus autocomplete="name" />
@@ -16,9 +17,10 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label class="text-accent3" for="email" :value="__('Email')" />
+            <x-input-label class="text-black" for="email" :value="__('Email')" />
             <x-text-input id="email" 
-                            class="block mt-1 w-full" 
+                            class="block mt-1 w-full outline-none duration-200 ring-2 
+                            ring-[transparent] focus:ring-primary/70 " 
                             type="email" name="email"
                             placeholder="Enter your Email" 
                             :value="old('email')" 
@@ -28,9 +30,10 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label class="text-accent3" for="password" :value="__('Password')" />
+            <x-input-label class="text-black" for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
+            <x-text-input id="password" class="block mt-1 w-full outline-none duration-200 ring-2 
+                            ring-[transparent] focus:ring-primary/70"
                             type="password"
                             placeholder="Enter your Password"
                             name="password"
@@ -41,9 +44,10 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label class="text-accent3" for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label class="text-black" for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+            <x-text-input id="password_confirmation" class="block mt-1 w-full outline-none duration-200 ring-2 
+                            ring-[transparent] focus:ring-primary/70"
                             type="password"
                             name="password_confirmation" 
                             placeholder="Confirm your Password"
@@ -53,13 +57,13 @@
         </div>
 
         <div class="flex justify-between items-center mt-10">
-            <x-primary-button class="font-semibold bg-accent2 lg:text-base">
+            <x-primary-button class="font-semibold bg-accent3 lg:text-base border-primary/25 text-primary hover:text-accent3 hover:bg-primary">
                 {{ __('Create Account') }}
             </x-primary-button>
-            <span class="lg:text-sm xl:text-sm font-semibold text-secondary 
+            <span class="lg:text-sm xl:text-sm font-semibold text-black 
                             rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Already registered? 
-                <a class="underline hover:text-white " href="{{ route('login') }}">
+                <a class="underline hover:text-primary " href="{{ route('login') }}">
                     {{ __('Log In') }}
                 </a> 
             </span> 

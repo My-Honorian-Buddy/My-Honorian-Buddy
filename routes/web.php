@@ -54,8 +54,8 @@ Route::get('/broadcast', function () {
 // paayos route pag okay na sainyo function nya :>
 // TEMPO COR VERIFY PAGE
 
-Route::get('/trynotif', function () {
-    return view('notifsomething');
+Route::get('/tryauth', function () {
+    return view('components.newAuth');
 });
 
 Route::get('/jca', function () {
