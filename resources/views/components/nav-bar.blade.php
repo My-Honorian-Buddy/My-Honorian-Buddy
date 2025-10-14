@@ -173,16 +173,7 @@ $user = Auth::user();
         actions.forEach(action => action.classList.toggle('hidden'));
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        Echo.channel('new-notification')
-        .listen('NewNotification', () => {
-
-            
-            loadNotifications(); // Reload notifications when a new one is received
-            
-            
-        });
-    });
+    
 
     //haiiiii
 
