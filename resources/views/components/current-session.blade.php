@@ -46,7 +46,7 @@
         $session = null;
     }
 @endphp
-<div 
+<div
     class="w-full h-auto mt-10 bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 ">
     <div class="flex bg-primary items-center w-full border-b-2 border-black py-2">
 
@@ -202,8 +202,7 @@
             </div>
         @endif
     @else
-        <div
-            class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
+        <div class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
 
             <div class="flex flex-col  text-primary justify-center items-center h-full w-full">
                 <img src="{{ asset('images/autumn.svg') }}">
