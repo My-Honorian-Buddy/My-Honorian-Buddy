@@ -21,8 +21,6 @@
     <x-bladewind::notification />
 </head>
 
-{{-- First Page --}}
-
 <body class="font-poppins antialiased bg-[#F0F0F0] text-black">
     <!-- Navbar -->
     <header
@@ -30,7 +28,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="h-16 flex items-center justify-between">
                 <a href="/" class="inline-flex items-center gap-3">
-                    <img src="{{ asset('/images/logo.svg') }}" alt="My Honorian Buddy" class="h-8 w-auto">
+                    <img src="{{ asset('images/logo.svg') }}" alt="My Honorian Buddy" class="h-8 w-auto">
                     <span class="sr-only">My Honorian Buddy</span>
                 </a>
                 @if (Route::has('login'))
@@ -115,15 +113,14 @@
     <!-- About -->
     <section id="about" class="py-16 sm:py-20 lg:py-40">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="flex justify-center items-center" data-aos="fade-up">
+            <div class="flex justify-center items-center">
                 <!-- Minimal supporting vector -->
-                <div
-                    class="h-[70%] w-[70%] rounded-2xl bg-white/5 ring-1 ring-white/10 flex items-center justify-center
+                <div class="h-[70%] w-[70%] rounded-2xl bg-white/5 ring-1 ring-white/10 flex items-center justify-center
                 overflow-hidden">
                     <img src="/images/graduating.jpg" class="w-full h-full object-cover">
                 </div>
             </div>
-            <div class="max-w-7xl mx-auto px-20 sm:px-6 lg:px-8" data-aos="fade-up" data-aos-delay="100">
+            <div class="max-w-7xl mx-auto px-20 sm:px-6 lg:px-8">
                 <div class="relative bg-accent rounded-xl border-2 border-primary/20 shadow-sm overflow-hidden">
                     <div class="absolute inset-y-0 left-0 w-1.5 bg-primary" aria-hidden="true"></div>
                     <div class="p-6 sm:p-8 lg:p-10">
@@ -138,7 +135,7 @@
                 </div>
             </div>
         </div>
-
+        
     </section>
     <div class="mt-16 border-t border-black/10"></div>
     <!-- Features -->
@@ -147,7 +144,7 @@
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">Features</h3>
             <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 <!-- Feature 1 -->
-                <div data-aos="fade-up" data-aos-delay="50"
+                <div
                     class="group rounded-xl border border-black/10 p-6 bg-accent transition hover:border-2 hover:border-primary/20 hover:-translate-y-1 hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <span
@@ -168,7 +165,7 @@
                     <div class="mt-5 h-0.5 bg-black/10 group-hover:bg-primary/30 transition"></div>
                 </div>
                 <!-- Feature 2 -->
-                <div data-aos="fade-up" data-aos-delay="100"
+                <div
                     class="group rounded-xl border border-black/10 p-6 bg-accent transition hover:border-2 hover:border-primary/20  hover:-translate-y-1 hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <span
@@ -191,7 +188,7 @@
                 </div>
 
                 <!-- Feature 3 -->
-                <div data-aos="fade-up" data-aos-delay="150"
+                <div
                     class="group rounded-xl border border-black/10 p-6 bg-accent transition hover:border-2 hover:border-primary/20 hover:-translate-y-1 hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <span
@@ -244,15 +241,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">How it works</h3>
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <div data-aos="fade-up" data-aos-delay="50" class="relative rounded-xl border border-black/10 bg-accent p-6">
-                    <div 
+                <div class="relative rounded-xl border border-black/10 bg-accent p-6">
+                    <div
                         class="absolute -top-3 left-6 h-8 w-8 rounded-full bg-primary text-accent3 text-sm font-bold flex items-center justify-center ring-2 ring-white">
                         1</div>
                     <h4 class="text-lg font-semibold text-black">Create your profile</h4>
                     <p class="mt-2 text-sm text-black/70">Add your programs, subjects, availability, and learning
                         preferences.</p>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="100" class="relative rounded-xl border border-black/10 bg-accent p-6">
+                <div class="relative rounded-xl border border-black/10 bg-accent p-6">
                     <div
                         class="absolute -top-3 left-6 h-8 w-8 rounded-full bg-primary text-accent3 text-sm font-bold flex items-center justify-center ring-2 ring-white">
                         2</div>
@@ -260,7 +257,7 @@
                     <p class="mt-2 text-sm text-black/70">Our AI suggests the best buddies based on your goals and
                         schedule.</p>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="150" class="relative rounded-xl border border-black/10 bg-accent p-6">
+                <div class="relative rounded-xl border border-black/10 bg-accent p-6">
                     <div
                         class="absolute -top-3 left-6 h-8 w-8 rounded-full bg-primary text-accent3 text-sm font-bold flex items-center justify-center ring-2 ring-white">
                         3</div>
@@ -277,7 +274,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">What students say</h3>
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <figure  data-aos="fade-up" data-aos-delay="50" class="rounded-xl border border-black/10 bg-accent p-6">
+                <figure class="rounded-xl border border-black/10 bg-accent p-6">
                     <blockquote class="text-black/80">“I finally stuck to a study routine. Having the right buddy
                         changed everything.”</blockquote>
                     <figcaption class="mt-4 flex items-center gap-3 text-sm text-black/70">
@@ -286,7 +283,7 @@
                         <span>Ana, BSIT</span>
                     </figcaption>
                 </figure>
-                <figure  data-aos="fade-up" data-aos-delay="100" class="rounded-xl border border-black/10 bg-accent p-6">
+                <figure class="rounded-xl border border-black/10 bg-accent p-6">
                     <blockquote class="text-black/80">“Matches were actually relevant to my courses. Super quick and
                         easy.”</blockquote>
                     <figcaption class="mt-4 flex items-center gap-3 text-sm text-black/70">
@@ -295,7 +292,7 @@
                         <span>Jared, BSA</span>
                     </figcaption>
                 </figure>
-                <figure  data-aos="fade-up" data-aos-delay="150" class="rounded-xl border border-black/10 bg-accent p-6">
+                <figure class="rounded-xl border border-black/10 bg-accent p-6">
                     <blockquote class="text-black/80">“The accountability helped me finish projects faster without
                         burning out.”</blockquote>
                     <figcaption class="mt-4 flex items-center gap-3 text-sm text-black/70">
@@ -391,8 +388,5 @@
         })();
     </script>
 </body>
-<script>
-    AOS.init();
-</script>
 
 </html>
