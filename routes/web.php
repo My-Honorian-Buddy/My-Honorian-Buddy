@@ -44,19 +44,8 @@ Route::get('/cecill', [EventController::class, 'index'])->name('events.index');
 // For add/update/delete actions
 Route::post('/cecill/action', [EventController::class, 'action'])->name('events.action');
 
-Route::get('/broadcast', function () {
-    $message = "Hello World";
-    $id = Auth::user()->id;
-    broadcast(new NewNotification($message, $id));
-    return 'Message broadcasted.';
-});
 
-// paayos route pag okay na sainyo function nya :>
-// TEMPO COR VERIFY PAGE
 
-Route::get('/landingpige', function () {
-    return view('landingpige');
-});
 
 Route::get('/jca', function () {
     return view('auth.verify-cor');

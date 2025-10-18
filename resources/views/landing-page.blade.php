@@ -26,7 +26,7 @@
 <body class="font-poppins antialiased bg-[#F0F0F0] text-black">
     <!-- Navbar -->
     <header
-        class="sticky top-0 z-50 bg-accent/90 supports-[backdrop-filter]:bg-white/60 backdrop-blur border-b border-black/10 relative">
+        class="sticky top-0 z-50 bg-accent/90 supports-[backdrop-filter]:bg-white/60 shadow-lg backdrop-blur border-b border-black/10 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="h-16 flex items-center justify-between">
                 <a href="/" class="inline-flex items-center gap-3">
@@ -63,7 +63,7 @@
     </header>
 
     <!-- Hero -->
-    <section class="relative overflow-hidden bg-gradient-to-br from-primary to-black text-accent3">
+    <section class="relative overflow-hidden bg-[#2E0000] text-accent3">
         <!-- Subtle pattern + vignette -->
         <div class="absolute inset-0 pointer-events-none">
             <div
@@ -215,7 +215,7 @@
     </section>
 
     <!-- Stats -->
-    <section class="py-16 sm:py-20 lg:py-24 pb-16 bg-primary/5 border-y border-black/10">
+    <section class="py-16 sm:py-20 lg:py-24 pb-16 bg-primary/10 border-y border-black/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="text-center">
@@ -273,7 +273,7 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="py-16 sm:py-20 lg:py-56 bg-accent3">
+    <section class="py-16 sm:py-20 lg:py-56 bg-primary/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">What students say</h3>
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
@@ -313,7 +313,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">FAQ</h3>
             <div class="mt-8 space-y-4">
-                <details class="group rounded-xl border border-black/10 bg-accent p-5 open:shadow-sm">
+                <details class="group rounded-xl border shadow-md border-black/10 bg-accent p-5 open:shadow-sm">
                     <summary class="flex cursor-pointer list-none items-center justify-between">
                         <span class="text-sm sm:text-base font-semibold text-black">Is it free to use?</span>
                         <span
@@ -322,7 +322,7 @@
                     <div class="mt-3 text-sm text-black/70">Core features are free for students. Advanced tools may be
                         added later.</div>
                 </details>
-                <details class="group rounded-xl border border-black/10 bg-accent p-5 open:shadow-sm">
+                <details class="group rounded-xl border shadow-md border-black/10 bg-accent p-5 open:shadow-sm">
                     <summary class="flex cursor-pointer list-none items-center justify-between">
                         <span class="text-sm sm:text-base font-semibold text-black">How are matches made?</span>
                         <span
@@ -331,7 +331,7 @@
                     <div class="mt-3 text-sm text-black/70">We blend AI with your preferences (subjects, goals, time)
                         for relevant pairs.</div>
                 </details>
-                <details class="group rounded-xl border border-black/10 bg-accent p-5 open:shadow-sm">
+                <details class="group rounded-xl border shadow-md border-black/10 bg-accent p-5 open:shadow-sm">
                     <summary class="flex cursor-pointer list-none items-center justify-between">
                         <span class="text-sm sm:text-base font-semibold text-black">Can I use it on mobile?</span>
                         <span
@@ -348,7 +348,7 @@
     <section class="pb-16 sm:pb-20 lg:pb-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
-                class="rounded-2xl bg-gradient-to-r from-primary to-black text-accent3 p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ring-1 ring-white/10">
+                class="rounded-2xl bg-[#2E0000] text-accent3 p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ring-1 ring-white/10">
                 <div>
                     <h3 class="text-2xl sm:text-3xl font-extrabold">Ready to study smarter?</h3>
                     <p class="mt-2 text-accent3/80 max-w-prose">Join a growing community of focused students. Get
