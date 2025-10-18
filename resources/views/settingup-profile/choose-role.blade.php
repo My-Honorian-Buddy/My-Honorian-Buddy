@@ -20,22 +20,28 @@
                         <!-- tutor role -->
                         <label class="flex flex-col items-center"> 
                             <input type="radio" name="role" value="Tutor" class="peer" style="display:none">
-                            <img src="{{ asset('/images/profiling/Tutor.svg') }}" alt="placeholder" class="ml-[30px] w-auto h-auto rounded-[30px] cursor-pointer hover:scale-105 ease-in-out duration-300 p-2 border-8 border-transparent peer-checked:bg-accent2 peer-checked:p-2 peer-checked:border-8 peer-checked:border-primary peer-checked:scale-105"> 
+                            <img src="{{ asset('/images/profiling/Tutor.svg') }}" alt="placeholder" 
+                            class="ml-[30px] w-auto h-auto rounded-[30px] cursor-pointer hover:scale-105 ease-in-out 
+                            duration-300 p-2 border-4 border-transparent peer-checked:bg-primary/20 peer-checked:p-2 
+                            peer-checked:border-4 peer-checked:border-primary peer-checked:scale-105"> 
                             <p class="text-center font-poppins font-bold text-[22px] mt-2 ml-[10px]">Tutor</p>
                         </label>
 
                         <!-- student role -->
                         <label class="flex flex-col items-center">
                             <input type="radio" name="role" value="Student" class="peer" style="display:none">
-                            <img src="{{ asset('/images/profiling/Student.svg') }}" alt="placeholder" class="ml-[30px] w-auto h-auto rounded-[30px] cursor-pointer hover:scale-105 ease-in-out duration-300 p-2 border-8 border-transparent peer-checked:bg-accent2 peer-checked:p-2 peer-checked:border-8 peer-checked:border-primary peer-checked:scale-105">
+                            <img src="{{ asset('/images/profiling/Student.svg') }}" alt="placeholder" 
+                            class="ml-[30px] w-auto h-auto rounded-[30px] cursor-pointer hover:scale-105 ease-in-out 
+                            duration-300 p-2 border-4 border-transparent peer-checked:bg-primary/20 peer-checked:p-2 
+                            peer-checked:border-4 peer-checked:border-primary peer-checked:scale-105">
                             <p class="text-center font-poppins font-bold text-[22px] mt-2 ml-[10px]">Student</p>
                         </label>
                     </div>
 
                     <!-- button for next --> 
                     <div class="flex justify-end mr-16 mt-4">
-                        <x-primary-button class="bg-accent2 text-primary 
-                        hover:bg-primary hover:text-accent2 font-bold">
+                        <x-primary-button class="bg-primary text-accent3
+                        hover:bg-primary/70 rounded-lg font-bold">
                             {{ __('Next') }}
                         </x-primary-button>
                     </div>

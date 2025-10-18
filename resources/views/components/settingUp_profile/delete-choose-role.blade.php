@@ -1,7 +1,7 @@
 <x-auth-layout>
     <x-folder>
         <x-slot name="header">
-            Choose your Role
+            Choose your Roleewqewq
         </x-slot>    
         
         <x-slot name="content">
