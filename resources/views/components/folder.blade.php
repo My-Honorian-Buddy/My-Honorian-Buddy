@@ -1,6 +1,6 @@
 @props(['height'])
 
-<div class="flex flex-col justify-center items-center md:flex-row shadow-lg h-full rounded-[16px] overflow-hidden w-4/5 my-24 mx-auto">
+<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary rounded-[16px] lg:rounded-[16px] shadow-2xl w-full max-w-7xl mx-auto">
   <div class=" flex flex-col justify-center gap-0 w-full h-full rounded-lg relative">
 
       <!-- Main content area -->

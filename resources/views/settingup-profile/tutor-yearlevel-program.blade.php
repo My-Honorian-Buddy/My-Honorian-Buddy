@@ -12,30 +12,30 @@
 
         <x-slot name="content">
 
-            <div class="text-center font-bold text-5xl mt-8">
+            <div class="text-center font-bold text-3xl md:text-4xl lg:text-5xl mt-6 md:mt-8 px-4">
                 Choose your Year Level and College Program
             </div>
 
             <!-- Image -->
-            <div class="flex flex-col pb-44 md:flex-row md:space-x-6 sm:pb-64 lg:pb-20">
-                <div class="w-auto md:w-1/2 flex justify-center mt-6 md:mt-0">
-                    <div class="flex flex-col py-14 px-4 justify-center">
+            <div class="flex flex-col pb-20 md:pb-32 lg:pb-20 md:flex-row md:space-x-6 px-4 md:px-6">
+                <div class="w-full md:w-1/2 flex justify-center mt-6 md:mt-0">
+                    <div class="flex flex-col py-8 md:py-14 px-4 justify-center items-center">
                         <img src="{{ asset('/images/profiling/Tutor.svg') }}" alt="placeholder"
-                            class="ml-[20px] max-w-full h-auto mt-8">
-                        <p class="text-center font-poppins font-bold text-[22px] mt-2">You're a Tutor!</p>
+                            class="w-[200px] md:w-[250px] lg:w-auto max-w-full h-auto">
+                        <p class="text-center font-poppins font-bold text-lg md:text-xl lg:text-[22px] mt-2">You're a Tutor!</p>
                     </div>
                 </div>
 
                 <!-- Form -->
-                <div class="w-full md:w-1/2 flex flex-col justify-center p-3">
-                    <div class="w-4/5">
+                <div class="w-full md:w-1/2 flex flex-col justify-center p-3 mt-6 md:mt-0">
+                    <div class="w-full lg:w-4/5">
                         <form method="POST" action="{{ route('department.tutor.store') }}">
                             @csrf
                             <div class="flex flex-col text-left">
-                                <label class="font-bold font-poppins text-2xl mb-2 ">Year Level:</label>
+                                <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mb-2">Year Level:</label>
                                 <select name="year_level"
-                                    class="border-2 font-poppins border-primary p-3 rounded outline-none duration-200 
-                                        ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full">
+                                    class="border-2 font-poppins border-gray-900 p-3 rounded outline-none duration-200 
+                                        ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base">
                                     <option value="" disabled selected>Year Level...</option>
                                     <option value="1st Year">1st Year</option>
                                     <option value="2nd Year">2nd Year</option>
@@ -43,10 +43,10 @@
                                     <option value="4th Year">4th Year</option>
                                 </select>
 
-                                <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Department:</label>
+                                <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mt-6 md:mt-8 mb-2">College Department:</label>
                                 <select
-                                    class="border-2 font-poppins border-black p-3 rounded outline-none duration-200 
-                                        ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full"
+                                    class="border-2 font-poppins border-gray-900 p-3 rounded outline-none duration-200 
+                                        ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base"
                                     name="college">
                                     <option value=""disabled selected>College Department...</option>
                                     <option value="College Of Computing Studies">College Of Computing Studies</option>
@@ -60,10 +60,10 @@
                                         and Tourism Management</option>
                                 </select>
 
-                                <label class="font-bold font-poppins text-2xl mt-8 mb-2">College Program:</label>
+                                <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mt-6 md:mt-8 mb-2">College Program:</label>
                                 <select
-                                    class="border-2 font-poppins border-black p-3 rounded outline-none duration-200 
-                                        ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70w-full"
+                                    class="border-2 font-poppins border-gray-900 p-3 rounded outline-none duration-200 
+                                        ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base"
                                     name="department" disabled>
                                     <option value="" disabled selected>College Program...</option>
                                 </select>
@@ -71,22 +71,22 @@
                                 <div
                                     class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                     <x-primary-button onclick="history.back()" type="button"
-                                        class="font-bold font-poppins bg-accent text-primary
-                                        hover:bg-primary/5 border-black border hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto">
+                                        class="font-bold font-poppins bg-accent text-primary text-sm md:text-base
+                                        hover:bg-primary/5 border-gray-300 border hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                         {{ __('Back') }}
                                     </x-primary-button>
 
 
                                     <x-primary-button
-                                        class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto
-                                        hover:bg-primary/70 rounded-lg">
+                                        class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto text-sm md:text-base
+                                        hover:bg-primary/70 rounded-lg px-6 py-3">
                                         {{ __('Next') }}
                                     </x-primary-button>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>
-            </div>
             </div>
 
             <script>

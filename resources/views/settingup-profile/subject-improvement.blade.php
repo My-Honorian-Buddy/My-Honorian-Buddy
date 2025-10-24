@@ -5,30 +5,31 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="text-center text-charcoal font-bold text-5xl my-8">
+            <div class="text-center text-charcoal font-bold text-3xl md:text-5xl lg:text-6xl my-6 md:my-8 px-4">
                 Specify subjects that needed improvement
             </div>
 
-            <div class="flex flex-col pb-44 md:flex-row md:space-x-6 sm:pb-64 lg:pb-20">
+            <div class="flex flex-col pb-20 md:pb-32 lg:pb-20 md:flex-row md:space-x-6 px-4 md:px-6">
                 <!-- Left side -->
-                <div class="w-auto md:w-1/2 flex justify-center mt-6 md:mt-0">
-                    <div class="flex flex-col px-4 justify-center">
+                <div class="w-full md:w-1/2 flex justify-center mt-6 md:mt-0">
+                    <div class="flex flex-col justify-center items-center">
                         <img src="{{ asset('/images/profiling/Student.svg') }}" alt="placeholder"
-                            class="ml-[20px] max-w-full h-auto mt-8">
-                        <p class="text-center font-poppins font-bold text-[22px] mt-2">You're a Student!</p>
+                            class="w-[200px] md:w-[250px] lg:w-auto max-w-full h-auto">
+                        <p class="text-center font-poppins font-bold text-lg md:text-xl lg:text-[22px] mt-2">You're a Student!</p>
                     </div>
                 </div>
 
                 <!-- Right side -->
-                <div class="w-full md:w-1/2 flex flex-col justify-center p-3">
-                    <div class="w-4/5">
+                <div class="w-full md:w-1/2 flex flex-col justify-center p-3 mt-6 md:mt-0">
+                    <div class="w-full lg:w-4/5">
                         <form method="POST">
-
+                            <label class="text-darkgray font-bold font-poppins text-lg md:text-xl lg:text-2xl mb-3 md:mb-5 block">Select
+                                Subjects:</label>
 
                             <div class="relative">
                                 <!-- Button to open the dropdown, type="button" prevents form submission -->
                                 <button type="button" id="dropdownButton"
-                                    class="bg-accent text-charcoal border-2 border-gray-300 p-3 rounded-lg shadow-black w-full text-left ">
+                                    class="bg-accent text-charcoal border-2 border-gray-300 p-3 rounded-lg shadow-black w-full text-left text-sm md:text-base">
                                     Select Subjects
                                 </button>
 
@@ -38,20 +39,20 @@
 
                                     <div class="flex flex-col items-center space-y-4">
                                         {{-- search bar --}}
-                                        <div class="relative w-full mt-4 m-2 px-6">
+                                        <div class="relative w-full mt-4 m-2 px-4 md:px-6">
                                             <input type="text" placeholder="Search subjects..." name="query"
                                                 class="w-full py-1.5 pl-4 pr-10 rounded-lg 
                                             border-2 border-gray-300 bg-accent shadow-inner outline-none duration-200 
-                                        ring-2 ring-[transparent] focus:border-primary/70  font-semibold text-[20px] placeholder:text-[16px] text-gray-900" />
-                                            <span class="absolute right-10 top-3.5 cursor-pointer">
-                                                <x-bladewind::icon name="magnifying-glass" />
+                                        ring-2 ring-[transparent] focus:border-primary/70 font-semibold text-base md:text-[20px] placeholder:text-sm md:placeholder:text-[16px] text-gray-900" />
+                                            <span class="absolute right-6 md:right-10 top-3.5 cursor-pointer">
+                                                <x-bladewind::icon name="magnifying-glass" class="w-5 h-5" />
                                             </span>
                                         </div>
                                     </div>
                                     <div class="space-y-2 p-2" id="dropdownSubjects">
                                     </div>
                                 </div>
-                                <div class="ml-2 mt-2 text-gray-500/80 font-medium">Please choose up to 3 subjects only</div>
+                                <div class="ml-2 mt-2 text-xs md:text-sm text-gray-500/80 font-medium">Please choose up to 3 subjects only</div>
                             </div>
 
 
@@ -60,7 +61,7 @@
                             <div class="mt-2 flex items-center justify-between">
                                 <!-- list of selected subjects -->
                                 <div id="subject-container" class="flex flex-col gap-2" style="visibility: hidden">
-                                    <h1 id="header" class="text-primary font-bold">ADDED SUBJECTS</h1>
+                                    <h1 id="header" class="text-primary font-bold text-sm md:text-base">ADDED SUBJECTS</h1>
                                     <ul id="subject-list" class="flex flex-wrap gap-2"></ul>
                                 </div>
                             </div>
@@ -69,13 +70,13 @@
                             <div
                                 class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                 <x-primary-button onclick="history.back()" type="button"
-                                    class="font-bold font-poppins bg-accent text-primary border
-                                        hover:bg-primary/5 border-gray-300 hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto">
+                                    class="font-bold font-poppins bg-accent text-primary border text-sm md:text-base
+                                        hover:bg-primary/5 border-gray-300 hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                     {{ __('Back') }}
                                 </x-primary-button>
                                 <x-primary-button id='submitBtn'
-                                    class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto
-                                        hover:bg-primary/70 rounded-lg">
+                                    class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto text-sm md:text-base
+                                        hover:bg-primary/70 rounded-lg px-6 py-3">
                                     {{ __('Next') }}
                                 </x-primary-button>
                             </div>
