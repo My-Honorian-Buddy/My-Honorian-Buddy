@@ -21,6 +21,8 @@ export default {
                 secondary: '#F0F0F0',
                 accent2: '#FFD95C',
                 accent3: '#F6F6F6',
+                charcoal: '#1A1A1A',
+                darkgray: '#333333',
               },
               boxShadow: {
                 'custom-button': '5px 5px 1px rgba(0, 0, 0, 1)',

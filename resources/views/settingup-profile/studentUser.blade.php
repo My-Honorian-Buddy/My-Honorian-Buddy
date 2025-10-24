@@ -28,14 +28,28 @@
                                 <!-- First Name -->
                                 <div class="mt-4 w-full">
                                     <x-input-label class="text-primary" for="first_name" :value="__('First Name:')" />
-                                    <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" placeholder="First Name..." :value="old('first_name')" required />
+                                    <x-text-input 
+                                    id="first_name" 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    ring-[transparent] focus:ring-primary/70" 
+                                    type="text" 
+                                    name="first_name" 
+                                    placeholder="First Name..." 
+                                    :value="old('first_name')" required />
                                     <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                                 </div>
 
                                 <!-- Last Name -->
                                 <div class="lg:mt-4 w-full">
                                     <x-input-label class="text-primary" for="last_name" :value="__('Last Name:')" />
-                                    <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" placeholder="Last Name..." :value="old('last_name')" required />
+                                    <x-text-input 
+                                    id="last_name" 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    ring-[transparent] focus:ring-primary/70" 
+                                    type="text" name="last_name" 
+                                    placeholder="Last Name..." 
+                                    :value="old('last_name')" 
+                                    required />
                                     <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                                 </div>
                             </div>
@@ -50,14 +64,28 @@
                                 <!-- Address  -->
                                 <div class="w-full">
                                     <x-input-label class="text-primary" for="address" :value="__('Address:')" />
-                                    <x-text-input id="Birthday" class="block mt-1 w-full" type="text" name="add" placeholder="Address..." :value="old('add')" required />
+                                    <x-text-input 
+                                    id="Birthday" 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    ring-[transparent] focus:ring-primary/70" 
+                                    type="text" 
+                                    name="add" 
+                                    placeholder="Address..." 
+                                    :value="old('add')" required />
                                     <x-input-error :messages="$errors->get('add')" class="mt-2" />
                                 </div>
 
                                 <!-- Date of Birth -->
                                 <div class="w-full">
                                     <x-input-label class="text-primary" for="Birthday" :value="__('Date of Birth:')" />
-                                    <x-text-input id="Birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday')" required />
+                                    <x-text-input 
+                                    id="Birthday" 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    ring-[transparent] focus:ring-primary/70" 
+                                    type="date" 
+                                    name="birthday" 
+                                    :value="old('birthday')" 
+                                    required />
                                     <x-input-error :messages="$errors->get('birthday')" class="mt-2" />
                                 </div>
                             </div>
@@ -65,18 +93,21 @@
                             <!-- Bio -->
                             <div class="mt-4">
                                 <label class="font-poppins block text-lg text-primary font-bold mt-4"> Bio: <span class="font-normal"> (optional) </span> </label>
-                                <textarea id="bio" name="bio_student" class="block mt-1 w-full border-black border-[3px] rounded-[4px] focus:border-indigo-500 focus:ring-indigo-500 font-poppins shadow-custom-button px-4 py-2" placeholder="Brief introduction of yourself..."></textarea>
+                                <textarea id="bio" name="bio_student" class="block mt-1 w-full border-black border rounded-[4px] 
+                                outline-none ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 font-poppins px-4 py-2" placeholder="Brief introduction of yourself..."></textarea>
                             </div>
 
                             <!-- Buttons -->
                             <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
 
-                                <x-primary-button onclick="history.back()" class="font-bold font-poppins bg-primary text-accent2 w-full sm:w-auto">
+                                <x-primary-button onclick="history.back()" class="font-bold font-poppins bg-accent text-primary
+                               hover:bg-primary/5 border-black border hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto">
                                     {{__('Back')}}
                                 </x-primary-button>
 
                                 <div>
-                                    <x-primary-button class="bg-primary text-accent2 font-bold font-poppins w-full sm:w-auto">
+                                    <x-primary-button class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto
+                                    hover:bg-primary/70 rounded-lg">
                                         {{__('Next')}}
                                     </x-primary-button>
                                 </div>

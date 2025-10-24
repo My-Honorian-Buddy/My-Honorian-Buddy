@@ -6,7 +6,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="text-center font-bold text-6xl my-8">
+            <div class="text-center text-charcoal font-bold text-6xl my-8">
                 Specify your subject expertise
             </div>
 
@@ -25,26 +25,27 @@
                     <div class="w-4/5">
                         <form method="POST">
                             {{-- subjects dropdown --}}
-                            <label class="text-primary font-bold font-poppins text-2xl mt-8 mb-5">Select
+                            <label class="text-darkgray font-bold font-poppins text-2xl mt-8 mb-5">Select
                                 Subjects:</label>
 
                             <div class="relative">
                                 <!-- Button to open the dropdown, type="button" prevents form submission -->
                                 <button type="button" id="dropdownButton"
-                                    class="bg-white border-2 font-poppins border-black p-3 rounded shadow-custom-button shadow-black w-full text-left ">
+                                    class="bg-accent text-charcoal border-2 border-gray-300 p-3 rounded-lg shadow-black w-full text-left ">
                                     Select Subjects
                                 </button>
 
                                 <!-- Dropdown menu -->
                                 <div id="dropdownMenu"
-                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-white border-2 border-black rounded shadow-lg z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
+                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-accent border-2 border-gray-300 rounded-lg shadow-md z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
                                     <div class="flex flex-col items-center space-y-4">
                                         {{-- search bar --}}
                                         <div class="relative w-full m-2 mt-4 px-6">
                                             <input type="text" placeholder="Search subjects..." name="query"
-                                                class="w-full py-1 pl-4 pr-10 rounded-full 
-                                            border-2 border-black bg-accent3 shadow-inner focus:outline-none font-bold focus:text-[20px] placeholder:text-[20px] text-gray-900" />
-                                            <span class="absolute right-10 top-1.5 cursor-pointer">
+                                                class="w-full py-1.5 pl-4 pr-10 rounded-lg 
+                                            border-2 border-gray-300 bg-accent shadow-inner outline-none duration-200 
+                                        ring-2 ring-[transparent] focus:border-primary/70  font-semibold text-[20px] placeholder:text-[16px] text-gray-900" />
+                                            <span class="absolute right-10 top-[10px] cursor-pointer">
                                                 <x-bladewind::icon name="magnifying-glass" />
                                             </span>
                                         </div>
@@ -52,7 +53,7 @@
                                     <div class="space-y-2 p-2" id="dropdownSubjects">
                                     </div>
                                 </div>
-                                <div class="mt-2 text-gray-500 font-bold"> Please choose up to 3 subjects only </div>
+                                <div class="mt-2 text-gray-500/80 font-medium"> Please choose up to 3 subjects only </div>
                             </div>
 
 
@@ -70,11 +71,13 @@
                             <div
                                 class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                 <x-primary-button onclick="history.back()" type="button"
-                                    class="bg-primary text-accent2 font-bold w-full max-w-[120px]">
+                                    class="font-bold font-poppins bg-accent text-primary border
+                                        hover:bg-primary/5 border-gray-300 hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto">
                                     {{ __('Back') }}
                                 </x-primary-button>
                                 <x-primary-button id='submitBtn'
-                                    class="bg-accent2 text-primary font-bold w-full max-w-[120px]">
+                                    class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto
+                                        hover:bg-primary/70 rounded-lg">
                                     {{ __('Next') }}
                                 </x-primary-button>
                             </div>
@@ -92,11 +95,13 @@
 
                 dropdownButton.addEventListener('click', () => {
                     dropdownMenu.classList.toggle('hidden');
+                    dropdownButton.classList.add('border-primary/70');
                 });
 
                 document.addEventListener('click', (event) => {
                     if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                         dropdownMenu.classList.add('hidden');
+                        dropdownButton.classList.remove('border-primary/70');
                     }
                 });
             </script>
@@ -107,38 +112,7 @@
                 let subjectMap = @json($subjects);
                 console.log(subjectMap);
 
-                /*const subjectMap = {
-                        
-                        
-                        // FIRST YR - 1ST SEM
-                        "CSS 113" : "Computer System Servicing",
-                        "CC 113 (A)" : "Introduction to Computing",
-                        "CC 113(B)" : "Fundamentals of Programming",
-                        // FIRST YR - 2ND SEM
-                        "CS 123" : "Discrete Structures",
-                        "CC 123 (C)" : "Intermediate Programming (Advanced C++)",
-                        "CSS 123" : "Networking Fundamentals",
 
-                        // SECOND YR - 1ST SEM
-                        "CC 213 (D)": "Data Structure",
-                        "CC 213 (E)" : "Information Management (DBMS)",
-                        "CPC 213" : "Object Oriented Programming (JAVA)",
-
-                        // SECOND YR - 2ND SEM
-                        "MOBDEV 223" : "Mobile Application Development",
-                        "CPC 223(A)" : "Database Programming",
-                        "CSDA 223" : "Design Analysis and Algorithms",
-                        "SAD 223" : "Software Analysis and Design",
-                        "CPC 223(B)" : "Web Application Development",
-
-                        // THIRD YR - 1ST SEM
-                        "CSAC 313" : "Algorithms and Complexity",
-                        "CSPL 313" : "Programming Languages",
-                        "CSOS 313" : "Operating Systems",
-                        "CSSE1 313" : "Software Engineering 1",
-                        "CSWEBSYS 313" : "Web Systems and Technologies",
-                        "CSIAS 313" : "Information Assurance and Security",
-                    };*/
 
                 const container = document.getElementById('dropdownSubjects');
                 const subjectContainer = document.getElementById('subject-container');
@@ -149,16 +123,17 @@
 
                 for (const [code, name] of Object.entries(subjectMap)) {
                     const label = document.createElement('label');
-                    label.classList.add('flex', 'gap-2', 'font-poppins', 'font-bold', 'items-center', 'p-2', 'hover:bg-gray-100',
-                        'cursor-pointer');
+                    label.classList.add('flex', 'gap-2', 'font-poppins', 'font-bold', 'items-center', 'p-2', 'hover:bg-[#DCDCDC]',
+                        'text-darkgray', 'cursor-pointer', 'rounded-lg', 'peer-checked:bg-primary/20');
                     label.innerHTML = `
                         <input
                             type="checkbox"
                             name="subj_code[]"
                             subject-name="${name}"
-                            class="courseCheckbox"
+                            class="courseCheckbox size-5 peer accent-[#550000]"
                             value="${code}"
-                        >${code} - ${name}
+                        >
+                        <span class="peer-checked:text-primary">${code} - ${name}</span>
                     `;
                     container.appendChild(label);
                     allSubjects.push(label);
@@ -285,22 +260,24 @@
                     selectedSubjects.forEach((subject) => {
                         const listItem = document.createElement('li');
                         listItem.classList.add(
-                            'flex',
+                            'inline-flex',
                             'justify-center',
                             'items-center',
-                            'p-2',
+                            'px-2.5',
+                            'py-1.5',
                             'rounded-full',
                             'min-w-[100px]',
                             'max-w-[175px]',
-                            'bg-accent2',
+                            'bg-primary/5',
                             'border-2',
-                            'font-poppins',
-                            'shadow-black',
-                            'shadow-custom-button',
+                            'text-primary',
                             'font-bold',
-                            'border-black'
+                            'border-primary/50'
                         );
-                        listItem.textContent = `${subject.subj_code}`;
+                        listItem.innerHTML = `
+
+                        <p class="text-sm whitespace-nowrap">${subject.subj_code}</p>`;
+                        
 
                         const removeButton = document.createElement('button');
                         removeButton.classList.add('hidden', 'text-red-500', 'hover:text-red-700');
@@ -400,8 +377,8 @@
                     if (!showAll && allSubjects.length > showCount) {
                         const showMoreBtn = document.createElement('button');
                         showMoreBtn.textContent = 'Show more...';
-                        showMoreBtn.classList.add('w-full', 'text-accent2', 'hover:text-primary', 'hover:bg-accent2', 'p-2', 
-                        'border-2', 'border-black', 'bg-primary', 'rounded', 'mt-2', 'font-bold');
+                        showMoreBtn.classList.add('w-full', 'text-accent2', 'hover:text-primary', 'hover:bg-accent2', 'p-2',
+                            'border-2', 'border-black', 'bg-primary', 'rounded', 'mt-2', 'font-bold');
                         showMoreBtn.onclick = function() {
                             event.stopPropagation();
                             showAll = true;
@@ -415,7 +392,7 @@
                 renderSubjects();
 
 
-                function filterSubjects(query) {
+                /*function filterSubjects(query) {
                     const searchTerm = query.toLowerCase().trim();
                     container.innerHTML = '';
                     showAll = false;
@@ -448,7 +425,7 @@
                             container.appendChild(noResults);
                         }
                     }
-                }
+                }*/
             </script>
         </x-slot>
     </x-folder>
