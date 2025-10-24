@@ -1,26 +1,30 @@
-<div class="flex flex-col overflow-hidden justify-center items-center border-primary/20 md:flex-row h-screen bg-primary border rounded-[16px] shadow-2xl w-4/5 my-24 mx-auto">
-    <div class="md:w-1/2 w-full bg-primary h-full font-poppins rounded-[16px]">
-        <div class="flex justify-start items-center h-1/6 w-full lg:w-full md:w-full sm:w-full sm:shrink-0">
-            <img src="{{ asset('images/logo-light.png') }}" alt="logo" class="m-[5%] lg:w-1/6 xl:w-1/5">
+<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border border-[#110606] rounded-lg lg:rounded-[16px] shadow-2xl w-full max-w-7xl mx-auto">
+    <!-- Left Side - Illustration -->
+    <div class="hidden lg:flex flex-col w-full lg:w-1/2 bg-primary font-poppins p-6 sm:p-8 lg:p-10">
+        <div class="flex justify-start items-center mb-8 lg:mb-0 lg:h-1/6">
+            <img src="{{ asset('images/logo-light.png') }}" alt="logo" class="w-16 sm:w-20 lg:w-24 xl:w-28">
         </div>
-        <center><img src="{{ asset('/images/auth/register.svg') }}" class="lg:h-[350px] xl:h-[400px] lg:w-[350px] xl:w-[400px]" alt="Register Photo" ></center>
-        <x-auth.description-text>
-            <x-slot name="title">
-                Sign In to Your Learning Journey
-            </x-slot>
-            <x-slot name="paragraph">
-                Welcome back! Continue where you left off and connect with the right tutor or student.
-                Your next step towards academic success is just a sign-in away.
-            </x-slot>
-        </x-auth.description-text>
+        <div class="flex flex-col justify-center items-center flex-1">
+            <img src="{{ asset('/images/auth/register.svg') }}" class="w-full max-w-[300px] lg:max-w-[350px] xl:max-w-[400px] mb-6" alt="Register illustration">
+            <x-auth.description-text>
+                <x-slot name="title">
+                    Start Your Learning Journey
+                </x-slot>
+                <x-slot name="paragraph">
+                    Join our community today! Create your account and connect with tutors or students.
+                    Your path to academic success begins here.
+                </x-slot>
+            </x-auth.description-text>
+        </div>
     </div>
-    <div class=" flex flex-col justify-center md:w-1/2 w-full bg-accent3 p-10 px-20 h-full">
-            
-        <h2 class=" text-black lg:text-4xl xl:text-5xl mb-6 font-bold font-poppins"> Create Account </h2>
+    
+    <!-- Right Side - Form -->
+    <div class="flex flex-col justify-center w-full lg:w-1/2 bg-accent3 p-6 sm:p-8 md:p-12 lg:p-16 xl:px-20 min-h-[400px] lg:min-h-[600px]">
+        <h2 class="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-6 font-bold font-poppins leading-tight">
+            Create Account
+        </h2>
         <div class="w-full">
             {{ $slot }}
         </div>
-            
-        
     </div>
 </div>

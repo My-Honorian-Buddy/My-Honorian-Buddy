@@ -17,7 +17,7 @@
 </head>
 
 <body class="overflow-x-hidden">
-    <div class="flex justify-center items-center bg-[#DCDCDC] min-h-screen w-full">
+    <div class="flex justify-center items-center bg-[#DCDCDC] min-h-screen w-full p-4 sm:p-6 lg:p-16">
        {{ $slot }}
     </div>
 </body>
