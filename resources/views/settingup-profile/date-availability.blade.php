@@ -36,11 +36,13 @@
                             @if (Auth::user()->role === 'Student')
                                 <img src="{{ asset('/images/profiling/Student.svg') }}" alt="placeholder"
                                     class="w-[200px] md:w-[250px] lg:w-auto max-w-full h-auto">
-                                <p class="text-center font-poppins font-bold text-lg md:text-xl lg:text-[22px] mt-2">You're a Student!</p>
+                                <p class="text-center font-poppins font-bold text-lg md:text-xl lg:text-[22px] mt-2">
+                                    You're a Student!</p>
                             @elseif(Auth::user()->role === 'Tutor')
                                 <img src="{{ asset('/images/profiling/Tutor.svg') }}" alt="placeholder"
                                     class="w-[200px] md:w-[250px] lg:w-auto max-w-full h-auto">
-                                <p class="text-center font-poppins font-bold text-lg md:text-xl lg:text-[22px] mt-2">You're a Tutor!</p>
+                                <p class="text-center font-poppins font-bold text-lg md:text-xl lg:text-[22px] mt-2">
+                                    You're a Tutor!</p>
                             @endif
                         @endif
                     </div>
@@ -53,49 +55,51 @@
                             @csrf
 
                             <!-- Days -->
-                            <label for="Day" class="font-bold font-poppins text-lg md:text-xl lg:text-2xl">Days</label>
+                            <label for="Day"
+                                class="font-bold font-poppins text-lg md:text-xl lg:text-2xl">Days</label>
 
                             <div class="py-3">
                                 <div class="font-poppins text-black">
-                                    <h3 class="text-base md:text-lg font-bold font-poppins text-black mb-1">Weekdays:</h3>
+                                    <h3 class="text-base md:text-lg font-bold font-poppins text-black mb-1">Weekdays:
+                                    </h3>
 
                                     <div class="flex flex-col md:flex-row md:space-x-2 gap-2 mb-2">
                                         <!-- Monday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="monday"
-                                                    value="Monday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="monday" value="Monday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="flex-1 text-center">Monday</span>
+                                                <span class="flex-1 ml-2 text-center">Monday</span>
                                             </label>
                                         </div>
 
                                         <!-- Tuesday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="Tuesday"
-                                                    value="Tuesday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="Tuesday" value="Tuesday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="flex-1 text-center">Tuesday</span>
+                                                <span class="flex-1 ml-2 text-center">Tuesday</span>
                                             </label>
                                         </div>
 
                                         <!-- Wednesday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="Wednesday"
-                                                    value="Wednesday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="Wednesday" value="Wednesday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="flex-1 text-center">Wednesday</span>
+                                                <span class="flex-1 ml-2 text-center">Wednesday</span>
                                             </label>
                                         </div>
                                     </div>
@@ -104,27 +108,27 @@
                                     <div class="flex flex-col md:flex-row md:space-x-2 gap-2 mb-2">
                                         <!-- Thursday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="thursday"
-                                                    value="Thursday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="thursday" value="Thursday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="flex-1 text-center">Thursday</span>
+                                                <span class="flex-1 ml-2 text-center">Thursday</span>
                                             </label>
                                         </div>
 
                                         <!-- Friday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="friday"
-                                                    value="Friday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="friday" value="Friday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="flex-1 text-center">Friday</span>
+                                                <span class="flex-1 ml-2 text-center">Friday</span>
                                             </label>
                                         </div>
                                     </div>
@@ -134,33 +138,34 @@
 
                             <div class="py-3">
                                 <div class="font-poppins text-black">
-                                    <h3 class="text-base md:text-lg font-bold font-poppins text-black mb-1">Weekends:</h3>
+                                    <h3 class="text-base md:text-lg font-bold font-poppins text-black mb-1">Weekends:
+                                    </h3>
 
                                     <div class="flex flex-col md:flex-row md:space-x-2 gap-2 mb-2">
                                         <!-- Saturday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="saturday"
-                                                    value="Saturday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="saturday" value="Saturday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary
                                                  peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="font-poppins flex-1 text-center">Saturday</span>
+                                                <span class="font-poppins ml-2 flex-1 text-center">Saturday</span>
                                             </label>
                                         </div>
 
                                         <!-- Sunday-->
                                         <div
-                                            class="bg-accent3 py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
+                                            class="bg-accent py-[6px] rounded-full border-2 border-gray-300 hover:bg-primary/5 duration-200
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
-                                                <input type="checkbox" class="hidden peer" name="days_week[]" id="sunday"
-                                                    value="Sunday">
+                                                <input type="checkbox" class="hidden peer" name="days_week[]"
+                                                    id="sunday" value="Sunday">
                                                 <span
                                                     class="w-5 h-5 bg-gray-300 border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
-                                                <span class="font-poppins flex-1 text-center">Sunday</span>
+                                                <span class="font-poppins ml-2 flex-1 text-center">Sunday</span>
                                             </label>
                                         </div>
                                     </div>
@@ -176,7 +181,8 @@
                                     <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                                         <!-- THIS IS FOR START TIME -->
                                         <div class="w-full">
-                                            <label for="start_time" class="font-poppins font-bold text-sm md:text-base">Start Time:</label>
+                                            <label for="start_time"
+                                                class="font-poppins font-bold text-sm md:text-base">Start Time:</label>
                                             <input type="time" id="start_time" name="start_time"
                                                 class="border-2 font-semibold font-poppins text-xl md:text-2xl text-darkgray text-center rounded-lg border-gray-300
                                                 bg-accent outline-none duration-200 ring-2 ring-[transparent] focus:ring-primary/70 w-full h-12 px-2"
@@ -185,7 +191,8 @@
 
                                         <!-- THIS IS FOR END TIME -->
                                         <div class="w-full flex flex-col justify-start">
-                                            <label for="end_time" class="font-poppins font-bold text-sm md:text-base">End Time:</label>
+                                            <label for="end_time"
+                                                class="font-poppins font-bold text-sm md:text-base">End Time:</label>
                                             <input type="time" id="end_time" name="end_time"
                                                 class="border-2 font-semibold font-poppins text-xl md:text-2xl text-darkgray text-center rounded-lg border-gray-300
                                                 bg-accent outline-none duration-200 ring-2 ring-[transparent] focus:ring-primary/70 w-full h-12 px-2"
@@ -196,8 +203,8 @@
                                     <div
                                         class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                         <x-primary-button onclick="history.back()" type="button"
-                                            class="font-bold font-poppins bg-accent text-primary border text-sm md:text-base
-                                        hover:bg-primary/5 border-gray-300 hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
+                                            class="font-bold font-poppins bg-accent text-primary text-sm md:text-base ring-2 ring-transparent
+                                        hover:bg-primary/5 border-gray-300 border hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                             {{ __('Back') }}
                                         </x-primary-button>
                                         <x-primary-button

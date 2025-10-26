@@ -40,7 +40,7 @@
 
                     <!-- button for next --> 
                     <div class="flex justify-center md:justify-end px-4 md:mr-16 mt-6 md:mt-4">
-                        <x-primary-button class="bg-primary text-accent3 w-full md:w-auto
+                        <x-primary-button class="flex items-center bg-primary text-accent3 w-full md:w-auto
                         hover:bg-primary/70 rounded-lg font-bold text-sm md:text-base px-6 py-3 md:px-8 md:py-3">
                             {{ __('Next') }}
                         </x-primary-button>

@@ -1,4 +1,4 @@
-<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border border-[#110606] rounded-lg lg:rounded-[16px] shadow-2xl w-full max-w-7xl mx-auto">
+<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border border-gray-300 rounded-lg lg:rounded-[16px] w-full max-w-7xl mx-auto">
     <!-- Left Side - Form -->
     <div class="flex flex-col justify-center w-full lg:w-1/2 bg-accent3 p-6 sm:p-8 md:p-12 lg:p-16 xl:px-20 min-h-[400px] lg:min-h-[600px]">
             

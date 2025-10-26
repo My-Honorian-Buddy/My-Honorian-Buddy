@@ -28,10 +28,10 @@
                             <div class="flex flex-col lg:flex-row gap-4">
                                 <!-- First Name -->
                                 <div class="mt-4 w-full">
-                                    <x-input-label class="text-primary text-sm md:text-base" for="first_name" :value="__('First Name:')" />
+                                    <x-input-label class="text-darkgray text-sm md:text-base" for="first_name" :value="__('First Name:')" />
                                     <x-text-input 
                                     id="first_name" 
-                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 focus:ring-primary/70
                                     ring-[transparent] focus:border-primary/70 text-sm md:text-base" 
                                     type="text" 
                                     name="first_name" 
@@ -42,10 +42,10 @@
 
                                 <!-- Last Name -->
                                 <div class="mt-4 lg:mt-4 w-full">
-                                    <x-input-label class="text-primary text-sm md:text-base" for="last_name" :value="__('Last Name:')" />
+                                    <x-input-label class="text-darkgray text-sm md:text-base" for="last_name" :value="__('Last Name:')" />
                                     <x-text-input 
                                     id="last_name" 
-                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 focus:ring-primary/70
                                     ring-[transparent] focus:border-primary/70 text-sm md:text-base" 
                                     type="text" name="last_name" 
                                     placeholder="Last Name..." 
@@ -57,17 +57,17 @@
 
                             <!-- Gender -->
                             <div class="mt-4">
-                                <x-input-label class="text-primary text-sm md:text-base" for="gend" :value="__('Gender:')" />
+                                <x-input-label class="text-darkgray text-sm md:text-base" for="gend" :value="__('Gender:')" />
                                 <x-gender-selection />
                             </div>
 
                             <div class="flex flex-col lg:flex-row gap-4 mt-2">
                                 <!-- Address  -->
                                 <div class="w-full mt-2">
-                                    <x-input-label class="text-primary text-sm md:text-base" for="address" :value="__('Address:')" />
+                                    <x-input-label class="text-darkgray text-sm md:text-base" for="address" :value="__('Address:')" />
                                     <x-text-input 
                                     id="address" 
-                                    class="block mt-1 w-full outline-none duration-200 ring-2 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 focus:ring-primary/70
                                     ring-[transparent] focus:border-primary/70 text-sm md:text-base" 
                                     type="text" 
                                     name="add" 
@@ -78,11 +78,11 @@
 
                                 <!-- Date of Birth -->
                                 <div class="w-full mt-2">
-                                    <x-input-label class="text-primary text-sm md:text-base" for="Birthday" :value="__('Date of Birth:')" />
+                                    <x-input-label class="text-darkgray text-sm md:text-base" for="Birthday" :value="__('Date of Birth:')" />
                                     <x-text-input 
                                     id="Birthday" 
-                                    class="block mt-1 w-full outline-none duration-200 ring-2 
-                                    ring-[transparent] focus:border-primary/70 text-sm md:text-base" 
+                                    class="block mt-1 w-full outline-none duration-200 ring-2 placeholder-gray-500
+                                    ring-[transparent] focus:ring-primary/70 focus:border-primary/70 text-sm md:text-base" 
                                     type="date" 
                                     name="birthday" 
                                     :value="old('birthday')" 
@@ -93,8 +93,8 @@
 
                             <!-- Bio -->
                             <div class="mt-4">
-                                <label class="font-poppins block text-primary font-bold text-sm md:text-base lg:text-lg"> Bio: <span class="font-normal"> (optional) </span> </label>
-                                <textarea id="bio" name="bio_student" class="block mt-1 w-full border-black border rounded-[4px] 
+                                <label class="font-poppins block text-darkgray font-bold text-sm md:text-base"> Bio: <span class="font-normal"> (optional) </span> </label>
+                                <textarea id="bio" name="bio_student" class="block mt-1 w-full border-gray-300 border rounded-[4px] bg-accent
                                 outline-none ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 font-poppins px-4 py-2 text-sm md:text-base min-h-[100px]" placeholder="Brief introduction of yourself..."></textarea>
                             </div>
 
@@ -102,7 +102,7 @@
                             <div class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
 
                                 <x-primary-button onclick="history.back()" type="button" class="font-bold font-poppins bg-accent text-primary text-sm md:text-base
-                               hover:bg-primary/5 border-black border hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
+                               hover:bg-primary/5 border-gray-300 border ring-2 ring-transparent hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                     {{__('Back')}}
                                 </x-primary-button>
 

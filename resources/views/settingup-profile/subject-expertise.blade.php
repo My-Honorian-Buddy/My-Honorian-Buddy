@@ -71,8 +71,8 @@
                             <div
                                 class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                 <x-primary-button onclick="history.back()" type="button"
-                                    class="font-bold font-poppins bg-accent text-primary border text-sm md:text-base
-                                        hover:bg-primary/5 border-gray-300 hover:border-2 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
+                                    class="font-bold font-poppins bg-accent text-primary border text-sm md:text-base ring-2 ring-transparent 
+                                        hover:bg-primary/5 border-gray-300 hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                     {{ __('Back') }}
                                 </x-primary-button>
                                 <x-primary-button id='submitBtn'

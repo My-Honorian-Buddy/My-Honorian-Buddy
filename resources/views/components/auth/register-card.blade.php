@@ -1,4 +1,4 @@
-<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border border-[#110606] rounded-lg lg:rounded-[16px] shadow-2xl w-full max-w-7xl mx-auto">
+<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border border-gray-300 rounded-lg lg:rounded-[16px] w-full max-w-7xl mx-auto">
     <!-- Left Side - Illustration -->
     <div class="hidden lg:flex flex-col w-full lg:w-1/2 bg-primary font-poppins p-6 sm:p-8 lg:p-10">
         <div class="flex justify-start items-center mb-8 lg:mb-0 lg:h-1/6">

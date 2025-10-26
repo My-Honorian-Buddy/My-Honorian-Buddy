@@ -45,7 +45,9 @@ Route::get('/cecill', [EventController::class, 'index'])->name('events.index');
 Route::post('/cecill/action', [EventController::class, 'action'])->name('events.action');
 
 
-
+Route::get('/ui', function () {
+    return view('settingup-profile.date-availability');
+});
 
 Route::get('/jca', function () {
     return view('auth.verify-cor');

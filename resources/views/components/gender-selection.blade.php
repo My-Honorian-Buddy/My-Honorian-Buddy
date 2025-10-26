@@ -8,12 +8,12 @@
             type="radio"
         />
         <div
-            class="flex h-12 cursor-pointer flex-col items-center justify-center border rounded-[4px] border-black bg-accent
+            class="flex h-12 cursor-pointer flex-col items-center justify-center border rounded-[4px] border-gray-300 bg-accent
             transition-transform duration-150 hover:border-black active:scale-95 peer-checked:border-indigo-500 
             peer-checked:bg-indigo-500/5 peer-checked:border-[3px]"
         >
         <label
-            class="h-full w-full flex cursor-pointer items-center justify-center text-sm uppercase text-black "
+            class="h-full w-full flex cursor-pointer items-center justify-center text-sm uppercase text-gray-500"
             for="male"
         >
             <svg
@@ -43,12 +43,12 @@
             type="radio"
         />
         <div
-            class="h-12 flex cursor-pointer flex-col items-center justify-center border rounded-[4px] border-black bg-white p-1 
+            class="h-12 flex cursor-pointer flex-col items-center justify-center border rounded-[4px] border-gray-300 bg-accent p-1 
             transition-transform duration-150 hover:border-black active:scale-95 peer-checked:border-pink-500 
             peer-checked:bg-pink-500/5 peer-checked:border-[3px]"
         >
             <label
-                class="h-full w-full flex cursor-pointer items-center justify-center text-sm uppercase text-black "
+                class="h-full w-full flex cursor-pointer items-center justify-center text-sm uppercase text-gray-500 "
                 for="female"
                 >
                 <svg
@@ -84,12 +84,12 @@
             type="radio"
         />
         <div
-            class="flex h-12 cursor-pointer flex-col items-center border rounded-[4px] justify-center border-black bg-white 
+            class="flex h-12 cursor-pointer flex-col items-center border rounded-[4px] justify-center border-gray-300 bg-accent 
             transition-transform duration-150 hover:border-black active:scale-95 peer-checked:border-gray-500
             peer-checked:bg-gray-500/5 peer-checked:border-[3px]"   
         >
             <label
-                class="h-full w-full flex cursor-pointer items-center justify-center text-sm uppercase text-black"
+                class="h-full w-full flex cursor-pointer items-center justify-center text-sm uppercase text-gray-500"
                 for="other"
             >
                 <svg

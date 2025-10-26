@@ -1,6 +1,6 @@
 @props(['height'])
 
-<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary rounded-[16px] lg:rounded-[16px] shadow-2xl w-full max-w-7xl mx-auto">
+<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary rounded-[16px] lg:rounded-[16px] w-full max-w-7xl mx-auto">
   <div class=" flex flex-col justify-center gap-0 w-full h-full rounded-lg relative">
 
       <!-- Main content area -->
@@ -10,7 +10,7 @@
             {{ $header }}
           </x-header>
         </div>
-        <div class="font-poppins bg-accent w-full h-3/4 border-2  border-t-0 rounded-b-[16px] border-primary/90">
+        <div class="font-poppins bg-[#FDFBFB] w-full h-3/4 border-2  border-t-0 rounded-b-[16px] border-primary/90">
           {{ $content }}
         </div>
       </div>

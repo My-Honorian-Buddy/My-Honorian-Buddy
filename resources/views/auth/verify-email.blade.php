@@ -49,8 +49,8 @@
                         <!-- Form to resend verification email -->
                         <form method="POST" action="{{ route('verification.send') }}" class="w-full sm:w-auto">
                             @csrf
-                            <x-primary-button class="bg-primary text-accent3 hover:bg-primary/80 rounded-lg
-                            border-gray-700/20 hover:border-primary font-bold w-full sm:w-auto md:ml-[95px] text-sm md:text-base py-2 md:py-3 px-4 md:px-6">
+                            <x-primary-button class="flex items-center bg-primary text-accent3 hover:bg-primary/80 rounded-lg
+                            border-gray-700/20 hover:border-primary font-semibold w-full sm:w-auto md:ml-[95px] text-sm md:text-base py-2 md:py-3 px-4 md:px-6">
                                 {{ __('Send Verification Email') }}
                             </x-primary-button>
                         </form>
@@ -58,8 +58,8 @@
                         <!-- Form to log out the user -->
                         <form method="POST" action="{{ route('logout') }}" class="w-full sm:w-auto">
                             @csrf
-                            <x-primary-button type="submit" class="font-bold text-primary bg-accent 
-                            rounded-lg hover:bg-primary/5 w-full sm:w-auto text-sm md:text-base py-2 md:py-3 px-4 md:px-6">
+                            <x-primary-button type="submit" class="flex items-center text-primary bg-accent
+                            rounded-lg hover:bg-primary/5 w-full font-semibold sm:w-auto text-sm md:text-base py-2 md:py-3 px-4 md:px-6 border-primary/70">
                                 {{ __('Log Out') }}
                             </x-primary-button>
                         </form>
