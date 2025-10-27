@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class bookedSession extends Model
 {
@@ -36,12 +37,22 @@ class bookedSession extends Model
 
     public function student()
     {
-        return $this->belongsTo(User::class, 'student_id', 'user_id');
+        return $this->belongsTo(Student::class, 'student_id', 'user_id');
     }
 
     public function tutor()
     {
-        return $this->belongsTo(User::class, 'tutor_id', 'user_id');
+        return $this->belongsTo(Tutor::class, 'tutor_id', 'user_id');
+    }
+
+    public function studentUser()
+    {
+        return $this->belongsTo(User::class, 'student_id', 'id');
+    }
+
+    public function tutorUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'tutor_id', 'id');
     }
 
 }
