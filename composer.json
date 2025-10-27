@@ -19,6 +19,7 @@
         "munafio/chatify": "^1.6",
         "paymongo/paymongo-php": "^0.0.0",
         "pusher/pusher-php-server": "^7.2",
+        "pxlrbt/filament-excel": "^2.5",
         "spatie/laravel-google-calendar": "^3.8"
     },
     "require-dev": {
