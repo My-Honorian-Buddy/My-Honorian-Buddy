@@ -192,9 +192,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/session', [SessionController::class, 'SessionComplete'])->name('complete.session');
     Route::post('/end/session', [SessionController::class, 'dropSession'])->name('drop.session');
-    //Video Call Controller Routes
     Route::get('/video-call/join', [VideoCallController::class, 'handleJoinMeet'])->name('video.join.meet');
     Route::get('/video-call/create/', [VideoCallController::class, 'createRoom'])->name('video.call.create');
+    Route::post('/video-call/initiate', [VideoCallController::class, 'initiateCall'])->name('video.call.initiate');
+    Route::post('/video-call/respond', [VideoCallController::class, 'respondToCall'])->name('video.call.respond');
 
     Route::get('/video-call/ended', [VideoCallController::class, 'participantLeft'])->name('participant.left');
     Route::get('/video-call/{roomName}', function ($roomName) {
@@ -202,7 +203,6 @@ Route::middleware('auth')->group(function () {
     })->name('video.call.room');
 });
 
-//Notification Controller Routes
 Route::middleware('auth')->group(function () {
     Route::get('/user-notifications', [NotificationController::class, 'getUserNotifications'])->name('user.notifications');
 

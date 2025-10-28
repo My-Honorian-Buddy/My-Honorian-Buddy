@@ -18,9 +18,10 @@ class NewNotification implements ShouldBroadcastNow
     public $notif;
     public $userId;
 
-    public function __construct($userId)
+    public function __construct($userId, $notif = null)
     {
         $this->userId = $userId;
+        $this->notif = $notif;
     }
     
 
@@ -31,7 +32,8 @@ class NewNotification implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('new-notification');
+        // Broadcast on user-specific private channel
+        return new PrivateChannel('user.' . $this->userId);
     }
 
 }

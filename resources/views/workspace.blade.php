@@ -9,11 +9,40 @@
     $sessionId = $bookedId ? $bookedId->id : null;
     $authUser = Auth::user();
 
+    // Get the other user in the session for video call
+    $otherUserId = null;
+    $otherUserName = 'User';
+    
+    if ($bookedId) {
+        if ($bookedId->student_id == Auth::id()) {
+            $otherUserId = $bookedId->tutor_id;
+            $otherUser = \App\Models\User::find($otherUserId);
+        } else {
+            $otherUserId = $bookedId->student_id;
+            $otherUser = \App\Models\User::find($otherUserId);
+        }
+        if ($otherUser) {
+            $otherUserName = $otherUser->name;
+        }
+    }
+
 @endphp
 <x-workspace-layout>
     {{-- sidebar --}}
     <x-slot name="sidebar_content">
         <ul class="flex flex-col items-center justify-center space-y-6">
+            @if($otherUserId)
+            <li class="w-4/5">
+                <div onclick="initiateVideoCall({{ $otherUserId }})" class="cursor-pointer">
+                    <div
+                        class="flex items-center justify-between bg-green-500 text-white text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
+                    border-2 border-black shadow-custom-button hover:bg-green-600 cursor-pointer md:text-center">
+                        <x-bladewind.icon name="phone" class="justify-self-start" />
+                        CALL {{ strtoupper(explode(' ', $otherUserName)[0]) }}
+                    </div>
+                </div>
+            </li>
+            @endif
             <li class="w-4/5">
                 <a href="{{ route('video.join.meet') }}">
                     <div
@@ -251,6 +280,52 @@
 
 
             });
+
+            
+            window.initiateVideoCall = function(receiverId) {
+                
+                const callingSound = new Audio('/sounds/ringtone-incoming.mp3');
+                callingSound.loop = true;
+                
+                
+                const playPromise = callingSound.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => console.log('Sound play failed:', e));
+                }
+                
+                fetch('/video-call/initiate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ receiver_id: receiverId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Call initiated to:', data.receiver_name);
+                        console.log('Room:', data.room_name);
+                        
+                        
+                        callingSound.pause();
+                        callingSound.currentTime = 0;
+                        
+                        
+                        window.location.href = `/video-call/${data.room_name}`;
+                    } else {
+                        callingSound.pause();
+                        callingSound.currentTime = 0;
+                        alert('Error: ' + (data.message || 'Failed to initiate call'));
+                    }
+                })
+                .catch(error => {
+                    callingSound.pause();
+                    callingSound.currentTime = 0;
+                    console.error('Call initiation error:', error);
+                    alert('Error: Failed to initiate call');
+                });
+            };
         </script>
     </x-slot>
 </x-workspace-layout>

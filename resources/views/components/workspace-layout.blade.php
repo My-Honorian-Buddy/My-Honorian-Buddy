@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @auth
+    <meta name="user-id" content="{{ Auth::id() }}">
+    @endauth
 
     <title>My Honorian Buddy</title>
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -45,6 +48,11 @@
 
         </x-workspace-content>
     </div>
+
+    {{-- Include call notification component for video calls --}}
+    @auth
+        @include('components.call-notification')
+    @endauth
 
 </body>
 <script>

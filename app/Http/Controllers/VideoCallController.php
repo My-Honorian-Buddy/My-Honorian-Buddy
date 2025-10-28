@@ -11,6 +11,7 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Events\NewNotification;
 
 class VideoCallController extends Controller
 {
@@ -21,7 +22,7 @@ class VideoCallController extends Controller
      */
     public function createRoom()
     {
-        // Check if the authenticated user has booked sessions
+        
         $bookedSession = bookedSession::where('student_id', Auth::id())
             ->orWhere('tutor_id', Auth::id())
             ->first();
@@ -32,21 +33,19 @@ class VideoCallController extends Controller
 
         Log::info("check if session booked is null: " . $bookedSession->room);
         
-        // Generate a unique room name based on the booked session
+        
         if ($bookedSession->room !== null) {
             return redirect()
                 ->route('video.call.room', ['roomName' => $bookedSession->room])
                 ->with('success', 'You already have a video call room.');
         }
         
-        // Generate a unique room name and update the booked session
+        
         $roomName = $this->generateRoomName($bookedSession);
 
         if ($bookedSession) {
             $bookedSession->update(['room' => $roomName]);
         }
-        // Pass the room name to the video call blade
-        // return view('components.vc.videocall', compact('roomName'));
 
         return redirect()->route('video.call.room', ['roomName' => $roomName]);
     }
@@ -169,6 +168,112 @@ class VideoCallController extends Controller
         return redirect()->route('workspace.start')->with('MeetEnded', 'You have left the video call room.');
     }
 
+    /**
+     * Initiate a video call with notification
+     */
+    public function initiateCall(Request $request)
+    {
+        $receiverId = $request->input('receiver_id');
+        $caller = Auth::user();
 
+        
+        $bookedSession = bookedSession::where(function($query) use ($receiverId) {
+            $query->where('student_id', Auth::id())->where('tutor_id', $receiverId);
+        })->orWhere(function($query) use ($receiverId) {
+            $query->where('tutor_id', Auth::id())->where('student_id', $receiverId);
+        })->first();
+
+        if (!$bookedSession) {
+            return response()->json(['success' => false, 'message' => 'No session found'], 404);
+        }
+
+        
+        if (!$bookedSession->room) {
+            $roomName = $this->generateRoomName($bookedSession);
+            $bookedSession->update(['room' => $roomName]);
+        } else {
+            $roomName = $bookedSession->room;
+        }
+
+        
+        $receiver = User::find($receiverId);
+        $callId = uniqid('call_');
+        $notifData = [
+            'NotifType' => 'IncomingCall',
+            'caller_id' => $caller->id,
+            'caller_name' => $caller->name,
+            'room_name' => $roomName,
+            'call_id' => $callId,
+        ];
+
+        notifSession::create([
+            'notif_info' => json_encode($notifData),
+            'to' => $receiverId,
+            'user_id' => $caller->id,
+            'read_at' => null,
+        ]);
+
+        
+        broadcast(new NewNotification($receiverId));
+
+        return response()->json([
+            'success' => true,
+            'call_id' => $callId,
+            'room_name' => $roomName,
+            'receiver_name' => $receiver->name
+        ]);
+    }
+
+    /**
+     * Handle call response (accept/decline)
+     */
+    public function respondToCall(Request $request)
+    {
+        $notificationId = $request->input('notification_id');
+        $action = $request->input('action');
+
+        $notification = notifSession::find($notificationId);
+        
+        if (!$notification) {
+            return response()->json(['success' => false], 404);
+        }
+
+        
+        $notification->update(['read_at' => now()]);
+
+        $notifInfo = json_decode($notification->notif_info, true);
+
+        if ($action === 'accept') {
+            return response()->json([
+                'success' => true,
+                'redirect' => route('video.call.room', ['roomName' => $notifInfo['room_name']])
+            ]);
+        }
+
+        
+        if ($action === 'decline') {
+            $callerId = $notifInfo['caller_id'];
+            $receiver = Auth::user();
+            
+            $declineNotifData = [
+                'NotifType' => 'CallDeclined',
+                'decliner_id' => $receiver->id,
+                'decliner_name' => $receiver->name,
+                'call_id' => $notifInfo['call_id'],
+            ];
+
+            notifSession::create([
+                'notif_info' => json_encode($declineNotifData),
+                'to' => $callerId,
+                'user_id' => $receiver->id,
+                'read_at' => null,
+            ]);
+
+            
+            broadcast(new NewNotification($callerId));
+        }
+
+        return response()->json(['success' => true, 'message' => 'Call declined']);
+    }
 
 }
