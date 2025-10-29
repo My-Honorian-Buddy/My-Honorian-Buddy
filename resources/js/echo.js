@@ -73,13 +73,51 @@ setTimeout(() => {
                                     
                                     console.log('Call declined by:', notifInfo.decliner_name);
                                     
+                                    // Show call declined notification popup
+                                    if (typeof window.showCallDeclinedNotification === 'function') {
+                                        window.showCallDeclinedNotification(notifInfo.decliner_name);
+                                    } else {
+                                        // Fallback to alert if function not available
+                                        alert(notifInfo.decliner_name + ' declined your call.');
+                                    }
                                     
-                                    alert(notifInfo.decliner_name + ' declined your call.');
-                                    
-                                    
+                                    // Refresh notifications
                                     fetch('/user-notifications', {
                                         method: 'GET'
                                     }).catch(err => console.error('Failed to refresh notifications:', err));
+                                    
+                                    break;
+                                }
+                                
+                                // Handle call accepted notification
+                                if (notifInfo.NotifType === 'CallAccepted' && 
+                                    notif.to == currentUserId && 
+                                    notif.read_at === null) {
+                                    
+                                    console.log('Call accepted by:', notifInfo.accepter_name);
+                                    
+                                    // Redirect caller to video room
+                                    if (typeof window.handleCallAccepted === 'function') {
+                                        window.handleCallAccepted(notifInfo.room_name);
+                                    } else {
+                                        // Fallback direct redirect
+                                        window.location.href = `/video-call/${notifInfo.room_name}`;
+                                    }
+                                    
+                                    break;
+                                }
+                                
+                                // Handle call cancelled notification (for receiver)
+                                if (notifInfo.NotifType === 'CallCancelled' && 
+                                    notif.to == currentUserId && 
+                                    notif.read_at === null) {
+                                    
+                                    console.log('Call cancelled by caller:', notifInfo.caller_name);
+                                    
+                                    // Hide incoming call popup if showing
+                                    if (typeof hideIncomingCall === 'function') {
+                                        hideIncomingCall();
+                                    }
                                     
                                     break;
                                 }

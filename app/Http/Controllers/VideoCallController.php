@@ -224,9 +224,7 @@ class VideoCallController extends Controller
         ]);
     }
 
-    /**
-     * Handle call response (accept/decline)
-     */
+    // For handling accept/decline calls
     public function respondToCall(Request $request)
     {
         $notificationId = $request->input('notification_id');
@@ -244,6 +242,28 @@ class VideoCallController extends Controller
         $notifInfo = json_decode($notification->notif_info, true);
 
         if ($action === 'accept') {
+            // Notify the caller that the call was accepted
+            $callerId = $notifInfo['caller_id'];
+            $receiver = Auth::user();
+            
+            $acceptNotifData = [
+                'NotifType' => 'CallAccepted',
+                'accepter_id' => $receiver->id,
+                'accepter_name' => $receiver->name,
+                'call_id' => $notifInfo['call_id'],
+                'room_name' => $notifInfo['room_name'],
+            ];
+
+            notifSession::create([
+                'notif_info' => json_encode($acceptNotifData),
+                'to' => $callerId,
+                'user_id' => $receiver->id,
+                'read_at' => null,
+            ]);
+
+            // Broadcast to caller
+            broadcast(new NewNotification($callerId));
+            
             return response()->json([
                 'success' => true,
                 'redirect' => route('video.call.room', ['roomName' => $notifInfo['room_name']])
@@ -274,6 +294,44 @@ class VideoCallController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Call declined']);
+    }
+
+    // For handling call cancellation
+    public function cancelCall(Request $request)
+    {
+        $callId = $request->input('call_id');
+        $receiverId = $request->input('receiver_id');
+        $caller = Auth::user();
+
+        // Find and mark the original call notification as read
+        $originalNotif = notifSession::where('to', $receiverId)
+            ->whereNull('read_at')
+            ->whereRaw("JSON_EXTRACT(notif_info, '$.call_id') = ?", [$callId])
+            ->first();
+
+        if ($originalNotif) {
+            $originalNotif->update(['read_at' => now()]);
+        }
+
+        // Send cancel notification to receiver
+        $cancelNotifData = [
+            'NotifType' => 'CallCancelled',
+            'caller_id' => $caller->id,
+            'caller_name' => $caller->name,
+            'call_id' => $callId,
+        ];
+
+        notifSession::create([
+            'notif_info' => json_encode($cancelNotifData),
+            'to' => $receiverId,
+            'user_id' => $caller->id,
+            'read_at' => null,
+        ]);
+
+        // Broadcast to receiver
+        broadcast(new NewNotification($receiverId));
+
+        return response()->json(['success' => true, 'message' => 'Call cancelled']);
     }
 
 }

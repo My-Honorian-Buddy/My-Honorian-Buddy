@@ -1,3 +1,13 @@
+<style>
+    /* Force modal above everything including navbar */
+    .bw-modal-backdrop[data-name="set-appointment"] {
+        z-index: 999999 !important;
+    }
+    .bw-modal[data-name="set-appointment"] {
+        z-index: 1000000 !important;
+    }
+</style>
+
 <div class="mt-4 flex justify-center items-center">
 
         <button class="bg-primary text-accent2 text-center font-poppins font-bold rounded-full px-3 py-1 h-11 text-l border-2 border-black shadow-custom-button
@@ -15,7 +25,7 @@
             ok_button_label=""
             cancel_button_label="">
             
-            <form action="{{route('notif.store')}}" method="post">
+            <form action="{{route('notif.store')}}" method="post" id="appointment-form">
                 @csrf
 
                 <input type="hidden" id="tutor_id_input" name="tutor_id" value="">
@@ -26,6 +36,10 @@
                         <div id="subject-container" class="mt-3 flex flex-col">
                             <p>No Subjects</p>
                         </div>
+                    </div>
+                    
+                    <div id="subject-error" class="mt-2 text-sm text-red-600 hidden font-medium">
+                        ⚠️ Please select a subject before confirming.
                     </div>
                     
                         <input type="hidden" id="NotifType" name="NotifType" value="Tutor Request">
@@ -93,6 +107,9 @@
 
                 const subjectContainer = document.getElementById('subject-container');
                 subjectContainer.innerHTML = ''; 
+                
+                // Hide error message when modal opens
+                document.getElementById('subject-error').classList.add('hidden');
 
                 if (tutorSubjects.length > 0) {
                     tutorSubjects.forEach(subject => {
@@ -112,6 +129,40 @@
                 // Show the modal
                 showModal('set-appointment');
             });
+        });
+
+        // Form submission validation
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            const selectedSubject = document.querySelector('input[name="subjects[]"]:checked');
+            const subjectError = document.getElementById('subject-error');
+            
+            if (!selectedSubject) {
+                e.preventDefault();
+
+                // Show the error message
+                subjectError.classList.remove('hidden');
+                
+                subjectError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Adding the shake animation to the subject select container
+                const subjectContainerWrapper = document.getElementById('subject-container').parentElement;
+                subjectContainerWrapper.classList.add('animate-shake');
+                setTimeout(() => {
+                    subjectContainerWrapper.classList.remove('animate-shake');
+                }, 500);
+                
+                return false;
+            }
+            
+            // Hide the error message if subject is selected
+            subjectError.classList.add('hidden');
+        });
+
+        // Hide the error message when a subject is selected
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'subjects[]') {
+                document.getElementById('subject-error').classList.add('hidden');
+            }
         });
 
         // Add event listener for date selection

@@ -40,6 +40,14 @@ export default {
             animation: {
               marquee: 'marquee 15s linear infinite',
               reverse_marquee: 'reverse-marquee 15s linear infinite',
+              shake: 'shake 0.5s',
+            },
+            keyframes: {
+              shake: {
+                '0%, 100%': { transform: 'translateX(0)' },
+                '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
+                '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+              },
             },
             backgroundImage: {
               pointedGrid: 'url(/public/images/card-bg.svg)',

@@ -309,13 +309,21 @@
                         if (data.success) {
                             console.log('Call initiated to:', data.receiver_name);
                             console.log('Room:', data.room_name);
+                            console.log('Call ID:', data.call_id);
 
-
-                            callingSound.pause();
-                            callingSound.currentTime = 0;
-
-
-                            window.location.href = `/video-call/${data.room_name}`;
+                            // Show waiting for response popup instead of redirecting
+                            if (typeof window.showWaitingForCall === 'function') {
+                                window.showWaitingForCall(data.receiver_name, data.call_id, data.room_name);
+                            }
+                            
+                            // Store call info for later including receiver ID
+                            window.currentOutgoingCall = {
+                                callId: data.call_id,
+                                roomName: data.room_name,
+                                receiverName: data.receiver_name,
+                                receiverId: receiverId,
+                                callingSound: callingSound
+                            };
                         } else {
                             callingSound.pause();
                             callingSound.currentTime = 0;
