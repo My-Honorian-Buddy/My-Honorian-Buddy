@@ -83,15 +83,15 @@
             <div class="grid grid-cols-2 items-center p-4 gap-4 max-md:grid-cols-1 max-md:p-3">
                 <!-- profile image -->
                 <div class="flex justify-center">
-                    <img src="{{ Auth::user()->profile_pic }}" alt="Profile"
+                    <img src="{{ $profile_pic ?? Auth::user()->profile_pic }}" alt="Profile"
                         class="h-40 w-40 border-4 border-black rounded-lg max-md:h-28 max-md:w-28">
                 </div>
                 <!-- profile infos -->
                 <div class="max-md:text-center">
                     <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm">Firstname</p>
-                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">Davidson</p>
+                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">{{ $fname ?? 'N/A' }}</p>
                     <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm">Lastname</p>
-                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">De Leon</p>
+                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">{{ $lname ?? 'N/A' }}</p>
 
                 </div>
 
