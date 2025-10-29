@@ -48,13 +48,26 @@
 
                             @php
                                 $hasNotification = Auth::user()->hasNotification;
+                                $unreadCount = \App\Models\notifSession::where('to', Auth::id())
+                                    ->whereNull('read_at')
+                                    ->count();
                             @endphp
 
                             <x-slot name="trigger">
-                                <x-bladewind.bell id="bell" size="small" color="purple"
-                                    class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-primary/70 border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
-                                    show_dot="{{ $hasNotification ? 'true' : 'false' }}"
-                                    animate_dot="{{ $hasNotification ? 'true' : 'false' }}" />
+                                <div class="relative">
+                                    <x-bladewind.bell id="bell" size="small" color="red"
+                                        class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-primary/70 border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
+                                        show_dot="false"
+                                        animate_dot="false" />
+                                    
+                                    <!-- Red notification badge with counter -->
+                                    @if($hasNotification)
+                                    <span id="notification-badge" 
+                                        class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                    </span>
+                                    @endif
+                                </div>
                             </x-slot>
 
 
@@ -173,9 +186,32 @@
     const bulkActions = document.getElementById('bulk-actions');
     const bell = document.getElementById("bell");
 
+    // Function to update notification badge
+    function updateNotificationBadge(count) {
+        let badge = document.getElementById('notification-badge');
+        
+        if (count > 0) {
+            if (!badge) {
+                // Create badge if it doesn't exist
+                const bellContainer = bell.closest('.relative');
+                badge = document.createElement('span');
+                badge.id = 'notification-badge';
+                badge.className = 'absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white';
+                bellContainer.appendChild(badge);
+            }
+            badge.textContent = count > 9 ? '9+' : count;
+            badge.classList.remove('hidden');
+        } else {
+            if (badge) {
+                badge.classList.add('hidden');
+            }
+        }
+    }
+
     bell.addEventListener('click', () => {
-        bell.setAttribute("show_dot", "false");
-        bell.setAttribute("animate_dot", "false");
+        // Don't modify show_dot or animate_dot anymore since we're using badge
+        // bell.setAttribute("show_dot", "false");
+        // bell.setAttribute("animate_dot", "false");
     });
 
 
@@ -224,6 +260,13 @@
 
                 console.log('[loadNotifications] Number of notifications:', notifications.length);
 
+                // Count unread notifications
+                const unreadCount = notifications.filter(n => n.read_at === null).length;
+                console.log('[loadNotifications] Unread count:', unreadCount);
+                
+                // Update the notification badge with count
+                updateNotificationBadge(unreadCount);
+
                 if (notifications.length === 0) {
                     console.log("[loadNotifications] No new notifications.");
                     notifContainer.innerHTML = `
@@ -240,8 +283,9 @@
                         const hoverClass = 'hover:bg-accent3';
 
                         console.log(notification['read_at'] === null)
-                        bell.setAttribute("show_dot", "true");
-                        bell.setAttribute("animate_dot", "true");
+                        // Remove these lines since we're using badge now
+                        // bell.setAttribute("show_dot", "true");
+                        // bell.setAttribute("animate_dot", "true");
 
                         // Check if NotifType is "Tutor Request"
                         if (info['NotifType'] === "Tutor Request") {
