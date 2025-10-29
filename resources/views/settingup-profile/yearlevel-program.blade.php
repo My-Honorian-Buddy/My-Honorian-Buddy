@@ -12,7 +12,7 @@
 
         <x-slot name="content">
 
-            <div class="text-center font-bold text-3xl md:text-4xl lg:text-5xl mt-6 md:mt-8 px-4">
+            <div class="font-dela text-center font-bold text-3xl md:text-4xl lg:text-5xl mt-6 md:mt-8 px-4">
                 Choose your Year Level and College Program
             </div>
 
@@ -34,7 +34,7 @@
                             <div class="flex flex-col text-left">
                                 <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mb-2">Year Level:</label>
                                 <select name="year_level"
-                                    class="border-2 font-poppins border-gray-300 p-3 rounded outline-none duration-200 
+                                    class="border-2 font-poppins border-charcoal p-3 rounded-sm outline-none duration-200 
                                         ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base">
                                     <option value="" disabled selected>Year Level...</option>
                                     <option value="1st Year">1st Year</option>
@@ -45,7 +45,7 @@
 
                                 <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mt-6 md:mt-8 mb-2">College Department:</label>
                                 <select
-                                    class="border-2 font-poppins border-gray-300 p-3 rounded outline-none duration-200 
+                                    class="border-2 font-poppins border-charcoal p-3 rounded-sm outline-none duration-200 
                                         ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base"
                                     name="college">
                                     <option value=""disabled selected>College Department...</option>
@@ -62,7 +62,7 @@
 
                                 <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mt-6 md:mt-8 mb-2">College Program:</label>
                                 <select
-                                    class="border-2 font-poppins border-gray-300 p-3 rounded outline-none duration-200 
+                                    class="border-2 font-poppins border-charcoal p-3 rounded-sm outline-none duration-200 
                                         ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base"
                                     name="department" disabled>
                                     <option value="" disabled selected>College Program...</option>
@@ -72,7 +72,7 @@
                                     class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                     <x-primary-button onclick="history.back()" type="button"
                                         class="font-bold font-poppins bg-accent text-primary text-sm md:text-base ring-2 ring-transparent
-                                        hover:bg-primary/5 border-gray-300 border hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
+                                        hover:bg-primary/5 border-charcoal border hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                         {{ __('Back') }}
                                     </x-primary-button>
 

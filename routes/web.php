@@ -45,7 +45,7 @@ Route::post('/cecill/action', [EventController::class, 'action'])->name('events.
 
 
 Route::get('/ui', function () {
-    return view('wurkspace');
+    return view('settingup-profile.date-availability');
 });
 
 Route::get('/jca', function () {

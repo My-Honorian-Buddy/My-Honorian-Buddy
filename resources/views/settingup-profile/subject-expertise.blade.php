@@ -6,7 +6,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="text-center text-charcoal font-bold text-3xl md:text-5xl lg:text-6xl my-6 md:my-8 px-4">
+            <div class="font-dela text-center text-charcoal font-bold text-3xl md:text-5xl lg:text-6xl my-6 md:my-8 px-4">
                 Specify your subject expertise
             </div>
 
@@ -31,19 +31,19 @@
                             <div class="relative">
                                 <!-- Button to open the dropdown, type="button" prevents form submission -->
                                 <button type="button" id="dropdownButton"
-                                    class="bg-accent text-charcoal border-2 border-gray-300 p-3 rounded-lg shadow-black w-full text-left text-sm md:text-base">
+                                    class="bg-accent text-charcoal border-2 border-charcoal p-3 rounded-sm shadow-black w-full text-left text-sm md:text-base">
                                     Select Subjects
                                 </button>
 
                                 <!-- Dropdown menu -->
                                 <div id="dropdownMenu"
-                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-accent border-2 border-gray-300 rounded-lg shadow-md z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
+                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-accent border-2 border-charcoal rounded-sm shadow-md z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
                                     <div class="flex flex-col items-center space-y-4">
                                         {{-- search bar --}}
                                         <div class="relative w-full m-2 mt-4 px-4 md:px-6">
                                             <input type="text" placeholder="Search subjects..." name="query"
                                                 class="w-full py-1.5 pl-4 pr-10 rounded-lg 
-                                            border-2 border-gray-300 bg-accent shadow-inner outline-none duration-200 
+                                            border-2 border-darkgray bg-accent shadow-inner outline-none duration-200 
                                         ring-2 ring-[transparent] focus:border-primary/70 font-semibold text-base md:text-[20px] placeholder:text-sm md:placeholder:text-[16px] text-gray-900" />
                                             <span class="absolute right-6 md:right-10 top-[10px] cursor-pointer">
                                                 <x-bladewind::icon name="magnifying-glass" class="w-5 h-5" />
@@ -62,8 +62,8 @@
                             <div class="mt-2 flex items-center justify-between">
                                 <!-- list of selected subjects -->
                                 <div id="subject-container" class="flex flex-col gap-2" style="visibility: hidden">
-                                    <h1 id="header" class="text-primary font-bold text-sm md:text-base">ADDED SUBJECTS</h1>
-                                    <ul id="subject-list" class="flex flex-wrap gap-2"></ul>
+                                    <h1 id="header" class="font-dela text-primary font-bold text-sm md:text-base">Added Subjects:</h1>
+                                    <ul id="subject-list" class="flex flex-wrap gap-2 font-poppins"></ul>
                                 </div>
                             </div>
 
@@ -72,7 +72,7 @@
                                 class="flex flex-col sm:flex-row justify-between sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4 mt-6 w-full">
                                 <x-primary-button onclick="history.back()" type="button"
                                     class="font-bold font-poppins bg-accent text-primary border text-sm md:text-base ring-2 ring-transparent 
-                                        hover:bg-primary/5 border-gray-300 hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
+                                        hover:bg-primary/5 border-charcoal hover:ring-primary/70 hover:border-primary/70 rounded-lg w-full sm:w-auto px-6 py-3">
                                     {{ __('Back') }}
                                 </x-primary-button>
                                 <x-primary-button id='submitBtn'
