@@ -204,6 +204,11 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/user-notifications', [NotificationController::class, 'getUserNotifications'])->name('user.notifications');
+    
+    // TEST ROUTE - Remove in production
+    Route::get('/test-notif-api', function() {
+        return view('test-notification-api');
+    })->name('test.notif.api');
 
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.read');
     Route::delete('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification'])->name('notification.delete');
@@ -251,16 +256,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/tutor/profile', [TaskController::class, 'connectTutor'])->name('connect.tutor');
 Route::get('/student/profile', [TaskController::class, 'connectStudent'])->name('connect.student');
-
-
-// Route::get('/sampleslot', function () {
-//     $todolists = ToDoLists::all();
-//     return view('sampleslot', compact('todolists'));
-// });
-
-// Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
-// Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
-// Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
 // Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');

@@ -12,17 +12,20 @@
     // Get the other user in the session for video call
     $otherUserId = null;
     $otherUserName = 'User';
+    $otherUsertemp = '';
 
     if ($bookedId) {
         if ($bookedId->student_id == Auth::id()) {
             $otherUserId = $bookedId->tutor_id;
             $otherUser = \App\Models\User::find($otherUserId);
+            $otherUsertemp = $otherUser->tutor->fname;
         } else {
             $otherUserId = $bookedId->student_id;
             $otherUser = \App\Models\User::find($otherUserId);
+            $otherUsertemp = $otherUser->student->fname;
         }
         if ($otherUser) {
-            $otherUserName = $otherUser->name;
+            $otherUserName = $otherUsertemp;
         }
     }
 
