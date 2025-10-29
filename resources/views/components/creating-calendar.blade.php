@@ -34,10 +34,232 @@
         color: #550000 !important;
         }
 
+        .fc-daygrid-day.fc-day-today.has-events {
+            background-color: #FFE08A !important;
+            border: 2px solid #550000 !important;
+        }
+
+        .fc-daygrid-day.has-events {
+            background-color: #FFF9E6 !important;
+            border: 2px solid #FFD95C !important;
+        }
+
+        .fc-daygrid-event {
+            border-radius: 4px !important;
+            padding: 2px 4px !important;
+            margin: 1px 2px !important;
+        }
+
         .fc-toolbar-title {
         color: #550000 !important;
         font-weight: bold !important;
         font-size: 2rem !important;
+        }
+
+        /* Modal Styles */
+        .event-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .event-modal-content {
+            position: relative;
+            background-color: #FFFCEF;
+            margin: 8% auto;
+            padding: 0;
+            border: 3px solid #550000;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 700px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.3s ease;
+        }
+
+        .modal-header {
+            background-color: #550000;
+            color: #FFD95C;
+            padding: 20px;
+            border-radius: 9px 9px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 25px 30px;
+            color: #550000;
+            overflow-y: auto;
+            flex: 1;
+            max-height: calc(80vh - 160px);
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            border-top: 2px solid #550000;
+            text-align: right;
+            flex-shrink: 0;
+            background-color: #FFFCEF;
+            border-radius: 0 0 9px 9px;
+        }
+
+        .close-btn {
+            color: #FFD95C;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(255, 213, 92, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .session-badge {
+            display: inline-block;
+            background-color: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .manual-badge {
+            display: inline-block;
+            background-color: #550000;
+            color: #FFD95C;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .warning-box {
+            background-color: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { 
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #550000;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #550000;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: white;
+            color: #550000;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FFD95C;
+            box-shadow: 0 0 0 3px rgba(255, 217, 92, 0.3);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 2px solid black;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #550000;
+            color: #FFD95C;
+        }
+
+        .btn-primary:hover {
+            background-color: #FFD95C;
+            color: #550000;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
         }
     </style>   
 
@@ -58,10 +280,237 @@
         </div>
     </section>
 
+    <!-- Event Details Modal -->
+    <div id="eventModal" class="event-modal">
+        <div class="event-modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Event Details</h2>
+                <button class="close-btn" onclick="closeEventModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button onclick="closeEventModal()" 
+                    style="background-color: #550000; color: #FFD95C; padding: 10px 20px; border: 2px solid black; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div id="addEventModal" class="event-modal">
+        <div class="event-modal-content">
+            <div class="modal-header">
+                <h2>Add New Event</h2>
+                <button class="close-btn" onclick="closeAddEventModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addEventForm">
+                    <div class="form-group">
+                        <label class="form-label">Event Title *</label>
+                        <input type="text" id="eventTitle" class="form-input" placeholder="Enter event title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Start Date & Time *</label>
+                        <input type="datetime-local" id="eventStart" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Date & Time *</label>
+                        <input type="datetime-local" id="eventEnd" class="form-input" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeAddEventModal()" class="btn btn-secondary" style="margin-right: 10px;">
+                    Cancel
+                </button>
+                <button type="button" onclick="submitNewEvent()" class="btn btn-primary">
+                    Add Event
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
     
 <script>
+    function openEventModal(eventInfo) {
+        const modal = document.getElementById('eventModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalFooter = document.getElementById('modalFooter');
+        
+        const event = eventInfo.event;
+        const isBookedSession = event.extendedProps.eventType === 'booked_session';
+        
+        // Set title
+        modalTitle.textContent = event.title;
+        
+        // Build modal content
+        let content = '';
+        
+        if (isBookedSession) {
+            content += `<span class="session-badge">📚 Booked Tutoring Session</span>`;
+            
+            const description = event.extendedProps.description || '';
+            const lines = description.split('\n');
+            
+            content += '<div style="margin-top: 15px;">';
+            lines.forEach(line => {
+                if (line.trim()) {
+                    if (line.includes('Session')) {
+                        content += `<div class="info-row"><span class="info-icon">🎯</span><span>${line}</span></div>`;
+                    } else if (line.includes('Subject')) {
+                        content += `<div class="info-row"><span class="info-icon">📖</span><span>${line}</span></div>`;
+                    } else if (line.includes('Tutor')) {
+                        content += `<div class="info-row"><span class="info-icon">👨‍🏫</span><span>${line}</span></div>`;
+                    } else if (line.includes('Date')) {
+                        content += `<div class="info-row"><span class="info-icon">📅</span><span>${line}</span></div>`;
+                    } else if (line.includes('Time')) {
+                        content += `<div class="info-row"><span class="info-icon">🕐</span><span>${line}</span></div>`;
+                    } else {
+                        content += `<div class="info-row"><span>${line}</span></div>`;
+                    }
+                }
+            });
+            content += '</div>';
+            
+            content += `
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> Booked session events cannot be deleted or modified manually.
+                    To cancel this session, please use the <strong>"Drop Session"</strong> feature in your workspace.
+                </div>
+            `;
+            
+            modalFooter.innerHTML = `
+                <button onclick="closeEventModal()" 
+                    style="background-color: #550000; color: #FFD95C; padding: 10px 20px; border: 2px solid black; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
+                    Close
+                </button>
+            `;
+        } else {
+            content += `<span class="manual-badge">✏️ Manual Event</span>`;
+            
+            const startDate = new Date(event.start);
+            const endDate = event.end ? new Date(event.end) : startDate;
+            
+            content += '<div style="margin-top: 15px;">';
+            content += `<div class="info-row"><span class="info-icon">📅</span><span><span class="info-label">Start:</span>${startDate.toLocaleString()}</span></div>`;
+            content += `<div class="info-row"><span class="info-icon">🏁</span><span><span class="info-label">End:</span>${endDate.toLocaleString()}</span></div>`;
+            content += '</div>';
+            
+            modalFooter.innerHTML = `
+                <button onclick="deleteEventFromModal(${event.id})" 
+                    style="background-color: #dc2626; color: white; padding: 10px 20px; border: 2px solid black; border-radius: 8px; font-weight: bold; cursor: pointer; margin-right: 10px; transition: all 0.2s;">
+                    Delete Event
+                </button>
+                <button onclick="closeEventModal()" 
+                    style="background-color: #550000; color: #FFD95C; padding: 10px 20px; border: 2px solid black; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
+                    Close
+                </button>
+            `;
+        }
+        
+        modalBody.innerHTML = content;
+        modal.style.display = 'block';
+    }
+    
+    function closeEventModal() {
+        document.getElementById('eventModal').style.display = 'none';
+    }
+    
+    function deleteEventFromModal(eventId) {
+        if (confirm("Are you sure you want to delete this event?")) {
+            $.ajax({
+                url: "/calendar/action",
+                type: "POST",
+                data: {
+                    id: eventId,
+                    type: 'delete',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function() {
+                    closeEventModal();
+                    location.reload();
+                },
+                error: function(xhr) {
+                    alert("Error deleting event: " + xhr.responseText);
+                }
+            });
+        }
+    }
+    
+    window.onclick = function(event) {
+        const modal = document.getElementById('eventModal');
+        const addModal = document.getElementById('addEventModal');
+        if (event.target == modal) {
+            closeEventModal();
+        }
+        if (event.target == addModal) {
+            closeAddEventModal();
+        }
+    }
+
+    let selectedDateInfo = null;
+
+    function openAddEventModal(info) {
+        selectedDateInfo = info;
+        const modal = document.getElementById('addEventModal');
+        const startInput = document.getElementById('eventStart');
+        const endInput = document.getElementById('eventEnd');
+        
+        const startDate = new Date(info.start);
+        const endDate = new Date(info.end || info.start);
+        
+        startInput.value = startDate.toISOString().slice(0, 16);
+        endInput.value = endDate.toISOString().slice(0, 16);
+        
+        document.getElementById('eventTitle').value = '';
+        modal.style.display = 'block';
+    }
+
+    function closeAddEventModal() {
+        document.getElementById('addEventModal').style.display = 'none';
+        selectedDateInfo = null;
+    }
+
+    function submitNewEvent() {
+        const title = document.getElementById('eventTitle').value.trim();
+        const start = document.getElementById('eventStart').value;
+        const end = document.getElementById('eventEnd').value;
+
+        if (!title) {
+            alert('Please enter an event title');
+            return;
+        }
+
+        if (!start || !end) {
+            alert('Please select start and end dates');
+            return;
+        }
+
+        $.ajax({
+            url: "/calendar/action",
+            type: "POST",
+            data: {
+                title: title,
+                start: start,
+                end: end,
+                type: 'add',
+                _token: '{{ csrf_token() }}'
+            },
+            success: function() {
+                closeAddEventModal();
+                location.reload();
+            },
+            error: function(xhr) {
+                alert("Error adding event: " + xhr.responseText);
+            }
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
@@ -76,37 +525,37 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             events: '/calendar/event',
-            displayEventTime: false,
+            displayEventTime: true,
 
-            // backgroundColor: '#F6F6F6',
-            // eventColor: '#550000',
-            // eventTextColor: '#FFD95C',
-
-            // Adding of ur event
-            select: function(info) {
-                var title = prompt('Enter Event Title:');
-                if (title) {
-                    $.ajax({
-                        url: "/calendar/action",
-                        type: "POST",
-                        data: {
-                            title: title,
-                            start: info.startStr,
-                            end: info.endStr,
-                            type: 'add',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            calendar.refetchEvents();
-                            alert("Event added!");
-                        }
-                    });
+            eventDidMount: function(info) {
+                if (info.event.extendedProps.description) {
+                    info.el.title = 'Click to view details';
                 }
-                calendar.unselect();
+                
+                if (info.event.extendedProps.eventType === 'booked_session') {
+                    info.el.style.cursor = 'pointer';
+                    info.el.style.fontWeight = 'bold';
+                } else {
+                    info.el.style.cursor = 'pointer';
+                }
+
+                const dayCell = info.el.closest('.fc-daygrid-day');
+                if (dayCell) {
+                    dayCell.classList.add('has-events');
+                }
             },
 
-            // Update (drag/drop or resize)
+            select: function(info) {
+                openAddEventModal(info);
+            },
+
             eventDrop: function(info) {
+                if (info.event.extendedProps.eventType === 'booked_session') {
+                    alert("Booked session events cannot be moved. Please contact your tutor/student to reschedule.");
+                    info.revert();
+                    return;
+                }
+                
                 $.ajax({
                     url: "/calendar/action",
                     type: "POST",
@@ -120,10 +569,21 @@
                     },
                     success: function() {
                         alert("Event updated!");
+                    },
+                    error: function(xhr) {
+                        alert("Error updating event: " + xhr.responseText);
+                        info.revert();
                     }
                 });
             },
+            
             eventResize: function(info) {
+                if (info.event.extendedProps.eventType === 'booked_session') {
+                    alert("Booked session events cannot be resized.");
+                    info.revert();
+                    return;
+                }
+                
                 $.ajax({
                     url: "/calendar/action",
                     type: "POST",
@@ -137,27 +597,16 @@
                     },
                     success: function() {
                         alert("Event resized!");
+                    },
+                    error: function(xhr) {
+                        alert("Error resizing event: " + xhr.responseText);
+                        info.revert();
                     }
                 });
             },
 
-            // Delete
             eventClick: function(info) {
-                if (confirm("Do you really want to delete this event?")) {
-                    $.ajax({
-                        url: "/calendar/action",
-                        type: "POST",
-                        data: {
-                            id: info.event.id,
-                            type: 'delete',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            calendar.refetchEvents();
-                            alert("Event deleted!");
-                        }
-                    });
-                }
+                openEventModal(info);
             }
         });
 

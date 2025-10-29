@@ -186,40 +186,51 @@
     });
 
 
-
-    //haiiiii
-
-
-    // Function to load notifications
     function loadNotifications() {
-        const notifContainer = document.querySelector('.bladewind-dropmenunotif'); // Adjust selector if necessary
+        console.log('[loadNotifications] Starting to load notifications...');
+        const notifContainer = document.querySelector('.bladewind-dropmenunotif');
+        
+        if (!notifContainer) {
+            console.error('[loadNotifications] Notification container not found!');
+            return;
+        }
 
+        console.log('[loadNotifications] Container found:', notifContainer);
 
-        // Clear previous notifications
         notifContainer.innerHTML = `
-            <li class=" px-4 py-2 text-gray-500">Loading notifications...</li>
+            <li class="px-4 py-2 text-gray-500">Loading notifications...</li>
         `;
 
-        // Fetch notifications from the server
-        fetch('{{ route('user.notifications') }}')
-            .then(response => response.json())
+        const url = '{{ route('user.notifications') }}';
+        console.log('[loadNotifications] Fetching from URL:', url);
+        
+        fetch(url)
+            .then(response => {
+                console.log('[loadNotifications] Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('[loadNotifications] Data received:', data);
                 const {
                     notifications,
                     hasUnreadNotification
                 } = data;
                 const bell = document.getElementById("bell");
 
-                notifContainer.innerHTML = ''; // Clear loading message
+                notifContainer.innerHTML = '';
 
+                console.log('[loadNotifications] Number of notifications:', notifications.length);
 
                 if (notifications.length === 0) {
-                    console.log("No new notifications.");
+                    console.log("[loadNotifications] No new notifications.");
                     notifContainer.innerHTML = `
-                        <li class=" px-4 py-2 text-gray-500">No new notifications.</li>
+                        <li class="px-4 py-2 text-gray-500">No new notifications.</li>
                     `;
                 } else {
-                    console.log("Loaded notifications:", notifications);
+                    console.log("[loadNotifications] Processing", notifications.length, "notifications:", notifications);
                     notifications.forEach(notification => {
                         const info = JSON.parse(notification.notif_info);
                         const bgClass = notification['read_at'] === null ? 'bg-[#FFFCEF]' : 'bg-secondary';
@@ -606,9 +617,10 @@
                 }
             })
             .catch(error => {
-                console.error("Error loading notifications:", error);
+                console.error("[loadNotifications] ERROR:", error);
+                console.error("[loadNotifications] Error details:", error.message, error.stack);
                 notifContainer.innerHTML = `
-                    <li class="px-4 py-2 text-red-500">Failed to load notifications.</li>
+                    <li class="px-4 py-2 text-red-500">Failed to load notifications. Error: ${error.message}</li>
                 `;
             });
     }
@@ -671,7 +683,7 @@
                 }
             })
             .then(response => response.json())
-            .then data => {
+            .then(data => {
                 if (data.success) {
                     console.log("Notification deleted:", notificationId);
                     loadNotifications();
@@ -681,7 +693,9 @@
                 }
                 console.log(data.message);
             })
-    console.log(response.json());
+            .catch(error => {
+                console.error("Error deleting notification:", error);
+            });
     }
 
     function markAllAsRead() {
@@ -693,16 +707,16 @@
                 }
             })
             .then(response => response.json())
-            .then data => {
+            .then(data => {
                 console.log(data.message);
                 loadNotifications();
                 const actions = document.querySelectorAll('.notification-actions');
                 bulkActions.classList.toggle('hidden');
                 actions.forEach(action => action.classList.toggle('hidden'));
             })
-    .catch(error => {
-        console.error("Error marking all notifications as read:", error);
-    });
+            .catch(error => {
+                console.error("Error marking all notifications as read:", error);
+            });
     }
 
     function deleteAllNotifications() {
@@ -714,16 +728,16 @@
                 }
             })
             .then(response => response.json())
-            .then data => {
+            .then(data => {
                 console.log(data.message);
                 loadNotifications();
                 const actions = document.querySelectorAll('.notification-actions');
                 bulkActions.classList.toggle('hidden');
                 actions.forEach(action => action.classList.toggle('hidden'));
             })
-    .catch(error => {
-        console.error("Error deleting all notifications:", error);
-    });
+            .catch(error => {
+                console.error("Error deleting all notifications:", error);
+            });
     }
 
 
@@ -794,8 +808,34 @@
     }
 
 
-    // Load notifications when the page loads
     document.addEventListener('DOMContentLoaded', loadNotifications, );
+    
+    
+    setTimeout(() => {
+        const currentUserId = document.querySelector('meta[name="user-id"]')?.content;
+        
+        if (currentUserId && typeof window.Echo !== 'undefined') {
+            console.log('[Notification System] Setting up listener for user.' + currentUserId);
+            
+            window.Echo.private(`user.${currentUserId}`)
+                .listen('NewNotification', (e) => {
+                    console.log('[Notification System] New notification received, reloading notifications list');
+                    loadNotifications();
+                    
+                    
+                    const bell = document.getElementById("bell");
+                    if (bell) {
+                        bell.setAttribute("show_dot", "true");
+                        bell.setAttribute("animate_dot", "true");
+                    }
+                })
+                .error((error) => {
+                    console.error('[Notification System] Error on user channel:', error);
+                });
+        } else {
+            console.warn('[Notification System] Echo not available or no user ID found');
+        }
+    }, 500);
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -13,6 +13,7 @@ use App\Models\Tutor;
 use App\Models\Student;
 use App\Models\tutorSubject;
 use App\Models\notifSession;
+use App\Models\Event;
 use Chatify\Facades\ChatifyMessenger as Chatify;
 use Illuminate\Support\Facades\Auth;
 use App\Models\bookingHistoryLogs;
@@ -22,6 +23,64 @@ use App\Models\Schedule;
 
 class SessionController extends Controller
 {
+
+    protected function createCalendarEventsForBookedSession($bookedSession, $student, $tutor)
+    {
+
+        $initialScheduleTime = Carbon::parse($bookedSession->schedule_time);
+        $dayOfWeek = $initialScheduleTime->dayOfWeek;
+        $totalSessions = $bookedSession->total_session;
+        
+        
+        $subjects = json_decode($bookedSession->tutoring_subject, true);
+        $subjectNames = is_array($subjects) ? implode(', ', $subjects) : $subjects;
+        
+        
+        $tutorName = $tutor->fname . ' ' . $tutor->lname;
+        
+        
+        $usersToNotify = [
+            ['id' => $bookedSession->student_id, 'name' => $student->fname],
+            ['id' => $bookedSession->tutor_id, 'name' => $tutor->fname]
+        ];
+        
+        foreach ($usersToNotify as $user) {
+            
+            $currentDate = $initialScheduleTime->copy();
+            
+            for ($sessionNum = 1; $sessionNum <= $totalSessions; $sessionNum++) {
+                
+                if ($sessionNum > 1) {
+                    $currentDate = $currentDate->copy()->addWeek();
+                }
+                
+                $eventStart = $currentDate->copy();
+                $eventEnd = $currentDate->copy()->addHour();
+                
+                $title = "Session {$sessionNum}/{$totalSessions} - {$subjectNames} with {$tutorName}";
+                
+                $description = "Tutoring Session {$sessionNum} of {$totalSessions}\n";
+                $description .= "Subject: {$subjectNames}\n";
+                $description .= "Tutor: {$tutorName}\n";
+                $description .= "Date: " . $eventStart->format('l, F j, Y') . "\n";
+                $description .= "Time: " . $eventStart->format('g:i A');
+                
+                Event::create([
+                    'user_id' => $user['id'],
+                    'title' => $title,
+                    'start' => $eventStart,
+                    'end' => $eventEnd,
+                    'booked_session_id' => $bookedSession->id,
+                    'description' => $description,
+                    'event_type' => 'booked_session',
+                    'session_number' => $sessionNum
+                ]);
+                
+                Log::info("Created calendar event for session {$sessionNum} on {$eventStart} for user {$user['id']}");
+            }
+        }
+    }
+
     public function store(Request $request)
     {
 
@@ -50,6 +109,9 @@ class SessionController extends Controller
 
 
         if ($session) {
+
+            $this->createCalendarEventsForBookedSession($session, $student, $tutor);
+            
             $appointmentDateTime = Carbon::parse($validated['schedule_time']);
             
             $notifInfo = [
@@ -146,8 +208,7 @@ class SessionController extends Controller
 
         $tutor = tutorSubject::find($validated['tutor_id']);
 
-        // Log::info('Tutor Subjects: ', $tutor->toArray());
-        broadcast(new NewNotification($userID));
+        broadcast(new NewNotification($validated['tutor_id']));
 
         return redirect()->route('workspace.start')->with([
             'success' => 'Tutor request sent successfully!',
@@ -499,6 +560,9 @@ class SessionController extends Controller
         bookingHistoryLogs::create([
             'booking_details' => $encodedBookedSession,
         ]);
+
+        Event::where('booked_session_id', $bookedSession->id)->delete();
+        Log::info("Deleted all calendar events for booked session {$bookedSession->id}");
 
         $bookedSession->delete();
 
