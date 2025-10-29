@@ -24,11 +24,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <x-bladewind.notification />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
 </head>
 
-<body class="font-poppins font-semibold bg-secondary">
+<body class="font-poppins font-semibold bg-[#F5EFEF]">
 
     <div class="flex-1">
         <!-- nav bar -->
@@ -54,6 +53,23 @@
         @include('components.call-notification')
     @endauth
 
+    <script>
+        (function() {
+            const progressEl = document.getElementById('scroll-progress');
+
+            function updateProgress() {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                if (progressEl) progressEl.style.width = progress + '%';
+            }
+            window.addEventListener('scroll', updateProgress, {
+                passive: true
+            });
+            window.addEventListener('resize', updateProgress);
+            document.addEventListener('DOMContentLoaded', updateProgress);
+        })();
+    </script>
 </body>
 <script>
     AOS.init();

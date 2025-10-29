@@ -46,52 +46,66 @@
         $session = null;
     }
 @endphp
-<div
-    class="w-full h-auto mt-10 bg-accent3 rounded-[20px] overflow-hidden shadow-custom-button shadow-black border-black border-2 ">
-    <div class="flex bg-primary items-center w-full border-b-2 border-black py-2">
 
-        <div class="flex w-full justify-start text-2xl text-[#ffdd57] text-stroke font-black ml-8">CURRENT SESSIONS</div>
+
+<div
+    class="w-full lg:w-1/2 h-auto bg-accent rounded-md overflow-hidden shadow-charcoal border-charcoal border-2 max-lg:mt-6">
+    <div class="flex bg-accent items-center w-full py-2">
+        <div
+            class="font-dela flex w-full justify-start text-xl text-charcoal font-black ml-8 max-md:ml-4 max-md:text-lg">
+            Current Session
+        </div>
     </div>
-    {{-- session #1 --}}
+    <span class="flex mx-4 items-center">
+        <span class="h-px flex-1 bg-charcoal"></span>
+    </span>
 
     @if (!empty($decodedSubject))
         @if ($user && $user->role === 'Student')
             @foreach ($decodedSubject as $subject)
-                <div class="bg-accent3 flex items-center w-full border-b-2 border-black py-2">
-                    <span class="h-6 w-6 ml-10 bg-primary border-2 border-black rounded-full shrink-0"></span>
-                    <div class="grid grid-rows-2 mt-3 mb-2">
-                        <div class="">
-                            <p class="font-bold ml-5 text-[23px]">{{ $subject }}</p>
+                <div
+                    class="bg-accent flex items-center w-full border-b-2 border-charcoal py-2 max-md:flex-col max-md:items-start">
+                    <span
+                        class="h-6 w-6 ml-10 bg-primary border-2 border-charcoal rounded-full shrink-0 max-md:ml-4 max-md:mb-2"></span>
+                    <div class="grid grid-rows-2 mt-3 mb-2 ml-3 max-md:ml-4 max-md:mt-0 max-md:w-full">
+                        <div>
+                            <p class="font-poppins text-darkgray font-extrabold text-2xl max-md:text-lg">
+                                {{ $subject }}
+                            </p>
                         </div>
-                        <div class="font-bold ml-5 text-[20px] text-primary">
+                        <div class="font-bold text-xl text-primary max-md:text-base">
                             <p>Tutor: {{ $fname }} {{ $lname }}</p>
                         </div>
                     </div>
                 </div>
             @endforeach
-        @elseif ($user && $user->role === 'Tutor')
+        @elseif ($user && $user->role === 'tutor')
             @foreach ($decodedSubject as $subject)
-                <div class="bg-accent3 flex items-center w-full border-b-2 border-black py-2">
-                    <span class="h-6 w-6 ml-10 bg-primary border-2 border-black rounded-full shrink-0"></span>
-                    <div class="grid grid-rows-2 mt-3 mb-2">
-                        <div class="">
-                            <p class="font-bold ml-5 text-[23px]">{{ $subject }}</p>
+                <div
+                    class="bg-accent flex items-center w-full border-b-2 border-charcoal py-2 max-md:flex-col max-md:items-start">
+                    <span
+                        class="h-6 w-6 ml-10 bg-primary border-2 border-charcoal rounded-full shrink-0 max-md:ml-4 max-md:mb-2"></span>
+                    <div class="grid grid-rows-2 mt-3 mb-2 ml-3 max-md:ml-4 max-md:mt-0 max-md:w-full">
+                        <div>
+                            <p class="font-poppins text-darkgray font-extrabold text-2xl max-md:text-lg">
+                                {{ $subject }}
+                            </p>
                         </div>
-                        <div class="font-bold ml-5 text-[20px] text-primary">
+                        <div class="font-bold text-xl text-primary max-md:text-base">
                             <p>Student: {{ $fname }} {{ $lname }}</p>
                         </div>
                     </div>
                 </div>
             @endforeach
         @endif
+
         @if ($hasBookedSessions)
-            <div class="bg-accent3 flex items-center w-full border-b-0 border-black py-2">
-                <div class="bg-accent3 my-4 flex items-center w-full h-full py-2">
-                    {{-- modal button --}}
-                    <div class="text-white">
-                        <div class=" ml-5">
+            <div class="bg-accent flex items-center w-full border-b-0 border-black py-2">
+                <div class="bg-accent my-4 flex items-center w-full h-full py-2">
+                    <div class="text-white w-full px-4 max-md:px-2">
+                        <div class="ml-5 max-md:ml-2">
                             <x-bladewind::button type="submit"
-                                class="bg-primary border-2 border-b-0 border-black hover:bg-red-900 text-accent2 font-bold flex justify-items-center"
+                                class="bg-primary border-2 border-black hover:bg-primary/70 text-accent font-bold flex justify-items-center max-md:w-full max-md:justify-center"
                                 size="small" rounded="true" onclick="showModal('confirm-complete')">
                                 complete session
                             </x-bladewind::button>
@@ -102,7 +116,8 @@
                             cancel_button_action="hideModal('confirm-complete')" close_after_action="true"
                             backdrop_can_close="true">
 
-                            <p class="mx-4 mt-4">Are you sure you want to complete this session?</p><br>
+                            <p class="mx-4 mt-4">Are you sure you want to complete this session?</p>
+                            <br>
 
                             <div class="mt-4 flex flex-col font-black space-y-4">
                                 <x-bladewind::button type="button"
@@ -111,18 +126,6 @@
                                     onclick=" showModal('confirm-drop'); ">
                                     Drop the session
                                 </x-bladewind::button>
-
-
-                                {{-- <x-bladewind::button
-                                                type="button"
-                                                class="bg-accent2 text-primary hover:bg-secondary border-2 border-black mx-4"
-                                                size="small"
-                                                rounded="true"
-                                                can_submit="false"
-                                                close_after_action="true"
-                                                onclick="showModal('session-complete');">
-                                                Complete with payment
-                                            </x-bladewind::button> --}}
 
                                 <x-bladewind::button type="button"
                                     class="bg-primary text-accent2 hover:bg-red-700 border-2 border-black mx-4"
@@ -139,10 +142,12 @@
                                 footer="false" size="big" ok_button_label="" cancel_button_label=""
                                 cancel_button_action="hideModal('confirm-drop')" backdrop_can_close="true">
 
-                                <p class="mx-4 mt-4">Your current session will terminate without payment for the
+                                <p class="mx-4 mt-4">Your current session will terminate without
+                                    payment for the
                                     previous meetings you attended. </p><br>
 
-                                <div class="mt-4 flex justify-end space-x-4">
+                                <div
+                                    class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
                                     <x-bladewind::button type="button"
                                         class="bg-primary text-accent2 hover:bg-red-900 hover:text-accent2 border-2 border-black"
                                         stretched_action_buttons="false" size="small" rounded="true"
@@ -151,11 +156,11 @@
                                         Cancel
                                     </x-bladewind::button>
 
-                                    <form action="{{ route('drop.session') }}" method="post">
+                                    <form action="{{ route('drop.session') }}" method="post" class="max-md:w-full">
                                         @csrf
-                                        <input type="hidden" name="session_id" value="{{ $session->id }}">
+                                        <input type="hidden" name="session_id" value="{{-- $session->id --}}">
                                         <x-bladewind::button type="submit"
-                                            class="bg-accent2 text-primary hover:bg-primary mr-4 hover:text-accent2 border-2 border-black"
+                                            class="bg-accent2 text-primary hover:bg-primary mr-4 hover:text-accent2 border-2 border-black max-md:mr-0 max-md:w-full"
                                             size="small" rounded="true" stretched_action_buttons="false"
                                             align_buttons="right" can_submit="true">
                                             Confirm
@@ -170,10 +175,12 @@
                                 footer="false" size="big" ok_button_label="" cancel_button_label=""
                                 cancel_button_action="hideModal('confirm-drop')" backdrop_can_close="true">
 
-                                <p class="mx-4 mt-4">A notification regarding the cancellation of the session will be
+                                <p class="mx-4 mt-4">A notification regarding the cancellation of the
+                                    session will be
                                     delivered to your tutor for confirmation.</p><br>
 
-                                <div class="mt-4 flex justify-end space-x-4">
+                                <div
+                                    class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
                                     <x-bladewind::button type="button"
                                         class="bg-primary text-accent2 hover:bg-red-900 hover:text-accent2 border-2 border-black"
                                         stretched_action_buttons="false" size="small" rounded="true"
@@ -182,11 +189,11 @@
                                         Cancel
                                     </x-bladewind::button>
 
-                                    <form action="{{ route('drop.session') }}" method="post">
+                                    <form action="{{ route('drop.session') }}" method="post" class="max-md:w-full">
                                         @csrf
-                                        <input type="hidden" name="session_id" value="{{ $session->id }}">
+                                        <input type="hidden" name="session_id" value="{{-- $session->id --}}">
                                         <x-bladewind::button type="submit"
-                                            class="bg-accent2 text-primary hover:bg-primary mr-4 hover:text-accent2 border-2 border-black"
+                                            class="bg-accent2 text-primary hover:bg-primary mr-4 hover:text-accent2 border-2 border-black max-md:mr-0 max-md:w-full"
                                             size="small" rounded="true" stretched_action_buttons="false"
                                             align_buttons="right" can_submit="true">
                                             Confirm
@@ -202,21 +209,20 @@
             </div>
         @endif
     @else
-        <div class="font-poppins bg-accent3 flex flex-col items-center h-full w-full border-b-2 border-black py-20">
-
-            <div class="flex flex-col  text-primary justify-center items-center h-full w-full">
-                <img src="{{ asset('images/autumn.svg') }}">
-                <span class="font-black text-2xl">
+        <div
+            class="font-poppins bg-accent flex flex-col items-center h-full w-full border-b-2 border-black py-20 px-4 max-md:py-10">
+            <div class="flex flex-col text-primary justify-center items-center h-full w-full">
+                <img src="{{ asset('images/autumn.svg') }}" class="w-32 h-32 max-md:w-24 max-md:h-24">
+                <span class="font-dela font-black text-charcoal text-xl mt-4 max-md:text-lg">
                     No session in progress
                 </span>
-                <span class="text-base italic">
+                <span class="text-base text-darkgray italic text-center mt-2 max-md:text-sm">
                     @if ($user && $user->role === 'Student')
                         —time to find the perfect tutor and get learning!
                     @elseif ($user && $user->role === 'Tutor')
                         -sit tight and wait for a student to book your expertise!
                     @endif
                 </span>
-
             </div>
         </div>
     @endif

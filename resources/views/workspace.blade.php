@@ -12,7 +12,7 @@
     // Get the other user in the session for video call
     $otherUserId = null;
     $otherUserName = 'User';
-    
+
     if ($bookedId) {
         if ($bookedId->student_id == Auth::id()) {
             $otherUserId = $bookedId->tutor_id;
@@ -31,23 +31,23 @@
     {{-- sidebar --}}
     <x-slot name="sidebar_content">
         <ul class="flex flex-col items-center justify-center space-y-6">
-            @if($otherUserId)
-            <li class="w-4/5">
-                <div onclick="initiateVideoCall({{ $otherUserId }})" class="cursor-pointer">
-                    <div
-                        class="flex items-center justify-between bg-green-500 text-white text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
+            @if ($otherUserId)
+                <li class="w-4/5">
+                    <div onclick="initiateVideoCall({{ $otherUserId }})" class="cursor-pointer">
+                        <div
+                            class="flex items-center justify-between bg-green-500 text-white text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
                     border-2 border-black shadow-custom-button hover:bg-green-600 cursor-pointer md:text-center">
-                        <x-bladewind.icon name="phone" class="justify-self-start" />
-                        CALL {{ strtoupper(explode(' ', $otherUserName)[0]) }}
+                            <x-bladewind.icon name="phone" class="justify-self-start" />
+                            CALL {{ strtoupper(explode(' ', $otherUserName)[0]) }}
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
             @endif
             <li class="w-4/5">
                 <a href="{{ route('video.join.meet') }}">
                     <div
-                        class="flex items-center justify-between bg-accent2 text-primary text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
-                    border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 cursor-pointer md:text-center">
+                        class="flex items-center justify-between bg-primary text-accent text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
+                    border-2 border-charcoal hover:bg-primary/70 cursor-pointer md:text-center">
                         <x-bladewind.icon name="video-camera" class="justify-self-start" />
                         JOIN A NEW CALL
                     </div>
@@ -56,8 +56,8 @@
             <li class="w-4/5">
                 <a href="{{ route('video.call.create') }}">
                     <div
-                        class="flex items-center justify-between bg-accent2 text-primary text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m border-2 border-black 
-                    shadow-custom-button hover:bg-primary hover:text-accent2 cursor-pointer md:text-center">
+                        class="flex items-center justify-between bg-primary text-accent text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m 
+                        border-2 border-charcoal hover:bg-primary/70 cursor-pointer md:text-center">
                         <x-bladewind.icon name="plus" class="justify-self-start" />
                         CREATE A NEW CALL
                     </div>
@@ -85,7 +85,7 @@
                 @endphp
             @endif
             <div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
-                class="text-5xl sm:text-1xl text-accent2 text-stroke-thick2 stroke-black font-black mb-5 m-8 ">
+                class="text-3xl md:text-5xl font-dela text-charcoal font-black mb-5 m-8 max-md:text-2xl max-md:mx-4 max-md:mb-3">
                 Welcome, {{ $firstName ?: 'User' }}!
             </div>
             <div>
@@ -95,13 +95,13 @@
                 </div>
 
                 {{-- ROW 2 --}}
-                <div class="flex gap-x-6">
+                <div class="flex gap-x-6 max-lg:flex-col max-lg:gap-y-4">
                     <x-current-session :subjects="$subjects" :user="$user" :tutor="$tutor" :student="$student" />
                     <x-yoursubjects :pickedSubjects="$pickedSubjects" :user="$user" />
                 </div>
 
-                <div class="flex flex-row">
-                    <div class="w-[70%] lg:w-[70%] mt-8 mr-8 ">
+                <div class="flex max-lg:flex-col max-lg:gap-4">
+                    <div class="w-[70%] mt-8 mr-8 max-lg:w-full max-lg:mr-0 max-lg:mt-6">
                         {{-- calendar | schedule --}}
                         <section data-aos="fade-up" data-aos-anchor-placement="top-bottom" class="w-full">
                             <x-creating-calendar />
@@ -112,7 +112,8 @@
                             <x-upcoming-task />
                         </section>
                     </div>
-                    <div class="flex max-h-[1060px] flex-col gap-y-6 justify-evenly w-[30%] lg:w-[30%] mt-8">
+                    <div
+                        class="flex flex-col gap-y-8 justify-start w-[30%] max-lg:w-full mt-8 max-lg:mt-6 max-lg:gap-y-4">
                         <section class="">
                             <x-card-gotomyprofile />
                         </section>
@@ -156,85 +157,82 @@
                                 @endif
                             </section>
                         @else
-                            <section>
-                                <section class="w-full h-full max-h-[322px]" data-aos="fade-up"
-                                    data-aos-anchor-placement="top-bottom">
-                                    <div
-                                        class="bg-accent3 rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-                                        <div
-                                            class="bg-accent2 rounded-t-[20px] text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
-                                            {{ $isStudent ? 'YOU HAVE NO BUDDY' : 'YOU HAVE NO STUDENT' }}
-                                        </div>
-                                        <div class="border-black p-4"></div>
-                                        <!-- content -->
-                                        <div class="flex flex-col gap-y-4 justify-center items-center px-4">
-
-                                            <img src="{{ asset('images/snowman.svg') }}">
-                                            <div class="flex flex-col text-lg text-center  text-primary ">
-                                                @if (Auth::user()->role === 'Student')
-                                                    <span class="text-2xl text-black font-black ">No Tutors Booked
-                                                        Yet!</span>
-                                                    <span class="leading-6 pt-2"><em>"The tutor's desk is
-                                                            clear—someone's about to have a very free
-                                                            schedule!"</em></span>
-                                                @else
-                                                    <span class="text-2xl text-black font-black ">No Students Booked You
-                                                        Yet!</span>
-                                                    <span class="leading-6 pt-2"><em>"Looks like the student seats are
-                                                            still empty—time to spread the word!"</em></span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="border-black p-4"></div>
+                            <section class="w-full h-auto" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                                <div
+                                    class="flex flex-col bg-accent rounded-md pb-2 shadow-black border-black border-2 h-auto">
+                                    <div class="font-dela text-lg text-charcoal font-black p-3 max-md:text-base">
+                                        {{ $isStudent ? 'YOU HAVE NO BUDDY' : 'YOU HAVE NO STUDENT' }}
                                     </div>
-                                </section>
+                                    <span class="flex mx-4 items-center">
+                                        <span class="h-px flex-1 bg-charcoal"></span>
+                                    </span>
+                                    <!-- content -->
+                                    <div class="flex flex-col gap-y-4 justify-center items-center p-6 max-md:p-4">
+                                        <img src="{{ asset('images/snowman.svg') }}"
+                                            class="w-32 h-32 max-md:w-24 max-md:h-24">
+                                        <div
+                                            class="flex flex-col text-lg text-center text-primary px-2 max-md:text-base">
+                                            @if (Auth::user()->role === 'Student')
+                                                <span class="text-2xl text-black font-black max-md:text-xl">No Tutors
+                                                    Booked Yet!</span>
+                                                <span class="leading-6 pt-2"><em>"The tutor's desk is clear—someone's
+                                                        about to have a very free
+                                                        schedule!"</em></span>
+                                            @else
+                                                <span class="text-2xl text-black font-black max-md:text-xl">No Students
+                                                    Booked You Yet!</span>
+                                                <span class="leading-6 pt-2"><em>"Looks like the student seats are still
+                                                        empty—time to spread
+                                                        the word!"</em></span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         @endif
 
 
                         @if (Auth::user()->role === 'Tutor')
-                            <section class="flex align-center h-full w-full " data-aos="fade-up"
+                            <section class="flex align-center h-auto w-full " data-aos="fade-up"
                                 data-aos-anchor-placement="top-bottom">
                                 <!-- container -->
-                                <div
-                                    class="w-full max-h-[390px] bg-accent3 overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-                                    <div
-                                        class="bg-accent2 text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
-                                        YOUR REWARDS
+                                <div class="w-full h-auto bg-accent overflow-hidden rounded-md pb-2 border-black border-2">
+                                    <div class="font-dela text-xl text-charcoal font-black p-3 max-md:text-lg">
+                                        YOUR TOTAL POINTS
                                     </div>
+                                    <span class="flex mx-4 items-center">
+                                        <span class="h-px flex-1 bg-charcoal"></span>
+                                    </span>
 
-                                    <div class="border-black p-2"></div>
                                     <!-- content -->
-                                    <div class="grid grid-cols-2 items-center p-4">
-                                        <!-- profile image -->
+                                    <div class="grid grid-cols-2 items-center p-4 gap-4 max-md:grid-cols-1 max-md:p-3">
                                         <div class="flex flex-col items-center justify-center">
                                             <x-bladewind::icon name="trophy" type="outline"
-                                                class="!h-32 !w-32 text-amber-500" />
+                                                class="!h-32 !w-32 text-primary max-md:!h-24 max-md:!w-24" />
 
                                         </div>
-                                        <!-- profile infos -->
-
-                                        <div>
-                                            <p class="font-bold text-primary text-[22px]">Your Total Points:</p>
-                                            <p class="font-bold text-[18px] -mt-1"> {{ Auth::user()->tutor->points }}
-                                                points</p>
-
+                                        <div class="max-md:text-center">
+                                            <p class="font-dela font-bold text-3xl -mt-1 max-md:text-2xl">
+                                                {{ Auth::user()->tutor->points }} points</p>
                                         </div>
+
                                     </div>
                                     <div class="flex flex-col justify-between items-center m-2 gap-2">
                                         <a href="{{ route('connect.student') }}">
                                             <button
-                                                class="justify-center w-[80%] bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3
-                                        h-10 text-[16px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
-                                                <span><a href="{{ route('rewards.myRedemptions') }}">My
-                                                        REWARDS</a></span>
+                                                class="justify-center w-[80%] bg-primary text-accent text-center font-poppins font-bold rounded-full px-5 py-3
+                                        h-10 text-[16px] border-2 border-charcoal hover:bg-primary/80 flex items-center space-x-2">
+                                                <span><a href="{{ route('rewards.myRedemptions') }}">
+                                                    My Rewards</a></span>
                                             </button>
                                         </a>
                                         <a href="{{ route('connect.student') }}">
                                             <button
-                                                class="justify-center w-[80%] bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-3 h-10 text-[16px] border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
-                                                <span><a href="{{ route('rewards.view') }}">SEE AVAILABLE
-                                                        REWARDS</a></span>
+                                                class="justify-center w-[80%] bg-primary text-accent text-center font-poppins font-bold rounded-full 
+                                                px-5 py-3 h-10 text-[16px] border-2 border-charcoal hover:bg-primary/80 flex items-center space-x-2">
+                                                <span><a href="{{ route('rewards.view') }}">
+                                                    See Available Rewards
+                                                </a></span>
                                             </button>
                                         </a>
                                     </div>
@@ -281,50 +279,52 @@
 
             });
 
-            
+
             window.initiateVideoCall = function(receiverId) {
-                
+
                 const callingSound = new Audio('/sounds/ringtone-incoming.mp3');
                 callingSound.loop = true;
-                
-                
+
+
                 const playPromise = callingSound.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(e => console.log('Sound play failed:', e));
                 }
-                
+
                 fetch('/video-call/initiate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify({ receiver_id: receiverId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Call initiated to:', data.receiver_name);
-                        console.log('Room:', data.room_name);
-                        
-                        
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({
+                            receiver_id: receiverId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Call initiated to:', data.receiver_name);
+                            console.log('Room:', data.room_name);
+
+
+                            callingSound.pause();
+                            callingSound.currentTime = 0;
+
+
+                            window.location.href = `/video-call/${data.room_name}`;
+                        } else {
+                            callingSound.pause();
+                            callingSound.currentTime = 0;
+                            alert('Error: ' + (data.message || 'Failed to initiate call'));
+                        }
+                    })
+                    .catch(error => {
                         callingSound.pause();
                         callingSound.currentTime = 0;
-                        
-                        
-                        window.location.href = `/video-call/${data.room_name}`;
-                    } else {
-                        callingSound.pause();
-                        callingSound.currentTime = 0;
-                        alert('Error: ' + (data.message || 'Failed to initiate call'));
-                    }
-                })
-                .catch(error => {
-                    callingSound.pause();
-                    callingSound.currentTime = 0;
-                    console.error('Call initiation error:', error);
-                    alert('Error: Failed to initiate call');
-                });
+                        console.error('Call initiation error:', error);
+                        alert('Error: Failed to initiate call');
+                    });
             };
         </script>
     </x-slot>

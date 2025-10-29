@@ -10,10 +10,6 @@
     'percentage_label_position' => 'top-left',
     'percentageLabelPosition' => 'top-left',
     'shade' => config('bladewind.progress_bar.shade', 'faint'),
-    'text_color_weight' => [
-        'faint' => 600,
-        'dark' => 50,
-    ],
     'percentage_prefix' => '',
     'percentagePrefix' => '',
     'percentage_suffix' => '',
@@ -31,13 +27,13 @@
 
 @php
     // reset variables for Laravel 8 support
-    $show_percentage_label = filter_var($show_percentage_label, FILTER_VALIDATE_BOOLEAN);
-    $striped = filter_var($striped, FILTER_VALIDATE_BOOLEAN);
-    $animated = filter_var($animated, FILTER_VALIDATE_BOOLEAN);
-    $showPercentageLabel = filter_var($showPercentageLabel, FILTER_VALIDATE_BOOLEAN);
-    $show_percentage_label_inline = filter_var($show_percentage_label_inline, FILTER_VALIDATE_BOOLEAN);
-    $showPercentageLabelInline = filter_var($showPercentageLabelInline, FILTER_VALIDATE_BOOLEAN);
-    $transparent = filter_var($transparent, FILTER_VALIDATE_BOOLEAN);
+    $show_percentage_label = parseBladewindVariable($show_percentage_label);
+    $striped = parseBladewindVariable($striped);
+    $animated = parseBladewindVariable($animated);
+    $showPercentageLabel = parseBladewindVariable($showPercentageLabel);
+    $show_percentage_label_inline = parseBladewindVariable($show_percentage_label_inline);
+    $showPercentageLabelInline = parseBladewindVariable($showPercentageLabelInline);
+    $transparent = parseBladewindVariable($transparent);
     if ($showPercentageLabel) $show_percentage_label = $showPercentageLabel;
     if (!$showPercentageLabelInline) $show_percentage_label_inline = $showPercentageLabelInline;
     if ($percentageLabelPosition !== $percentage_label_position) $percentage_label_position = $percentageLabelPosition;
@@ -46,15 +42,19 @@
     if ($percentageSuffix !== $percentage_suffix) $percentage_suffix = $percentageSuffix;
     if ($cssOverride !== $css_override) $css_override = $cssOverride;
     if ($barClass !== $bar_class) $bar_class = $barClass;
-    $bar_color = ($shade == 'dark') ? "bg-$color" : "bg-$color";
-    //-----------------------------------------------------------------------
-
     if(! is_numeric($percentage_label_opacity*1)) $percentage_label_opacity = '100';
-    $color = (!in_array($color, ['primary', 'red', 'yellow', 'green', 'blue', 'pink', 'cyan', 'gray', 'purple', 'orange', 'violet', 'fuchsia', 'indigo'])) ? 'primary' : $color;
+
+    $colour = defaultBladewindColour($color);
+    $bar_colour = ($shade == 'dark') ? "bg-$colour-500" : "bg-$colour-300";
     $percentage_label_position = str_replace(' ', '_', $percentage_label_position);
+
+    $text_colour_weight = [
+        'faint' => 600,
+        'dark' => 50,
+    ];
 @endphp
 
-<div class="h-[50px] bw-progress-bar  {{$class}} ">
+<div class="bw-progress-bar {{$class}}">
     @if($show_percentage_label &&
         !$show_percentage_label_inline &&
         Str::contains($percentage_label_position, 'top'))
@@ -63,11 +63,11 @@
                     class="opacity-{{$percentage_label_opacity}}">{{ $percentage}}%</span> {{$percentage_suffix}}
         </div>
     @endif
-    <div class="@if(!$transparent) bg-slate-200/70 dark:bg-dark-800/70 w-full @endif h-full mt-1 my-2 rounded-r-full">
+    <div class="@if(!$transparent) bg-blue-900 dark:bg-dark-800/70 w-full @endif mt-1 my-2 border-2 border-charcoal rounded-full">
         <div style="width: {{$percentage}}%"
-             class="flex justify-center items-center py-1 border-2 border-black {{$bar_color}} {{$css_override}} relative overflow-hidden h-full rounded-full bar-width animate__animated animate__fadeIn {{$bar_class}}">
+             class="text-center py-1 {{$bar_colour}} {{$css_override}} relative  overflow-hidden h-full rounded-full bar-width animate__animated animate__fadeIn {{$bar_class}}">
             @if($show_percentage_label && $show_percentage_label_inline)
-                <span class="text-accent2 text-lg dark:text-dark-600 px-2">
+                <span class="text-{{$colour}}-{{$text_colour_weight[$shade]}} dark:text-dark-600 px-2 text-xs">
             {{$percentage_prefix}} <span class="opacity-{{$percentage_label_opacity}}">{{ $percentage}}%</span> {{$percentage_suffix}}
             </span>
             @endif

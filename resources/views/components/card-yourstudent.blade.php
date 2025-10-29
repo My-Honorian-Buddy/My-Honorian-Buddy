@@ -64,33 +64,34 @@
     }
 @endphp
 
-@if ($hasBookedSessions)
-    <section class="h-full max-h-[322px]" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-        <!-- container -->
 
-        <div
-            class="bg-accent3 h-full overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-            <div class="bg-accent2 text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
+
+<section class="h-auto" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+        <div class="bg-accent h-full overflow-hidden rounded-md pb-2 mb-4 border-black border-2">
+            <div class="font-dela text-xl text-charcoal font-black p-3 max-md:text-lg">
                 @if (Auth::user()->role === 'Student')
                     YOUR BUDDY
                 @else
                     YOUR STUDENT
                 @endif
             </div>
+            <span class="flex mx-4 items-center">
+                <span class="h-px flex-1 bg-charcoal"></span>
+            </span>
 
             <!-- content -->
-            <div class="grid grid-cols-2 items-center p-4">
+            <div class="grid grid-cols-2 items-center p-4 gap-4 max-md:grid-cols-1 max-md:p-3">
                 <!-- profile image -->
                 <div class="flex justify-center">
-                    <img src="{{ $profile_pic }}" alt="Profile"
-                        class="h-32 w-32 lg:h-40 lg:w-40 border-4 border-black rounded-lg">
+                    <img src="{{ Auth::user()->profile_pic }}" alt="Profile"
+                        class="h-40 w-40 border-4 border-black rounded-lg max-md:h-28 max-md:w-28">
                 </div>
                 <!-- profile infos -->
-                <div>
-                    <p class="font-bold ml-5 text-primary text-[16px]">Firstname</p>
-                    <p class="font-bold ml-5 text-[18px] -mt-1">{{ $fname }}</p>
-                    <p class="font-bold ml-5 text-primary text-[16px]">Lastname</p>
-                    <p class="font-bold ml-5 text-[18px] -mt-1">{{ $lname }}</p>
+                <div class="max-md:text-center">
+                    <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm">Firstname</p>
+                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">Davidson</p>
+                    <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm">Lastname</p>
+                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">De Leon</p>
 
                 </div>
 
@@ -100,44 +101,10 @@
                     <x-drop :tutor_id="$tutor_id" />
                 @endif
 
-                
+
             </div>
         </div>
     </section>
-@else
-    <section class="m-4 max-h-[322px] mt-8 mr-8 max-w-s" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-        <div
-            class="bg-[#753434] overflow-hidden rounded-[20px] pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-            <div class=" text-2xl text-primary text-stroke font-black p-3 border-b-2 border-black">
-                @if (Auth::user()->role === 'Student')
-                    YOU HAVE NO BUDDYs
-                @else
-                    YOU HAVE NO STUDENT
-                @endif
-            </div>
-            <div class="border-black p-4"></div>
-            <!-- content -->
-            <div class="flex flex-col gap-y-4 justify-center items-center px-4">
-
-                <img src="{{ asset('images/snowman.svg') }}">
-                <div class="flex flex-col text-lg text-center  text-primary ">
-                    @if (Auth::user()->role === 'Student')
-                        <span class="text-2xl text-black font-black ">No Tutors Booked Yet!</span>
-                        <span class="leading-6 pt-2"><em>"The tutor's desk is clear—someone’s about to have a very free
-                                schedule!"</em></span>
-                    @else
-                        <span class="text-2xl text-black font-black ">No Student Booked You Yet!</span>
-                        <span class="leading-6 pt-2"><em>"Looks like the student seats are still empty—time to spread
-                                the word!"</em></span>
-                    @endif
-                </div>
-            </div>
-            <div class="border-black p-4"></div>
-        </div>
-
-    </section>
-@endif
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 

@@ -6,7 +6,7 @@
         $user = Auth::user() ?? null;
     }
 @endphp
-<footer class="bg-secondary text-black mt-0 relative">
+<footer class="bg-accent text-black mt-0 relative">
     <div class="border-t border-black mx-0 px-0"></div>
 
     {{-- Main contents --}}

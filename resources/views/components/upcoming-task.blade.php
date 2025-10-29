@@ -1,53 +1,53 @@
 <section class="">
     <!-- container SINIRA MO NO-->
-    <div
-        class="bg-accent3 rounded-[20px] overflow-hidden pt-2 pb-2 mb-4 shadow-custom-button shadow-black border-black border-2">
-        <div class="flex bg-primary -mt-2 items-center w-full border-b-2 border-black py-2">
-
-            <div class="flex w-full justify-start text-2xl text-accent2 text-stroke font-black ml-8">TO-DO LIST</div>
-        </div>
-        <!-- upcoming tasks, checkboxes -->
-        <div class="w-full p-2 space-y-3 rounded-[20px]">
-            <form id="addTaskForm" class="flex flex-col px-6 space-y-4"method="POST" action="{{ route('tasks.store') }}">
-                @csrf
-                <input type="text" name="title" placeholder="To Do Task"
-                    class="text-primary py-3 px-6 bg-secondary rounded-md">
-                <div class="w-full flex justify-end">
-                    <button type="submit"
-                        class="flex bg-primary items-center justify-center w-28 h-12 border-2
-                    border-black py-4 px-8 text-accent2 rounded-md 
-                    hover:bg-accent2 hover:text-primary transition ease-in-out">Add</button>
+    <section data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+        <div class="bg-accent rounded-md overflow-hidden pt-2 pb-2 mb-4 border-black border-2">
+            <div class="flex items-center bg-accent w-full border-charcoal py-2">
+                <div
+                    class="font-dela flex w-full justify-start text-xl text-darkgray font-bold ml-8 max-md:ml-4 max-md:text-lg">
+                    TO-DO List
                 </div>
-            </form>
-
-            @php
-                $todolists = Auth::user()->to_do_lists;
-            @endphp
-            <div id="taskList" class="space-y-3 pt-10 px-6">
-                @foreach ($todolists as $task)
-                    <div id="task-{{ $task->id }}"
-                        class="bg-accent3 flex items-center justify-between h-12 border-2
-                        text-primary border-primary rounded-md">
-                        <input type="checkbox" onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
-                            class="peer ml-4" {{ $task->is_completed ? 'checked' : '' }}>
-                        <label class="{{ $task->is_completed ? 'line-through text-red-600' : '' }}">
-                            {{ $task->title }}
-                        </label>
-                        <button onclick="deleteTask({{ $task->id }})"
-                            class="text-primary mr-4 hover:underline">Delete</button>
+            </div>
+            <span class="flex mx-4 items-center">
+                <span class="h-px flex-1 bg-charcoal"></span>
+            </span>
+            <div class="font-poppins w-full p-2 space-y-3 rounded-[20px]">
+                <form id="addTaskForm" class="flex flex-col px-6 space-y-4 max-md:px-3" method="POST"
+                    action="{{ route('tasks.store') }}">
+                    @csrf
+                    <input type="text" name="title" placeholder="To Do Task"
+                        class="text-primary py-3 px-6 bg-accent rounded-sm border border-black
+                                        text-lg outline-none duration-200 ring-2 ring-transparent focus:ring-primary/70 max-md:py-2 max-md:px-4 max-md:text-base">
+                    <div class="w-full flex justify-end">
+                        <button type="submit"
+                            class="flex bg-primary items-center justify-center w-28 h-12 border-2
+                                            border-charcoal py-4 px-8 text-accent rounded-sm font-bold 
+                                            hover:bg-primary/70 active:scale-95 transition ease-in-out max-md:w-24 max-md:h-10 max-md:py-3 max-md:px-6 max-md:text-sm">Add</button>
                     </div>
-                @endforeach
+                </form>
+
+                @php
+                    $todolists = Auth::user()->to_do_lists;
+                @endphp
+                <div id="taskList" class="space-y-3 pt-10 px-6 max-md:px-3 max-md:pt-6">
+                    @foreach ($todolists as $task)
+                        <div id="task-{{ $task->id }}"
+                            class="bg-accent flex items-center !justify-between h-12 border
+                                            text-charcoal font-semibold border-charcoal rounded-sm max-md:min-h-[48px] max-md:h-auto max-md:px-2 max-md:py-2">
+                            <input type="checkbox" onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
+                                class="peer ml-4 " {{ $task->is_completed ? 'checked' : '' }}>
+                            <label
+                                class="{{ $task->is_completed ? 'line-through text-red-600' : '' }} flex-1 mx-3 break-words max-md:mx-2 max-md:text-sm">
+                                {{ $task->title }}
+                            </label>
+                            <button onclick="deleteTask({{ $task->id }})"
+                                class="text-primary mr-4 hover:underline flex-shrink-0 max-md:mr-2 max-md:text-sm">Delete</button>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
-
-        <hr class="border-1 border-black">
-
-        <div class="mt-2">
-            <div class="py-4 flex items-center px-3">
-
-            </div>
-        </div>
-    </div>
+    </section>
 </section>
 
 {{-- script for upcoming task --}}
@@ -64,7 +64,7 @@
                 console.log("Task added successfully!");
 
                 $('#taskList').append(`
-                    <div id="task-${response.task.id}" class="bg-white flex items-center justify-between h-12 border-2 border-black rounded-md">
+                    <div id="task-${response.task.id}" class="bg-accent flex items-center justify-between text-charcoal h-12 border border-charcoal rounded-sm">
                         <input type="checkbox" onchange="toggleTaskStatus(${response.task.id}, this.checked)"
                                 class="peer ml-4">
                         <label>${response.task.title}</label>
