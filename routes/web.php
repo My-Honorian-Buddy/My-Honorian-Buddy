@@ -13,7 +13,6 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\StudentSubjectController;
 use App\Http\Controllers\Auth\TutorSubjectController;
 use App\Http\Controllers\GoogleAuthController;
-use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VideoCallController;
@@ -242,10 +241,6 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
     Route::get('session/matching-schedules', [SessionController::class, 'getMatchingSchedules'])->name('session.matching-schedules');
-    
-    // Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
-    // Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
-    // Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
     Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');
     Route::match(['get', 'post'], '/ai-matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
