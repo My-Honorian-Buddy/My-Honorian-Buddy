@@ -60,7 +60,7 @@
 
             <!-- Submit Button and Login Link -->
             <div class="font-poppins flex flex-col gap-4 pt-2">
-                <x-primary-button class="w-full justify-center font-semibold bg-accent3 border-primary/25 text-primary hover:text-accent3 hover:bg-primary text-sm sm:text-base py-2.5 sm:py-3 transition-all">
+                <x-primary-button class="w-full justify-center font-semibold bg-accent3 border-charcoal text-primary hover:text-accent3 hover:bg-primary text-sm sm:text-base py-2.5 sm:py-3 transition-all">
                     {{ __('Create Account') }}
                 </x-primary-button>
                 

@@ -1,4 +1,4 @@
-<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border border-gray-300 rounded-lg lg:rounded-[16px] w-full max-w-7xl mx-auto">
+<div class="overflow-hidden flex flex-col lg:flex-row bg-secondary border-4 border-charcoal rounded-md w-full max-w-7xl mx-auto">
     <!-- Left Side - Illustration -->
     <div class="hidden lg:flex flex-col w-full lg:w-1/2 bg-primary font-poppins p-6 sm:p-8 lg:p-10">
         <div class="flex justify-start items-center mb-8 lg:mb-0 lg:h-1/6">
@@ -19,8 +19,8 @@
     </div>
     
     <!-- Right Side - Form -->
-    <div class="flex flex-col justify-center w-full lg:w-1/2 bg-accent3 p-6 sm:p-8 md:p-12 lg:p-16 xl:px-20 min-h-[400px] lg:min-h-[600px]">
-        <h2 class="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-6 font-bold font-poppins leading-tight">
+    <div class="flex flex-col justify-center w-full lg:w-1/2 lg:bg-accent3 p-6 sm:p-8 md:p-12 lg:p-16 xl:px-20 min-h-[400px] lg:min-h-[600px]">
+        <h2 class="font-dela text-charcoal text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-6 font-bold leading-tight">
             Create Account
         </h2>
         <div class="w-full">
