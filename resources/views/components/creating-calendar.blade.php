@@ -308,15 +308,12 @@
             <div class="modal-body">
                 <form id="addEventForm">
                     <div class="form-group">
-                        <label class="form-label">Event Title *</label>
                         <input type="text" id="eventTitle" class="form-input" placeholder="Enter event title" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Start Date & Time *</label>
                         <input type="datetime-local" id="eventStart" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">End Date & Time *</label>
                         <input type="datetime-local" id="eventEnd" class="form-input" required>
                     </div>
                 </form>
