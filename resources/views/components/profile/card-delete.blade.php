@@ -1,21 +1,21 @@
 <div class="flex mt-8 mb-8">
-    <div class="w-full bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
-        <div class="relative rounded-[20px] px-6">
+    <div class="w-full bg-accent rounded-md  border-charcoal border-4">
+        <div class="relative rounded-[20px] px-8">
 
             <!-- Card Content -->
             <div class="flex flex-col mt-8 text-left">
-                <span class="font-bold text-4xl m-5 leading-relaxed">Delete Account:</span>
-                <span class="font-bold text-red-900 text-1xl ml-5 mb-5">Once your account is deleted, all of its resouces and data will be permanently deleted. 
+                <span class="font-dela font-bold text-4xl m-5 leading-relaxed">Delete Account:</span>
+                <span class="italic font-bold text-primary text-1xl ml-5 mb-5">Once your account is deleted, all of its resouces and data will be permanently deleted. 
                                                                             Before deleting your account, please download any data or information that you wish to retain.</span>
             </div>
 
                 <!-- Button-->
-                <div class="flex justify-end m-8">
+                <div class="w-auto mt-6 m-8 flex justify-end">
                     <x-danger-button 
                     x-data=""
                     x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
                     type="submit" 
-                    class=" bg-red-900 h-11 rounded-[4px] text-lg  shadow-custom-button text-black ">
+                    class=" bg-accent h-11 rounded-sm text-lg text-charcoal hover:shadow-custom-button">
                         Delete Account
                     </x-danger-button>
                 </div>

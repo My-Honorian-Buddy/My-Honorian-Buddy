@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fb8e4acdb0a2c14b78cf2ae4ca9b556",
+    "content-hash": "a9ee76f5666e982f70d1b61a298b77c1",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4407,20 +4407,20 @@
         },
         {
             "name": "mkocansey/bladewind",
-            "version": "v2.9.0",
+            "version": "v3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mkocansey/bladewind.git",
-                "reference": "b63f97cd345688122cec0d994dfcd14f36b16e96"
+                "reference": "e5cd988893dd40a9349df11d1367f5a0c3051ec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mkocansey/bladewind/zipball/b63f97cd345688122cec0d994dfcd14f36b16e96",
-                "reference": "b63f97cd345688122cec0d994dfcd14f36b16e96",
+                "url": "https://api.github.com/repos/mkocansey/bladewind/zipball/e5cd988893dd40a9349df11d1367f5a0c3051ec4",
+                "reference": "e5cd988893dd40a9349df11d1367f5a0c3051ec4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3"
+                "php": ">=8.0"
             },
             "type": "library",
             "extra": {
@@ -4454,9 +4454,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mkocansey/bladewind/issues",
-                "source": "https://github.com/mkocansey/bladewind/tree/v2.9.0"
+                "source": "https://github.com/mkocansey/bladewind/tree/v3.1.6"
             },
-            "time": "2025-01-15T05:40:31+00:00"
+            "time": "2025-10-27T12:35:17+00:00"
         },
         {
             "name": "monolog/monolog",

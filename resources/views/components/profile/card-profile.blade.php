@@ -1,12 +1,13 @@
 <div class="flex mt-8 mb-8">
-    <div class="w-full bg-accent3 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
+    <div class="w-full bg-accent rounded-md shadow-black border-charcoal border-4">
         <div class="relative rounded-[20px] px-6 py-10 text-center">
 
             <!-- Profile Picture -->
             <div class="absolute -top-[75px] left-1/2 transform -translate-x-1/2">
                 <img src="{{ Auth::user()->profile_pic ?? asset('https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_neytiri_16x9_1098_01_0e7d844a.jpeg') }}" 
                 alt="Profile" 
-                class="w-[150px] h-[150px] bg-accent3 object-cover rounded-full border-4 border-white shadow-md">
+                class="w-[150px] h-[150px] bg-accent3 object-cover rounded-full border-4 border-white ring-2 ring-charcoal
+                 shadow-md">
             </div>
 
             @if(Auth::check())
@@ -29,23 +30,23 @@
         @endif
             <!-- Card Content -->
             <div class="flex flex-col mt-10">
-                <span class="font-bold text-4xl m-5 leading-relaxed">{{$firstName}} {{$lastName}}</span>
+                <span class="font-dela font-bold text-5xl m-5 leading-relaxed">{{$firstName}} {{$lastName}}</span>
                 
                 @if($user->role === 'Student')
                     <span class="font-semibold text-2xl m-5 leading-relaxed">{{$user -> student -> year_level}} {{$user -> student -> department}} </span>
                 @endif
                 
                 @if($bio !== null)
-                    <span class="font-semibold text-2xl m-5 leading-relaxed">"{{$bio}}"</span>
+                    <span class="italic font-semibold text-2xl m-5 leading-relaxed">"{{$bio}}"</span>
                 @else
                     <span class="font-semibold text-2xl m-5 leading-relaxed">No Bio Yet</span>
                 @endif
 
                 @if ($user -> role === 'Tutor' && $user->tutor)
-                    <span class="font-bold text-4xl m-5 leading-relaxed">
+                    <span class="font-dela font-bold text-4xl m-5 leading-relaxed">
                     TOTAL POINTS
                     </span>
-                    <span class="font-semibold text-2xl m-5 leading-relaxed">
+                    <span class="font-dela font-semibold text-2xl m-5 leading-relaxed">
                         {{ $user->tutor->points ?? 0 }}
                     </span>
                 @endif

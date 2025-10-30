@@ -23,7 +23,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <x-bladewind.notification />
 </head>
-<body class="font-poppins font-semibold bg-secondary">
+<body class="font-poppins font-semibold bg-[#F5EFEF]">
     
 <div class="flex-1">
         <!-- nav bar -->
@@ -31,14 +31,14 @@
         
     <div class="flex" >
         <div class="w-96 min-h-screen p-8 space-y-6 border-r border-black">
-            <div class="w-full">
+            <div class="flex min-h-screen justify-center w-full">
                 {{ $sidebars }}
             </div>
         </div>
         
         {{-- Main Content --}}
         <div class="w-full">
-            <div class="mt-32 m-8">
+            <div class="mt-32 m-8 pb-32">
                 <!-- Burger -->
                     
                     {{ $maincontent }}

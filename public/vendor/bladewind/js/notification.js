@@ -93,10 +93,10 @@ class BladewindNotification {
     }
 
     template = () => {
-        return `<div class="flex border-2  ${this.name} border-black shadow-custom-button
-                bg-secondary dark:bg-dark-800/95 dark:shadow-custom-button p-4 rounded-lg mb-3">
-            <div class="pr-4 grow-0">${this.modalIcon()}</div>
-            <div class="pb-1 pr-4 relative grow">
+        return `<div class="flex border-2  ${this.name} border-charcoal
+                bg-accent dark:bg-dark-800/95 p-4 rounded-md mb-3">
+                <div class="pr-4 grow-0">${this.modalIcon()}</div>
+                <div class="pb-1 pr-4 relative grow">
                 <h1 class="font-semibold text-black  ${this.sizes[this.size].heading}">${this.title}</h1>
                 <div class="pt-1 !text-gray-600 dark:!text-slate-400 message ${this.sizes[this.size].message}">${this.message}</div>
                 ${this.closeIcon()}
@@ -106,7 +106,8 @@ class BladewindNotification {
 
     closeIcon = () => {
         return `<svg xmlns="http://www.w3.org/2000/svg" class="close ${this.sizes[this.size].close} absolute -right-1 cursor-pointer
-                    -top-1 text-gray-400 sm:!max-w-[350px] hover:bg-gray-200 hover:rounded-full dark:hover:bg-slate-900 p-1" fill="none"
+                    -top-1 text-gray-400 hover:text-gray-500 dark:hover:text-dark-100 sm:!max-w-[350px] 
+                    bg-gray-200 hover:bg-gray-300 rounded-full dark:bg-dark-900 dark:hover:bg-dark-950 p-1" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round"
                     stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>`;
     }

@@ -1,11 +1,11 @@
 <div class="flex mt-8 mb-8">
-    <div class="w-full bg-accent3 h-auto pb-16 rounded-[20px] shadow-custom-button shadow-black border-black border-2">
-        <div class="relative rounded-[20px] px-6">
+    <div class="w-full bg-accent h-auto pb-8 rounded-md border-charcoal border-4">
+        <div class="relative rounded-[20px] px-8">
 
             <!-- Card Content -->
             <div class="flex flex-col mt-8 text-left">
-                <span class="font-bold text-4xl m-5 leading-relaxed">Update Password</span>
-                <span class="font-bold text-red-900 text-1xl ml-5 mb-5">Ensure your account is using a long, random password to stay secure.</span>
+                <span class="font-dela font-bold text-4xl m-5 mb-0 leading-relaxed">Update Password</span>
+                <span class="italic font-bold text-primary text-1xl ml-5 mb-5">Ensure your account is using a long, random password to stay secure.</span>
             </div>
 
             <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
@@ -37,8 +37,13 @@
                 </div>
 
                 <!-- Button-->
-                <div class="flex items-center justify-end m-8">
-                    <x-primary-button type="submit" class="bg-red-900 text-white">Save</x-primary-button>
+                <div class="w-auto mt-6 m-8 flex justify-end">
+                    <button type="submit"
+                        class="sm:w-auto bg-accent px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 md:py-1 h-auto sm:h-10 md:h-11 border-2 border-black
+                                active:scale-95 transition-all duration-800 ease-in-out flex items-center justify-center rounded-sm font-bold text-sm
+                                hover:bg-primary w-auto hover:text-accent tracking-widest uppercase hover:shadow-custom-button">
+                        Save
+                    </button>
                     @if (session('status') === 'password-updated')
                         <p
                             x-data="{ show: true }"
