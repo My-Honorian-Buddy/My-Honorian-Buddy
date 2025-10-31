@@ -14,9 +14,8 @@
     @if (!empty($pickedSubjects))
         @foreach ($pickedSubjects as $subject)
             <div
-                class="bg-accent flex items-center w-full border-b-2 border-black py-2 max-md:flex-col max-md:items-start">
-                <span
-                    class="h-6 w-6 ml-10 bg-primary border-2 border-black rounded-full shrink-0 max-md:ml-4 max-md:mb-2"></span>
+                class="bg-accent flex items-center w-ful py-2 px-8 max-md:flex-col max-md:items-start">
+                
                 <div class="grid grid-rows-1 my-7 ml-3 max-md:ml-4 max-md:my-4 max-md:w-full">
                     <div>
                         <p class="font-poppins font-bold text-2xl break-words max-md:text-lg">
@@ -26,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            <span class="flex mx-4 items-center">
+                <span class="h-px flex-1 bg-charcoal"></span>
+            </span>
         @endforeach
     @else
         <div
