@@ -63,7 +63,7 @@
 
 <div>
     <div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
-        class="w-full bg-accent rounded-md overflow-hidden border-2 border-charcoal my-8 ">
+        class="w-full bg-accent rounded-md shadow-sm overflow-hidden border-2 border-charcoal my-8 ">
         <div class="flex items-center bg-accent w-full border-charcoal py-2">
             <div class="font-dela flex w-full  justify-start text-xl text-darkgray font-bold ml-8">
                 Progress
@@ -103,7 +103,7 @@
                 </div>
             </div>
         @else
-            <div class="flex flex-col justify-center items-center w-full h-96 bg-accent3 max-md:h-64">
+            <div class="flex flex-col justify-center items-center w-full h-96 bg-accent max-md:h-64">
                 <img src="{{ asset('images/idk.svg') }}" class="w-32 h-32 max-md:w-24 max-md:h-24">
                 <div
                     class="font-poppins font-semibold text-primary text-xl w-auto pt-4 text-center underline decoration-2 ">

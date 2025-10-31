@@ -93,20 +93,20 @@
             </div>
             <div>
                 {{-- ROW 1 --}}
-                <div>
+                <div class="my-8">
                     <x-daily-progress :subjects="$subjects" :user="$user" :student="$student" :tutor="$tutor" />
                 </div>
 
                 {{-- ROW 2 --}}
-                <div class="flex gap-x-6 max-lg:flex-col max-lg:gap-y-4">
+                <div class="flex my-8 gap-x-6 max-lg:flex-col max-lg:gap-y-4">
                     <x-current-session :subjects="$subjects" :user="$user" :tutor="$tutor" :student="$student" />
                     <x-yoursubjects :pickedSubjects="$pickedSubjects" :user="$user" />
                 </div>
 
-                <div class="flex max-lg:flex-col max-lg:gap-4">
-                    <div class="w-[70%] mt-8 mr-8 max-lg:w-full max-lg:mr-0 max-lg:mt-6">
+                <div class="flex my-8 max-lg:flex-col max-lg:gap-4">
+                    <div class="w-[70%] mr-8 max-lg:w-full max-lg:mr-0 max-lg:mt-6">
                         {{-- calendar | schedule --}}
-                        <section data-aos="fade-up" data-aos-anchor-placement="top-bottom" class="w-full">
+                        <section  class="w-full">
                             <x-creating-calendar />
                         </section>
 
@@ -116,7 +116,7 @@
                         </section>
                     </div>
                     <div
-                        class="flex flex-col gap-y-8 justify-start w-[30%] max-lg:w-full mt-8 max-lg:mt-6 max-lg:gap-y-4">
+                        class="flex flex-col gap-y-8 justify-start w-[30%] max-lg:w-full max-lg:mt-6 max-lg:gap-y-4">
                         <section class="">
                             <x-card-gotomyprofile />
                         </section>
@@ -246,10 +246,8 @@
                             <section class="flex align-center h-full w-full ">
                             </section>
                         @endif
-
                     </div>
                 </div>
-
             </div>
         </div>
         @if ($authUser->cor_status !== 'verified')
