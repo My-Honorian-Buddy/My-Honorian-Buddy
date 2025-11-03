@@ -246,6 +246,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
+    
     Route::get('session/matching-schedules', [SessionController::class, 'getMatchingSchedules'])->name('session.matching-schedules');
 
     Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');

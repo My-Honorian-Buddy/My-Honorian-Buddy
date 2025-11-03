@@ -8,15 +8,15 @@
     }
 </style>
 
-<div class="mt-4 flex justify-center items-center">
+<div class="w-full mt-4 flex justify-center items-center">
 
-        <button class="bg-primary text-accent2 text-center font-poppins font-bold rounded-full px-3 py-1 h-11 text-l border-2 border-black shadow-custom-button
-                    transition-all duration-600 ease-in-out hover:bg-accent2 hover:text-primary flex items-center space-x-2 mb-4" 
+        <button class="w-full bg-primary/5 text-primary text-center font-poppins font-bold rounded-sm px-3 py-1 h-11 text-l border-2 border-black hover:shadow-custom-button
+                    transition-all duration-600 ease-in-out hover:bg-primary hover:text-accent flex items-center space-x-2 mb-4" 
                     onclick="showModal('set-appointment')"
                     type="button"
                     >
                     
-            <span class="text-[12px] py-4">SET APPOINTMENT</span>
+            <span class="w-full text-center py-4">SET APPOINTMENT</span>
         </button>
         <x-bladewind.modal
             title="Application Form"

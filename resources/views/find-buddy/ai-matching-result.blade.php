@@ -31,7 +31,7 @@
 
 </head>
 
-<body class="font-poppins font-semibold bg-secondary">
+<body class="font-poppins font-semibold bg-[#F5EFEF]">
     <div class="flex-1">
         <!-- nav bar -->
         <x-nav-bar />
@@ -39,9 +39,8 @@
         <div class="flex flex-col items-center justify-center h-4/5 mt-20">
             <div class="relative text-center space-y-6">
                 <h1 class="relative z-30 font-bold leading-snug text-center">
-                    <div class="bg-primary shadow-custom-button px-2 border-2 border-black mb-6 rounded-full mt-5">
-                        <p class="text-[58px] px-5 py-3 text-accent2"
-                            style="-webkit-text-stroke: 2px black; -webkit-text-fill-color: currentColor;">
+                    <div class="bg-primary px-2 border-2 border-charcoal mb-6 rounded-lg mt-5">
+                        <p class="font-dela text-[58px] px-5 py-3 text-accent">
                             MATCHMAKING RESULTS
                         </p>
                     </div>
@@ -247,7 +246,7 @@
 
 
         {{-- card --}}
-        <div class="grid grid-cols-1 p-8 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 p-8 lg:grid-cols-3 gap-6">
 
             {{-- Match and Tutor Information --}}
             @if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors))
@@ -258,11 +257,11 @@
                         if (!is_array($match) || !isset($match['tutor_id'])) {
                             continue;
                         }
-                        
+
                         $user = $users->first(function ($u) use ($match) {
                             return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
                         });
-                        
+
                         // Skip if user not found
                         if (!$user || !isset($user->tutor)) {
                             continue;
@@ -308,9 +307,61 @@
                         <body class="bg-primary font-poppins font-semibold">
                             <section class="flex  mt-8 justify-center w-full">
 
+                                <div class="bg-accent hover:shadow-custom-button mx-auto max-w-md p-6 border border-charcoal
+                                transition-shadow duration-300 rounded-md cursor-pointer"
+                                    onclick='openTutorModal(
+                                        @json ($user->tutor->fname),
+                                        @json ($user->tutor->lname),
+                                        @json ($user->profile_pic),
+                                        @json ($days),
+                                        @json ($subjects),
+                                        @json($reviews),
+                                        @json ($user->tutor->year_level),
+                                        @json ($user->tutor->department),
+                                        @json ($user->tutor->gender),
+                                        @json ($user->tutor->address)
+                                        )'>
+                                    <div class="flex items-center gap-4">
+                                        <img alt="" src="{{ $user->profile_pic }}"
+                                            class="size-20 rounded object-cover" />
+
+                                        <div>
+                                            <h3 class="font-medium text-gray-900 sm:text-lg">
+                                                {{ $user->tutor->fname }} {{ $user->tutor->lname }}
+                                            </h3>
+                                            <p class="text-sm mb-1">
+                                                {{ $user->tutor->year_level }} {{ $user->tutor->department }}
+                                            </p>
+
+                                            <div class="mb-2">
+                                                @foreach ($user->tutor->subject_tutor as $subject)
+                                                    <span
+                                                        class="inline-flex justify-center items-center px-2.5 py-0.5 rounded-full min-w-[50px]
+                                            md:min-w-[50px] max-w-[150px] md:max-w-[175px] bg-primary/5 border-2 text-primary font-bold
+                                            border-primary/50">
+                                                        <p class="text-sm whitespace-nowrap">{{ $subject->subj_code }}
+                                                        </p>
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                            <span class="flex my-1 items-center">
+                                                <span class="h-px flex-1 bg-charcoal"></span>
+                                            </span>
+
+                                            <div class="mt-0.5 text-yellow-500">
+                                                <x-bladewind.icon name="star" type="solid" />
+                                                <span class="text-gray-700">{{ $user->tutor->rating }}
+                                                    ({{ $user->tutor->NoOfReviews }})
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 {{-- container --}}
                                 <div
-                                    class="bg-accent3 rounded-[20px] w-full mb-4 shadow-custom-button shadow-black border-black border-2 md">
+                                    class="hidden bg-accent3 rounded-[20px] w-full mb-4 shadow-custom-button shadow-black border-black border-2 md">
                                     <div class="p-4">
                                         {{-- content --}}
                                         <div
@@ -397,7 +448,7 @@
                                                                             schedule available</p>
                                                                     </div>
                                                                 @endif
-                        
+
                                                             </div>
 
                                                             <div class="w-full mb-2">
@@ -503,7 +554,7 @@
                 @endforeach
             @else
                 <div class="col-span-1 lg:col-span-2 flex flex-col items-center justify-center py-12">
-                    <div class="bg-accent2 rounded-[20px] p-8 shadow-custom-button border-2 border-black">
+                    <div class="bg-accent rounded-md p-8 border-2 border-charcoal">
                         <h3 class="text-2xl font-bold text-primary text-center mb-4">No Matches Found</h3>
                         <p class="text-lg text-primary text-center">
                             We couldn't find any tutors that match your subjects and preferences at the moment.
@@ -515,39 +566,57 @@
                 </div>
             @endif
         </div>
-        
+
         @if (!empty($pagedMatches) && count($pagedMatches) > 0)
-        <div class="flex justify-center mt-8">
-            {{ $pagedMatches->appends(request()->query())->links('custom-pagination') }}
-        </div>
+            <div class="flex justify-center mt-8">
+                {{ $pagedMatches->appends(request()->query())->links('custom-pagination') }}
+            </div>
         @endif
         <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
-            <div class="flex flex-col items-center justify-center p-6">
-                <div class="h-32 w-32 border-white border-8 rounded-full overflow-hidden">
-                    <img class="h-full w-full object-cover" id="profile-pic" alt="">
+
+            <div class="grid grid-cols-4 p-6">
+                <div class="flex flex-col items-center col-span-1">
+                    <div class="h-auto w-full border-charcoal border-2 rounded-sm overflow-hidden">
+                        <img class="h-full w-full object-cover" id="profile-pic" alt="">
+                    </div>
+                    @if (Auth::user()->role === 'Student')
+                        @if (Auth::user()->student->bookedsessions()->exists() ?? false)
+                            <div
+                                class="inline-block bg-primary text-secondary text-center font-poppins font-bold rounded-full px-5 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-buttonflex items-center mt-10 leading-[2px]">
+                                You already have a tutor.
+                            </div>
+                        @elseif (bookedSession::where('tutor_id', $user->id)->exists() ?? false)
+                            <div
+                                class="bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-button flex items-center mt-5">
+                                A student already booked this tutor.
+                            </div>
+                        @else
+                            <div class="w-full set-appointment-wrapper" data-user-id="{{ $user->tutor->user_id }}"
+                                tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
+                                <x-set-appointment />
+                            </div>
+                        @endif
+                    @endif
+
+                    <div class="w-full">
+                        <p class="font-bold text-primary text-base">Name</p>
+                        <p class="font-bold text-black text-xl" id="tutor-name">...</p>
+                    </div>
+                    <div class="w-full">
+                        <p class="font-bold text-primary">Gender</p>
+                        <p class="font-bold text-black text-xl" id="tutor-gender">...</p>
+                    </div>
                 </div>
 
-                <div class="mt-8">
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <h2 class="text-3xl font-bold text-primary">
-                                Personal Information
-                            </h2>
-                        </div>
-                        <div>
-
-                        </div>
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Name</p>
-                            <p class="font-bold  text-black text-[20px]" id="tutor-name">...</p>
-                        </div>
+                <!--middle-->
+                <div class="col-span-3 ml-10">
+                    <h2 class="text-3xl font-bold text-primary">
+                        Personal Information
+                    </h2>
+                    <div class="grid grid-cols-2 gap-8 mb-4">
                         <div>
                             <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
                             <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
-                        </div>
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Gender</p>
-                            <p class="font-bold text-black text-[20px]" id="tutor-gender"></p>
                         </div>
                         <div>
                             <p class="font-bold text-primary text-[16px]">Address</p>
@@ -555,45 +624,112 @@
                         </div>
                     </div>
 
-                    <hr class="mt-8 border-black">
+                    <span class="flex my-1 items-center">
+                        <span class="h-px flex-1 bg-charcoal"></span>
+                    </span>
 
-                    <div class="grid grid-cols-2 gap-6 mt-10">
+                    <h2 class="text-3xl font-bold text-primary">
+                        Schedule & Subjects
+                    </h2>
+                    <div class="grid grid-cols-2 gap-8 mb-4">
                         <div>
-                            <h2 class="text-3xl font-bold text-primary">
-                                Schedule & Subjects
-                            </h2>
-                        </div>
-                        <div>
-
+                            <p class="font-bold text-primary text-[16px]">Subject</p>
+                            <ul id="tutor-subjects"></ul>
                         </div>
                         <div>
                             <p class="font-bold text-primary text-[16px]">Schedule</p>
                             <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
                         </div>
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Subject</p>
-                            <ul id="tutor-subjects"></ul>
-                        </div>
+
                     </div>
 
-                    <hr class="mt-8 border-black">
+                    <span class="flex my-1 items-center">
+                        <span class="h-px flex-1 bg-charcoal"></span>
+                    </span>
 
-                    <div class="mt-10">
-                        <h2 class="font-bold text-primary text-3xl">Reviews</h2>
-                        <div class="mt-2" id="tutor-reviews"></div>
-                    </div>
+                    <h2 class="font-bold text-primary text-3xl">Reviews</h2>
+                    <div class="mt-2" id="tutor-reviews"></div>
 
                 </div>
             </div>
 
+
+
+            <div class="hidden">
+                <div class="flex flex-col items-center justify-center p-6">
+                    <div class="h-32 w-32 border-white border-8 rounded-full overflow-hidden">
+                        <img class="h-full w-full object-cover" id="profile-pic" alt="">
+                    </div>
+
+                    <div class="mt-8">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <h2 class="text-3xl font-bold text-primary">
+                                    Personal Information
+                                </h2>
+                            </div>
+                            <div>
+
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary text-[16px]">Name</p>
+                                <p class="font-bold  text-black text-[20px]" id="tutor-name">...</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
+                                <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary text-[16px]">Gender</p>
+                                <p class="font-bold text-black text-[20px]" id="tutor-gender"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary text-[16px]">Address</p>
+                                <p class="font-bold text-black text-[20px]" id="tutor-address"></p>
+                            </div>
+                        </div>
+
+                        <hr class="mt-8 border-black">
+
+                        <div class="grid grid-cols-2 gap-6 mt-10">
+                            <div>
+                                <h2 class="text-3xl font-bold text-primary">
+                                    Schedule & Subjects
+                                </h2>
+                            </div>
+                            <div>
+
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary text-[16px]">Schedule</p>
+                                <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary text-[16px]">Subject</p>
+                                <ul id="tutor-subjects"></ul>
+                            </div>
+                        </div>
+
+                        <hr class="mt-8 border-black">
+
+                        <div class="mt-10">
+                            <h2 class="font-bold text-primary text-3xl">Reviews</h2>
+                            <div class="mt-2" id="tutor-reviews"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </x-bladewind.modal-explore>
 
 
         {{-- manual searching --}}
         <div class="flex justify-center items-center mt-12">
-            <div class="font-bold font-poppins text-gray-500 mt-8 mb-8 text-[18px]">
-                Couldn't find the buddy you wanted? Try <a href="{{ route('tutor.search') }}"><u>Manual
-                        Searching.</u></a>
+            <div class="font-bold font-poppins text-gray-700 mt-8 mb-8 text-[18px]">
+                Couldn't find the buddy you wanted? Try
+                <a href="{{ route('tutor.search') }}" class="hover:text-primary">
+                    <u>Manual Searching.</u>
+                </a>
             </div>
         </div>
 

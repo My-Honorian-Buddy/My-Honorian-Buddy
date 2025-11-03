@@ -156,7 +156,8 @@
      class="w-full h-full  bg-black/40 fixed left-0 top-0 {{$blur_intensity()}}
      z-[999999] flex bw-modal bw-{{$name}}-modal hidden overscroll-contain">
     <div class="sm:{{$sizes[$size]}} lg:{{$sizes[$size]}} p-4 m-auto bw-{{$name}} animate__faster">
-        <div class="bg-accent3 overflow-hidden shadow-custom-button border-2 border-black relative dark:bg-dark-700/90 dark:border dark:border-dark-500/10 rounded-lg drop-shadow-2xl">
+        <div class="bg-accent overflow-hidden border-2 border-black relative dark:bg-dark-700/90 dark:border dark:border-dark-500/10
+         rounded-md drop-shadow-2xl">
             @if( $show_action_buttons && $show_close_icon)
                 <a href="javascript:void(0)" onclick="{!! $cancelAction !!}" class="p-4">
                     <x-bladewind::icon
@@ -169,7 +170,7 @@
             <div class="{{(!empty($type) || !empty($icon))?'flex':'flex-initial'}}">
                 
                 <div class="modal-body grow {{ $body_css  }} overflow-y-auto max-h-[42rem] overscroll-none">
-                    <div class="h-12 w-full bg-accent2 rounded-rt-lg border-b-2 border-black flex items-center pt-1 pl-1">
+                    <div class="w-full flex items-center pt-1 pl-1">
                         @if(!empty($type) || !empty($icon))
                             <div class="modal-icon w-auto grow-0">
                                 <div class=" px-2 ">
