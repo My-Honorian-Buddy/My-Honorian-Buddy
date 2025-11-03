@@ -35,7 +35,7 @@
     <x-slot name="sidebar_content">
         <ul class="flex flex-col items-center justify-center space-y-6">
             @if ($otherUserId)
-                <li class="w-4/5">
+                <li class="w-full">
                     <div onclick="initiateVideoCall({{ $otherUserId }})" class="cursor-pointer">
                         <div
                             class="flex items-center justify-between bg-green-500 text-white text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
@@ -46,24 +46,33 @@
                     </div>
                 </li>
             @endif
-            <li class="w-4/5">
-                <a href="{{ route('video.join.meet') }}">
-                    <div
-                        class="flex items-center justify-between bg-primary text-accent text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
-                    border-2 border-charcoal hover:bg-primary/70 cursor-pointer md:text-center">
+            <li class="w-full flex justify-center items-center">
+                <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden"
+                    href="{{ route('video.join.meet') }}">
+                    <span
+                        class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-primary transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
+                    </span>
+
+                    <span
+                        class="relative text-accent font-poppins w-full text-center inline-block border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
                         <x-bladewind.icon name="video-camera" class="justify-self-start" />
-                        JOIN A NEW CALL
-                    </div>
+                        Join a new call
+                    </span>
                 </a>
             </li>
-            <li class="w-4/5">
-                <a href="{{ route('video.call.create') }}">
-                    <div
-                        class="flex items-center justify-between bg-primary text-accent text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m 
-                        border-2 border-charcoal hover:bg-primary/70 cursor-pointer md:text-center">
-                        <x-bladewind.icon name="plus" class="justify-self-start" />
-                        CREATE A NEW CALL
-                    </div>
+
+            <li class="w-full flex justify-center items-center">
+                <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden"
+                    href="{{ route('video.call.create') }}">
+                    <span
+                        class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-primary transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
+                    </span>
+
+                    <span
+                        class="relative text-accent font-poppins w-full text-center inline-block border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                        <x-bladewind.icon name="video-camera" class="justify-self-start" />
+                        Create a new call
+                    </span>
                 </a>
             </li>
 
@@ -106,7 +115,7 @@
                 <div class="flex my-8 max-lg:flex-col max-lg:gap-4">
                     <div class="w-[70%] mr-8 max-lg:w-full max-lg:mr-0 max-lg:mt-6">
                         {{-- calendar | schedule --}}
-                        <section  class="w-full">
+                        <section class="w-full">
                             <x-creating-calendar />
                         </section>
 
@@ -115,8 +124,7 @@
                             <x-upcoming-task />
                         </section>
                     </div>
-                    <div
-                        class="flex flex-col gap-y-8 justify-start w-[30%] max-lg:w-full max-lg:mt-6 max-lg:gap-y-4">
+                    <div class="flex flex-col gap-y-8 justify-start w-[30%] max-lg:w-full max-lg:mt-6 max-lg:gap-y-4">
                         <section class="">
                             <x-card-gotomyprofile />
                         </section>
@@ -199,7 +207,8 @@
                             <section class="flex align-center h-auto w-full " data-aos="fade-up"
                                 data-aos-anchor-placement="top-bottom">
                                 <!-- container -->
-                                <div class="w-full h-auto bg-accent overflow-hidden rounded-md pb-2 border-black border-2">
+                                <div
+                                    class="w-full h-auto bg-accent overflow-hidden rounded-md pb-2 border-black border-2">
                                     <div class="font-dela text-xl text-charcoal font-black p-3 max-md:text-lg">
                                         YOUR TOTAL POINTS
                                     </div>
@@ -226,7 +235,7 @@
                                                 class="justify-center w-[80%] bg-primary text-accent text-center font-poppins font-bold rounded-full px-5 py-3
                                         h-10 text-[16px] border-2 border-charcoal hover:bg-primary/80 flex items-center space-x-2">
                                                 <span><a href="{{ route('rewards.myRedemptions') }}">
-                                                    My Rewards</a></span>
+                                                        My Rewards</a></span>
                                             </button>
                                         </a>
                                         <a href="{{ route('connect.student') }}">
@@ -234,8 +243,8 @@
                                                 class="justify-center w-[80%] bg-primary text-accent text-center font-poppins font-bold rounded-full 
                                                 px-5 py-3 h-10 text-[16px] border-2 border-charcoal hover:bg-primary/80 flex items-center space-x-2">
                                                 <span><a href="{{ route('rewards.view') }}">
-                                                    See Available Rewards
-                                                </a></span>
+                                                        See Available Rewards
+                                                    </a></span>
                                             </button>
                                         </a>
                                     </div>
@@ -313,7 +322,7 @@
                             if (typeof window.showWaitingForCall === 'function') {
                                 window.showWaitingForCall(data.receiver_name, data.call_id, data.room_name);
                             }
-                            
+
                             // Store call info for later including receiver ID
                             window.currentOutgoingCall = {
                                 callId: data.call_id,

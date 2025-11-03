@@ -4,7 +4,7 @@
     <!-- Sidebar --> 
     
     <div class="flex" x-data="{ isOpen: false }">
-    <div class="w-96 min-h-screen p-8 space-y-6 border-r border-black" :class="{ 'w-96 animate__animated animate__fadeInLeft animate__faster': isOpen, 'hidden': !isOpen }">
+    <div class=" w-70 min-h-screen p-8 space-y-6 border-r border-black" :class="{ 'w-70 animate__animated animate__fadeInLeft animate__faster': isOpen, 'hidden': !isOpen }">
             {{ $sidebars }}
         </div>
         
