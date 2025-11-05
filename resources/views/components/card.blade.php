@@ -55,10 +55,8 @@
 
             <body class="bg-primary font-poppins font-semibold">
                 <section class="flex mt-8 justify-center w-full">
-
-
                     <div class="bg-accent hover:shadow-custom-button mx-auto max-w-md p-6 border border-charcoal
-                    transition-shadow duration-300 rounded-md cursor-pointer"
+                        transition-shadow duration-300 rounded-md cursor-pointer"
                         onclick='openTutorModal(
                                         @json ($user->tutor->fname),
                                         @json ($user->tutor->lname),
@@ -105,178 +103,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-                    {{-- container --}}
-                    <div
-                        class="hidden bg-accent3 rounded-[20px] w-full mb-4 shadow-custom-button shadow-black border-black border-2 md">
-                        <div class="p-4">
-                            {{-- content --}}
-                            <div class="flex flex-row md:flex-row sm:flex-col w-full items-center px-4 py-4">
-                                {{-- column 1 --}}
-                                <div class="flex flex-col justify-center items-center md:-mt-4 md:w-[25%] sm:mt-5">
-                                    {{-- profile image --}}
-                                    <div class="flex h-40 w-40 justify-center shrink-0 items-center  space-x-4 p-1">
-                                        <img src="{{ $user->profile_pic }}" alt="Profile"
-                                            class="w-full h-full object-cover border-4 border-black rounded-lg">
-                                    </div>
-
-                                    @if (Auth::user()->role === 'Student')
-                                        @if (Auth::user()->student->bookedsessions()->exists() ?? false)
-                                            <div
-                                                class="inline-block bg-primary text-secondary text-center font-poppins font-bold rounded-full px-5 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-buttonflex items-center mt-10 leading-[2px]">
-                                                You already have a tutor.
-                                            </div>
-                                        @elseif (bookedSession::where('tutor_id', $user->id)->exists() ?? false)
-                                            <div
-                                                class="bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-button flex items-center mt-5">
-                                                A student already booked this tutor.
-                                            </div>
-                                        @else
-                                            <div class="set-appointment-wrapper"
-                                                data-user-id="{{ $user->tutor->user_id }}"
-                                                tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
-                                                <x-set-appointment />
-                                            </div>
-                                        @endif
-                                    @endif
-                                </div>
-                                {{-- column 2 --}}
-                                <div class="ml-5 w-[75%] mt-5 p-1">
-                                    {{-- profile infos --}}
-                                    <div class="flex-1">
-                                        {{-- name --}}
-                                        <p class="font-bold text-primary text-[16px] -mt-5">Name</p>
-                                        <p class="font-bold text-[30px] -mt-2">{{ $user->tutor->fname }}
-                                            {{ $user->tutor->lname }}</p>
-
-                                        {{-- yr level and college program --}}
-                                        <p class="font-bold text-primary text-[16px]">Year Level and College Program</p>
-                                        <p class="font-bold text-[22px] -mt-1"> {{ $user->tutor->year_level }}
-                                            {{ $user->tutor->department }} </p>
-
-                                        {{-- subject expertise --}}
-                                        <p class="font-bold text-primary text-[16px]">Subject Expertise</p>
-                                        <div class="flex justify-start space-x-4 mb-2">
-                                            @foreach ($user->tutor->subject_tutor as $subject)
-                                                <div
-                                                    class="bg-accent2 my-1 py-1 px-2 rounded-2xl border-2 border-black shadow-custom-button text-primary text-[20px] text-center font-bold">
-                                                    <p class="font-bold text-[18px]">{{ $subject->subj_code }}</p>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        {{-- columns for exp and ratings --}}
-                                        <div class="flex md:flex-row sm:flex-col w-full">
-                                            <div class="w-full">
-
-                                                {{-- schedule --}}
-                                                <p class="font-bold text-primary text-[16px]">Schedule</p>
-                                                <div class="flex flex-wrap justify-start gap-x-2 gap-y-0.5 -mt-1">
-                                                    @if (is_array($days))
-                                                        @foreach ($days as $day)
-                                                            <div
-                                                                class=" my-1 py-1 px-2 rounded-2xl border-2 border-black text-primary text-[20px] text-center font-bold">
-                                                                <p class="font-bold text-[18px]">{{ $day }}
-                                                                </p>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
-                                                        <div
-                                                            class="bg-gray-200 my-1 py-1 px-4 rounded-2xl border-2 border-black text-primary text-[20px] text-center font-bold">
-                                                            <p class="font-bold text-[18px]">No schedule available</p>
-                                                        </div>
-                                                    @endif
-
-                                                </div>
-
-                                                <div class="w-full">
-
-                                                    {{-- time --}}
-                                                    <p class="font-bold text-primary text-[16px]">Time
-                                                    </p>
-                                                    <div class="flex flex-row gap-4">
-                                                        <span
-                                                            class="flex text-primary font-bold text-base">{{ \Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A') }}
-                                                            -
-                                                            {{ \Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A') }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="flex w-full">
-                                                    {{-- Experience --}}
-                                                    <div class="w-full">
-                                                        <p class="font-bold text-primary text-[16px]">Experience</p>
-                                                        <div class="flex justify-start space-x-4 -mt-1 -ml-5 mb-2">
-                                                            <div
-                                                                class=" my-1 py-1 px-2 rounded-2xl border-2 border-black text-primary text-[20px] text-center font-bold ml-5">
-                                                                <p class="font-bold text-[18px]">
-                                                                    @if ($user->tutor->exp === 0)
-                                                                        No Experience Yet!
-                                                                    @else
-                                                                        {{ $user->tutor->exp }} Session Completed
-                                                                    @endif
-                                                                </p><!--$user->tutor->exp-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="w-full sm:w-[70%]">
-                                                        {{-- ratings --}}
-                                                        <p class="font-bold text-primary text-[16px]">Ratings</p>
-                                                        @if ($user->tutor->NoOfReviews > 0)
-                                                            @foreach ($reviews as $review)
-                                                                <div class="flex gap-6 items-center w-full mt-2">
-                                                                    <p class="font-bold text-primary text-[16px]">
-                                                                        {{ number_format($review->where('tutor_id', $user->tutor->user_id)->avg('rating') ?? 0, 1) }}
-                                                                    </p>
-                                                                    <x-bladewind.rating class="w-full" size="small"
-                                                                        color="yellow" type="star"
-                                                                        rating="{{ number_format($review->where('tutor_id', $user->tutor->user_id)->avg('rating') ?? 0, 1) }}"
-                                                                        clickable="false" />
-
-                                                                    <p class="font-bold text-primary text-[16px]">
-                                                                        {{ '(' . $user->tutor->NoOfReviews . ')' }}
-                                                                    </p>
-                                                                </div>
-                                                            @endforeach
-                                                        @elseif($user->tutor->NoOfReviews === 0)
-                                                            {{-- No ratings yet --}}
-                                                            <div
-                                                                class="w-full my-1 py-1 px-2 rounded-2xl border-2 border-black text-primary text-[20px] text-center font-bold">
-                                                                <p class="font-bold text-[18px]">No Ratings Yet!</p>
-                                                            </div>
-                                                        @endif
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- view more --}}
-                            <div class="mb-1 pb-1 px-2 text-primary text-[50px] text-center font-bold">
-
-                                <p class="font-bold w-auto text-[20px] cursor-pointer transition-all duration-6000 ease-in-out
-                                        hover:underline"
-                                    onclick='openTutorModal(
-                                        @json ($user->tutor->fname),
-                                        @json ($user->tutor->lname),
-                                        @json ($user->profile_pic),
-                                        @json ($days),
-                                        @json ($subjects),
-                                        @json($reviews),
-                                        @json ($user->tutor->year_level),
-                                        @json ($user->tutor->department),
-                                        @json ($user->tutor->gender),
-                                        @json ($user->tutor->address)
-                                        )'>
-                                    View More
-
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </section>
             </body>
         @endforeach
@@ -284,9 +110,8 @@
     <div class="flex justify-center mt-6 mb-6">
         {{ $users->appends(request()->query())->links('custom-pagination') }}
     </div>
-
-
-
+    
+    {{-- modal --}}
     <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
         <div class="grid grid-cols-4 p-6">
             <div class="flex flex-col items-center col-span-1">
