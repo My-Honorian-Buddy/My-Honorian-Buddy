@@ -18,7 +18,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="icon" href="{{ asset('/images/favicon.svg') }}" type="image/x-icon">
 </head>
-<body class="font-poppins font-semibold bg-secondary">
+<body class="font-poppins font-semibold bg-mainbackground">
     <div class="flex-1">
         <!-- nav bar -->
         <x-nav-bar />
@@ -51,24 +51,30 @@
             <form action="">
                 <div class="font-poppins font-bold mt-6 lg:ml-8 mb-10">
                     <p class="text-[18px]">Name:</p>
-                    <input type="text" class="w-full mb-4 rounded-md bg-accent3">
+                    <input type="text" class="bg-accent flex mb-4 items-center mt-1 w-full outline-none duration-200 ring-2 placeholder-gray-500
+                                    ring-[transparent] focus:ring-primary/70 focus:border-primary/70 text-sm md:text-base ">
                     <p class="text-[18px]">Email:</p>
-                    <input type="email" class="w-full mb-4 rounded-md bg-accent3">
+                    <input type="email" class="bg-accent flex mb-4 items-center mt-1 w-full outline-none duration-200 ring-2 placeholder-gray-500
+                                    ring-[transparent] focus:ring-primary/70 focus:border-primary/70 text-sm md:text-base ">
                     <p class="text-[18px]">Address:</p>
-                    <input type="text" class="w-full mb-4 rounded-md bg-accent3">
+                    <input type="text" class="bg-accent flex mb-4 items-center mt-1 w-full outline-none duration-200 ring-2 placeholder-gray-500
+                                    ring-[transparent] focus:ring-primary/70 focus:border-primary/70 text-sm md:text-base ">
                     <p class="text-[18px]">Mobile Number:</p>
-                    <input type="text" class="w-full mb-4 rounded-md bg-accent3">
+                    <input type="text" class="bg-accent flex mb-4 items-center mt-1 w-full outline-none duration-200 ring-2 placeholder-gray-500
+                                    ring-[transparent] focus:ring-primary/70 focus:border-primary/70 text-sm md:text-base ">
                 </div>
         </div>
 
                 {{-- concerns --}}
                 <div class="mx-[100px] -mt-[60px]">
                     <label for="concerns" class="text-[18px] font-poppins font-bold">Concerns:</label>
-                    <textarea id="concerns" rows="4" class="w-full px-3 py-2 border border-black rounded-md bg-white"></textarea>
+                    <textarea id="concerns" rows="4" class="w-full px-3 py-2 border border-charcoal rounded-sm bg-accent"></textarea>
                 </div>
                 {{-- submit button --}}
                 <div class="mx-[100px]  flex justify-end">
-                    <div class="inline-block justify-self-end bg-primary font-accent2 px-2 py-2 rounded-full border-2 border-black shadow-custom-button mt-8 mb-1 text-[22px] text-accent2 text-center font-bold cursor-pointer hover:bg-[#FFECEC] hover:text-[#8B3A3A]">
+                    <div class="sm:w-auto bg-accent px-6 sm:px-8 md:px-10 py-2 my-8 sm:py-2.5 md:py-1 h-auto sm:h-10 md:h-11 border-2 border-black
+                                active:scale-95 transition-all duration-800 ease-in-out flex items-center justify-center rounded-sm font-bold text-sm
+                                hover:bg-primary w-auto hover:text-accent tracking-widest uppercase hover:shadow-custom-button">
                         <button type="submit" class="px-5">SUBMIT</button>
                     </div>
                 </div>
