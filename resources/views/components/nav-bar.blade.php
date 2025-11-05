@@ -56,7 +56,7 @@
                             <x-slot name="trigger">
                                 <div class="relative">
                                     <x-bladewind.bell id="bell" size="small" color="red"
-                                        class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-primary/70 border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
+                                        class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-hover border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
                                         show_dot="false"
                                         animate_dot="false" />
                                     
@@ -74,7 +74,7 @@
                             <div class= "flex justify-between">
                                 <x-bladewind.dropmenunotif-item header="true"
                                     class="flex justify-between items-center">
-                                    <div>
+                                    <div class="text-accent">
                                         Notification
                                     </div>
 
@@ -83,20 +83,20 @@
                             </div>
                             <div class="flex flex-col justify-between items-end text-base px-4 py-2">
                                 <button id="edit-button"
-                                    class="bg-secondary rounded-lg text-primary border-2 border-black px-3 
-                            py-1 hover:bg-primary transition ease-in-out hover:text-secondary">
+                                    class="bg-accent rounded-sm text-primary border border-primary px-3 
+                            py-1 hover:bg-primary transition ease-in-out hover:text-accent">
                                     Edit
                                 </button>
                                 <div id="bulk-actions" class="hidden pt-2 space-x-2">
                                     <button id="mark-all-read"
-                                        class="bg-accent2 text-primary border-2 border-black px-3 py-1 
-                            rounded-md transition active:scale-95 hover:scale-[1.1]"
+                                        class="bg-accent text-primary border border-charcoal px-3 py-1 
+                            rounded-sm transition hover:bg-primary hover:text-accent"
                                         onclick="markAllAsRead()">
                                         Mark All as Read
                                     </button>
                                     <button id="delete-all"
-                                        class="bg-primary text-accent2 border-2 border-black px-3 py-1 rounded-md hover:bg-red-900
-                            transition active:scale-95 hover:scale-[1.1]"
+                                        class="bg-primary text-accent border border-black px-3 py-1 rounded-sm 
+                                        hover:bg-red-700 transition"
                                         onclick="deleteAllNotifications()">
                                         Delete All
                                     </button>
@@ -112,7 +112,7 @@
 
                         <a href="{{ route(config('chatify.routes.prefix')) }}" class="text-center">
                             <div
-                                class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-accent bg-primary transition ease-in-out hover:bg-primary/70 border-2 border-charcoal rounded-full flex items-center justify-center">
+                                class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-accent bg-primary transition ease-in-out hover:bg-hover border-2 border-charcoal rounded-full flex items-center justify-center">
                                 <x-bladewind.icon name="chat-bubble-left" class="!h-6 !w-6 md:!h-7 md:!w-7" />
                             </div>
                         </a>
@@ -120,7 +120,7 @@
                         <div class="p-1 rounded-full text-xl">
 
                             <x-bladewind.dropmenu trigger="user-icon"
-                                trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-primary/70 bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out">
+                                trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-hover bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out">
 
                                 <form method="GET" action="{{ route('tutor.profile') }}">
                                     @csrf

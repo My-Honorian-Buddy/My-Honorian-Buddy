@@ -31,7 +31,7 @@
         'p-0' => (!$divider && !$padded),
         'flex-row-reverse justify-between' => ($iconRight && !empty($icon)),
         'hover:rounded-md hover:dark:text-dark-100 hover:bg-white hover:dark:!bg-dark-800' => (!$header && $hover),
-        '!cursor-default rounded-t-2xl border-b border-b-slate-200/75 bg-accent2 border-b-2 border-black dark:!border-b-gray-100/10 mb-1' => $header,
+        '!cursor-default border-b border-b-slate-200/75 bg-primary border-b-2 border-black dark:!border-b-gray-100/10 mb-1' => $header,
 ]) {{$attributes->merge(['data-item' => "true"])}}>
     @if(!empty($icon) && !$header)
         <x-bladewind::icon name="{!! $icon !!}" :dir="$dir"

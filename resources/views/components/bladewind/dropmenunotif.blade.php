@@ -46,7 +46,7 @@
         data-open="0">
         
         <div @class([
-                'absolute overflow-hidden bg-secondary rounded-2xl w-80 dark:bg-dark-700 mt-1',
+                'absolute overflow-hidden bg-accent rounded-md w-80 dark:bg-dark-700 mt-1',
                 'border-2 border-black dark:border-dark-800/20 bw-items-list ring-1 ring-slate-800 ring-opacity-5',
                 'shadow-sm shadow-slate-200/50 dark:shadow-dark-800/70 whitespace-nowrap',
                 '-right-1' => ($position=='right'),

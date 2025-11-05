@@ -80651,3 +80651,7 @@ RuntimeError: Error running the matchmaking algorithm: (ValueError('No student f
 2025-11-05 18:35:43,940 - INFO - Connected to MySQL database
 2025-11-05 18:35:43,950 - INFO - Connected to MySQL database
 2025-11-05 18:35:43,962 - INFO - Connected to MySQL database
+2025-11-05 22:58:02,775 - INFO - Received auth_id: 8
+2025-11-05 22:58:02,820 - INFO - Connected to MySQL database
+2025-11-05 22:58:02,827 - INFO - Connected to MySQL database
+2025-11-05 22:58:02,838 - INFO - Connected to MySQL database
