@@ -1,10 +1,17 @@
-<style>
+﻿<style>
     /* Force modal above everything including navbar */
     .bw-modal-backdrop[data-name="set-appointment"] {
         z-index: 999999 !important;
     }
     .bw-modal[data-name="set-appointment"] {
         z-index: 1000000 !important;
+        max-height: 85vh !important;
+        overflow-y: auto !important;
+    }
+    /* Make the modal scrollable */
+    .bw-modal[data-name="set-appointment"] .modal-body {
+        max-height: 70vh !important;
+        overflow-y: auto !important;
     }
 </style>
 

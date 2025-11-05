@@ -60,7 +60,7 @@
         <span class="h-px flex-1 bg-charcoal"></span>
     </span>
 
-    @if (!empty($decodedSubject))
+    @if ($hasBookedSessions && !empty($decodedSubject))
         @if ($user && $user->role === 'Student')
             @foreach ($decodedSubject as $subject)
                 <div
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             @endforeach
-        @elseif ($user && $user->role === 'tutor')
+        @elseif ($user && $user->role === 'Tutor')
             @foreach ($decodedSubject as $subject)
                 <div
                     class="bg-accent flex items-center w-full border-b-2 border-charcoal py-2 max-md:flex-col max-md:items-start">
@@ -99,17 +99,17 @@
             @endforeach
         @endif
 
-        @if ($hasBookedSessions)
-            <div class="bg-accent flex items-center w-full border-b-0 border-black py-2">
-                <div class="bg-accent my-4 flex items-center w-full h-full py-2">
-                    <div class="text-white w-full px-4 max-md:px-2">
-                        <div class="ml-5 max-md:ml-2">
-                            <x-bladewind::button type="submit"
-                                class="bg-primary border-2 border-black hover:bg-primary/70 text-accent font-bold flex justify-items-center max-md:w-full max-md:justify-center"
-                                size="small" rounded="true" onclick="showModal('confirm-complete')">
-                                complete session
-                            </x-bladewind::button>
-                        </div>
+        {{-- Complete Session Button --}}
+        <div class="bg-accent flex items-center w-full border-b-0 border-black py-2">
+            <div class="bg-accent my-4 flex items-center w-full h-full py-2">
+                <div class="text-white w-full px-4 max-md:px-2">
+                    <div class="ml-5 max-md:ml-2">
+                        <x-bladewind::button type="submit"
+                            class="bg-primary border-2 border-black hover:bg-primary/70 text-accent font-bold flex justify-items-center max-md:w-full max-md:justify-center"
+                            size="small" rounded="true" onclick="showModal('confirm-complete')">
+                            complete session
+                        </x-bladewind::button>
+                    </div>
                         <x-bladewind.modal name="confirm-complete" size="medium" title="Confirm Session Completion"
                             footer="false" class="bg-blue-800 text-white" stretched_action_buttons="true"
                             ok_button_label="" cancel_button_label=""
@@ -207,8 +207,8 @@
                     </div>
                 </div>
             </div>
-        @endif
     @else
+        {{-- No session in progress --}}
         <div
             class="font-poppins bg-accent flex flex-col items-center h-full w-full border-b-2 border-black py-20 px-4 max-md:py-10">
             <div class="flex flex-col text-primary justify-center items-center h-full w-full">
