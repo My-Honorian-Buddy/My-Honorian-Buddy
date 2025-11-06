@@ -25,6 +25,7 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Illuminate\Http\HtmlString;
+use App\Models\Review;
 
 class BookedSessionResource extends Resource
 {
@@ -100,6 +101,9 @@ class BookedSessionResource extends Resource
                             ->default(1),
                         Forms\Components\Toggle::make('is_completed')
                             ->label('Completed'),
+                        Forms\Components\Toggle::make('admin_approved')
+                            ->label('Admin Approved for Completion')
+                            ->helperText('Enable this to allow tutor to complete the session'),
                         Forms\Components\Toggle::make('reviewed')
                             ->label('Reviewed'),
                         Forms\Components\DatePicker::make('sesUpdate')
@@ -179,13 +183,22 @@ class BookedSessionResource extends Resource
                 Tables\Columns\TextColumn::make('rating')
                     ->label('Rating')
                     ->state(function (bookedSession $record): ?int {
-                        $review = \App\Models\Review::where('tutor_id', $record->tutor_id)
+                        $review = Review::where('tutor_id', $record->tutor_id)
                             ->where('student_id', $record->student_id)
                             ->first();
                         return $review?->rating;
                     })
                     ->formatStateUsing(fn ($state) => $state ? str_repeat('⭐', (int) $state) . " ({$state}/5)" : '(N/A/5)')
                     ->sortable(false),
+                    
+                Tables\Columns\TextColumn::make('session_progress')
+                    ->label('Session Progress')
+                    ->state(function (bookedSession $record): string {
+                        return ($record->num_session ?? 0) . ' / ' . ($record->total_session ?? 0);
+                    })
+                    ->badge()
+                    ->color(fn (bookedSession $record) => $record->num_session == $record->total_session ? 'success' : 'warning')
+                    ->alignCenter(),
                     
                 Tables\Columns\IconColumn::make('is_completed')
                     ->label('Completed')
@@ -195,6 +208,45 @@ class BookedSessionResource extends Resource
                     ->trueColor('success')
                     ->falseColor('gray')
                     ->alignCenter(),
+                    
+                Tables\Columns\IconColumn::make('admin_approved')
+                    ->label('Admin Approved')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-shield-check')
+                    ->falseIcon('heroicon-o-shield-exclamation')
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->alignCenter()
+                    ->tooltip(fn (bookedSession $record): string => 
+                        $record->admin_approved 
+                            ? 'Approved - Tutor can complete session' 
+                            : 'Not approved - Tutor cannot complete session yet'
+                    ),
+                    
+                Tables\Columns\TextColumn::make('ban_status')
+                    ->label('Ban Status')
+                    ->badge()
+                    ->color(fn (?string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'report_submitted' => 'info',
+                        'approved' => 'danger',
+                        'rejected' => 'success',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'pending' => 'Pending Report',
+                        'report_submitted' => 'Report Submitted',
+                        'approved' => 'Ban Approved',
+                        'rejected' => 'Ban Rejected',
+                        default => 'No Ban Request',
+                    })
+                    ->alignCenter()
+                    ->tooltip(fn (bookedSession $record): ?string => 
+                        $record->ban_requested 
+                            ? 'Reason: ' . ($record->ban_reason ?? 'No reason') 
+                            : null
+                    )
+                    ->toggleable(isToggledHiddenByDefault: false),
                     
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Booked On')
@@ -274,18 +326,108 @@ class BookedSessionResource extends Resource
                     ->modalHeading('Session Details')
                     ->modalWidth('5xl'),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('ban')
-                    ->label('Ban Users')
-                    ->icon('heroicon-o-shield-exclamation')
-                    ->color('danger')
+                Tables\Actions\Action::make('toggleApproval')
+                    ->label(fn (bookedSession $record) => $record->admin_approved ? 'Revoke Approval' : 'Approve Completion')
+                    ->icon(fn (bookedSession $record) => $record->admin_approved ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                    ->color(fn (bookedSession $record) => $record->admin_approved ? 'danger' : 'success')
                     ->requiresConfirmation()
-                    ->modalHeading('Ban Both Users')
+                    ->modalHeading(fn (bookedSession $record) => $record->admin_approved ? 'Revoke Completion Approval' : 'Approve Session Completion')
+                    ->modalDescription(fn (bookedSession $record) => $record->admin_approved 
+                        ? 'Are you sure you want to revoke completion approval? The tutor will not be able to complete this session.'
+                        : 'Are you sure you want to approve this session for completion? The tutor will be able to mark it as complete.'
+                    )
+                    ->modalSubmitActionLabel(fn (bookedSession $record) => $record->admin_approved ? 'Revoke' : 'Approve')
+                    ->action(function (bookedSession $record) {
+                        $record->admin_approved = !$record->admin_approved;
+                        $record->save();
+                        
+                        \Filament\Notifications\Notification::make()
+                            ->title($record->admin_approved ? 'Session Approved' : 'Approval Revoked')
+                            ->body($record->admin_approved 
+                                ? 'The tutor can now complete this session.' 
+                                : 'The tutor can no longer complete this session.'
+                            )
+                            ->success()
+                            ->send();
+                    })
+                    ->visible(fn (bookedSession $record) => $record->num_session >= $record->total_session && !$record->is_completed),
+                Tables\Actions\Action::make('ban')
+                    ->label('Request Ban')
+                    ->icon('heroicon-o-shield-exclamation')
+                    ->color('warning')
+                    ->form([
+                        Forms\Components\Textarea::make('ban_reason')
+                            ->label('Reason for Ban Request')
+                            ->placeholder('Explain why this session should be banned...')
+                            ->required()
+                            ->rows(4)
+                            ->maxLength(500),
+                    ])
+                    ->requiresConfirmation()
+                    ->modalHeading('Request Session Ban')
                     ->modalDescription(fn (bookedSession $record) => new \Illuminate\Support\HtmlString(
                         '<div class="text-sm">' .
-                        '<p class="mb-4">Are you sure you want to ban and delete both users?</p>' .
+                        '<p class="mb-4">Send a ban request notification to the tutor. The tutor can submit a report to dispute this.</p>' .
                         '<p class="mb-1"><strong>Tutor:</strong> ' . e($record->tutorUser->name) . '</p>' .
-                        '<p class="mb-4"><strong>Student:</strong> ' . e($record->studentUser->name) . '</p>' .
-                        '<p class="text-danger-600 dark:text-danger-400 font-semibold">This action cannot be undone!</p>' .
+                        '<p class="mb-1"><strong>Student:</strong> ' . e($record->studentUser->name) . '</p>' .
+                        '</div>'
+                    ))
+                    ->modalSubmitActionLabel('Send Ban Request')
+                    ->action(function (bookedSession $record, array $data) {
+                        // Update session with ban request
+                        $record->update([
+                            'ban_requested' => true,
+                            'ban_reason' => $data['ban_reason'],
+                            'ban_requested_at' => now(),
+                        ]);
+                        
+                        // Send notification to tutor
+                        $banNotif = \App\Models\notifSession::create([
+                            'notif_info' => json_encode([
+                                'NotifType' => 'BanRequest',
+                                'message' => 'Admin has requested to ban your session. Please submit a report.',
+                                'ban_reason' => $data['ban_reason'],
+                                'bookedSession' => $record->id,
+                                'session_id' => $record->id,
+                            ]),
+                            'to' => $record->tutor_id,
+                            'user_id' => 1, // Admin user
+                            'read_at' => null,
+                        ]);
+                        
+                        // Broadcast to tutor
+                        broadcast(new \App\Events\NewNotification($record->tutor_id, $banNotif));
+                        
+                        \Filament\Notifications\Notification::make()
+                            ->title('Ban Request Sent')
+                            ->success()
+                            ->body('The tutor has been notified and can submit a report.')
+                            ->send();
+                    })
+                    ->visible(fn (bookedSession $record) => !$record->ban_requested),
+                Tables\Actions\Action::make('viewReport')
+                    ->label('View Report')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading('Tutor Ban Report')
+                    ->modalContent(fn (bookedSession $record) => view('filament.modals.view-ban-report', [
+                        'record' => $record,
+                    ]))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Close')
+                    ->visible(fn (bookedSession $record) => $record->ban_status === 'report_submitted'),
+                Tables\Actions\Action::make('approveBan')
+                    ->label('Approve Ban')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Approve Ban and Delete Users')
+                    ->modalDescription(fn (bookedSession $record) => new \Illuminate\Support\HtmlString(
+                        '<div class="text-sm">' .
+                        '<p class="mb-4">This will permanently ban and delete both users and all their sessions.</p>' .
+                        '<p class="mb-1"><strong>Tutor:</strong> ' . e($record->tutorUser->name) . '</p>' .
+                        '<p class="mb-1"><strong>Student:</strong> ' . e($record->studentUser->name) . '</p>' .
+                        '<p class="text-red-600 dark:text-red-400 font-semibold mt-4">This action cannot be undone!</p>' .
                         '</div>'
                     ))
                     ->modalSubmitActionLabel('Yes, Ban Both Users')
@@ -293,36 +435,62 @@ class BookedSessionResource extends Resource
                         $tutorUser = $record->tutorUser;
                         $studentUser = $record->studentUser;
                         
-                        
+                        // Delete all sessions
                         if ($tutorUser) {
-                            BookedSession::where('tutor_id', $tutorUser->id)->delete();
+                            \App\Models\bookedSession::where('tutor_id', $tutorUser->id)->delete();
                         }
-                        
-                        
                         if ($studentUser) {
-                            BookedSession::where('student_id', $studentUser->id)->delete();
+                            \App\Models\bookedSession::where('student_id', $studentUser->id)->delete();
                         }
                         
-                        
+                        // Delete users
                         if ($tutorUser) {
                             $tutorUser->delete();
                         }
-                        
-                        
                         if ($studentUser) {
                             $studentUser->delete();
                         }
                         
                         \Filament\Notifications\Notification::make()
-                            ->title('Users Banned Successfully')
+                            ->title('Ban Approved')
                             ->success()
-                            ->body('Both tutor and student have been banned and deleted along with all their sessions.')
+                            ->body('Both users have been banned and deleted.')
                             ->send();
                     })
-                    ->after(function () {
+                    ->visible(fn (bookedSession $record) => $record->ban_status === 'report_submitted'),
+                Tables\Actions\Action::make('rejectBan')
+                    ->label('Reject Ban')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Reject Ban Request')
+                    ->modalDescription('This will cancel the ban request and keep both users active.')
+                    ->modalSubmitActionLabel('Reject Ban')
+                    ->action(function (bookedSession $record) {
+                        $record->update([
+                            'ban_status' => 'rejected',
+                        ]);
                         
-                        return redirect()->route('filament.admin.resources.booked-sessions.index');
-                    }),
+                        // Notify tutor that ban was rejected
+                        $notif = \App\Models\notifSession::create([
+                            'notif_info' => json_encode([
+                                'NotifType' => 'BanRejected',
+                                'message' => 'Admin has reviewed your report and rejected the ban request.',
+                                'session_id' => $record->id,
+                            ]),
+                            'to' => $record->tutor_id,
+                            'user_id' => 1,
+                            'read_at' => null,
+                        ]);
+                        broadcast(new \App\Events\NewNotification($record->tutor_id, $notif));
+                        
+                        \Filament\Notifications\Notification::make()
+                            ->title('Ban Rejected')
+                            ->success()
+                            ->body('The ban request has been rejected and users remain active.')
+                            ->send();
+                    })
+                    ->visible(fn (bookedSession $record) => $record->ban_status === 'report_submitted'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -421,7 +589,7 @@ class BookedSessionResource extends Resource
                         TextEntry::make('rating')
                             ->label('Student Rating')
                             ->state(function (bookedSession $record): ?int {
-                                $review = \App\Models\Review::where('tutor_id', $record->tutor_id)
+                                $review = Review::where('tutor_id', $record->tutor_id)
                                     ->where('student_id', $record->student_id)
                                     ->first();
                                 return $review?->rating;
@@ -430,7 +598,7 @@ class BookedSessionResource extends Resource
                         TextEntry::make('review_comment')
                             ->label('Review Comment')
                             ->state(function (bookedSession $record): ?string {
-                                $review = \App\Models\Review::where('tutor_id', $record->tutor_id)
+                                $review = Review::where('tutor_id', $record->tutor_id)
                                     ->where('student_id', $record->student_id)
                                     ->first();
                                 return $review?->comment;
