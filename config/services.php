@@ -45,8 +45,5 @@ return [
         'callback' => env('GOOGLE_REDIRECT_URI')
     ],
 
-    'paymongo' => [
-        'public_key' => env('PAYMONGO_PUBLIC_KEY'),
-        'secret_key' => env('PAYMONGO_SECRET_KEY'),
-    ],
+
 ];
