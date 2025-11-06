@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\Mail;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\bookedSession;
@@ -20,6 +19,7 @@ use App\Models\bookingHistoryLogs;
 use App\Events\NewNotification;
 use Carbon\Carbon;
 use App\Models\Schedule;
+use Exception;
 
 class SessionController extends Controller
 {
@@ -124,12 +124,15 @@ class SessionController extends Controller
                 'appointment_time' => $appointmentDateTime->format('g:i A'),
                 'total_session' => $validated['total_session'],
             ];
-            notifSession::create([
+            $notification = notifSession::create([
                 'notif_info' => json_encode($notifInfo),
                 'to' => $validated['student_id'],
                 'user_id' => $validated['tutor_id'],
                 'read_at' => null,
             ]);
+
+            // Broadcast to student's private channel
+            broadcast(new \App\Events\NewNotification($validated['student_id'], $notification));
 
             $message = Chatify::newMessage([
                 'from_id' => $validated['tutor_id'],
@@ -219,98 +222,97 @@ class SessionController extends Controller
 
     public function SessionComplete(Request $request)
     {
-
+        Log::info('========== SESSION COMPLETE CALLED ==========');
+        Log::info('Request data:', $request->all());
+        
         $sessionId = $request->input('session_id');
-        $bookedSession = bookedSession::findOrFail($sessionId);
-
-        if ($bookedSession->payment_link_sent) {
+        Log::info('Session ID from request:', ['session_id' => $sessionId]);
+        
+        if (!$sessionId) {
+            Log::error('No session_id provided in request');
             return redirect()->back()->with([
-                'cannotSend' => 'Payment link has already been sent.',
+                'error' => 'Session ID is missing.',
             ]);
         }
+        
+        $bookedSession = bookedSession::find($sessionId);
+        
+        if (!$bookedSession) {
+            Log::error('Session not found:', ['session_id' => $sessionId]);
+            return redirect()->back()->with([
+                'error' => 'Session not found.',
+            ]);
+        }
+        
+        Log::info('Booked session found:', [
+            'id' => $bookedSession->id,
+            'num_session' => $bookedSession->num_session,
+            'total_session' => $bookedSession->total_session,
+            'is_completed' => $bookedSession->is_completed,
+        ]);
 
         if ($bookedSession->num_session == 0 && !$bookedSession->is_completed) {
+            Log::warning('Cannot complete - no sessions made', [
+                'session_id' => $bookedSession->id,
+                'num_session' => $bookedSession->num_session,
+                'total_session' => $bookedSession->total_session
+            ]);
             return redirect()->route('workspace.start')->with([
-                'cannotComplete' => 'Cannot marked session as complete because no session/meetings has been made.',
+                'cannotComplete' => ' Cannot complete session: No meetings have been conducted yet.'
             ]);
         }
 
         // Check if session is completed or the number of sessions reached the total session
         if ($bookedSession->is_completed || $bookedSession->num_session == $bookedSession->total_session) {
 
-            // Retrieve tutor details
-            $tutor = Tutor::where('user_id', $bookedSession->tutor_id)->first();
-            $tutorPoints = $tutor->points ?? 0;
-            $tutorPoints += 10;
-            // Calculate payment
-            // $totalAmount = $tutor->rate_session * $bookedSession->num_session;
-            // $tutorname = $tutor->fname . ' ' . $tutor->lname;
-            // Initialize Guzzle client
-            // $client = new Client([
-            //     'base_uri' => 'https://api.paymongo.com/v1/',
-            //     'headers' => [
-            //         'Accept' => 'application/json',
-            //         'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
-            //         'Content-Type' => 'application/json',
-            //     ],
-            // ]);
+            // Only tutors can initiate completion
+            if (Auth::user()->role !== 'Tutor') {
+                Log::warning('Non-tutor tried to complete session', [
+                    'user_id' => Auth::id(),
+                    'role' => Auth::user()->role
+                ]);
+                return redirect()->route('workspace.start')->with([
+                    'error' => 'Only tutors can complete sessions.',
+                ]);
+            }
 
             try {
-
-                // Create Payment Link
-                // $paymentLinkResponse = $client->post('links', [
-                //     'json' => [
-                //         'data' => [
-                //             'attributes' => [
-                //                 'amount' => $totalAmount * 100,  // Amount in cents
-                //                 'description' => "Payment for tutoring session #{$bookedSession->id} for {$tutorname}",
-                //                 'remarks' => 'Honorian Buddy Payment',  // Optional remarks
-                //             ],
-                //         ],
-                //     ],
-                // ]);
-
-                // Parse the response
-                // $paymentLink = json_decode($paymentLinkResponse->getBody()->getContents(), true);
-
-                // // Log the Payment Link response for debugging
-                // $bookedSession->payment_link_sent = true;
-                // $bookedSession->payment_link_url = $paymentLink['data']['id'];
-                // $bookedSession->is_completed = true;
-                // $bookedSession->save();
-
-                // Notify student with the payment link
-                notifSession::create([
+                // Send completion confirmation request to student
+                $completionNotif = notifSession::create([
                     'notif_info' => json_encode([
-                        'NotifType' => 'CompleteSession',
-                        'message' => 'Your tutoring session has been marked as completed.',
+                        'NotifType' => 'SessionCompletionRequest',
+                        'message' => 'Your tutor has marked this session as complete. Do you agree?',
+                        'bookedSession' => $bookedSession->id,
+                        'num_session' => $bookedSession->num_session,
+                        'total_session' => $bookedSession->total_session,
                     ]),
                     'to' => $bookedSession->student_id,
                     'user_id' => $bookedSession->tutor_id,
                     'read_at' => null,
                 ]);
 
-                $bookedSession->delete();
+                // Broadcast to student
+                broadcast(new \App\Events\NewNotification($bookedSession->student_id, $completionNotif));
+
+                Log::info('Completion request sent to student', [
+                    'session_id' => $bookedSession->id,
+                    'student_id' => $bookedSession->student_id,
+                    'notification_id' => $completionNotif->id
+                ]);
 
                 return redirect()->route('workspace.start')->with([
-                    'linkSent' => 'Session marked as completed and payment link has been sent to student',
+                    'success' => 'Completion request sent to student. Waiting for confirmation.',
                 ]);
-            } catch (\GuzzleHttp\Exception\RequestException $e) {
-                // Extract and log detailed error information
-                $responseBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-                
+            } catch (Exception $e) {
                 return response()->json([
                     'error' => 'Failed to complete the session.',
                     'details' => $e->getMessage(),
-                    'response' => $responseBody,
                 ], 500);
             }
         }
 
-
-
         return redirect()->route('workspace.start')->with([
-            'linkSent' => 'Session marked as completed and payment link has been sent to student',
+            'success' => 'Session marked as completed successfully.',
         ]);
     }
 
@@ -343,17 +345,17 @@ class SessionController extends Controller
         $studentDays = $studentSchedule->days_week ?? [];
         $tutorDays = $tutorSchedule->days_week ?? [];
         
-        \Log::info('Student days: ' . implode(', ', $studentDays));
-        \Log::info('Tutor days: ' . implode(', ', $tutorDays));
+        Log::info('Student days: ' . implode(', ', $studentDays));
+        Log::info('Tutor days: ' . implode(', ', $tutorDays));
         
         $matchingDays = array_intersect($studentDays, $tutorDays);
         $matchingDays = array_values($matchingDays);
         
-        \Log::info('Matching days found: ' . implode(', ', $matchingDays));
-        \Log::info('Number of matching days: ' . count($matchingDays));
+        Log::info('Matching days found: ' . implode(', ', $matchingDays));
+        Log::info('Number of matching days: ' . count($matchingDays));
 
         if (empty($matchingDays)) {
-            \Log::info('No matching days found - Student: [' . implode(', ', $studentDays) . '] vs Tutor: [' . implode(', ', $tutorDays) . ']');
+            Log::info('No matching days found - Student: [' . implode(', ', $studentDays) . '] vs Tutor: [' . implode(', ', $tutorDays) . ']');
             return response()->json([
                 'success' => false,
                 'message' => 'No matching schedule days found - kahit isang araw lang walang match',
@@ -362,7 +364,7 @@ class SessionController extends Controller
             ]);
         }
         
-        \Log::info('SUCCESS: Found ' . count($matchingDays) . ' matching day(s): ' . implode(', ', $matchingDays));
+        Log::info('SUCCESS: Found ' . count($matchingDays) . ' matching day(s): ' . implode(', ', $matchingDays));
 
         // arrayed the days to manipulate the dates
         $availableDates = [];
@@ -401,8 +403,8 @@ class SessionController extends Controller
             $tutorStartTime = Carbon::parse($tutorSchedule->start_time);
             $tutorEndTime = Carbon::parse($tutorSchedule->end_time);
 
-            \Log::info('Schedule Times - Student: ' . $studentStartTime->format('g:i A') . ' - ' . $studentEndTime->format('g:i A'));
-            \Log::info('Schedule Times - Tutor: ' . $tutorStartTime->format('g:i A') . ' - ' . $tutorEndTime->format('g:i A'));
+            Log::info('Schedule Times - Student: ' . $studentStartTime->format('g:i A') . ' - ' . $studentEndTime->format('g:i A'));
+            Log::info('Schedule Times - Tutor: ' . $tutorStartTime->format('g:i A') . ' - ' . $tutorEndTime->format('g:i A'));
 
             $overlapStart = $studentStartTime->gt($tutorStartTime) ? $studentStartTime : $tutorStartTime; // max st
             $overlapEnd = $studentEndTime->lt($tutorEndTime) ? $studentEndTime : $tutorEndTime; // min et
@@ -411,9 +413,9 @@ class SessionController extends Controller
             if ($overlapStart->lt($overlapEnd)) {
                 
                 $overlappingTime = $overlapStart->format('g:i A') . ' - ' . $overlapEnd->format('g:i A');
-                \Log::info('Calculated overlap: ' . $overlappingTime);
+                Log::info('Calculated overlap: ' . $overlappingTime);
             } else {
-                \Log::info('No overlap - Start: ' . $overlapStart->format('g:i A') . ' End: ' . $overlapEnd->format('g:i A'));
+                Log::info('No overlap - Start: ' . $overlapStart->format('g:i A') . ' End: ' . $overlapEnd->format('g:i A'));
                 
                 return response()->json([
                     'success' => false,
@@ -426,7 +428,7 @@ class SessionController extends Controller
             }
 
         } catch (Exception $e) {
-            \Log::error('Error calculating overlapping time: ' . $e->getMessage());
+            Log::error('Error calculating overlapping time: ' . $e->getMessage());
             $overlappingTime = 'Time calculation error';
         }
 
@@ -448,126 +450,217 @@ class SessionController extends Controller
 
     public function dropSession(Request $request)
     {
+        Log::info('========== DROP SESSION CALLED ==========');
+        Log::info('Request data:', $request->all());
+        Log::info('User role:', ['role' => Auth::user()->role]);
+        
         $accept = $request->input('accept') ?? 'none';
         $sessionId = $request->input('session_id');
-        $bookedSession = bookedSession::findOrFail($sessionId);
+        
+        Log::info('Drop session params:', [
+            'accept' => $accept,
+            'session_id' => $sessionId
+        ]);
+        
+        if (!$sessionId) {
+            Log::error('No session_id provided for drop');
+            return redirect()->back()->with([
+                'error' => 'Session ID is missing.',
+            ]);
+        }
+        
+        $bookedSession = bookedSession::find($sessionId);
+        
+        if (!$bookedSession) {
+            Log::error('Session not found for drop:', ['session_id' => $sessionId]);
+            return redirect()->back()->with([
+                'error' => 'Session not found.',
+            ]);
+        }
+        
+        Log::info('Booked session found for drop:', [
+            'id' => $bookedSession->id,
+            'student_id' => $bookedSession->student_id,
+            'tutor_id' => $bookedSession->tutor_id
+        ]);
+        
         $user = Auth::user();
         $userName = $user->student ? $user->student->fname . ' ' . $user->student->lname : $user->tutor->fname . ' ' . $user->tutor->lname;
 
+        // Handle drop request response (accept/deny)
         if ($accept != 'none') {
-
-            notifSession::where('id', $request->input('notification_id'))->delete();
+            $notificationId = $request->input('notification_id');
 
             if ($request->input('accept') == 'true') {
-
+                // Accepted - Drop the session immediately
+                Log::info('Drop request accepted, deleting session');
+                
+                // Send notification to both parties that session is dropped
                 $dataDrop = [
-                    'NotifType' => 'SessionSuccessfullyDropped',
+                    'NotifType' => 'SessionDropped',
                     'booked_session_id' => $sessionId,
-                    'message' => 'Your tutoring session has been dropped.',
-                    'tutorName' => $userName,
-                    'tutor_id' => Auth::user()->id,
+                    'message' => 'The tutoring session has been dropped.',
+                    'dropped_by' => $userName,
                 ];
 
-                notifSession::create([
+                // Notify the requester
+                $requesterNotif = notifSession::create([
                     'notif_info' => json_encode($dataDrop),
-                    'to' => $bookedSession->student_id,
-                    'user_id' => $bookedSession->tutor_id,
+                    'to' => $user->role === 'Student' ? $bookedSession->student_id : $bookedSession->tutor_id,
+                    'user_id' => Auth::user()->id,
                     'read_at' => null,
                 ]);
-                notifSession::create([
+                
+                // Notify the other party
+                $otherPartyId = $user->role === 'Student' ? $bookedSession->tutor_id : $bookedSession->student_id;
+                $otherPartyNotif = notifSession::create([
                     'notif_info' => json_encode($dataDrop),
-                    'to' => $bookedSession->tutor_id,
-                    'user_id' => $bookedSession->student_id,
+                    'to' => $otherPartyId,
+                    'user_id' => Auth::user()->id,
                     'read_at' => null,
                 ]);
-            } else if ($request->input('accept') == 'false') {
+                
+                // Broadcast to both parties in real-time
+                broadcast(new NewNotification($user->role === 'Student' ? $bookedSession->student_id : $bookedSession->tutor_id, $requesterNotif));
+                broadcast(new NewNotification($otherPartyId, $otherPartyNotif));
 
-                $data = [
+                // Delete the original drop request notification
+                if ($notificationId) {
+                    notifSession::where('id', $notificationId)->delete();
+                }
+
+                // Send chat message
+                $message = Chatify::newMessage([
+                    'from_id' => Auth::user()->id,
+                    'to_id' => $otherPartyId,
+                    'body' => 'Tutoring session has been dropped.',
+                    'attachment' => null,
+                ]);
+
+                // Save to history and delete session
+                $encodedBookedSession = json_encode($bookedSession);
+                bookingHistoryLogs::create([
+                    'booking_details' => $encodedBookedSession,
+                ]);
+
+                Event::where('booked_session_id', $bookedSession->id)->delete();
+                Log::info("Deleted all calendar events for booked session {$bookedSession->id}");
+
+                $bookedSession->delete();
+
+                return redirect()->route('workspace.start')->with([
+                    'success' => 'Session has been dropped successfully.',
+                ]);
+                
+            } else if ($request->input('accept') == 'false') {
+                // Denied - Notify requester
+                Log::info('Drop request denied');
+                
+                $requesterRole = $user->role === 'Student' ? 'Tutor' : 'Student';
+                $requesterId = $user->role === 'Student' ? $bookedSession->tutor_id : $bookedSession->student_id;
+                
+                $dataDenied = [
                     'NotifType' => 'SessionDropRequestDenied',
                     'booked_session_id' => $sessionId,
                     'message' => 'Your request to drop the tutoring session has been denied.',
-                    'tutorName' => $userName,
+                    'denied_by' => $userName,
                 ];
 
-                notifSession::create([
-                    'notif_info' => json_encode($data),
-                    'to' => $bookedSession->student_id,
-                    'user_id' => $bookedSession->tutor_id,
+                $deniedNotif = notifSession::create([
+                    'notif_info' => json_encode($dataDenied),
+                    'to' => $requesterId,
+                    'user_id' => Auth::user()->id,
                     'read_at' => null,
                 ]);
+                
+                // Broadcast to requester in real-time
+                broadcast(new NewNotification($requesterId, $deniedNotif));
 
-                notifSession::where('id', $request->input('notification_id'))->delete();
+                // Delete the original drop request notification
+                if ($notificationId) {
+                    notifSession::where('id', $notificationId)->delete();
+                }
+
                 return redirect()->route('workspace.start')->with([
-                    'dropResponse' => 'Session dropped successfully.',
+                    'info' => 'Drop request has been denied.',
                 ]);
-            };
+            }
         }
 
+        // Send drop request (both Student and Tutor can request)
+        $student = Student::where('user_id', $bookedSession->student_id)->first();
+        $tutor = Tutor::where('user_id', $bookedSession->tutor_id)->first();
+        
         if (Auth::user()->role == 'Student') {
-
+            // Student requesting to drop
             $data = [
-                'NotifType' => 'DropSession',
+                'NotifType' => 'SessionDropRequested',
                 'booked_session_id' => $bookedSession->id,
-                'studentName' => $userName,
+                'requester_name' => $userName,
+                'requester_role' => 'Student',
+                'message' => $userName . ' has requested to drop the tutoring session.',
             ];
+            
+            // Check if request already exists
             if (notifSession::where('to', $bookedSession->tutor_id)
                 ->where('user_id', $bookedSession->student_id)
-                ->where('notif_info', json_encode($data))
+                ->whereRaw("JSON_EXTRACT(notif_info, '$.NotifType') = ?", ['SessionDropRequested'])
+                ->whereRaw("JSON_EXTRACT(notif_info, '$.booked_session_id') = ?", [$bookedSession->id])
                 ->exists()
             ) {
                 return redirect()->route('workspace.start')->with([
-                    'dropRequest' => 'You have already sent a drop request for your current session.',
+                    'info' => 'You have already sent a drop request for this session.',
                 ]);
             }
-            notifSession::create([
+            
+            $notification = notifSession::create([
                 'notif_info' => json_encode($data),
                 'to' => $bookedSession->tutor_id,
                 'user_id' => $bookedSession->student_id,
                 'read_at' => null,
             ]);
+            
+            // Broadcast in real-time to tutor
+            broadcast(new NewNotification($bookedSession->tutor_id, $notification));
+            
             return redirect()->route('workspace.start')->with([
-                'dropRequest' => 'Session dropped request sent to the tutor.',
+                'success' => 'Drop request sent to tutor. Waiting for confirmation.',
+            ]);
+        } else {
+            // Tutor requesting to drop
+            $data = [
+                'NotifType' => 'SessionDropRequested',
+                'booked_session_id' => $bookedSession->id,
+                'requester_name' => $userName,
+                'requester_role' => 'Tutor',
+                'message' => $userName . ' has requested to drop the tutoring session.',
+            ];
+            
+            // Check if request already exists
+            if (notifSession::where('to', $bookedSession->student_id)
+                ->where('user_id', $bookedSession->tutor_id)
+                ->whereRaw("JSON_EXTRACT(notif_info, '$.NotifType') = ?", ['SessionDropRequested'])
+                ->whereRaw("JSON_EXTRACT(notif_info, '$.booked_session_id') = ?", [$bookedSession->id])
+                ->exists()
+            ) {
+                return redirect()->route('workspace.start')->with([
+                    'info' => 'You have already sent a drop request for this session.',
+                ]);
+            }
+            
+            $notification = notifSession::create([
+                'notif_info' => json_encode($data),
+                'to' => $bookedSession->student_id,
+                'user_id' => $bookedSession->tutor_id,
+                'read_at' => null,
+            ]);
+            
+            // Broadcast in real-time to student
+            broadcast(new NewNotification($bookedSession->student_id, $notification));
+            
+            return redirect()->route('workspace.start')->with([
+                'success' => 'Drop request sent to student. Waiting for confirmation.',
             ]);
         }
-        $student = Student::where('user_id', $bookedSession->student_id)->first();
-
-        $data = [
-            'NotifType' => 'DropSession',
-            'booked_session_id' => $bookedSession->id,
-            'studentName' => $student->fname . ' ' . $student->lname,
-        ];
-        if (notifSession::where('to', $bookedSession->tutor_id)
-            ->where('user_id', $bookedSession->student_id)
-            ->where('notif_info', json_encode($data))
-            ->exists()
-        ) {
-        }
-        $message = Chatify::newMessage([
-            'from_id' => $bookedSession->tutor_id,
-            'to_id' => $bookedSession->student_id,
-            'body' => 'Tutoring session has been ended.',
-            'attachment' => null,
-        ]);
-
-        // Notify both users of the new conversation
-        Chatify::push("private-chatify." . $bookedSession->tutor_id . "." . $bookedSession->student_id, 'messaging', [
-            'from_id' => $bookedSession->tutor_id,
-            'to_id' => $bookedSession->student_id,
-            'message' => Chatify::messageCard(Chatify::parseMessage($message), true)
-        ]);
-
-        $encodedBookedSession = json_encode($bookedSession);
-        bookingHistoryLogs::create([
-            'booking_details' => $encodedBookedSession,
-        ]);
-
-        Event::where('booked_session_id', $bookedSession->id)->delete();
-        Log::info("Deleted all calendar events for booked session {$bookedSession->id}");
-
-        $bookedSession->delete();
-
-        return redirect()->route('workspace.start')->with([
-            'dropSuccess' => 'Session dropped successfully',
-        ]);
     }
 }

@@ -17,6 +17,7 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use App\Events\NewNotification;
+use Exception;
 
 
 
@@ -354,7 +355,7 @@ class NotificationController extends Controller
                 }
                 return response()->json(['success' => true, 
                 'message' => 'The tutoring session has been successfully updated and marked as completed.',
-                'next_step' => 'Please click the "Complete" button on the current session to process payment and officially end the session.',]);
+                'next_step' => 'Please click the "Complete" button on the current session to officially end the session.',]);
             }
             
             return response()->json(['success' => true, 'message' => 'Agreement recorded.']);
@@ -395,7 +396,7 @@ class NotificationController extends Controller
             'read_at' => null,
         ]);
 
-        event(new NewNotification($notif, $recipientId));
+        event(new NewNotification($recipientId, $notif));
     }   
     
     /**
@@ -408,5 +409,118 @@ class NotificationController extends Controller
             : $bookedSession->student_id;
     }
 
+    /**
+     * Handle session completion confirmation from student.
+     */
+    public function sessionCompletionConfirm(Request $request, $notificationId)
+    {
+        Log::info('sessionCompletionConfirm called', [
+            'notification_id' => $notificationId,
+            'agree' => $request->agree,
+            'user_id' => Auth::id()
+        ]);
+
+        $notification = notifSession::find($notificationId);
+
+        if (!$notification) {
+            Log::error('Notification not found', ['notification_id' => $notificationId]);
+            return response()->json(['success' => false, 'message' => 'Notification not found.'], 404);
+        }
+
+        $notifInfo = json_decode($notification->notif_info, true);
+        $bookedSession = bookedSession::find($notifInfo['bookedSession']);
+
+        if (!$bookedSession) {
+            Log::error('Session not found', ['session_id' => $notifInfo['bookedSession']]);
+            return response()->json(['success' => false, 'message' => 'Session not found.'], 404);
+        }
+
+        // Only students can respond to completion requests
+        if (Auth::id() !== $bookedSession->student_id) {
+            Log::warning('Non-student tried to confirm completion', [
+                'user_id' => Auth::id(),
+                'student_id' => $bookedSession->student_id
+            ]);
+            return response()->json(['success' => false, 'message' => 'Only students can confirm completion.'], 403);
+        }
+
+        if ($request->agree) {
+            try {
+                // Mark session as completed
+                $bookedSession->is_completed = true;
+                $bookedSession->save();
+
+                // Notify tutor of agreement
+                $tutorNotif = notifSession::create([
+                    'notif_info' => json_encode([
+                        'NotifType' => 'CompleteSession',
+                        'message' => 'The student has confirmed. Session completed successfully!',
+                        'bookedSession' => $bookedSession->id,
+                        'num_session' => $bookedSession->num_session,
+                        'total_session' => $bookedSession->total_session,
+                    ]),
+                    'to' => $bookedSession->tutor_id,
+                    'user_id' => Auth::id(),
+                    'read_at' => null,
+                ]);
+                broadcast(new NewNotification($bookedSession->tutor_id, $tutorNotif));
+
+                // Delete the notification
+                $notification->update(['read_at' => now()]);
+                $notification->delete();
+
+                // Delete the bookedSession
+                $bookedSession->delete();
+
+                Log::info('Session completed successfully', [
+                    'session_id' => $bookedSession->id,
+                    'student_id' => $bookedSession->student_id,
+                    'tutor_id' => $bookedSession->tutor_id,
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Session completed successfully!',
+                    'reload' => true
+                ]);
+            } catch (Exception $e) {
+                Log::error('Failed to complete session', [
+                    'error' => $e->getMessage(),
+                    'session_id' => $bookedSession->id,
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to complete the session.',
+                ]);
+            }
+        } else {
+            // Student disagreed
+            $notification->update(['read_at' => now()]);
+            $notification->delete();
+
+            // Notify tutor about disagreement
+            $deniedNotif = notifSession::create([
+                'notif_info' => json_encode([
+                    'NotifType' => 'SessionCompletionDenied',
+                    'message' => 'The student has disagreed with the session completion.',
+                    'bookedSession' => $bookedSession->id,
+                ]),
+                'to' => $bookedSession->tutor_id,
+                'user_id' => Auth::id(),
+                'read_at' => null,
+            ]);
+            broadcast(new NewNotification($bookedSession->tutor_id, $deniedNotif));
+
+            Log::info('Student disagreed with completion', [
+                'session_id' => $bookedSession->id,
+                'student_id' => Auth::id(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'You have disagreed with the completion.',
+            ]);
+        }
+    }
 
 }
