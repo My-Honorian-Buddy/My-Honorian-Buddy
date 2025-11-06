@@ -1,5 +1,5 @@
 @props(['pickedSubjects', 'user'])
-<div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
+<div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="200"
     class="w-full lg:w-1/2 flex flex-col bg-accent rounded-md overflow-hidden border-charcoal border-2 max-lg:mt-6">
     <div class="flex bg-accent items-center w-full border-charcoal py-2">
         <div

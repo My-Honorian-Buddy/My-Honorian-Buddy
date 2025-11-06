@@ -48,7 +48,7 @@
 @endphp
 
 
-<div
+<div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="100"
     class="w-full lg:w-1/2 h-auto bg-accent rounded-md overflow-hidden shadow-charcoal border-charcoal border-2 max-lg:mt-6">
     <div class="flex bg-accent items-center w-full py-2">
         <div
