@@ -222,6 +222,7 @@
     });
 
 
+    // Make loadNotifications globally accessible for echo.js
     function loadNotifications() {
         console.log('[loadNotifications] Starting to load notifications...');
         const notifContainer = document.querySelector('.bladewind-dropmenunotif');
@@ -397,13 +398,15 @@
                                     </div>
                                         <div class="flex space-x-2 mt-2">
                                             <button 
+                                                id="agree-btn-${notification.id}"
                                                 class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"  
-                                                onclick="handleConfirmation(${notification.id}, true)">
+                                                onclick="this.disabled=true; document.getElementById('reject-btn-${notification.id}').disabled=true; handleConfirmation(${notification.id}, true)">
                                                 Agree
                                             </button>
                                             <button 
+                                                id="reject-btn-${notification.id}"
                                                 class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="handleConfirmation(${notification.id}, false)">
+                                                onclick="this.disabled=true; document.getElementById('agree-btn-${notification.id}').disabled=true; handleConfirmation(${notification.id}, false)">
                                                 Reject
                                             </button>
                                         </div>
@@ -491,70 +494,60 @@
                                     </div>
                                 </li>
                             `;
-                        } else if (info['NotifType'] === "DropSession") {
+                        } else if (info['NotifType'] === "SessionDropRequested") {
+                            const requesterRole = info['requester_role'] || 'Student';
+                            const requesterName = info['requester_name'] || 'Someone';
+                            
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
-                                            <p>Session Drop Request</p>
-                                            <p class="text-sm text-gray-500">${info['studentName']} requested to drop your tutoring session</p>
+                                            <p class="font-semibold">📩 Session Drop Request</p>
+                                            <p class="text-sm text-gray-500">${requesterName} (${requesterRole}) requested to drop the tutoring session</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
-                                        <div class="flex space-x-2">
-                                            <div class="hidden notification-actions self-center space-x-2">
-                                                <button 
-                                                    class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                    onclick="markAsRead(${notification.id})">
-                                                    ✔
-                                                </button>
-                                                <button 
-                                                    class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="flex space-x-2 mt-2">
-                                        <form action="{{ route('drop.session') }}" method="post">
+                                    <div class="flex space-x-2 mt-3">
+                                        <form action="{{ route('drop.session') }}" method="post" class="inline">
                                             @csrf
                                             <input type="hidden" name="session_id" value="${info['booked_session_id']}">
                                             <input type="hidden" name="notification_id" value="${notification.id}">
                                             <input type="hidden" name="accept" value="true">
                                             <button 
                                                 type="submit"
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]">
-                                                Accept
+                                                class="bg-green-600 text-white px-4 py-2 rounded-md border-2 border-black transition active:scale-95 hover:bg-green-700 hover:scale-[1.05]">
+                                                ✓ Accept & Drop Session
                                             </button>
                                         </form>
-                                        <form action="{{ route('drop.session') }}" method="post">
+                                        <form action="{{ route('drop.session') }}" method="post" class="inline">
                                             @csrf
                                             <input type="hidden" name="session_id" value="${info['booked_session_id']}">
                                             <input type="hidden" name="notification_id" value="${notification.id}">
                                             <input type="hidden" name="accept" value="false">
                                             <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="handleConfirmRequest(${notification.id} ,${info['booked_session_id']} , false)">
-                                                Reject
+                                                type="submit"
+                                                class="bg-red-600 text-white px-4 py-2 rounded-md border-2 border-black transition active:scale-95 hover:bg-red-700 hover:scale-[1.05]">
+                                                ✗ Deny Request
                                             </button>
                                         </form>
                                     </div>
                                 </li>
                             `;
-                        } else if (info['NotifType'] === "SessionSuccessfullyDropped") {
+                        } else if (info['NotifType'] === "SessionDropped") {
+                            const droppedBy = info['dropped_by'] || 'the other party';
+                            
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
-                                            <p>Session Successfully Dropped</p>
-                                            <p class="text-sm text-gray-500">${info['message'] || ''}</p>
-                                            <p class="text-xs text-gray-500">for session #${info['tutorName']}</p>
+                                            <p class="font-semibold">✅ Session Dropped</p>
+                                            <p class="text-sm text-gray-500">The tutoring session has been dropped by ${droppedBy}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <div class="hidden notification-actions self-center space-x-2">
+                                            <div class="notification-actions self-center space-x-2">
                                                 <button 
                                                     class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
                                                     onclick="markAsRead(${notification.id})">
@@ -571,19 +564,20 @@
                                 </li>
                             `;
                         } else if (info['NotifType'] === "SessionDropRequestDenied") {
+                            const deniedBy = info['denied_by'] || 'the other party';
+                            
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
-                                            <p>Request Denied</p>
-                                            <p class="text-sm text-gray-500">${info['message'] || ''}</p>
-                                            <p class="text-sm text-gray-500">Reach out to ${info['tutorName']} for more details</p>
-                                            <p class="text-xs text-gray-500">for tutoring session #${info['booked_session_id']}</p>
+                                            <p class="font-semibold">❌ Drop Request Denied</p>
+                                            <p class="text-sm text-gray-500">Your request to drop the session was denied by ${deniedBy}</p>
+                                            <p class="text-xs text-gray-500">The tutoring session continues as scheduled</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <div class="hidden notification-actions self-center space-x-2">
+                                            <div class="notification-actions self-center space-x-2">
                                                 <button 
                                                     class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
                                                     onclick="markAsRead(${notification.id})">
@@ -595,6 +589,59 @@
                                                     ✖
                                                 </button>
                                             </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        } else if (info['NotifType'] === "SessionCompletionRequest") {
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">✅ Session Completion Request</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || 'Your tutor has marked this session as complete.'}</p>
+                                            <p class="text-sm text-gray-500">Session: ${info['num_session']} of ${info['total_session']}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-2 mt-2">
+                                        <button 
+                                            id="completion-agree-btn-${notification.id}"
+                                            class="bg-green-600 text-white px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"  
+                                            onclick="this.disabled=true; document.getElementById('completion-disagree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, true)">
+                                            Agree
+                                        </button>
+                                        <button 
+                                            id="completion-disagree-btn-${notification.id}"
+                                            class="bg-red-600 text-white hover:bg-red-700 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                            onclick="this.disabled=true; document.getElementById('completion-agree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, false)">
+                                            Disagree
+                                        </button>
+                                    </div>
+                                </li>
+                            `;
+                        } else if (info['NotifType'] === "SessionCompletionDenied") {
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">❌ Completion Request Denied</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || 'The student has disagreed with the session completion.'}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                        <div class="hidden notification-actions self-center space-x-2">
+                                            <button 
+                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
+                                            </button>
+                                            <button 
+                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
+                                            </button>
                                         </div>
                                     </div>
                                 </li>
@@ -668,6 +715,9 @@
                 `;
             });
     }
+    
+    // Make loadNotifications globally accessible for echo.js
+    window.fetchUserNotifications = loadNotifications;
 
     function markRead(notificationId) {
         fetch(`/notifications/${notificationId}/read`, {
@@ -825,6 +875,8 @@
     }
 
     function handleConfirmation(notificationId, agree) {
+        console.log('🔔 handleConfirmation called', {notificationId, agree});
+        
         fetch(`/notifications/session-confirm/${notificationId}`, {
                 method: 'POST',
                 headers: {
@@ -835,19 +887,78 @@
                     agree: agree
                 }),
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('✅ Session confirmation response:', data);
+                
                 if (data.success) {
-                    showNotification(data.message);
+                    console.log('✅ Success:', data.message);
                     loadNotifications();
+                    
+                    // If session is completed, reload the page
+                    if (data.reload === true) {
+                        console.log('🔄 Session completed! Reloading page in 2 seconds...');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
                 } else {
-                    showNotification('Session Update Failed', data.message, 'error');
+                    console.error('❌ Error:', data.message);
                     loadNotifications();
                 }
-                loadNotifications();
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('❌ Fetch error:', error);
+            });
+    }
+
+    function handleSessionCompletionResponse(notificationId, agree) {
+        console.log('🔔 handleSessionCompletionResponse called', {notificationId, agree});
+        
+        fetch(`/notifications/session-completion-confirm/${notificationId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    agree: agree
+                }),
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('✅ Session completion response:', data);
+                
+                if (data.success) {
+                    console.log('✅ Success:', data.message);
+                    loadNotifications();
+                    
+                    // If session is completed, reload the page
+                    if (data.reload === true) {
+                        console.log('🔄 Session completed! Reloading page in 2 seconds...');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                } else {
+                    console.error('❌ Error:', data.message);
+                    loadNotifications();
+                }
+            })
+            .catch(error => {
+                console.error('❌ Fetch error:', error);
             });
     }
 

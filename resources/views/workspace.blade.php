@@ -102,20 +102,20 @@
             </div>
             <div>
                 {{-- ROW 1 --}}
-                <div class="my-8">
+                <div>
                     <x-daily-progress :subjects="$subjects" :user="$user" :student="$student" :tutor="$tutor" />
                 </div>
 
                 {{-- ROW 2 --}}
-                <div class="flex my-8 gap-x-6 max-lg:flex-col max-lg:gap-y-4">
+                <div class="flex gap-x-6">
                     <x-current-session :subjects="$subjects" :user="$user" :tutor="$tutor" :student="$student" />
                     <x-yoursubjects :pickedSubjects="$pickedSubjects" :user="$user" />
                 </div>
 
-                <div class="flex my-8 max-lg:flex-col max-lg:gap-4">
-                    <div class="w-[70%] mr-8 max-lg:w-full max-lg:mr-0 max-lg:mt-6">
+                <div class="flex flex-row">
+                    <div class="w-[70%] lg:w-[70%] mt-8 mr-8 ">
                         {{-- calendar | schedule --}}
-                        <section class="w-full">
+                        <section data-aos="fade-up" data-aos-anchor-placement="top-bottom" class="w-full">
                             <x-creating-calendar />
                         </section>
 
@@ -124,7 +124,7 @@
                             <x-upcoming-task />
                         </section>
                     </div>
-                    <div class="flex flex-col gap-y-8 justify-start w-[30%] max-lg:w-full max-lg:mt-6 max-lg:gap-y-4">
+                    <div class="flex max-h-[1060px] flex-col gap-y-6 justify-evenly w-[30%] lg:w-[30%] mt-8">
                         <section class="">
                             <x-card-gotomyprofile />
                         </section>
@@ -344,6 +344,84 @@
                         alert('Error: Failed to initiate call');
                     });
             };
+
+            // Toast notification function
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 z-[9999] px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out max-w-md';
+                
+                // Set colors based on type
+                const colors = {
+                    'success': 'bg-green-500 text-white',
+                    'error': 'bg-red-500 text-white',
+                    'warning': 'bg-amber-500 text-white',
+                    'info': 'bg-blue-500 text-white'
+                };
+                
+                toast.className += ' ' + (colors[type] || colors['info']);
+                
+                // Add icon based on type
+                const icons = {
+                    'success': '✅',
+                    'error': '❌',
+                    'warning': '⚠️',
+                    'info': 'ℹ️'
+                };
+                
+                toast.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">${icons[type] || icons['info']}</span>
+                        <span class="font-medium">${message}</span>
+                        <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(toast);
+                
+                // Animate in
+                setTimeout(() => toast.style.opacity = '1', 10);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 5000);
+            }
+
+            // Display session flash messages as toasts
+            @if (session('success'))
+                console.log('✅ SUCCESS:', '{{ session('success') }}');
+                showToast('{{ session('success') }}', 'success');
+            @endif
+
+            @if (session('error'))
+                console.error('❌ ERROR:', '{{ session('error') }}');
+                showToast('{{ session('error') }}', 'error');
+            @endif
+
+            @if (session('cannotComplete'))
+                console.warn('⚠️ CANNOT COMPLETE SESSION:', '{{ session('cannotComplete') }}');
+                showToast('{{ session('cannotComplete') }}', 'warning');
+            @endif
+
+            @if (session('info'))
+                console.info('ℹ️ INFO:', '{{ session('info') }}');
+                showToast('{{ session('info') }}', 'info');
+            @endif
+
+            @if (session('dropRequest'))
+                console.log('📤 DROP REQUEST:', '{{ session('dropRequest') }}');
+                showToast('{{ session('dropRequest') }}', 'success');
+            @endif
+
+            @if (session('dropSuccess'))
+                console.log('✅ DROP SUCCESS:', '{{ session('dropSuccess') }}');
+                showToast('{{ session('dropSuccess') }}', 'success');
+            @endif
         </script>
     </x-slot>
 </x-workspace-layout>

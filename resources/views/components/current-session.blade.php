@@ -99,109 +99,130 @@
             @endforeach
         @endif
 
-        {{-- Complete Session Button --}}
+        {{-- Complete Session and Drop Session Buttons --}}
         <div class="bg-accent flex items-center w-full border-b-0 border-black py-2">
             <div class="bg-accent my-4 flex items-center w-full h-full py-2">
                 <div class="text-white w-full px-4 max-md:px-2">
-                    <div class="ml-5 max-md:ml-2">
-                        <x-bladewind::button type="submit"
-                            class="bg-primary border-2 border-black hover:bg-primary/70 text-accent font-bold flex justify-items-center max-md:w-full max-md:justify-center"
-                            size="small" rounded="true" onclick="showModal('confirm-complete')">
-                            complete session
+                    <div class="ml-5 max-md:ml-2 flex gap-4 max-md:flex-col">
+                        @if (Auth::user()->role === 'Tutor')
+                            {{-- Complete Session Button (Tutor Only) --}}
+                            <x-bladewind::button type="button"
+                                class="bg-green-600 border-2 border-black hover:bg-green-700 text-white font-bold flex justify-items-center max-md:w-full max-md:justify-center"
+                                size="small" rounded="true" 
+                                onclick="console.log('📌 Opening Complete Session Modal'); showModal('confirm-complete')">
+                                Complete Session
+                            </x-bladewind::button>
+                        @endif
+
+                        {{-- Drop Session Button --}}
+                        <x-bladewind::button type="button"
+                            class="bg-red-600 border-2 border-black hover:bg-red-700 text-white font-bold flex justify-items-center max-md:w-full max-md:justify-center"
+                            size="small" rounded="true" onclick="showModal('confirm-drop')">
+                            Drop Session
                         </x-bladewind::button>
                     </div>
-                        <x-bladewind.modal name="confirm-complete" size="medium" title="Confirm Session Completion"
-                            footer="false" class="bg-blue-800 text-white" stretched_action_buttons="true"
-                            ok_button_label="" cancel_button_label=""
-                            cancel_button_action="hideModal('confirm-complete')" close_after_action="true"
-                            backdrop_can_close="true">
 
-                            <p class="mx-4 mt-4">Are you sure you want to complete this session?</p>
-                            <br>
+                    @if (Auth::user()->role === 'Tutor')
+                        {{-- Complete Session Modal (Tutor Only) --}}
+                    <x-bladewind.modal name="confirm-complete" size="medium" title="Confirm Session Completion"
+                        footer="false" stretched_action_buttons="true"
+                        ok_button_label="" cancel_button_label=""
+                        cancel_button_action="hideModal('confirm-complete')" close_after_action="true"
+                        backdrop_can_close="true">
 
-                            <div class="mt-4 flex flex-col font-black space-y-4">
-                                <x-bladewind::button type="button"
-                                    class="bg-secondary text-primary hover:bg-primary hover:text-accent2 border-2 border-black mx-4"
-                                    size="small" rounded="true" can_submit="false" close_after_action="true"
-                                    onclick=" showModal('confirm-drop'); ">
-                                    Drop the session
+                        <p class="mx-4 mt-4">Are you sure you want to mark this session as complete?</p>
+                        <p class="mx-4 mt-2 text-sm text-gray-600">This will update the session progress.</p>
+                        <br>
+
+                        <div class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
+                            <x-bladewind::button type="button"
+                                class="bg-gray-500 text-white hover:bg-gray-600 border-2 border-black"
+                                size="small" rounded="true" can_submit="false"
+                                onclick="hideModal('confirm-complete')">
+                                Cancel
+                            </x-bladewind::button>
+
+                            <form action="{{ route('complete.session') }}" method="post" class="max-md:w-full" 
+                                onsubmit="console.log('========== COMPLETE SESSION FORM SUBMITTED =========='); 
+                                          console.log('Session ID:', '{{ $session->id ?? '' }}'); 
+                                          console.log('Form Action:', this.action); 
+                                          console.log('Form Method:', this.method); 
+                                          return true;">
+                                @csrf
+                                <input type="hidden" name="session_id" value="{{ $session->id ?? '' }}">
+                                <x-bladewind::button type="submit"
+                                    class="bg-green-600 text-white hover:bg-green-700 mr-4 border-2 border-black max-md:mr-0 max-md:w-full"
+                                    size="small" rounded="true" can_submit="true"
+                                    onclick="console.log('✅ Complete button clicked. Session ID: {{ $session->id ?? 'NOT SET' }}');">
+                                    Confirm Complete
                                 </x-bladewind::button>
+                            </form>
+                        </div>
+                    </x-bladewind.modal>
+                    @endif
 
+                    {{-- Drop Session Modal for Tutor--}}
+                    @if (Auth::user()->role === 'Tutor')
+                        <x-bladewind.modal name="confirm-drop" type="warning" title="Request to Drop Session"
+                            footer="false" size="big" ok_button_label="" cancel_button_label=""
+                            cancel_button_action="hideModal('confirm-drop')" backdrop_can_close="true">
+
+                            <p class="mx-4 mt-4 text-amber-600 font-semibold">📬 A drop request will be sent to the student for confirmation.</p>
+                            <p class="mx-4 mt-2 text-gray-600">The session will only be dropped once the student accepts your request.</p><br>
+
+                            <div class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
                                 <x-bladewind::button type="button"
-                                    class="bg-primary text-accent2 hover:bg-red-700 border-2 border-black mx-4"
-                                    size="small" rounded="true" can_submit="false"
-                                    onclick="hideModal('confirm-complete')">
+                                    class="bg-gray-500 text-white hover:bg-gray-600 border-2 border-black"
+                                    stretched_action_buttons="false" size="small" rounded="true"
+                                    align_buttons="right" can_submit="false"
+                                    onclick="hideModal('confirm-drop')">
                                     Cancel
                                 </x-bladewind::button>
+
+                                <form action="{{ route('drop.session') }}" method="post" class="max-md:w-full" onsubmit="console.log('Drop session form submitted (Tutor)'); return true;">
+                                    @csrf
+                                    <input type="hidden" name="session_id" value="{{ $session->id ?? '' }}">
+                                    <x-bladewind::button type="submit"
+                                        class="bg-amber-600 text-white hover:bg-amber-700 mr-4 border-2 border-black max-md:mr-0 max-md:w-full"
+                                        size="small" rounded="true" stretched_action_buttons="false"
+                                        align_buttons="right" can_submit="true">
+                                        Send Drop Request
+                                    </x-bladewind::button>
+                                </form>
                             </div>
                         </x-bladewind.modal>
 
-                        <!-- Modal of Drop Session for Tutor-->
-                        @if (Auth::user()->role === 'Tutor')
-                            <x-bladewind.modal name="session-complete" type="warning" title="Confirm Drop Session"
-                                footer="false" size="big" ok_button_label="" cancel_button_label=""
-                                cancel_button_action="hideModal('confirm-drop')" backdrop_can_close="true">
+                    {{-- Drop Session Modal for Student --}}
+                    @elseif (Auth::user()->role === 'Student')
+                        <x-bladewind.modal name="confirm-drop" type="warning" title="Request to Drop Session"
+                            footer="false" size="big" ok_button_label="" cancel_button_label=""
+                            cancel_button_action="hideModal('confirm-drop')" backdrop_can_close="true">
 
-                                <p class="mx-4 mt-4">Your current session will terminate without
-                                    payment for the
-                                    previous meetings you attended. </p><br>
+                            <p class="mx-4 mt-4 text-amber-600 font-semibold">📬 A drop request will be sent to your tutor for confirmation.</p>
+                            <p class="mx-4 mt-2 text-gray-600">The session will only be dropped once your tutor accepts your request.</p><br>
 
-                                <div
-                                    class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
-                                    <x-bladewind::button type="button"
-                                        class="bg-primary text-accent2 hover:bg-red-900 hover:text-accent2 border-2 border-black"
-                                        stretched_action_buttons="false" size="small" rounded="true"
-                                        align_buttons="right" can_submit="false"
-                                        onclick="hideModal('confirm-drop'); showModal('confirm-hangup');">
-                                        Cancel
+                            <div class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
+                                <x-bladewind::button type="button"
+                                    class="bg-gray-500 text-white hover:bg-gray-600 border-2 border-black"
+                                    stretched_action_buttons="false" size="small" rounded="true"
+                                    align_buttons="right" can_submit="false"
+                                    onclick="hideModal('confirm-drop')">
+                                    Cancel
+                                </x-bladewind::button>
+
+                                <form action="{{ route('drop.session') }}" method="post" class="max-md:w-full" onsubmit="console.log('Drop session form submitted (Student)'); return true;">
+                                    @csrf
+                                    <input type="hidden" name="session_id" value="{{ $session->id ?? '' }}">
+                                    <x-bladewind::button type="submit"
+                                        class="bg-amber-600 text-white hover:bg-amber-700 mr-4 border-2 border-black max-md:mr-0 max-md:w-full"
+                                        size="small" rounded="true" stretched_action_buttons="false"
+                                        align_buttons="right" can_submit="true">
+                                        Send Drop Request
                                     </x-bladewind::button>
-
-                                    <form action="{{ route('drop.session') }}" method="post" class="max-md:w-full">
-                                        @csrf
-                                        <input type="hidden" name="session_id" value="{{-- $session->id --}}">
-                                        <x-bladewind::button type="submit"
-                                            class="bg-accent2 text-primary hover:bg-primary mr-4 hover:text-accent2 border-2 border-black max-md:mr-0 max-md:w-full"
-                                            size="small" rounded="true" stretched_action_buttons="false"
-                                            align_buttons="right" can_submit="true">
-                                            Confirm
-                                        </x-bladewind::button>
-                                    </form>
-                                </div>
-                            </x-bladewind.modal>
-
-                            <!-- Modal of Drop Session for Student -->
-                        @elseif (Auth::user()->role === 'Student')
-                            <x-bladewind.modal name="confirm-drop" type="warning" title="Confirm Drop Session"
-                                footer="false" size="big" ok_button_label="" cancel_button_label=""
-                                cancel_button_action="hideModal('confirm-drop')" backdrop_can_close="true">
-
-                                <p class="mx-4 mt-4">A notification regarding the cancellation of the
-                                    session will be
-                                    delivered to your tutor for confirmation.</p><br>
-
-                                <div
-                                    class="mt-4 flex justify-end space-x-4 max-md:flex-col max-md:space-x-0 max-md:space-y-2">
-                                    <x-bladewind::button type="button"
-                                        class="bg-primary text-accent2 hover:bg-red-900 hover:text-accent2 border-2 border-black"
-                                        stretched_action_buttons="false" size="small" rounded="true"
-                                        align_buttons="right" can_submit="false"
-                                        onclick="hideModal('confirm-drop'); showModal('confirm-hangup');">
-                                        Cancel
-                                    </x-bladewind::button>
-
-                                    <form action="{{ route('drop.session') }}" method="post" class="max-md:w-full">
-                                        @csrf
-                                        <input type="hidden" name="session_id" value="{{-- $session->id --}}">
-                                        <x-bladewind::button type="submit"
-                                            class="bg-accent2 text-primary hover:bg-primary mr-4 hover:text-accent2 border-2 border-black max-md:mr-0 max-md:w-full"
-                                            size="small" rounded="true" stretched_action_buttons="false"
-                                            align_buttons="right" can_submit="true">
-                                            Confirm
-                                        </x-bladewind::button>
-                                    </form>
-                                </div>
-                            </x-bladewind.modal>
-                        @endif
+                                </form>
+                            </div>
+                        </x-bladewind.modal>
+                    @endif
 
 
                     </div>

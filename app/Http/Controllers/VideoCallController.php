@@ -125,47 +125,74 @@ class VideoCallController extends Controller
             ? Carbon::parse($bookedSession->sesUpdate)->format('F d, Y') 
             : null;
 
-        // Only send notifications if the session was not already updated today
+        // Automatically update session if not already updated today
         if ($updatedBefore != now()->format('F d, Y') || $updatedBefore == null) {
-            $data = [
-                'NotifType' => 'AddNumSession',
-                'bookedSession' => $bookedSession->id,
-                'num_session' => $bookedSession->num_session,
-                'total_session' => $bookedSession->total_session,
-            ];
-        
-            // Check if notification for student already exists
-            $studentNotifExists = notifSession::where('notif_info', json_encode($data))
-                ->where('to', $bookedSession->student_id)
-                ->exists();
-        
-            // Check if notification for tutor already exists
-            $tutorNotifExists = notifSession::where('notif_info', json_encode($data))
-                ->where('to', $bookedSession->tutor_id)
-                ->exists();
-        
-            // Create notifications if not already sent
-            if (!$studentNotifExists) {
-                notifSession::create([
-                    'notif_info' => json_encode($data),
-                    'to' => $bookedSession->student_id,
-                    'user_id' => Auth::id(),
-                    'read_at' => null,
-                ]);
-            }
-        
-            if (!$tutorNotifExists) {
-                notifSession::create([
-                    'notif_info' => json_encode($data),
+            // Increment the session count
+            $bookedSession->num_session += 1;
+            $bookedSession->sesUpdate = now()->toDateString();
+            $bookedSession->save();
+
+            // Get tutor and update points
+            $tutor = \App\Models\Tutor::where('user_id', $bookedSession->tutor_id)->first();
+            if ($tutor) {
+                $tutor->exp += 1;
+                $earnedPoints = $bookedSession->num_session * 10;
+                $tutor->points += $earnedPoints;
+                $tutor->save();
+
+                // Notify tutor about points
+                $pointsNotif = notifSession::create([
+                    'notif_info' => json_encode([
+                        'NotifType' => 'PointsUpdated',
+                        'message' => 'You earned ' . $earnedPoints . ' points.',
+                        'bookedSession' => $bookedSession->id,
+                        'num_session' => $bookedSession->num_session,
+                        'total_session' => $bookedSession->total_session,
+                    ]),
                     'to' => $bookedSession->tutor_id,
                     'user_id' => Auth::id(),
                     'read_at' => null,
                 ]);
+                broadcast(new \App\Events\NewNotification($bookedSession->tutor_id, $pointsNotif));
+            }
+
+            // Notify both student and tutor about session update
+            $studentNotif = notifSession::create([
+                'notif_info' => json_encode([
+                    'NotifType' => 'SessionUpdated',
+                    'message' => 'Your tutoring session has been successfully completed and recorded.',
+                    'bookedSession' => $bookedSession->id,
+                    'num_session' => $bookedSession->num_session,
+                    'total_session' => $bookedSession->total_session,
+                ]),
+                'to' => $bookedSession->student_id,
+                'user_id' => Auth::id(),
+                'read_at' => null,
+            ]);
+            broadcast(new \App\Events\NewNotification($bookedSession->student_id, $studentNotif));
+
+            $tutorNotif = notifSession::create([
+                'notif_info' => json_encode([
+                    'NotifType' => 'SessionUpdated',
+                    'message' => 'Your session count has been updated.',
+                    'bookedSession' => $bookedSession->id,
+                    'num_session' => $bookedSession->num_session,
+                    'total_session' => $bookedSession->total_session,
+                ]),
+                'to' => $bookedSession->tutor_id,
+                'user_id' => Auth::id(),
+                'read_at' => null,
+            ]);
+            broadcast(new \App\Events\NewNotification($bookedSession->tutor_id, $tutorNotif));
+
+            // Check if all sessions are completed
+            if ($bookedSession->num_session == $bookedSession->total_session) {
+                return redirect()->route('workspace.start')->with('MeetEnded', 'Session updated! All sessions completed.');
             }
         }
         
     
-        return redirect()->route('workspace.start')->with('MeetEnded', 'You have left the video call room.');
+        return redirect()->route('workspace.start')->with('MeetEnded', 'You have left the video call room. Session updated!');
     }
 
     /**

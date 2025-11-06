@@ -13,6 +13,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\StudentSubjectController;
 use App\Http\Controllers\Auth\TutorSubjectController;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VideoCallController;
@@ -205,11 +206,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/user-notifications', [NotificationController::class, 'getUserNotifications'])->name('user.notifications');
-    
-    // TEST ROUTE - Remove in production
-    Route::get('/test-notif-api', function() {
-        return view('test-notification-api');
-    })->name('test.notif.api');
 
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.read');
     Route::delete('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification'])->name('notification.delete');
@@ -217,6 +213,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAllNotifications'])->name('notification.deleteAll');
 
     Route::post('/notifications/session-confirm/{notification}', [NotificationController::class, 'sessionConfirm']);
+    Route::post('/notifications/session-completion-confirm/{notification}', [NotificationController::class, 'sessionCompletionConfirm']);
     Route::post('/notifications/tutor-request/{id}', [NotificationController::class, 'handleTutorRequest'])->name('notifications.tutor-request');
 
 
@@ -246,8 +243,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('notif/session/store', [SessionController::class, 'notifStore'])->name('notif.store');
-    
     Route::get('session/matching-schedules', [SessionController::class, 'getMatchingSchedules'])->name('session.matching-schedules');
+    
+    // Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
+    // Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
+    // Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
     Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');
     Route::match(['get', 'post'], '/ai-matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
@@ -258,6 +258,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/tutor/profile', [TaskController::class, 'connectTutor'])->name('connect.tutor');
 Route::get('/student/profile', [TaskController::class, 'connectStudent'])->name('connect.student');
+
+
+// Route::get('/sampleslot', function () {
+//     $todolists = ToDoLists::all();
+//     return view('sampleslot', compact('todolists'));
+// });
+
+// Route::get('/google-calendar', [GoogleCalendarController::class, 'showCalendar'])->name('workspace'); 
+// Route::get('/google-calendar/redirect', [GoogleCalendarController::class, 'redirectToGoogle'])->name('google.auth.calendar');
+// Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
 // Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
