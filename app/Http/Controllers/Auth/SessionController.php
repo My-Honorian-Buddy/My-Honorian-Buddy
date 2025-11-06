@@ -23,6 +23,19 @@ use Exception;
 
 class SessionController extends Controller
 {
+    public function showAppointmentPage($tutorId)
+    {
+        $tutor = Tutor::findOrFail($tutorId);
+        $tutorUser = $tutor->user;
+        $tutorSubjects = $tutor->subject_tutor ?? [];
+        
+        return view('appointment', [
+            'tutorId' => $tutorId,
+            'tutor' => $tutor,
+            'tutorUser' => $tutorUser,
+            'tutorSubjects' => $tutorSubjects
+        ]);
+    }
 
     protected function createCalendarEventsForBookedSession($bookedSession, $student, $tutor)
     {
@@ -198,24 +211,34 @@ class SessionController extends Controller
 
         Log::info('Data: ', $notifInfo);
 
-        notifSession::create([
+        // Get the tutor user ID to send the broadcast
+        $tutor = Tutor::find($validated['tutor_id']);
+        if (!$tutor) {
+            Log::error('Tutor not found:', ['tutor_id' => $validated['tutor_id']]);
+            return redirect()->back()->with('error', 'Tutor not found');
+        }
+
+        // Store notification with tutor's user_id (not tutor_id)
+        $notification = notifSession::create([
             'notif_info' => json_encode($notifInfo),
-            'to' => $validated['tutor_id'],
+            'to' => $tutor->user_id,  // Store the tutor's USER ID, not tutor ID
             'user_id' => $userID,
             'read_at' => null,
         ]);
 
         Log::info('Notif created successfully', [
             'notif_info' => $notifInfo,
+            'notification_id' => $notification->id,
+            'tutor_user_id' => $tutor->user_id,
         ]);
 
-        $tutor = tutorSubject::find($validated['tutor_id']);
-
-        broadcast(new NewNotification($validated['tutor_id']));
+        // Broadcast to the tutor with the full notification object
+        Log::info('Broadcasting to tutor user ID:', ['user_id' => $tutor->user_id]);
+        broadcast(new NewNotification($tutor->user_id, $notification));
 
         return redirect()->route('workspace.start')->with([
             'success' => 'Tutor request sent successfully!',
-            'tutor' => $tutor,
+            'notification_id' => $notification->id,
 
         ]);
     }
@@ -339,9 +362,18 @@ class SessionController extends Controller
             ]);
         }
 
-        // Get student and tutor schedules
+        // Get the tutor's user_id from the Tutor model
+        $tutor = Tutor::find($tutorId);
+        if (!$tutor) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tutor not found'
+            ]);
+        }
+
+        // Get student and tutor schedules using user_id
         $studentSchedule = Schedule::where('user_id', $studentId)->first();
-        $tutorSchedule = Schedule::where('user_id', $tutorId)->first();
+        $tutorSchedule = Schedule::where('user_id', $tutor->user_id)->first();
 
         if (!$studentSchedule || !$tutorSchedule) {
             return response()->json([

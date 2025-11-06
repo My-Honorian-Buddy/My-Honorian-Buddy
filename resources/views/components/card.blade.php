@@ -67,7 +67,8 @@
                                         @json ($user->tutor->year_level),
                                         @json ($user->tutor->department),
                                         @json ($user->tutor->gender),
-                                        @json ($user->tutor->address)
+                                        @json ($user->tutor->address),
+                                        @json ($user->tutor->id)
                                         )'>
                         <div class="flex items-center gap-4">
                             <img alt="" src="{{ $user->profile_pic }}" class="size-20 rounded object-cover" />
@@ -130,8 +131,7 @@
                             A student already booked this tutor.
                         </div>
                     @else
-                        <div class="w-full set-appointment-wrapper" data-user-id="{{ $user->tutor->user_id }}"
-                            tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
+                        <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}" data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
                             <x-set-appointment />
                         </div>
                     @endif
@@ -265,13 +265,25 @@
 
     <script>
         function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
-            address) {
+            address, tutorId) {
+            
+            console.log('Opening modal for tutor ID:', tutorId);
+            
+            // Update the set-appointment wrapper with the correct tutor ID
+            const wrapper = document.getElementById('set-appointment-wrapper');
+            if (wrapper && tutorId) {
+                wrapper.setAttribute('data-tutor-id', tutorId);
+                wrapper.setAttribute('data-tutor-subjects', JSON.stringify(subjects));
+                console.log('Updated wrapper with tutor ID:', tutorId);
+            }
+            
             document.getElementById('tutor-name').textContent = fname + ' ' + lname;
             document.getElementById('profile-pic').src = profilePic;
             document.getElementById('tutor-year-level').textContent = year_level + ' ' + department;
             document.getElementById('tutor-gender').textContent = gender;
             document.getElementById('tutor-address').textContent = address;
             console.log(gender, address);
+
 
             const daysList = document.getElementById('tutor-days');
             daysList.innerHTML = '';
