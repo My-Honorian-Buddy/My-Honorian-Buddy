@@ -96,7 +96,7 @@
         }
     </style>
 
-    <script src='https://8x8.vc/vpaas-magic-cookie-2b61ef21745249ebb86a91088e86a9e0/external_api.js'></script>
+    <script src='https://meet.jit.si/external_api.js'></script>
     <script>
         
         
