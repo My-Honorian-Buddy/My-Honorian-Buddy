@@ -29,10 +29,22 @@ class bookedSession extends Model
         'accept',
         'reviewed',
         'sesUpdate',
+        'admin_approved',
+        'ban_requested',
+        'ban_reason',
+        'ban_requested_at',
+        'tutor_report',
+        'tutor_report_images',
+        'tutor_report_submitted_at',
+        'ban_status',
     ];
 
     protected $casts = [
         'reviewed' => 'boolean',
+        'ban_requested' => 'boolean',
+        'tutor_report_images' => 'array',
+        'ban_requested_at' => 'datetime',
+        'tutor_report_submitted_at' => 'datetime',
     ];
 
     public function student()

@@ -276,6 +276,17 @@ class SessionController extends Controller
                 ]);
             }
 
+            // Check if admin has approved completion
+            if (!$bookedSession->admin_approved) {
+                Log::warning('Cannot complete - admin approval required', [
+                    'session_id' => $bookedSession->id,
+                    'admin_approved' => $bookedSession->admin_approved
+                ]);
+                return redirect()->route('workspace.start')->with([
+                    'error' => 'Admin approval is required before completing this session. Please wait for admin to review and approve.'
+                ]);
+            }
+
             try {
                 // Send completion confirmation request to student
                 $completionNotif = notifSession::create([

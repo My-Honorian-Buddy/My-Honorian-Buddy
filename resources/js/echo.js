@@ -129,8 +129,7 @@ setTimeout(() => {
                                     
                                     console.log('✅ Tutor accepted request from:', notifInfo.tutor_name);
                                     
-                                    // Show success message and reload page
-                                    alert(`Great news! ${notifInfo.tutor_name} has accepted your tutoring request for ${notifInfo.subjects.join(', ')}!\n\nScheduled: ${notifInfo.appointment_day}, ${notifInfo.appointment_date} at ${notifInfo.appointment_time}`);
+                                    
                                     
                                     // Reload page to show updated session
                                     window.location.reload();

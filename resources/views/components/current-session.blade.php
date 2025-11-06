@@ -67,7 +67,7 @@
                     class="bg-accent flex items-center w-full border-b-2 border-charcoal py-2 max-md:flex-col max-md:items-start">
                     <span
                         class="h-6 w-6 ml-10 bg-primary border-2 border-charcoal rounded-full shrink-0 max-md:ml-4 max-md:mb-2"></span>
-                    <div class="grid grid-rows-2 mt-3 mb-2 ml-3 max-md:ml-4 max-md:mt-0 max-md:w-full">
+                    <div class="grid grid-rows-3 mt-3 mb-2 ml-3 max-md:ml-4 max-md:mt-0 max-md:w-full">
                         <div>
                             <p class="font-poppins text-darkgray font-extrabold text-2xl max-md:text-lg">
                                 {{ $subject }}
@@ -75,6 +75,9 @@
                         </div>
                         <div class="font-bold text-xl text-primary max-md:text-base">
                             <p>Tutor: {{ $fname }} {{ $lname }}</p>
+                        </div>
+                        <div class="font-semibold text-base text-charcoal max-md:text-sm">
+                            <p>Sessions: {{ $session->num_session ?? 0 }} of {{ $session->total_session ?? 0 }} completed</p>
                         </div>
                     </div>
                 </div>
@@ -85,7 +88,7 @@
                     class="bg-accent flex items-center w-full border-b-2 border-charcoal py-2 max-md:flex-col max-md:items-start">
                     <span
                         class="h-6 w-6 ml-10 bg-primary border-2 border-charcoal rounded-full shrink-0 max-md:ml-4 max-md:mb-2"></span>
-                    <div class="grid grid-rows-2 mt-3 mb-2 ml-3 max-md:ml-4 max-md:mt-0 max-md:w-full">
+                    <div class="grid grid-rows-3 mt-3 mb-2 ml-3 max-md:ml-4 max-md:mt-0 max-md:w-full">
                         <div>
                             <p class="font-poppins text-darkgray font-extrabold text-2xl max-md:text-lg">
                                 {{ $subject }}
@@ -93,6 +96,9 @@
                         </div>
                         <div class="font-bold text-xl text-primary max-md:text-base">
                             <p>Student: {{ $fname }} {{ $lname }}</p>
+                        </div>
+                        <div class="font-semibold text-base text-charcoal max-md:text-sm">
+                            <p>Sessions: {{ $session->num_session ?? 0 }} of {{ $session->total_session ?? 0 }} completed</p>
                         </div>
                     </div>
                 </div>

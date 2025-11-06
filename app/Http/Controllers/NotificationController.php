@@ -523,4 +523,72 @@ class NotificationController extends Controller
         }
     }
 
+    public function submitBanReport(Request $request)
+    {
+        try {
+            $request->validate([
+                'session_id' => 'required|exists:bookedsessions,id',
+                'report_text' => 'required|string|max:1000',
+                'images.*' => 'nullable|image|max:5120', // 5MB max per image
+            ]);
+
+            $sessionId = $request->input('session_id');
+            $reportText = $request->input('report_text');
+            
+            // Find the booked session
+            $bookedSession = bookedSession::findOrFail($sessionId);
+            
+            // Verify the user is the tutor
+            if (Auth::id() !== $bookedSession->tutor_id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized: You are not the tutor of this session.',
+                ], 403);
+            }
+
+            // Handle image uploads
+            $imagePaths = [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $path = $image->store('ban_reports', 'public');
+                    $imagePaths[] = $path;
+                }
+            }
+
+            // Update the session with the report
+            $bookedSession->update([
+                'tutor_report' => $reportText,
+                'tutor_report_images' => $imagePaths,
+                'tutor_report_submitted_at' => now(),
+                'ban_status' => 'report_submitted',
+            ]);
+
+            // Mark the ban request notification as read
+            notifSession::where('to', Auth::id())
+                ->where('notif_info->NotifType', 'BanRequest')
+                ->where('notif_info->session_id', $sessionId)
+                ->update(['read_at' => now()]);
+
+            Log::info('Ban report submitted', [
+                'session_id' => $sessionId,
+                'tutor_id' => Auth::id(),
+                'images_count' => count($imagePaths),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Report submitted successfully. Admin will review your response.',
+            ]);
+        } catch (Exception $e) {
+            Log::error('Failed to submit ban report', [
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to submit report. Please try again.',
+            ], 500);
+        }
+    }
+
 }

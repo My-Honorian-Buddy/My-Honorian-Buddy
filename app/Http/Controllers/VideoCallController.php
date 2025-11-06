@@ -133,7 +133,7 @@ class VideoCallController extends Controller
             $bookedSession->save();
 
             // Get tutor and update points
-            $tutor = \App\Models\Tutor::where('user_id', $bookedSession->tutor_id)->first();
+            $tutor = Tutor::where('user_id', $bookedSession->tutor_id)->first();
             if ($tutor) {
                 $tutor->exp += 1;
                 $earnedPoints = $bookedSession->num_session * 10;
@@ -160,7 +160,7 @@ class VideoCallController extends Controller
             $studentNotif = notifSession::create([
                 'notif_info' => json_encode([
                     'NotifType' => 'SessionUpdated',
-                    'message' => 'Your tutoring session has been successfully completed and recorded.',
+                    'message' => 'Your tutoring session has been updated and recorded.',
                     'bookedSession' => $bookedSession->id,
                     'num_session' => $bookedSession->num_session,
                     'total_session' => $bookedSession->total_session,

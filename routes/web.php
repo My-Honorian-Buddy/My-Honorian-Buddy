@@ -216,6 +216,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/notifications/session-completion-confirm/{notification}', [NotificationController::class, 'sessionCompletionConfirm']);
     Route::post('/notifications/tutor-request/{id}', [NotificationController::class, 'handleTutorRequest'])->name('notifications.tutor-request');
 
+    Route::post('/tutor/submit-ban-report', [NotificationController::class, 'submitBanReport'])->name('tutor.submit-ban-report');
 
     Route::get('/check-notifications', [NotificationController::class, 'hasUnreadNotifications'])->name('check.notifications');
 });

@@ -2,6 +2,7 @@
     use App\Models\bookedSession;
     use App\Models\Tutor;
     use App\Models\Review;
+    use App\Models\User;
 
     $bookedId = bookedSession::where('tutor_id', Auth::user()->id)
         ->orWhere('student_id', Auth::user()->id)
@@ -17,11 +18,11 @@
     if ($bookedId) {
         if ($bookedId->student_id == Auth::id()) {
             $otherUserId = $bookedId->tutor_id;
-            $otherUser = \App\Models\User::find($otherUserId);
+            $otherUser = User::find($otherUserId);
             $otherUsertemp = $otherUser->tutor->fname;
         } else {
             $otherUserId = $bookedId->student_id;
-            $otherUser = \App\Models\User::find($otherUserId);
+            $otherUser = User::find($otherUserId);
             $otherUsertemp = $otherUser->student->fname;
         }
         if ($otherUser) {

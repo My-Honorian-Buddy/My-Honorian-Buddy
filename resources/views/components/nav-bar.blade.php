@@ -646,6 +646,27 @@
                                     </div>
                                 </li>
                             `;
+                        } else if (info['NotifType'] === "BanRequest") {
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">⚠️ Session Ban Request</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || 'Admin has requested to ban your session.'}</p>
+                                            <p class="text-sm text-red-600 font-medium mt-1">Reason: ${info['ban_reason'] || 'No reason provided'}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-2 mt-2">
+                                        <button 
+                                            class="bg-yellow-600 text-white px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                            onclick="openReportModal(${info['session_id']}, ${notification.id})">
+                                            Submit Report
+                                        </button>
+                                    </div>
+                                </li>
+                            `;
                         } else if (info['NotifType'] === "PointsUpdated") {
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
@@ -960,6 +981,138 @@
             .catch(error => {
                 console.error('❌ Fetch error:', error);
             });
+    }
+
+    function openReportModal(sessionId, notificationId) {
+        // Create modal HTML
+        const modalHtml = `
+            <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Submit Report</h2>
+                        <button onclick="closeReportModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <form id="reportForm" onsubmit="submitReport(event, ${sessionId}, ${notificationId})" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Explain why this session should not be banned:
+                            </label>
+                            <textarea 
+                                id="reportText" 
+                                name="report_text" 
+                                rows="6" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                                placeholder="Provide details about why this ban request is not valid..."
+                            ></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Upload Evidence (Images):
+                            </label>
+                            <input 
+                                type="file" 
+                                id="reportImages" 
+                                name="images[]" 
+                                accept="image/*" 
+                                multiple
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                            >
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">You can upload multiple images as evidence</p>
+                        </div>
+                        
+                        <div id="imagePreview" class="mb-4 grid grid-cols-3 gap-2"></div>
+                        
+                        <div class="flex justify-end space-x-2">
+                            <button 
+                                type="button" 
+                                onclick="closeReportModal()"
+                                class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                            >
+                                Submit Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Add image preview functionality
+        document.getElementById('reportImages').addEventListener('change', function(e) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            
+            Array.from(e.target.files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML += `
+                            <div class="relative">
+                                <img src="${e.target.result}" class="w-full h-24 object-cover rounded">
+                            </div>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    }
+
+    function closeReportModal() {
+        const modal = document.getElementById('reportModal');
+        if (modal) {
+            modal.remove();
+        }
+    }
+
+    function submitReport(event, sessionId, notificationId) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('session_id', sessionId);
+        formData.append('report_text', document.getElementById('reportText').value);
+        
+        const images = document.getElementById('reportImages').files;
+        for (let i = 0; i < images.length; i++) {
+            formData.append('images[]', images[i]);
+        }
+        
+        fetch('/tutor/submit-ban-report', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                closeReportModal();
+                loadNotifications();
+                alert('Report submitted successfully!');
+            } else {
+                alert('Error submitting report: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error submitting report. Please try again.');
+        });
     }
 
 
