@@ -37,14 +37,20 @@
         <ul class="flex flex-col items-center justify-center space-y-6">
             @if ($otherUserId)
                 <li class="w-full">
-                    <div onclick="initiateVideoCall({{ $otherUserId }})" class="cursor-pointer">
-                        <div
-                            class="flex items-center justify-between bg-green-500 text-white text-right font-poppins font-bold md:w-full rounded-full px-8 py-1 md:h-11 text-m
-                    border-2 border-black shadow-custom-button hover:bg-green-600 cursor-pointer md:text-center">
-                            <x-bladewind.icon name="phone" class="justify-self-start" />
+                    <a class="cursor-pointer group w-full relative inline-block focus:ring-3 focus:outline-hidden"
+                        onclick="initiateVideoCall({{ $otherUserId }})" >
+                        <span
+                            class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-green-900
+                             transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
+                        </span>
+
+                        <span
+                            class="relative text-accent font-poppins w-full text-center flex justify-between border-2
+                             border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                            <x-bladewind.icon name="video-camera" class="justify-self-start" />
                             CALL {{ strtoupper(explode(' ', $otherUserName)[0]) }}
-                        </div>
-                    </div>
+                        </span>
+                    </a>
                 </li>
             @endif
             <li class="w-full flex justify-center items-center">
@@ -55,7 +61,7 @@
                     </span>
 
                     <span
-                        class="relative text-accent font-poppins w-full text-center inline-block border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                        class="relative justify-between text-accent font-poppins w-full text-center flex border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
                         <x-bladewind.icon name="video-camera" class="justify-self-start" />
                         Join a new call
                     </span>
@@ -70,7 +76,7 @@
                     </span>
 
                     <span
-                        class="relative text-accent font-poppins w-full text-center inline-block border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                        class="relative text-accent font-poppins w-full text-center flex justify-between border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
                         <x-bladewind.icon name="video-camera" class="justify-self-start" />
                         Create a new call
                     </span>
@@ -205,7 +211,7 @@
 
 
                         @if (Auth::user()->role === 'Tutor')
-                            <section class="flex align-center h-auto w-full " >
+                            <section class="flex align-center h-auto w-full ">
                                 <!-- container -->
                                 <div
                                     class="w-full h-auto bg-accent overflow-hidden rounded-md pb-2 border-black border-2">
@@ -348,8 +354,9 @@
             // Toast notification function
             function showToast(message, type = 'info') {
                 const toast = document.createElement('div');
-                toast.className = 'fixed top-4 right-4 z-[9999] px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out max-w-md';
-                
+                toast.className =
+                    'fixed top-4 right-4 z-[9999] px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out max-w-md';
+
                 // Set colors based on type
                 const colors = {
                     'success': 'bg-green-500 text-white',
@@ -357,9 +364,9 @@
                     'warning': 'bg-amber-500 text-white',
                     'info': 'bg-blue-500 text-white'
                 };
-                
+
                 toast.className += ' ' + (colors[type] || colors['info']);
-                
+
                 // Add icon based on type
                 const icons = {
                     'success': '✅',
@@ -367,7 +374,7 @@
                     'warning': '⚠️',
                     'info': 'ℹ️'
                 };
-                
+
                 toast.innerHTML = `
                     <div class="flex items-center gap-3">
                         <span class="text-2xl">${icons[type] || icons['info']}</span>
@@ -379,12 +386,12 @@
                         </button>
                     </div>
                 `;
-                
+
                 document.body.appendChild(toast);
-                
+
                 // Animate in
                 setTimeout(() => toast.style.opacity = '1', 10);
-                
+
                 // Auto remove after 5 seconds
                 setTimeout(() => {
                     toast.style.opacity = '0';
