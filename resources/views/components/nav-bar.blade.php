@@ -221,9 +221,20 @@
         actions.forEach(action => action.classList.toggle('hidden'));
     });
 
+    // Notification sound functionality
+    let previousUnreadCount = 0;
+    const notificationSound = new Audio('/sounds/chatify/new-message-sound.mp3');
+    notificationSound.volume = 0.5; // Set volume to 50%
+    
+    function playNotificationSound() {
+        notificationSound.currentTime = 0; // Reset to start
+        notificationSound.play().catch(error => {
+            console.log('Could not play notification sound:', error);
+        });
+    }
 
     // Make loadNotifications globally accessible for echo.js
-    function loadNotifications() {
+    function loadNotifications(playSound = false) {
         console.log('[loadNotifications] Starting to load notifications...');
         const notifContainer = document.querySelector('.bladewind-dropmenunotif');
         
@@ -265,6 +276,13 @@
                 const unreadCount = notifications.filter(n => n.read_at === null).length;
                 console.log('[loadNotifications] Unread count:', unreadCount);
                 
+                // Play sound if there are new notifications and playSound is true
+                if (playSound && unreadCount > previousUnreadCount && unreadCount > 0) {
+                    console.log('🔔 Playing notification sound - new notifications detected');
+                    playNotificationSound();
+                }
+                previousUnreadCount = unreadCount;
+                
                 // Update the notification badge with count
                 updateNotificationBadge(unreadCount);
 
@@ -288,8 +306,49 @@
                         // bell.setAttribute("show_dot", "true");
                         // bell.setAttribute("animate_dot", "true");
 
+                        // Check if NotifType is "SessionReminder"
+                        if (info['NotifType'] === "SessionReminder") {
+                            // Only play alarm and show toast for UNREAD notifications
+                            if (notification.read_at === null) {
+                                console.log('🔔 New SessionReminder notification detected:', notification.id);
+                                
+                                // Play alarm sound and store it globally so we can stop it later
+                                if (!window.sessionReminderAlarms) {
+                                    window.sessionReminderAlarms = {};
+                                }
+                                
+                                // Only play if not already playing for this notification
+                                if (!window.sessionReminderAlarms[notification.id]) {
+                                    const alarmSound = new Audio('/sounds/alarm-sound.mp3');
+                                    alarmSound.loop = true; // Loop the alarm until dismissed
+                                    alarmSound.volume = 0.7;
+                                    alarmSound.play().catch(err => console.error('Failed to play alarm:', err));
+                                    
+                                    // Store the alarm with notification ID so we can stop it when closing toast
+                                    window.sessionReminderAlarms[notification.id] = alarmSound;
+                                    console.log('🔊 Alarm started for notification:', notification.id);
+                                }
+
+                                // Show persistent toast notification (only if unread)
+                                showSessionReminderToast(notification.id, info);
+                            } else {
+                                console.log('📭 SessionReminder already read, skipping alarm/toast:', notification.id);
+                            }
+
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="${fontClass}">
+                                        <p class="font-semibold">⏰ Session Starting Soon!</p>
+                                        <p class="text-sm text-gray-500">${info['message'] || 'Your tutoring session starts in 10 minutes!'}</p>
+                                        <p class="text-sm font-medium text-yellow-600">Subject: ${info['subject'] || ''}</p>
+                                        <p class="text-sm text-gray-500">Time: ${new Date(info['schedule_time']).toLocaleString()}</p>
+                                        <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                    </div>
+                                </li>
+                            `;
                         // Check if NotifType is "Tutor Request"
-                        if (info['NotifType'] === "Tutor Request") {
+                        } else if (info['NotifType'] === "Tutor Request") {
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
                                     <div class="flex justify-between" onclick="markRead(${notification.id})">
@@ -593,6 +652,50 @@
                                     </div>
                                 </li>
                             `;
+                        } else if (info['NotifType'] === "CallAccepted") {
+                            const accepterName = info['accepter_name'] || 'User';
+                            
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">📞 Call Accepted</p>
+                                            <p class="text-sm text-gray-500">${accepterName} has accepted your call</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        } else if (info['NotifType'] === "CallDeclined") {
+                            const declinerName = info['decliner_name'] || 'User';
+                            
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">📵 Call Declined</p>
+                                            <p class="text-sm text-gray-500">${declinerName} has declined your call</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            `;
+                        } else if (info['NotifType'] === "IncomingCall") {
+                            const callerName = info['caller_name'] || 'User';
+                            const roomName = info['room_name'] || '';
+                            
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="${fontClass}">
+                                        <p class="font-semibold">📞 Incoming Call</p>
+                                        <p class="text-sm text-gray-500">${callerName} is calling you</p>
+                                        <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                    </div>
+                                </li>
+                            `;
                         } else if (info['NotifType'] === "SessionCompletionRequest") {
                             notifContainer.innerHTML += `
                                 <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
@@ -618,6 +721,17 @@
                                             onclick="this.disabled=true; document.getElementById('completion-agree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, false)">
                                             Disagree
                                         </button>
+                                    </div>
+                                </li>
+                            `;
+                        } else if (info['NotifType'] === "CompleteSession") {
+                            notifContainer.innerHTML += `
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="${fontClass}">
+                                        <p class="font-semibold">✅ Session Completed</p>
+                                        <p class="text-sm text-gray-500">${info['message'] || 'The student has confirmed. Session completed successfully!'}</p>
+                                        <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                     </div>
                                 </li>
                             `;
@@ -1118,6 +1232,88 @@
 
     document.addEventListener('DOMContentLoaded', loadNotifications, );
     
+    // Session reminder toast function
+    function showSessionReminderToast(notificationId, info) {
+        // Check if toast already exists to prevent duplicates
+        const existingToast = document.getElementById('session-reminder-toast-' + notificationId);
+        if (existingToast) {
+            console.log('⚠️ Toast already exists for notification:', notificationId);
+            return;
+        }
+
+        const toastHtml = `
+            <div id="session-reminder-toast-${notificationId}" 
+                 class="fixed top-20 right-4 z-50 bg-yellow-500 text-white px-6 py-4 rounded-lg shadow-2xl border-4 border-yellow-600 max-w-md animate-bounce">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <h3 class="text-lg font-bold">⏰ Session Starting Soon!</h3>
+                        <p class="text-sm mt-1">${info['message'] || 'Your tutoring session starts in 10 minutes!'}</p>
+                        <p class="text-sm font-semibold mt-2">Subject: ${info['subject'] || ''}</p>
+                        <p class="text-sm">Time: ${new Date(info['schedule_time']).toLocaleString()}</p>
+                    </div>
+                    <button id="close-toast-${notificationId}" 
+                            class="ml-4 flex-shrink-0 bg-yellow-700 hover:bg-yellow-800 text-white rounded-full p-2 transition-transform hover:scale-110">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', toastHtml);
+
+        // Add event listener to close button
+        const closeButton = document.getElementById('close-toast-' + notificationId);
+        if (closeButton) {
+            closeButton.addEventListener('click', function() {
+                console.log('🖱️ Close button clicked for notification:', notificationId);
+                closeSessionReminderToast(notificationId);
+            });
+        }
+
+        // Auto-remove after 10 minutes
+        setTimeout(() => {
+            closeSessionReminderToast(notificationId);
+        }, 600000); // 10 minutes = 600000ms
+    }
+
+    function closeSessionReminderToast(notificationId) {
+        // Stop the alarm sound
+        if (window.sessionReminderAlarms && window.sessionReminderAlarms[notificationId]) {
+            const alarm = window.sessionReminderAlarms[notificationId];
+            alarm.pause();
+            alarm.currentTime = 0; // Reset to beginning
+            delete window.sessionReminderAlarms[notificationId];
+            console.log('🔇 Alarm stopped for notification:', notificationId);
+        }
+
+        // Remove the toast with animation
+        const toast = document.getElementById('session-reminder-toast-' + notificationId);
+        if (toast) {
+            toast.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+            setTimeout(() => {
+                toast.remove();
+            }, 500);
+        }
+
+        // Mark notification as read so it won't show again
+        fetch(`/notifications/${notificationId}/read`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            }
+        }).then(() => {
+            console.log('✅ Notification marked as read:', notificationId);
+            loadNotifications(); // Refresh notification list
+        }).catch(err => console.error('Failed to mark notification as read:', err));
+    }
+    
     
     setTimeout(() => {
         const currentUserId = document.querySelector('meta[name="user-id"]')?.content;
@@ -1128,7 +1324,7 @@
             window.Echo.private(`user.${currentUserId}`)
                 .listen('NewNotification', (e) => {
                     console.log('[Notification System] New notification received, reloading notifications list');
-                    loadNotifications();
+                    loadNotifications(true); // Play sound for new notifications
                     
                     
                     const bell = document.getElementById("bell");

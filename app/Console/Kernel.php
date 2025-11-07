@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         // Register your custom command here
         Commands\CheckPaymentLinkStatus::class,
+        Commands\CheckUpcomingSessions::class,
     ];
 
     /**
@@ -30,6 +31,9 @@ class Kernel extends ConsoleKernel
     {
         Log::info(" Checking payment status every minute");
         $schedule->command('payment:check-status')->everyMinute()->sendOutputTo(storage_path('payment_check.log'));
+
+        Log::info("🔔 Checking for upcoming sessions every minute");
+        $schedule->command('sessions:check-upcoming')->everyMinute()->sendOutputTo(storage_path('sessions_reminder.log'));
 
         Artisan::command('check-payment-status', function () {
             Artisan::call('payment:check-status'); 

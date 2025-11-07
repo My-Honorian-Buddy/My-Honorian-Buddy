@@ -53,15 +53,31 @@ setTimeout(() => {
                                     notif.to == currentUserId && 
                                     notif.read_at === null) {
                                     
-                                    console.log('CONDITIONS MET - Showing incoming call popup for user', currentUserId);
-                                    if (typeof showIncomingCall === 'function') {
-                                        showIncomingCall(
-                                            notif.id,
-                                            notifInfo.caller_name,
-                                            notifInfo.room_name
-                                        );
+                                    // Only show incoming calls created within the last 30 seconds
+                                    const notificationTime = new Date(notif.created_at).getTime();
+                                    const currentTime = new Date().getTime();
+                                    const timeDiff = (currentTime - notificationTime) / 1000; // in seconds
+                                    
+                                    if (timeDiff <= 30) {
+                                        console.log('CONDITIONS MET - Showing incoming call popup for user', currentUserId);
+                                        if (typeof showIncomingCall === 'function') {
+                                            showIncomingCall(
+                                                notif.id,
+                                                notifInfo.caller_name,
+                                                notifInfo.room_name
+                                            );
+                                        } else {
+                                            console.error('showIncomingCall function not found');
+                                        }
                                     } else {
-                                        console.error('showIncomingCall function not found');
+                                        console.log('⏰ IncomingCall notification is too old (' + Math.round(timeDiff) + 's), skipping');
+                                        // Mark old incoming call notifications as read automatically
+                                        fetch(`/notifications/${notif.id}/read`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                            }
+                                        }).catch(err => console.error('Failed to mark old call as read:', err));
                                     }
                                     break;
                                 }
