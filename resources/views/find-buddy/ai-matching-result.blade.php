@@ -246,207 +246,44 @@
 
 
         {{-- card --}}
-        <div class="grid grid-cols-1 p-8 lg:grid-cols-3 gap-6">
-
-            {{-- Match and Tutor Information --}}
-            @if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors))
-
-                @foreach ($pagedMatches as $match)
-                    @php
-                        // Check if match is an array and has required keys
-                        if (!is_array($match) || !isset($match['tutor_id'])) {
-                            continue;
-                        }
-
-                        $user = $users->first(function ($u) use ($match) {
-                            return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
-                        });
-
-                        // Skip if user not found
-                        if (!$user || !isset($user->tutor)) {
-                            continue;
-                        }
-                        $authUser = Auth::user();
-
-                        $isSameUser = $authUser->id === $user->id;
-
-                        $isStudent = $authUser->role === 'Student';
-                        $isTutor = $authUser->role === 'Tutor';
-
-                        $isCurrentTutor = $isStudent && $user->tutor && $isSameUser;
-                        $isCurrentStudent = $isTutor && $user->student && $isSameUser;
-
-                        $days = [];
-                        if ($user->schedule && $user->schedule->days_week) {
-                            $days = is_string($user->schedule->days_week)
-                                ? json_decode($user->schedule->days_week, true)
-                                : $user->schedule->days_week;
-                        }
-                        $subjects = [];
-
-                        if ($user->tutor && $user->tutor->subject_tutor) {
-                            $subjects = $user->tutor->subject_tutor;
-                        }
-
-                        $reviews = [];
-
-                        if ($user->tutor && $user->tutor->review) {
-                            $reviews = $user->tutor->review;
-                        }
-
-                    @endphp
-
-                    @if ($isCurrentTutor || $isCurrentStudent)
-                        @continue
-                    @endif
-
-
-                    @if (isset($user->tutor) && $match['tutor_id'] == $user->tutor->user_id)
-                        {{-- Tutor Card --}}
-
-                        <body class="bg-primary font-poppins font-semibold">
-                            <section class="flex  mt-8 justify-center w-full">
-                                    <div class="mb-1 pb-1 px-2 text-primary text-[50px] text-center font-bold">
-                                            <p class="font-bold text-[20px] cursor-pointer transition delay-150 ease-in-out 
-                                                hover:underline"
-                                                onclick='openTutorModal(
-                                                @json ($user->tutor->fname), 
-                                                @json ($user->tutor->lname), 
-                                                @json ($user->profile_pic), 
-                                                @json ($days),
-                                                @json ($subjects),
-                                                @json($reviews),
-                                                @json ($user->tutor->year_level), 
-                                                @json ($user->tutor->department),
-                                                @json ($user->tutor->gender),
-                                                @json ($user->tutor->address)
-                                                )'>
-                                                View More
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </body>
-                    @endif
-                @endforeach
-            @else
-                <div class="col-span-1 lg:col-span-2 flex flex-col items-center justify-center py-12">
-                    <div class="bg-accent rounded-md p-8 border-2 border-charcoal">
-                        <h3 class="text-2xl font-bold text-primary text-center mb-4">No Matches Found</h3>
-                        <p class="text-lg text-primary text-center">
-                            We couldn't find any tutors that match your subjects and preferences at the moment.
-                        </p>
-                        <p class="text-lg text-primary text-center mt-2">
-                            Try manual searching or check back later!
-                        </p>
-                    </div>
-                </div>
-            @endif
-        </div>
-
-        @if (!empty($pagedMatches) && count($pagedMatches) > 0)
+        @php
+            $matchedUsers = collect([]);
+            if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors)) {
+                foreach ($pagedMatches as $match) {
+                    if (!is_array($match) || !isset($match['tutor_id'])) {
+                        continue;
+                    }
+                    
+                    $user = $users->first(function ($u) use ($match) {
+                        return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
+                    });
+                    
+                    if ($user && isset($user->tutor)) {
+                        $matchedUsers->push($user);
+                    }
+                }
+            }
+        @endphp
+        @if ($matchedUsers->isNotEmpty())
+            {{-- Use the card component --}}
+            <x-card :users="$matchedUsers" />
+            {{-- Pagination --}}
             <div class="flex justify-center mt-8">
                 {{ $pagedMatches->appends(request()->query())->links('custom-pagination') }}
             </div>
-        @endif
-
-        <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
-            <div class="grid grid-cols-4 p-6">
-                <div class="flex flex-col items-center col-span-1">
-                    <div class="h-auto w-full border-charcoal border-2 rounded-sm overflow-hidden">
-                        <img class="h-full w-full object-cover" id="profile-pic" alt="">
-                    </div>
-                    @if (Auth::user()->role === 'Student')
-                        @if (Auth::user()->student->bookedsessions()->exists() ?? false)
-                            <div
-                                class="inline-block bg-primary text-secondary text-center font-poppins font-bold rounded-full px-5 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-buttonflex items-center mt-10 leading-[2px]">
-                                You already have a tutor.
-                            </div>
-                        @elseif (bookedSession::where('tutor_id', $user->id)->exists() ?? false)
-                            <div
-                                class="bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-button flex items-center mt-5">
-                                A student already booked this tutor.
-                            </div>
-                        @else
-                            <div class="w-full set-appointment-wrapper" data-user-id="{{ $user->tutor->user_id }}"
-                                tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
-                                <x-set-appointment />
-                            </div>
-                        @endif
-                    @endif
-                    <div class="w-full">
-                        <p class="font-bold text-primary text-base">Name</p>
-                        <p class="font-bold text-black text-xl" id="tutor-name">...</p>
-                    </div>
-                    <div class="w-full">
-                        <p class="font-bold text-primary">Gender</p>
-                        <p class="font-bold text-black text-xl" id="tutor-gender">...</p>
-                    </div>
-                </div>
-                <!--middle-->
-                <div class="col-span-3 ml-10">
-                    <h2 class="text-3xl font-bold text-primary">
-                        Personal Information
-                    </h2>
-                    <div class="grid grid-cols-2 gap-8 mb-4">
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
-                            <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
-                        </div>
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Address</p>
-                            <p class="font-bold text-black text-[20px]" id="tutor-address"></p>
-                        </div>
-                    </div>
-                    <span class="flex my-1 items-center">
-                        <span class="h-px flex-1 bg-charcoal"></span>
-                    </span>
-
-                    <h2 class="text-3xl font-bold text-primary">
-                        Schedule & Subjects
-                    </h2>
-                    <div class="grid grid-cols-2 gap-8 mb-4">
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Subject</p>
-                            <ul id="tutor-subjects"></ul>
-                        </div>
-                        <div>
-                            <p class="font-bold text-primary text-[16px]">Schedule</p>
-                            <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
-                        </div>
-                    </div>
-                    <span class="flex my-1 items-center">
-                        <span class="h-px flex-1 bg-charcoal"></span>
-                    </span>
-                    <h2 class="font-bold text-primary text-3xl">Reviews</h2>
-                    <div class="mt-2" id="tutor-reviews"></div>
+        @else
+            <div class="flex flex-col items-center justify-center py-12 px-8">
+                <div class="bg-accent rounded-md p-8 border-2 border-charcoal max-w-2xl">
+                    <h3 class="text-2xl font-bold text-primary text-center mb-4">No Matches Found</h3>
+                    <p class="text-lg text-primary text-center">
+                        We couldn't find any tutors that match your subjects and preferences at the moment.
+                    </p>
+                    <p class="text-lg text-primary text-center mt-2">
+                        Try manual searching or check back later!
+                    </p>
                 </div>
             </div>
-            <div class="hidden">
-                <div class="flex flex-col items-center justify-center p-6">
-                    <div class="h-32 w-32 border-white border-8 rounded-full overflow-hidden">
-                        <img class="h-full w-full object-cover" id="profile-pic" alt="">
-                    </div>
-
-                    <div class="mt-8">
-                        <div class="grid grid-cols-2 gap-6">
-                            <div>
-                                <h2 class="text-3xl font-bold text-primary">
-                                    Personal Information
-                                </h2>
-                            </div>
-                            <div>
-
-                            </div>
-                            <div>
-                                <p class="font-bold text-primary text-[16px]">Name</p>
-                                <p class="font-bold  text-black text-[20px]" id="tutor-name">...</p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
-                                <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
-                            </div>
+        @endif
                             <div>
                                 <p class="font-bold text-primary text-[16px]">Gender</p>
                                 <p class="font-bold text-black text-[20px]" id="tutor-gender"></p>
