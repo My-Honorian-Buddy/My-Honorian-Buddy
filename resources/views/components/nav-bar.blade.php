@@ -1218,15 +1218,51 @@
             if (data.success) {
                 closeReportModal();
                 loadNotifications();
-                alert('Report submitted successfully!');
+                showToast('Report submitted successfully!', 'success');
             } else {
-                alert('Error submitting report: ' + data.message);
+                showToast('Error submitting report: ' + data.message, 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error submitting report. Please try again.');
+            showToast('Error submitting report. Please try again.', 'error');
         });
+    }
+
+    // Toast notification function
+    function showToast(message, type = 'success') {
+        const toastId = 'toast-' + Date.now();
+        const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+        const icon = type === 'success' ? '✓' : '✕';
+        
+        const toastHtml = `
+            <div id="${toastId}" 
+                 class="fixed top-20 right-4 z-50 ${bgColor} text-white px-6 py-4 rounded-lg shadow-2xl border-2 border-white max-w-md transform transition-all duration-300 ease-in-out">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 text-2xl font-bold mr-3">${icon}</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">${message}</p>
+                    </div>
+                    <button onclick="document.getElementById('${toastId}').remove()" 
+                            class="ml-4 text-white hover:text-gray-200 transition">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', toastHtml);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            const toast = document.getElementById(toastId);
+            if (toast) {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 5000);
     }
 
 

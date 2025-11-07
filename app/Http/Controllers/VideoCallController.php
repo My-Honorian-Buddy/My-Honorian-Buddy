@@ -233,7 +233,7 @@ class VideoCallController extends Controller
             'call_id' => $callId,
         ];
 
-        notifSession::create([
+        $callNotif = notifSession::create([
             'notif_info' => json_encode($notifData),
             'to' => $receiverId,
             'user_id' => $caller->id,
@@ -241,7 +241,7 @@ class VideoCallController extends Controller
         ]);
 
         
-        broadcast(new NewNotification($receiverId));
+        broadcast(new NewNotification($receiverId, $callNotif));
 
         return response()->json([
             'success' => true,
@@ -281,7 +281,7 @@ class VideoCallController extends Controller
                 'room_name' => $notifInfo['room_name'],
             ];
 
-            notifSession::create([
+            $acceptNotif = notifSession::create([
                 'notif_info' => json_encode($acceptNotifData),
                 'to' => $callerId,
                 'user_id' => $receiver->id,
@@ -289,7 +289,7 @@ class VideoCallController extends Controller
             ]);
 
             // Broadcast to caller
-            broadcast(new NewNotification($callerId));
+            broadcast(new NewNotification($callerId, $acceptNotif));
             
             return response()->json([
                 'success' => true,
@@ -309,7 +309,7 @@ class VideoCallController extends Controller
                 'call_id' => $notifInfo['call_id'],
             ];
 
-            notifSession::create([
+            $declineNotif = notifSession::create([
                 'notif_info' => json_encode($declineNotifData),
                 'to' => $callerId,
                 'user_id' => $receiver->id,
@@ -317,7 +317,7 @@ class VideoCallController extends Controller
             ]);
 
             
-            broadcast(new NewNotification($callerId));
+            broadcast(new NewNotification($callerId, $declineNotif));
         }
 
         return response()->json(['success' => true, 'message' => 'Call declined']);

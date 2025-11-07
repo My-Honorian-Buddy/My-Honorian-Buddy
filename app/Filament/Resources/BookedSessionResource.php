@@ -320,6 +320,21 @@ class BookedSessionResource extends Resource
                 Filter::make('reviewed')
                     ->label('Reviewed Only')
                     ->query(fn (Builder $query): Builder => $query->where('reviewed', true)),
+                    
+                
+                SelectFilter::make('ban_status')
+                    ->options([
+                        'pending' => 'Ban Pending',
+                        'report_submitted' => 'Report Submitted',
+                        'approved' => 'Ban Approved',
+                        'rejected' => 'Ban Rejected',
+                    ])
+                    ->label('Filter by Ban Status'),
+                    
+                
+                Filter::make('ban_requested')
+                    ->label('Ban Requested')
+                    ->query(fn (Builder $query): Builder => $query->where('ban_requested', true)),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -435,15 +450,58 @@ class BookedSessionResource extends Resource
                         $tutorUser = $record->tutorUser;
                         $studentUser = $record->studentUser;
                         
-                        // Delete all sessions
-                        if ($tutorUser) {
-                            \App\Models\bookedSession::where('tutor_id', $tutorUser->id)->delete();
-                        }
-                        if ($studentUser) {
-                            \App\Models\bookedSession::where('student_id', $studentUser->id)->delete();
+                        // Archive all sessions before deletion
+                        $allSessions = bookedSession::where('tutor_id', $tutorUser->id)
+                            ->orWhere('student_id', $studentUser->id)
+                            ->get();
+                        
+                        foreach ($allSessions as $session) {
+                            \App\Models\BannedSessionArchive::create([
+                                'original_session_id' => $session->id,
+                                'student_id' => $session->student_id,
+                                'tutor_id' => $session->tutor_id,
+                                'student_name' => $session->studentUser->name ?? 'Unknown',
+                                'tutor_name' => $session->tutorUser->name ?? 'Unknown',
+                                'tutoring_subject' => $session->tutoring_subject,
+                                'schedule_time' => $session->schedule_time,
+                                'duration' => $session->duration,
+                                'status' => $session->status,
+                                'num_session' => $session->num_session,
+                                'total_session' => $session->total_session,
+                                'feedback' => $session->feedback,
+                                'room' => $session->room,
+                                'is_completed' => $session->is_completed,
+                                'reviewed' => $session->reviewed,
+                                'ban_reason' => $session->ban_reason ?? 'No reason provided',
+                                'ban_requested_at' => $session->ban_requested_at,
+                                'tutor_report' => $session->tutor_report,
+                                'tutor_report_images' => $session->tutor_report_images,
+                                'tutor_report_submitted_at' => $session->tutor_report_submitted_at,
+                                'ban_status' => $session->ban_status ?? 'approved',
+                                'banned_at' => now(),
+                                'banned_by' => auth()->id(),
+                            ]);
                         }
                         
-                        // Delete users
+                        // Delete all sessions for both users
+                        if ($tutorUser) {
+                            bookedSession::where('tutor_id', $tutorUser->id)->delete();
+                        }
+                        if ($studentUser) {
+                            bookedSession::where('student_id', $studentUser->id)->delete();
+                        }
+                        
+                        // Delete tutor data
+                        if ($tutorUser) {
+                            Tutor::where('user_id', $tutorUser->id)->delete();
+                        }
+                        
+                        // Delete student data
+                        if ($studentUser) {
+                            Student::where('user_id', $studentUser->id)->delete();
+                        }
+                        
+                        // Delete user accounts
                         if ($tutorUser) {
                             $tutorUser->delete();
                         }
@@ -454,7 +512,7 @@ class BookedSessionResource extends Resource
                         \Filament\Notifications\Notification::make()
                             ->title('Ban Approved')
                             ->success()
-                            ->body('Both users have been banned and deleted.')
+                            ->body('Both users have been banned. All sessions archived and deleted.')
                             ->send();
                     })
                     ->visible(fn (bookedSession $record) => $record->ban_status === 'report_submitted'),
