@@ -246,83 +246,201 @@
 
 
         {{-- card --}}
-        @php
-            $matchedUsers = collect([]);
-            if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors)) {
-                foreach ($pagedMatches as $match) {
-                    if (!is_array($match) || !isset($match['tutor_id'])) {
-                        continue;
-                    }
-                    
-                    $user = $users->first(function ($u) use ($match) {
-                        return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
-                    });
-                    
-                    if ($user && isset($user->tutor)) {
-                        $matchedUsers->push($user);
-                    }
-                }
-            }
-        @endphp
-        @if ($matchedUsers->isNotEmpty())
-            {{-- Use the card component --}}
-            <x-card :users="$matchedUsers" />
-            {{-- Pagination --}}
+        <div class="grid grid-cols-1 p-8 lg:grid-cols-3 gap-6">
+            @if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors))
+                @foreach ($pagedMatches as $match)
+                    @php
+                        // Check if match is an array and has required keys
+                        if (!is_array($match) || !isset($match['tutor_id'])) {
+                            continue;
+                        }
+
+                        $user = $users->first(function ($u) use ($match) {
+                            return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
+                        });
+
+                        // Skip if user not found
+                        if (!$user || !isset($user->tutor)) {
+                            continue;
+                        }
+
+                        $authUser = Auth::user();
+                        $isSameUser = $authUser->id === $user->id;
+                        $isStudent = $authUser->role === 'Student';
+                        $isTutor = $authUser->role === 'Tutor';
+                        $isCurrentTutor = $isStudent && $user->tutor && $isSameUser;
+                        $isCurrentStudent = $isTutor && $user->student && $isSameUser;
+
+                        $days = [];
+                        if ($user->schedule && $user->schedule->days_week) {
+                            $days = is_string($user->schedule->days_week)
+                                ? json_decode($user->schedule->days_week, true)
+                                : $user->schedule->days_week;
+                        }
+
+                        $subjects = [];
+                        if ($user->tutor && $user->tutor->subject_tutor) {
+                            $subjects = $user->tutor->subject_tutor;
+                        }
+
+                        $reviews = [];
+                        if ($user->tutor && $user->tutor->review) {
+                            $reviews = $user->tutor->review;
+                        }
+                    @endphp
+
+                    @if ($isCurrentTutor || $isCurrentStudent)
+                        @continue
+                    @endif
+
+                    <body class="bg-primary font-poppins font-semibold">
+                        <section class="flex mt-8 justify-center w-full">
+                            <div class="bg-accent hover:shadow-custom-button mx-auto max-w-md p-6 border border-charcoal
+                                transition-shadow duration-300 rounded-md cursor-pointer"
+                                onclick='openTutorModal(
+                                    @json($user->tutor->fname),
+                                    @json($user->tutor->lname),
+                                    @json($user->profile_pic),
+                                    @json($days),
+                                    @json($subjects),
+                                    @json($reviews),
+                                    @json($user->tutor->year_level),
+                                    @json($user->tutor->department),
+                                    @json($user->tutor->gender),
+                                    @json($user->tutor->address),
+                                    @json($user->tutor->id)
+                                )'>
+                                <div class="flex items-center gap-4">
+                                    <img alt="" src="{{ $user->profile_pic }}" class="size-20 rounded object-cover" />
+
+                                    <div>
+                                        <h3 class="font-medium text-gray-900 sm:text-lg">
+                                            {{ $user->tutor->fname }} {{ $user->tutor->lname }}
+                                        </h3>
+                                        <p class="text-sm mb-1">
+                                            {{ $user->tutor->year_level }} {{ $user->tutor->department }}
+                                        </p>
+
+                                        <div class="mb-2">
+                                            @foreach ($user->tutor->subject_tutor as $subject)
+                                                <span
+                                                    class="inline-flex justify-center items-center px-2.5 py-0.5 rounded-full min-w-[50px]
+                                                    md:min-w-[50px] max-w-[150px] md:max-w-[175px] bg-primary/5 border-2 text-primary font-bold
+                                                    border-primary/50">
+                                                    <p class="text-sm whitespace-nowrap">{{ $subject->subj_code }}</p>
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                        <span class="flex my-1 items-center">
+                                            <span class="h-px flex-1 bg-charcoal"></span>
+                                        </span>
+
+                                        <div class="mt-0.5 text-yellow-500">
+                                            <x-bladewind.icon name="star" type="solid" />
+                                            <span class="text-gray-700">{{ $user->tutor->rating }}
+                                                ({{ $user->tutor->NoOfReviews }})
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </body>
+                @endforeach
+            @else
+                <div class="col-span-1 lg:col-span-3 flex flex-col items-center justify-center py-12">
+                    <div class="bg-accent rounded-md p-8 border-2 border-charcoal max-w-2xl">
+                        <h3 class="text-2xl font-bold text-primary text-center mb-4">No Matches Found</h3>
+                        <p class="text-lg text-primary text-center">
+                            We couldn't find any tutors that match your subjects and preferences at the moment.
+                        </p>
+                        <p class="text-lg text-primary text-center mt-2">
+                            Try manual searching or check back later!
+                        </p>
+                    </div>
+                </div>
+            @endif
+        </div>
+
+        @if (!empty($pagedMatches) && count($pagedMatches) > 0)
             <div class="flex justify-center mt-8">
                 {{ $pagedMatches->appends(request()->query())->links('custom-pagination') }}
             </div>
-        @else
-            <div class="flex flex-col items-center justify-center py-12 px-8">
-                <div class="bg-accent rounded-md p-8 border-2 border-charcoal max-w-2xl">
-                    <h3 class="text-2xl font-bold text-primary text-center mb-4">No Matches Found</h3>
-                    <p class="text-lg text-primary text-center">
-                        We couldn't find any tutors that match your subjects and preferences at the moment.
-                    </p>
-                    <p class="text-lg text-primary text-center mt-2">
-                        Try manual searching or check back later!
-                    </p>
-                </div>
-            </div>
         @endif
-                            <div>
-                                <p class="font-bold text-primary text-[16px]">Gender</p>
-                                <p class="font-bold text-black text-[20px]" id="tutor-gender"></p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-primary text-[16px]">Address</p>
-                                <p class="font-bold text-black text-[20px]" id="tutor-address"></p>
-                            </div>
-                        </div>
-
-                        <hr class="mt-8 border-black">
-
-                        <div class="grid grid-cols-2 gap-6 mt-10">
-                            <div>
-                                <h2 class="text-3xl font-bold text-primary">
-                                    Schedule & Subjects
-                                </h2>
-                            </div>
-                            <div>
-
-                            </div>
-                            <div>
-                                <p class="font-bold text-primary text-[16px]">Schedule</p>
-                                <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
-                            </div>
-                            <div>
-                                <p class="font-bold text-primary text-[16px]">Subject</p>
-                                <ul id="tutor-subjects"></ul>
-                            </div>
-                        </div>
-
-                        <hr class="mt-8 border-black">
-
-                        <div class="mt-10">
-                            <h2 class="font-bold text-primary text-3xl">Reviews</h2>
-                            <div class="mt-2" id="tutor-reviews"></div>
-                        </div>
-
+        <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
+            <div class="grid grid-cols-4 p-6">
+                <div class="flex flex-col items-center col-span-1">
+                    <div class="h-auto w-full border-charcoal border-2 rounded-sm overflow-hidden">
+                        <img class="h-full w-full object-cover" id="profile-pic" alt="">
                     </div>
+                    @if (Auth::user()->role === 'Student')
+                        @if (Auth::user()->student->bookedsessions()->exists() ?? false)
+                            <div
+                                class="inline-block bg-primary text-secondary text-center font-poppins font-bold rounded-full px-5 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-buttonflex items-center mt-10 leading-[2px]">
+                                You already have a tutor.
+                            </div>
+                        @elseif (bookedSession::where('tutor_id', $user->id ?? 0)->exists() ?? false)
+                            <div
+                                class="bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-button flex items-center mt-5">
+                                A student already booked this tutor.
+                            </div>
+                        @else
+                            <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}" data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
+                                <x-set-appointment />
+                            </div>
+                        @endif
+                    @endif
+
+                    <div class="w-full">
+                        <p class="font-bold text-primary text-base">Name</p>
+                        <p class="font-bold text-black text-xl" id="tutor-name">...</p>
+                    </div>
+                    <div class="w-full">
+                        <p class="font-bold text-primary">Gender</p>
+                        <p class="font-bold text-black text-xl" id="tutor-gender">...</p>
+                    </div>
+                </div>
+
+                <!--middle-->
+                <div class="col-span-3 ml-10">
+                    <h2 class="text-3xl font-bold text-primary">
+                        Personal Information
+                    </h2>
+                    <div class="grid grid-cols-2 gap-8 mb-4">
+                        <div>
+                            <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
+                            <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-primary text-[16px]">Address</p>
+                            <p class="font-bold text-black text-[20px]" id="tutor-address">...</p>
+                        </div>
+                    </div>
+
+                    <span class="flex my-1 items-center">
+                        <span class="h-px flex-1 bg-charcoal"></span>
+                    </span>
+
+                    <h2 class="text-3xl font-bold text-primary">
+                        Schedule & Subjects
+                    </h2>
+                    <div class="grid grid-cols-2 gap-8 mb-4">
+                        <div>
+                            <p class="font-bold text-primary text-[16px]">Subject</p>
+                            <ul id="tutor-subjects"></ul>
+                        </div>
+                        <div>
+                            <p class="font-bold text-primary text-[16px]">Schedule</p>
+                            <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
+                        </div>
+                    </div>
+
+                    <span class="flex my-1 items-center">
+                        <span class="h-px flex-1 bg-charcoal"></span>
+                    </span>
+
+                    <h2 class="font-bold text-primary text-3xl">Reviews</h2>
+                    <div class="mt-2" id="tutor-reviews"></div>
                 </div>
             </div>
         </x-bladewind.modal-explore>
@@ -341,7 +459,18 @@
 
         <script>
             function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
-                address) {
+                address, tutorId) {
+                
+                console.log('Opening modal for tutor ID:', tutorId);
+                
+                // Update the set-appointment wrapper with the correct tutor ID
+                const wrapper = document.getElementById('set-appointment-wrapper');
+                if (wrapper && tutorId) {
+                    wrapper.setAttribute('data-tutor-id', tutorId);
+                    wrapper.setAttribute('data-tutor-subjects', JSON.stringify(subjects));
+                    console.log('Updated wrapper with tutor ID:', tutorId);
+                }
+                
                 document.getElementById('tutor-name').textContent = fname + ' ' + lname;
                 document.getElementById('profile-pic').src = profilePic;
                 document.getElementById('tutor-year-level').textContent = year_level + ' ' + department;
