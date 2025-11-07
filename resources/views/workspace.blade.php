@@ -116,12 +116,12 @@
                 <div class="flex flex-row">
                     <div class="w-[70%] lg:w-[70%] mt-8 mr-8 ">
                         {{-- calendar | schedule --}}
-                        <section data-aos="fade-up" data-aos-anchor-placement="top-bottom" class="w-full">
+                        <section class="w-full">
                             <x-creating-calendar />
                         </section>
 
                         {{-- upcoming task --}}
-                        <section data-aos="fade-up" data-aos-anchor-placement="top-bottom" class="">
+                        <section class="">
                             <x-upcoming-task />
                         </section>
                     </div>
@@ -169,7 +169,7 @@
                                 @endif
                             </section>
                         @else
-                            <section class="w-full h-auto" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                            <section class="w-full h-auto">
                                 <div
                                     class="flex flex-col bg-accent rounded-md pb-2 shadow-black border-black border-2 h-auto">
                                     <div class="font-dela text-lg text-charcoal font-black p-3 max-md:text-base">
@@ -205,8 +205,7 @@
 
 
                         @if (Auth::user()->role === 'Tutor')
-                            <section class="flex align-center h-auto w-full " data-aos="fade-up"
-                                data-aos-anchor-placement="top-bottom">
+                            <section class="flex align-center h-auto w-full " >
                                 <!-- container -->
                                 <div
                                     class="w-full h-auto bg-accent overflow-hidden rounded-md pb-2 border-black border-2">

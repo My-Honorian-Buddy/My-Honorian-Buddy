@@ -1,6 +1,6 @@
 <section class="">
     <!-- container SINIRA MO NO-->
-    <section data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+    <section>
         <div class="bg-accent rounded-md overflow-hidden pt-2 pb-2 mb-4 border-black border-2">
             <div class="flex items-center bg-accent w-full border-charcoal py-2">
                 <div

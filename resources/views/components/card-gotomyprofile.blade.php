@@ -1,5 +1,5 @@
 
-    <div data-aos="fade-up" data-aos-anchor-placement="center-bottom"
+    <div
         class="bg-accent overflow-hidden rounded-md border-black border-2">
 
         <!-- content -->

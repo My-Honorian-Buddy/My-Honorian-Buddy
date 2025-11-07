@@ -308,7 +308,7 @@
 </head>
 
 <body>
-    <section class="mb-8 h-full" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+    <section class="mb-8 h-full">
         <div class="bg-accent rounded-md h-full pt-2 overflow-hidden border-charcoal border-2">
             <div class="flex -mt-2 items-center w-full py-2">
                 <div

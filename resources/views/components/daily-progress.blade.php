@@ -62,7 +62,7 @@
 
 
 <div>
-    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom"
+    <div
         class="w-full bg-accent rounded-md shadow-sm overflow-hidden border-2 border-charcoal my-8 ">
         <div class="flex items-center bg-accent w-full border-charcoal py-2">
             <div class="font-dela flex w-full  justify-start text-xl text-darkgray font-bold ml-8">

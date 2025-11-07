@@ -66,7 +66,7 @@
 
 
 
-<section class="h-auto" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+<section class="h-auto">
         <div class="bg-accent h-full overflow-hidden rounded-md pb-2 mb-4 border-black border-2">
             <div class="font-dela text-xl text-charcoal font-black p-3 max-md:text-lg">
                 @if (Auth::user()->role === 'Student')
