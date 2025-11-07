@@ -26,7 +26,7 @@
     <x-bladewind::input type="hidden" name="{{$name}}" id="{{$name}}" class="rating-value-{{$name}}"
                         selected_value="{{$rating}}"/>
 @endif
-<div class="h-{{$sizing[$size]+$size_adjustment}} overflow-hidden inline-block">
+<div class="h-{{$sizing[$size]+$size_adjustment}} overflow-hidden flex items-center justify-center">
     @for ($x = 1; $x < 6; $x++)
         <div data-rating="{{$x}}"
              class="inline bw-rating-{{$x}} {{$name}}@if($rating!= 0 && $x <= $rating*1) rated @endif"

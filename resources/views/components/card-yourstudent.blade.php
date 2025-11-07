@@ -100,8 +100,6 @@
                 @if ($user->role === 'Student')
                     <x-drop :tutor_id="$tutor_id" />
                 @endif
-
-
             </div>
         </div>
     </section>
