@@ -29,15 +29,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        Log::info(" Checking payment status every minute");
-        $schedule->command('payment:check-status')->everyMinute()->sendOutputTo(storage_path('payment_check.log'));
 
         Log::info("🔔 Checking for upcoming sessions every minute");
         $schedule->command('sessions:check-upcoming')->everyMinute()->sendOutputTo(storage_path('sessions_reminder.log'));
-
-        Artisan::command('check-payment-status', function () {
-            Artisan::call('payment:check-status'); 
-        })->purpose('Manually check payment link status')->everyMinute();
     }
     
 
