@@ -49,7 +49,7 @@
 
 
 <div
-    class="w-full lg:w-1/2 h-auto bg-accent rounded-md overflow-hidden shadow-charcoal border-charcoal border-2 max-lg:mt-6">
+    class="w-full h-auto bg-accent rounded-md overflow-hidden shadow-charcoal border-charcoal border-2">
     <div class="flex bg-accent items-center w-full py-2">
         <div
             class="font-dela flex w-full justify-start text-xl text-charcoal font-black ml-8 max-md:ml-4 max-md:text-lg">

@@ -75,18 +75,18 @@
 
         @if (!empty($decodedSubject))
             <!-- div for grid -->
-            <div class="grid grid-cols-[1fr_3fr]">
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-0">
                 <!-- left side column -->
-                <div class="flex flex-col space-y-4 border-r border-charcoal bg-accent rounded-bl-lg py-4">
+                <div class="flex flex-col space-y-2 md:space-y-4 border-b lg:border-b-0 lg:border-r border-charcoal bg-accent rounded-bl-lg lg:rounded-bl-lg py-4 px-4 md:px-6">
                     @if ($user && $user->role === 'Student')
                         @foreach ($decodedSubject as $subject)
-                            <div class="font-poppins w-auto  text-lg text-center underline decoration-2 h-[50px] mt-4">
+                            <div class="font-poppins text-sm md:text-base lg:text-lg text-center underline decoration-2 h-auto md:h-[50px] flex items-center justify-center">
                                 {{ $subject }}
                             </div>
                         @endforeach
                     @elseif ($user && $user->role === 'Tutor')
                         @foreach ($decodedSubject as $subject)
-                            <div class="font-poppins w-auto text-lg text-center underline decoration-2 h-[50px] mt-4">
+                            <div class="font-poppins text-sm md:text-base lg:text-lg text-center underline decoration-2 h-auto md:h-[50px] flex items-center justify-center">
                                 {{ $subject }}
                             </div>
                         @endforeach
@@ -95,7 +95,7 @@
 
 
                 <!-- right side column -->
-                <div class="flex flex-col space-y-4 bg-accent rounded-br-lg py-4 px-2 max-md:space-y-2">
+                <div class="flex flex-col space-y-2 md:space-y-4 bg-accent rounded-br-lg py-4 px-4 md:px-6">
                     <div class="flex items-center justify-center h-full w-full">
                         <x-bladewind.progress-bar :percentage="$percentage" color="purple" shade="dark" striped="true"
                             animated="true" show_percentage_label="true" class="w-full" />

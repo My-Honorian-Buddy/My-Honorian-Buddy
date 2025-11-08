@@ -114,13 +114,13 @@
                 </div>
 
                 {{-- ROW 2 --}}
-                <div class="flex gap-x-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <x-current-session :subjects="$subjects" :user="$user" :tutor="$tutor" :student="$student" />
                     <x-yoursubjects :pickedSubjects="$pickedSubjects" :user="$user" />
                 </div>
 
-                <div class="flex flex-row">
-                    <div class="w-[70%] lg:w-[70%] mt-8 mr-8 ">
+                <div class="grid grid-cols-1 lg:grid-cols-[1fr_0.45fr] gap-6 lg:gap-6">
+                    <div class="w-full mt-8">
                         {{-- calendar | schedule --}}
                         <section class="w-full">
                             <x-creating-calendar />
@@ -131,7 +131,7 @@
                             <x-upcoming-task />
                         </section>
                     </div>
-                    <div class="flex max-h-[1060px] flex-col gap-y-6 justify-evenly w-[30%] lg:w-[30%] mt-8">
+                    <div class="flex max-h-full lg:max-h-[1060px] flex-col gap-y-6 justify-start w-full lg:mt-8">
                         <section class="">
                             <x-card-gotomyprofile />
                         </section>
@@ -163,7 +163,7 @@
                         @endphp
 
                         @if ($hasbooked)
-                            <section class="w-full h-full">
+                            <section class="w-full h-auto">
                                 @if ($isStudent)
                                     {{-- Student card --}}
                                     <x-card-yourstudent :tutor="$tutor" :allUsers="$allUsers" :student="$student"

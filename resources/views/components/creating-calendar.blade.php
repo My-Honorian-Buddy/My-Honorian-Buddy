@@ -303,6 +303,181 @@
             color: #1A1A1A !important;
             font-family: 'Dela Gothic One', sans-serif !important;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .fc-toolbar-title {
+                font-size: 1.25rem !important;
+            }
+
+            .fc-daygrid-day-number {
+                font-size: 14px !important;
+            }
+
+            .fc-button {
+                font-size: 0.75rem !important;
+                padding: 4px 8px !important;
+            }
+
+            .fc-button-group {
+                flex-wrap: wrap;
+            }
+
+            .fc-toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .event-modal-content {
+                width: 95%;
+                max-width: 90vw;
+                margin: 20% auto;
+                max-height: 90vh;
+                padding: 0;
+            }
+
+            .modal-header {
+                padding: 15px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.25rem;
+            }
+
+            .modal-body {
+                padding: 15px 20px;
+                max-height: calc(90vh - 140px);
+            }
+
+            .modal-footer {
+                padding: 12px 15px;
+            }
+
+            .close-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 24px;
+            }
+
+            .info-row {
+                margin-bottom: 10px;
+                font-size: 0.9rem;
+            }
+
+            .session-badge,
+            .manual-badge {
+                font-size: 0.75rem;
+                padding: 3px 10px;
+            }
+
+            .warning-box {
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .form-input {
+                font-size: 0.95rem;
+                padding: 8px 10px;
+            }
+
+            .form-label {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .fc-toolbar {
+                flex-direction: column;
+            }
+
+            .fc-toolbar-title {
+                font-size: 1rem !important;
+            }
+
+            .fc-daygrid-day-number {
+                font-size: 11px !important;
+            }
+
+            .fc-button {
+                font-size: 0.65rem !important;
+                padding: 3px 6px !important;
+            }
+
+            .fc-col-header-cell {
+                padding: 4px 2px !important;
+                font-size: 0.75rem;
+            }
+
+            .event-modal-content {
+                margin: 40% auto;
+            }
+
+            .modal-header h2 {
+                font-size: 1rem;
+            }
+
+            .modal-body {
+                padding: 12px 15px;
+            }
+
+            .info-icon {
+                font-size: 1rem;
+                margin-right: 8px;
+            }
+
+            .info-row {
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+
+            .modal-footer {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .form-input {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+
+            .session-badge,
+            .manual-badge {
+                font-size: 0.7rem;
+                padding: 2px 8px;
+            }
+
+            .warning-box {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .fc-toolbar {
+                flex-wrap: wrap;
+            }
+
+            .fc-toolbar-title {
+                font-size: 1.5rem !important;
+            }
+
+            .event-modal-content {
+                max-width: 85vw;
+            }
+        }
     </style>
 
 </head>
@@ -584,16 +759,52 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
+            // Determine responsive height and view
+            function getCalendarConfig() {
+                const width = window.innerWidth;
+                let height, initialView, headerToolbar;
+
+                if (width <= 480) {
+                    // Mobile
+                    height = 'auto';
+                    initialView = 'dayGridMonth';
+                    headerToolbar = {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: ''
+                    };
+                } else if (width <= 768) {
+                    // Tablet
+                    height = 500;
+                    initialView = 'dayGridMonth';
+                    headerToolbar = {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek'
+                    };
+                } else {
+                    // Desktop
+                    height = 600;
+                    initialView = 'dayGridMonth';
+                    headerToolbar = {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    };
+                }
+
+                return { height, initialView, headerToolbar };
+            }
+
+            const config = getCalendarConfig();
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                height: 600,
+                initialView: config.initialView,
+                height: config.height,
+                contentHeight: 'auto',
                 selectable: true,
                 editable: true,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
+                headerToolbar: config.headerToolbar,
                 events: '/calendar/event',
                 displayEventTime: true,
 
@@ -684,6 +895,15 @@
             });
 
             calendar.render();
+        });
+
+        // Handle window resize for responsive updates
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                location.reload();
+            }, 500);
         });
     </script>
 

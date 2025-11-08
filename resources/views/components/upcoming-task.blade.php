@@ -1,7 +1,7 @@
 <section class="">
-    <!-- container SINIRA MO NO-->
+    
     <section>
-        <div class="bg-accent rounded-md overflow-hidden pt-2 pb-2 mb-4 border-black border-2">
+        <div class="bg-accent rounded-md overflow-hidden pt-2 pb-2 border-black border-2">
             <div class="flex items-center bg-accent w-full border-charcoal py-2">
                 <div
                     class="font-dela flex w-full justify-start text-xl text-darkgray font-bold ml-8 max-md:ml-4 max-md:text-lg">
@@ -37,7 +37,7 @@
                             <input type="checkbox" onchange="toggleTaskStatus({{ $task->id }}, this.checked)"
                                 class="peer ml-4 " {{ $task->is_completed ? 'checked' : '' }}>
                             <label
-                                class="{{ $task->is_completed ? 'line-through text-red-600' : '' }} flex-1 mx-3 break-words max-md:mx-2 max-md:text-sm">
+                                class="{{ $task->is_completed ? 'line-through text-red-600' : '' }} flex-1 mx-3 truncate break-words max-md:mx-2 max-md:text-sm">
                                 {{ $task->title }}
                             </label>
                             <button onclick="deleteTask({{ $task->id }})"

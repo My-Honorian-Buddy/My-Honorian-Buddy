@@ -67,8 +67,8 @@
 
 
 <section class="h-auto">
-        <div class="bg-accent h-full overflow-hidden rounded-md pb-2 mb-4 border-black border-2">
-            <div class="font-dela text-xl text-charcoal font-black p-3 max-md:text-lg">
+        <div class="bg-accent h-full overflow-hidden rounded-md pb-2 border-black border-2">
+            <div class="font-dela text-xl text-charcoal font-black p-3 max-md:text-lg max-sm:text-base">
                 @if (Auth::user()->role === 'Student')
                     YOUR BUDDY
                 @else
@@ -80,18 +80,20 @@
             </span>
 
             <!-- content -->
-            <div class="grid grid-cols-2 items-center p-4 gap-4 max-md:grid-cols-1 max-md:p-3">
+            <div class="grid grid-cols-2 items-center p-4 gap-4 max-md:grid-cols-1 max-md:p-3 max-sm:gap-3 max-sm:p-2 max-md:justify-items-center">
                 <!-- profile image -->
-                <div class="flex justify-center">
+                
+                <div class="flex justify-center shrink-0 items-center p-1 w-full max-w-40 aspect-square
+             max-md:max-w-36 max-sm:max-w-28 max-md:w-full">
                     <img src="{{ $profile_pic ?? Auth::user()->profile_pic }}" alt="Profile"
-                        class="h-40 w-40 border-4 border-black rounded-lg max-md:h-28 max-md:w-28">
+                        class="w-full h-full object-cover border-4 border-black rounded-lg max-sm:border-2">
                 </div>
                 <!-- profile infos -->
                 <div class="max-md:text-center">
-                    <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm">Firstname</p>
-                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">{{ $fname ?? 'N/A' }}</p>
-                    <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm">Lastname</p>
-                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base">{{ $lname ?? 'N/A' }}</p>
+                    <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm max-sm:text-xs">Firstname</p>
+                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base max-sm:text-sm">{{ $fname ?? 'N/A' }}</p>
+                    <p class="font-bold ml-5 text-primary text-[16px] max-md:ml-0 max-md:text-sm max-sm:text-xs">Lastname</p>
+                    <p class="font-bold ml-5 text-[18px] -mt-1 max-md:ml-0 max-md:text-base max-sm:text-sm">{{ $lname ?? 'N/A' }}</p>
 
                 </div>
 
