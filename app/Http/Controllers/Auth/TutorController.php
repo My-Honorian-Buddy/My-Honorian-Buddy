@@ -81,7 +81,7 @@ class TutorController extends Controller
 
     public function showCard()
     {
-        $users = User::with('tutor', 'schedule')
+        $users = User::with('tutor.review', 'schedule')
         ->whereHas('tutor')
         ->verified()
         ->paginate(6);

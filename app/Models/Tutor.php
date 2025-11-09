@@ -53,9 +53,9 @@ class Tutor extends Model
         return $this->hasOne(bookedSession::class, 'tutor_id', 'user_id');
     }
 
-    public function review(): HasMany //Being Reviewed
+    public function review(): HasMany 
     {
-        return $this->hasMany(Review::class, 'tutor_id');
+        return $this->hasMany(Review::class, 'tutor_id', 'user_id');
     }
     
     public function rewardRedemptions (): HasMany

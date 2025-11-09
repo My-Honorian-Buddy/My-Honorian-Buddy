@@ -22,6 +22,7 @@
                 $tutor = $user->tutor;
 
                 $isSameUser = $authUser->id === $user->id;
+                $totalAverageRating = 0;
 
                 $isStudent = $authUser->role === 'Student';
                 $isTutor = $authUser->role === 'Tutor';
@@ -82,6 +83,13 @@
                                 </p>
 
                                 <div class="mb-2">
+                                    @if ($user->tutor->subject_tutor->isEmpty())
+                                        <span
+                                            class="inline-flex justify-center items-center px-2.5 py-0.5 rounded-full w-full bg-gray-100 border-2 text-gray-500 font-bold
+                                            border-gray-600">
+                                            <p class="text-sm whitespace-nowrap">No Subjects</p>
+                                        </span>
+                                    @endif
                                     @foreach ($user->tutor->subject_tutor as $subject)
                                         <span
                                             class="inline-flex justify-center items-center px-2.5 py-0.5 rounded-full min-w-[50px]
@@ -94,10 +102,16 @@
                                 <span class="flex my-1 items-center">
                                     <span class="h-px flex-1 bg-charcoal"></span>
                                 </span>
+                                @foreach ($user->tutor->review as $review)
+                                    @php
+                                        $totalAverageRating += $review->rating;
+                                    @endphp
+                                @endforeach
 
                                 <div class="mt-0.5 text-yellow-500">
                                     <x-bladewind.icon name="star" type="solid" />
-                                    <span class="text-gray-700">{{ $user->tutor->rating }}
+                                    <span class="text-gray-700">
+                                        {{ number_format(count($user->tutor->review) > 0 ? $totalAverageRating / count($user->tutor->review) : 0, 1) }}
                                         ({{ $user->tutor->NoOfReviews }})
                                     </span>
                                 </div>
@@ -111,7 +125,7 @@
     <div class="flex justify-center mt-6 mb-6">
         {{ $users->appends(request()->query())->links('custom-pagination') }}
     </div>
-    
+
     {{-- modal --}}
     <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
         <div class="grid grid-cols-4 p-6">
@@ -131,7 +145,8 @@
                             A student already booked this tutor.
                         </div>
                     @else
-                        <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}" data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
+                        <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}"
+                            data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
                             <x-set-appointment />
                         </div>
                     @endif
@@ -266,9 +281,9 @@
     <script>
         function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
             address, tutorId) {
-            
+
             console.log('Opening modal for tutor ID:', tutorId);
-            
+
             // Update the set-appointment wrapper with the correct tutor ID
             const wrapper = document.getElementById('set-appointment-wrapper');
             if (wrapper && tutorId) {
@@ -276,7 +291,7 @@
                 wrapper.setAttribute('data-tutor-subjects', JSON.stringify(subjects));
                 console.log('Updated wrapper with tutor ID:', tutorId);
             }
-            
+
             document.getElementById('tutor-name').textContent = fname + ' ' + lname;
             document.getElementById('profile-pic').src = profilePic;
             document.getElementById('tutor-year-level').textContent = year_level + ' ' + department;
@@ -329,18 +344,88 @@
             reviewsList.innerHTML = '';
 
             if (Array.isArray(reviews) && reviews.length > 0) {
-                reviews.forEach(review => {
-                    const div = document.createElement('div');
-                    div.innerHTML = `
-                        <div>
-                            <span class="font-bold">${review.student?.fname ?? 'Anonymous'} ${review.student?.lname ?? ''}</span>
-                            
-                            <span class="ml-2 text-yellow-500">★ ${review.rating}</span>
-                            <p class="italic">"${review.comment}"</p>
-                        </div>
-                    `;
-                    reviewsList.appendChild(div);
-                });
+                let currentPage = 0;
+                const reviewsPerPage = 2;
+                const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
+                const renderReviews = (page) => {
+                    const container = document.getElementById('tutor-reviews-container');
+                    container.innerHTML = '';
+                    
+                    const startIdx = page * reviewsPerPage;
+                    const endIdx = startIdx + reviewsPerPage;
+                    const pageReviews = reviews.slice(startIdx, endIdx);
+
+                    pageReviews.forEach(review => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                            <div>
+                                <span class="text-lg font-bold">${review.student?.fname ?? 'Anonymous'} ${review.student?.lname ?? ''}</span>
+                                
+                                <span class="ml-2 text-yellow-500">★ ${review.rating}</span>
+                                <p class=" font-light italic">"${review.comment}"</p>
+
+                                <span class="flex my-1 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
+                            </div>
+                        `;
+                        container.appendChild(div);
+                    });
+                };
+
+                const container = document.createElement('div');
+                container.id = 'tutor-reviews-container';
+                reviewsList.appendChild(container);
+
+                // Only show pagination if more than 2 reviews
+                if (reviews.length > reviewsPerPage) {
+                    const paginationDiv = document.createElement('div');
+                    paginationDiv.className = 'flex justify-between items-center mt-4';
+                    
+                    const leftBtn = document.createElement('button');
+                    leftBtn.innerHTML = '← Left';
+                    leftBtn.className = 'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
+                    leftBtn.onclick = () => {
+                        if (currentPage > 0) {
+                            currentPage--;
+                            renderReviews(currentPage);
+                            updateButtonStates();
+                        }
+                    };
+
+                    const pageIndicator = document.createElement('span');
+                    pageIndicator.id = 'page-indicator';
+                    pageIndicator.className = 'font-bold text-primary';
+
+                    const rightBtn = document.createElement('button');
+                    rightBtn.innerHTML = 'Right →';
+                    rightBtn.className = 'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
+                    rightBtn.onclick = () => {
+                        if (currentPage < totalPages - 1) {
+                            currentPage++;
+                            renderReviews(currentPage);
+                            updateButtonStates();
+                        }
+                    };
+
+                    const updateButtonStates = () => {
+                        leftBtn.disabled = currentPage === 0;
+                        rightBtn.disabled = currentPage === totalPages - 1;
+                        pageIndicator.textContent = `${currentPage + 1} / ${totalPages}`;
+                        leftBtn.style.opacity = currentPage === 0 ? '0.5' : '1';
+                        rightBtn.style.opacity = currentPage === totalPages - 1 ? '0.5' : '1';
+                    };
+
+                    paginationDiv.appendChild(leftBtn);
+                    paginationDiv.appendChild(pageIndicator);
+                    paginationDiv.appendChild(rightBtn);
+                    reviewsList.appendChild(paginationDiv);
+
+                    updateButtonStates();
+                }
+
+                renderReviews(0);
             } else {
                 reviewsList.innerHTML = '<div>No reviews available</div>';
             }
