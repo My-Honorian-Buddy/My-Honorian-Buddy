@@ -32,15 +32,15 @@
     @endphp
 
     @if($user && $user->role === 'Student' && $user->cor_status !== 'verified')
-        <div class="flex flex-col items-center justify-center min-h-screen bg-secondary">
-            <div class="bg-accent3 border-2 border-black text-black p-10 rounded-2xl shadow-custom-button mt-20 max-w-xl w-full text-center">
+        <div class="flex flex-col items-center mt-32 h-screen bg-mainbackground overflow-hidden">
+            <div class="bg-accent border-2 border-black text-black p-10 rounded-lg max-w-xl w-full text-center">
                 <svg class="mx-auto mb-4" width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="orange">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <p class="font-bold text-3xl mb-2">You are not verified yet</p>
                 <p class="text-lg mb-4">Please upload your valid Certificate of Registration (COR) to access Explore and matching features.</p>
-                <a href="{{ route('workspace.start') }}" class="inline-block border-2 border-black bg-primary text-white font-bold px-6 py-3 rounded-full shadow-custom-button
-                 hover:bg-accent2 hover:text-primary transition">Back to Workspace</a>
+                <a href="{{ route('workspace.start') }}" class="inline-block border-2 border-black bg-primary text-white font-bold px-6 py-3 rounded-full
+                 hover:bg-accent hover:text-primary transition tracking-widest uppercase">Back to Workspace</a>
             </div>
         </div>
     @elseif($user->role === 'Student')

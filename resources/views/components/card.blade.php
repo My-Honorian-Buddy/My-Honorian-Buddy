@@ -194,11 +194,12 @@
                     </div>
                     <div>
                         <p class="font-bold text-primary text-[16px]">Schedule</p>
-                        <div class="inline-flex justify-center items-center rounded-full bg-primary/5 
+                        <div
+                            class="inline-flex justify-center items-center rounded-full bg-primary/5 
                             border-2 text-primary font-bold w-full px-4 py-0.5 mb-2 border-primary/50">
                             <p class="" id="tutor-time">-</p>
                         </div>
-                        
+
                         <div class="grid grid-cols-2 gap-2" id="tutor-days"></div>
                     </div>
                 </div>
@@ -462,9 +463,8 @@
     </script>
 @else
     {{-- temporary design for not verified users --}}
-    <div class="flex flex-col items-center justify-center min-h-screen bg-secondary">
-        <div
-            class="bg-accent3 border-2 border-black text-black p-10 rounded-2xl shadow-custom-button mt-20 max-w-xl w-full text-center">
+    <div class="flex flex-col items-center h-screen mt-8 bg-mainbackground overflow-hidden">
+        <div class="bg-accent border-2 border-black text-black p-10 rounded-lg max-w-xl w-full text-center">
             <svg class="mx-auto mb-4" width="60" height="60" fill="none" viewBox="0 0 24 24"
                 stroke="orange">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -474,8 +474,8 @@
             <p class="text-lg mb-4">Please upload your valid Certificate of Registration (COR) to access Explore and
                 matching features.</p>
             <a href="{{ route('workspace.start') }}"
-                class="inline-block border-2 border-black bg-primary text-white font-bold px-6 py-3 rounded-full shadow-custom-button
-                 hover:bg-accent2 hover:text-primary transition">Back
+                class="inline-block border-2 border-black bg-primary text-white font-bold px-6 py-3 rounded-full
+                 hover:bg-accent hover:text-primary transition tracking-widest uppercase">Back
                 to Workspace</a>
         </div>
     </div>
