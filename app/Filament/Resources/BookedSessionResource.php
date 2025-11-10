@@ -162,14 +162,15 @@ class BookedSessionResource extends Resource
                         $totalMinutes = (int) $state;
                         $hours = floor($totalMinutes / 60);
                         $minutes = $totalMinutes % 60;
+                        $seconds = 0; // Minutes are whole numbers, but showing format
                         
                         if ($hours > 0) {
                             return $minutes > 0 
-                                ? "{$hours}h {$minutes}m" 
-                                : "{$hours}h";
+                                ? "{$hours}h {$minutes}m {$seconds}s" 
+                                : "{$hours}h {$seconds}s";
                         }
                         
-                        return "{$minutes}m";
+                        return "{$minutes}m {$seconds}s";
                     })
                     ->description(fn ($state) => $state ? "Total: {$state} minutes" : null)
                     ->alignCenter()
