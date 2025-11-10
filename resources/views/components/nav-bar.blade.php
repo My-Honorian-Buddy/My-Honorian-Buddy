@@ -22,9 +22,9 @@
 
             <div class="p-6">
                 <header class="md:flex md:justify-between md:items-center">
-                    <div class="flex justify-center md:items-center font-black md:h-[75px] md:space-x-2 p-3">
+                    <div class="flex justify-center md:items-center font-black md:h-[75px] p-3">
                         <nav
-                            class="font-dela md:space-x-9 space-x-2 md:items-center text-charcoal text-base md:text-lg md:mx-8">
+                            class="font-dela md:space-x-8 sm:space-x-8 md:items-center text-charcoal sm:text-xs md:text-base md:mx-8">
                             <a href="{{ route('workspace.start') }}"
                                 class="transition ease-in-out hover:text-primary hover:underline">WORKSPACE</a>
 
