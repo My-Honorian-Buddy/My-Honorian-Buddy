@@ -40,7 +40,7 @@
                         class="sm:w-auto bg-accent px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 md:py-1 h-auto sm:h-10 md:h-11 border-2 border-black
                                 active:scale-95 transition-all duration-800 ease-in-out flex items-center justify-center rounded-sm font-bold text-sm
                                 hover:bg-primary w-auto hover:text-accent tracking-widest uppercase hover:shadow-custom-button">
-                        Save
+                        Change Subjects
                     </button>
                 </div>
                 <x-bladewind.modal name="changeSubjectModal" :show_footer="false" :close_on_outside_click="true" :close_on_escape="true"
