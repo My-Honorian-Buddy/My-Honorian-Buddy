@@ -89,7 +89,7 @@
 
     {{-- main content --}}
     <x-slot name="main_content">
-        <div class="m-8">
+        <div class="md:m-8">
 
             @if (Auth::check())
                 @php
@@ -267,8 +267,8 @@
         </div>
         @if ($authUser->cor_status !== 'verified')
             <div
-                class="fixed bottom-6 right-6 bg-accent text-primary px-5 py-6 border-2 
-            border-primary shadow-lg rounded-md z-[9999]">
+                class="fixed bottom-6 md:right-6 bg-accent text-primary px-5 py-6 border-2 
+            border-primary shadow-xl rounded-md z-[9999] mr-8">
                 It appears that your COR has not been verified yet. <br>
                 Please verify it
                 <a class=" font-bold underline" href="{{ route('cor.view') }}">
