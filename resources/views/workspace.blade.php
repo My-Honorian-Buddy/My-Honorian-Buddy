@@ -61,11 +61,11 @@
                     @else
                         lg:grid-cols-3 
                     @endif 
-                    gap-6">
+                    lg:gap-6">
                     
                     @if ($otherUserId)
                         <div
-                            class="w-full flex items-center justify-center bg-accent border-2 border-charcoal rounded-md my-8 py-2 col-span-1 
+                            class="w-full flex items-center justify-center bg-accent border-2 border-charcoal rounded-md mt-8 lg:my-8 py-2 col-span-1 
                     md:order-last">
                             <ul class="w-full flex flex-col items-center justify-center space-y-6 p-3">
 
