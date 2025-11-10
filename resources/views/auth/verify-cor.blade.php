@@ -29,7 +29,8 @@
                 <!-- Image container aligned at the center with responsive width -->
                 <div class="w-full md:w-1/2 flex justify-center">
                     <!-- Placeholder image from external source --> 
-                    <img src="{{ asset('/images/auth/email-verification.svg') }}" class="h-[400px] w-[400px] mt-[-30px] mr-[20px]" alt="Email Verification Photo">
+                    <img src="{{ asset('/images/auth/email-verification.png') }}" 
+                    class="w-[180px] sm:w-[220px] md:w-[280px] lg:w-[350px] xl:w-[420px] 2xl:w-[500px] h-auto object-contain" alt="Email Verification Photo">
                 </div>
 
                 <!-- Text container for the verification message -->
@@ -39,7 +40,7 @@
                         <!-- Slot for the title -->
                         <x-slot name="title">
                             <div class="text-black font-poppins text-[55px] text-pretty leading-[54px] font-semibold text-left">
-                                Thank you for signing up!
+                                Ready to Verify Your COR?
                             </div>
                         </x-slot>
 
@@ -59,10 +60,11 @@
                         <form method="POST" action="{{ route('cor.upload') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="ml-[95px]">
+                                
                                 <input type="file" name="cor_pdf" accept=".pdf" required
                                     class="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" />
-                                <button class="w-auto text-primary font-bold bg-accent2 px-10 py-1 h-11 rounded-[4px] text-lg border-2 border-black shadow-custom-button
-                                        transition-all duration-600 ease-in-out hover:scale-101 hover:bg-primary hover:text-accent2">
+                                <button class="flex items-center bg-primary text-accent3 hover:bg-primary/80 rounded-lg tracking-widest uppercase
+                            border-gray-700/20 hover:border-primary font-semibold w-full sm:w-auto text-sm md:text-base py-2 md:py-3 px-4 md:px-6">
                                     {{ __('Upload COR') }}
                                 </button>
                             </div>
@@ -71,8 +73,8 @@
                         <!-- Form to log out the user -->
                         <a href="{{ route('workspace.start') }}" class=" justify-items-end">
                             @csrf
-                            <button type="submit" class="w-auto text-accent2 font-bold bg-primary px-10 py-1 h-11 rounded-[4px] text-lg border-2 border-black shadow-custom-button
-                                        transition-all duration-600 ease-in-out hover:scale-101 hover:bg-accent2 hover:text-primary">
+                            <button type="submit" class="flex items-center text-primary bg-accent border-2 tracking-widest uppercase
+                            rounded-lg hover:bg-primary/5 w-full font-semibold sm:w-auto text-sm md:text-base py-2 md:py-3 px-4 md:px-6 border-primary/70">
                                 {{ __('Workspace') }}
                             </button>
                         </a>
