@@ -61,7 +61,7 @@
 @endphp
 
 
-<div>
+<div class=" col-span-3">
     <div
         class="w-full bg-accent rounded-md shadow-sm overflow-hidden border-2 border-charcoal my-8 ">
         <div class="flex items-center bg-accent w-full border-charcoal py-2">
