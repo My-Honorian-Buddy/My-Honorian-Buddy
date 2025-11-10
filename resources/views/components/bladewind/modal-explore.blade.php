@@ -187,7 +187,7 @@
                                 </div>
                             </div>
                         @endif
-                        <h1 class="text-lg font-semibold leading-5 text-gray-900 dark:text-dark-400 tracking-wide modal-title text-left pb-0.5 ml-4">{{ $title }}</h1>
+                        <h1 class="text-lg font-semibold leading-5 text-gray-900 dark:text-dark-400 tracking-wide modal-title text-left pt-2.5 pb-0.5 ml-4">{{ $title }}</h1>
                     </div>
                     <div class="modal-text text-gray-500 dark:text-slate-400 pt-2 px-4 text-sm text-left">
                         {{ $slot }}

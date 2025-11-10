@@ -13,20 +13,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Call</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @auth
+    <meta name="user-id" content="{{ Auth::id() }}">
+    @endauth
 
+    <title>My Honorian Buddy</title>
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
-    
-    <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
     <link rel="icon" href="{{ asset('/images/favicon.svg') }}" type="image/x-icon">
-    <script src="{{ asset('vendor/bladewind/js/notification.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="burger.css">
+    <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
 </head>
 <body>
     <x-nav-bar />
@@ -35,45 +42,44 @@
                         type="submit" 
                         class=" bg-red-500 hover:bg-red-700 text-white font-bold"
                         size="small"
-                        rounded="true"
+                        rounded="false"
                         onclick="showModal('confirm-hangup')">
                         Hang Up
         </x-bladewind::button>
                     
-        <x-bladewind.modal 
+        <x-bladewind.modal-explore 
                     name="confirm-hangup"
-                    size="small" 
+                    size="medium" 
                     title="Confirm Hang Up"
                     footer="false"
-                    ok_button_label=""
-                    cancel_button_label=""
+                    show_action_buttons="false"
                     cancel_button_action="hideModal('confirm-hangup')"
                     backdrop_can_close="true">
 
         <p>Are you sure you want to hang up the call?</p><br>
         <p>A confirmation to add the number of session will be sent to you both.</p>
 
-        <div class="mt-4 flex justify-end space-x-4">
+        <div class="mt-4 flex justify-end space-x-4 pb-2">
                     <x-bladewind::button
                     type="button"
-                    class="bg-primary text-accent2 border-2 border-black hover:bg-red-700 hover:scale-105"
+                    class="bg-accent text-primary border border-primary hover:bg-primary/5"
                     size="small"
-                    rounded="true"
+                    rounded="false"
                     can_submit="false"
                     onclick="hideModal('confirm-hangup')">
                     Cancel
                 </x-bladewind::button>
             <x-bladewind::button 
                     type="button"
-                    class="bg-accent2 text-primary border-2 border-black hover:bg-secondary hover:scale-105"
+                    class="bg-primary text-accent border border-primary hover:bg-primary/80"
                     size="small"
-                    rounded="true"
+                    rounded="false"
                     can_submit="false"
                     onclick="confirmHangup()">
                     Confirm
                 </x-bladewind::button>
         </div>
-    </x-bladewind.modal>
+    </x-bladewind.modal-explore>
     </div>
     
     <div id="meet" class="flex justify-center items-center w-full">
