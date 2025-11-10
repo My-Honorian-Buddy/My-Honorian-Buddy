@@ -69,7 +69,9 @@
                                         @json ($user->tutor->department),
                                         @json ($user->tutor->gender),
                                         @json ($user->tutor->address),
-                                        @json ($user->tutor->id)
+                                        @json ($user->tutor->id),
+                                        @json ($user->schedule->start_time ?? null),
+                                        @json ($user->schedule->end_time ?? null)
                                         )'>
                         <div class="flex items-center gap-4">
                             <img alt="" src="{{ $user->profile_pic }}" class="size-20 rounded object-cover" />
@@ -192,9 +194,13 @@
                     </div>
                     <div>
                         <p class="font-bold text-primary text-[16px]">Schedule</p>
-                        <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
+                        <div class="inline-flex justify-center items-center rounded-full bg-primary/5 
+                            border-2 text-primary font-bold w-full px-4 py-0.5 mb-2 border-primary/50">
+                            <p class="" id="tutor-time">-</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-2" id="tutor-days"></div>
                     </div>
-
                 </div>
 
                 <span class="flex my-1 items-center">
@@ -280,7 +286,7 @@
 
     <script>
         function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
-            address, tutorId) {
+            address, tutorId, startTime, endTime) {
 
             console.log('Opening modal for tutor ID:', tutorId);
 
@@ -308,21 +314,41 @@
                     const div = document.createElement('div');
                     div.textContent = day;
                     div.classList.add(
-                        'text-primary',
-                        'text-[15px]',
-                        'bg-accent2',
-                        'max-w-[155px]',
-                        'font-bold',
+                        'inline-flex',
+                        'justify-center',
+                        'items-center',
+                        'px-2.5',
+                        'py-1',
                         'rounded-full',
+                        'min-w-[80px]',
+                        'md:min-w-[100px]',
+                        'max-w-[150px]',
+                        'md:max-w-[175px]',
+                        'bg-primary/5',
                         'border-2',
-                        'border-black',
-                        'text-center',
-                        'p-2',
-                        'mb-2');
+                        'text-primary',
+                        'font-bold',
+                        'border-primary/50');
                     daysList.appendChild(div);
                 });
             } else {
                 daysList.innerHTML = '<div>No schedule available</div>';
+            }
+
+            // Display schedule time
+            const timeElement = document.getElementById('tutor-time');
+            if (startTime && endTime) {
+                // Format time to h:i A format (12-hour with AM/PM)
+                const formatTime = (timeStr) => {
+                    const [hours, minutes] = timeStr.split(':');
+                    const hour = parseInt(hours, 10);
+                    const ampm = hour >= 12 ? 'PM' : 'AM';
+                    const displayHour = hour % 12 || 12;
+                    return `${displayHour}:${minutes} ${ampm}`;
+                };
+                timeElement.textContent = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+            } else {
+                timeElement.textContent = '-';
             }
 
             const subjectsList = document.getElementById('tutor-subjects');
@@ -351,7 +377,7 @@
                 const renderReviews = (page) => {
                     const container = document.getElementById('tutor-reviews-container');
                     container.innerHTML = '';
-                    
+
                     const startIdx = page * reviewsPerPage;
                     const endIdx = startIdx + reviewsPerPage;
                     const pageReviews = reviews.slice(startIdx, endIdx);
@@ -382,10 +408,11 @@
                 if (reviews.length > reviewsPerPage) {
                     const paginationDiv = document.createElement('div');
                     paginationDiv.className = 'flex justify-between items-center mt-4';
-                    
+
                     const leftBtn = document.createElement('button');
                     leftBtn.innerHTML = '← Left';
-                    leftBtn.className = 'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
+                    leftBtn.className =
+                        'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
                     leftBtn.onclick = () => {
                         if (currentPage > 0) {
                             currentPage--;
@@ -400,7 +427,8 @@
 
                     const rightBtn = document.createElement('button');
                     rightBtn.innerHTML = 'Right →';
-                    rightBtn.className = 'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
+                    rightBtn.className =
+                        'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
                     rightBtn.onclick = () => {
                         if (currentPage < totalPages - 1) {
                             currentPage++;
