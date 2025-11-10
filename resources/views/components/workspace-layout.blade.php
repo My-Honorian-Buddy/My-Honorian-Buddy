@@ -35,10 +35,7 @@
 
         <!-- component of all -->
         <x-workspace-content>
-            {{-- sidebars --}}
-            <x-slot name="sidebars">
-                {{ $sidebar_content }}
-            </x-slot>
+            
 
             {{-- main content --}}
             <x-slot name="maincontent">

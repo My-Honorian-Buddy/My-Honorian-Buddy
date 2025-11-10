@@ -32,61 +32,6 @@
 
 @endphp
 <x-workspace-layout>
-    {{-- sidebar --}}
-    <x-slot name="sidebar_content">
-        <ul class="flex flex-col items-center justify-center space-y-6">
-            @if ($otherUserId)
-                <li class="w-full">
-                    <a class="cursor-pointer group w-full relative inline-block focus:ring-3 focus:outline-hidden"
-                        onclick="initiateVideoCall({{ $otherUserId }})" >
-                        <span
-                            class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-green-900
-                             transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
-                        </span>
-
-                        <span
-                            class="relative text-accent font-poppins w-full text-center flex justify-between border-2
-                             border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
-                            <x-bladewind.icon name="video-camera" class="justify-self-start" />
-                            CALL {{ strtoupper(explode(' ', $otherUserName)[0]) }}
-                        </span>
-                    </a>
-                </li>
-            @endif
-            <li class="w-full flex justify-center items-center">
-                <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden"
-                    href="{{ route('video.join.meet') }}">
-                    <span
-                        class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-primary transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
-                    </span>
-
-                    <span
-                        class="relative justify-between text-accent font-poppins w-full text-center flex border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
-                        <x-bladewind.icon name="video-camera" class="justify-self-start" />
-                        Join a new call
-                    </span>
-                </a>
-            </li>
-
-            <li class="w-full flex justify-center items-center">
-                <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden"
-                    href="{{ route('video.call.create') }}">
-                    <span
-                        class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-primary transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
-                    </span>
-
-                    <span
-                        class="relative text-accent font-poppins w-full text-center flex justify-between border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
-                        <x-bladewind.icon name="video-camera" class="justify-self-start" />
-                        Create a new call
-                    </span>
-                </a>
-            </li>
-
-        </ul>
-
-    </x-slot>
-
     {{-- main content --}}
     <x-slot name="main_content">
         <div class="md:m-8">
@@ -109,8 +54,69 @@
             </div>
             <div>
                 {{-- ROW 1 --}}
-                <div>
+                <div
+                    class="grid grid-cols-1
+                    @if ($otherUserId) 
+                        lg:grid-cols-4 
+                    @else
+                        lg:grid-cols-3 
+                    @endif 
+                    gap-6">
+                    
+                    @if ($otherUserId)
+                        <div
+                            class="w-full flex items-center justify-center bg-accent border-2 border-charcoal rounded-md my-8 py-2 col-span-1 
+                    md:order-last">
+                            <ul class="w-full flex flex-col items-center justify-center space-y-6 p-3">
+
+                                <li class="w-full">
+                                    <a class="cursor-pointer group w-full relative inline-block focus:ring-3 focus:outline-hidden"
+                                        onclick="initiateVideoCall({{ $otherUserId }})">
+
+                                        <span
+                                            class="rounded-full relative text-accent font-poppins w-full text-center flex justify-between border-2
+                                                bg-green-900 hover:bg-green-700 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                                            <x-bladewind.icon name="video-camera" class="justify-self-start" />
+                                            CALL {{ strtoupper(explode(' ', $otherUserName)[0]) }}
+                                        </span>
+                                    </a>
+                                </li>
+
+                                {{-- <li class="w-full flex justify-center items-center">
+                                <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden"
+                                    href="{{ route('video.join.meet') }}">
+                                    <span
+                                        class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-primary transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
+                                    </span>
+
+                                    <span
+                                        class="relative justify-between text-accent font-poppins w-full text-center flex border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                                        <x-bladewind.icon name="video-camera" class="justify-self-start" />
+                                        Join a new call
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="w-full flex justify-center items-center">
+                                <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden"
+                                    href="{{ route('video.call.create') }}">
+                                    <span
+                                        class="absolute w-full inset-0 translate-x-0 translate-y-0 bg-primary transition-transform group-hover:translate-x-1.5 group-hover:translate-y-1.5">
+                                    </span>
+
+                                    <span
+                                        class="relative text-accent font-poppins w-full text-center flex justify-between border-2 border-charcoal px-8 py-3 text-sm font-bold tracking-widest uppercase">
+                                        <x-bladewind.icon name="video-camera" class="justify-self-start" />
+                                        Create a new call
+                                    </span>
+                                </a>
+                            </li> --}}
+
+                            </ul>
+                        </div>
+                    @endif
                     <x-daily-progress :subjects="$subjects" :user="$user" :student="$student" :tutor="$tutor" />
+
                 </div>
 
                 {{-- ROW 2 --}}
