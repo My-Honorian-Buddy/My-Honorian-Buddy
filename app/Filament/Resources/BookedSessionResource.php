@@ -26,6 +26,7 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Illuminate\Http\HtmlString;
 use App\Models\Review;
+use App\Models\BannedSessionArchive;
 
 class BookedSessionResource extends Resource
 {
@@ -155,9 +156,25 @@ class BookedSessionResource extends Resource
                     
                 Tables\Columns\TextColumn::make('duration')
                     ->label('Duration')
-                    ->suffix(' mins')
+                    ->formatStateUsing(function ($state) {
+                        if (!$state) return '0 mins';
+                        
+                        $totalMinutes = (int) $state;
+                        $hours = floor($totalMinutes / 60);
+                        $minutes = $totalMinutes % 60;
+                        
+                        if ($hours > 0) {
+                            return $minutes > 0 
+                                ? "{$hours}h {$minutes}m" 
+                                : "{$hours}h";
+                        }
+                        
+                        return "{$minutes}m";
+                    })
+                    ->description(fn ($state) => $state ? "Total: {$state} minutes" : null)
                     ->alignCenter()
-                    ->sortable(),
+                    ->sortable()
+                    ->tooltip(fn ($state) => $state ? "Total duration: {$state} minutes" : 'No duration recorded'),
                     
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
@@ -456,7 +473,7 @@ class BookedSessionResource extends Resource
                             ->get();
                         
                         foreach ($allSessions as $session) {
-                            \App\Models\BannedSessionArchive::create([
+                            BannedSessionArchive::create([
                                 'original_session_id' => $session->id,
                                 'student_id' => $session->student_id,
                                 'tutor_id' => $session->tutor_id,
@@ -574,7 +591,9 @@ class BookedSessionResource extends Resource
                             ->withFilename('all-tutoring-sessions-' . date('Y-m-d'))
                             ->withWriterType(\Maatwebsite\Excel\Excel::XLSX),
                     ]),
-            ]);
+            ])
+            ->poll('5s') // Auto-refresh table every 5 seconds
+            ->deferLoading(); // Improve initial load performance
     }
     
     public static function infolist(Infolist $infolist): Infolist
@@ -681,6 +700,13 @@ class BookedSessionResource extends Resource
                     ])->columns(2)
                     ->collapsed(),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes()
+            ->withTrashed();
     }
 
     public static function getRelations(): array
