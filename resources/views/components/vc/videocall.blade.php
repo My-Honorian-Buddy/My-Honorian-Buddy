@@ -63,17 +63,15 @@
                     onclick="hideModal('confirm-hangup')">
                     Cancel
                 </x-bladewind::button>
-            <form action="{{ route('participant.left') }}" method="GET">
-                    @csrf
-                    <x-bladewind::button 
-                    type="submit"
+            <x-bladewind::button 
+                    type="button"
                     class="bg-accent2 text-primary border-2 border-black hover:bg-secondary hover:scale-105"
                     size="small"
                     rounded="true"
-                    can_submit="true">
+                    can_submit="false"
+                    onclick="confirmHangup()">
                     Confirm
                 </x-bladewind::button>
-            </form> 
         </div>
     </x-bladewind.modal>
     </div>
@@ -98,8 +96,11 @@
 
     <script src='https://meet.jit.si/external_api.js'></script>
     <script>
-        
-        
+        // Variables to track call duration
+        let callStartTime = null;
+        let callEndTime = null;
+        let totalDurationMinutes = 0;
+        let jitsiApi = null; // Global reference to Jitsi API
 
         const allTutors = @json($allTutors);
         const allStudents = @json($allStudents);
@@ -122,6 +123,56 @@
             });
         }
         
+        // Function to handle manual hangup from the modal
+        window.confirmHangup = function() {
+            console.log('🔴 Manual hangup triggered');
+            
+            // Hide the modal
+            if (typeof hideModal === 'function') {
+                hideModal('confirm-hangup');
+            }
+            
+            if (jitsiApi) {
+                
+                if (callStartTime) {
+                    callEndTime = new Date();
+                    const durationMs = callEndTime - callStartTime;
+                    totalDurationMinutes = Math.round(durationMs / (1000 * 60));
+                    console.log('⏱️ Call duration:', totalDurationMinutes, 'minutes');
+                }
+                
+                jitsiApi.dispose();
+                
+                fetch("{{ route('participant.left') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        user_id: "{{ Auth::user()->id }}",
+                        room_name: "{{ $roomName }}",
+                        duration: totalDurationMinutes,
+                        start_time: callStartTime ? callStartTime.toISOString() : null,
+                        end_time: callEndTime ? callEndTime.toISOString() : null
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('✅ Server notified successfully:', data);
+                    window.location.href = "{{ route('workspace.start') }}";
+                })
+                .catch(error => {
+                    console.error('❌ Error:', error);
+                    window.location.href = "{{ route('workspace.start') }}";
+                });
+                
+            } else {
+                console.error('❌ Jitsi API not initialized yet');
+                alert('Call ended. Redirecting...');
+                window.location.href = "{{ route('workspace.start') }}";
+            }
+        }
         
         const domain = "meet.jit.si";
         const options = {
@@ -133,10 +184,10 @@
                 displayName: userName
             },
             configOverwrite: {
-                disableDeepLinking: true, // Prevents the native app download prompt
+                disableDeepLinking: true,
                 branding: {
-                    showPoweredBy: false, // Removes the "Powered by Jitsi" text
-                } // Prevents the native app download prompt
+                    showPoweredBy: false,
+                }
             },
             interfaceConfigOverwrite: {
 
@@ -147,21 +198,48 @@
         };
         console.log(options);
         window.onload = () => {
-        const api = new JitsiMeetExternalAPI(domain, options);
+        jitsiApi = new JitsiMeetExternalAPI(domain, options);
 
-        api.addListener('readyToClose', function () {
+        
+        jitsiApi.addListener('videoConferenceJoined', function (event) {
+            console.log('🎥 Video conference joined by user:', event);
+            
+            callStartTime = new Date();
+            console.log('⏱️ Call started at:', callStartTime.toLocaleString());
+        });
+
+        jitsiApi.addListener('readyToClose', function () {
             console.log('The conference has ended');
+            
+            
+            callEndTime = new Date();
+            console.log('⏱️ Call ended at:', callEndTime.toLocaleString());
+            
+            
+            if (callStartTime && callEndTime) {
+                const durationMs = callEndTime - callStartTime;
+                totalDurationMinutes = Math.round(durationMs / (1000 * 60)); 
+                console.log('⏱️ Total call duration:', totalDurationMinutes, 'minutes');
+                console.log('⏱️ Duration breakdown:', {
+                    hours: Math.floor(totalDurationMinutes / 60),
+                    minutes: totalDurationMinutes % 60,
+                    totalMinutes: totalDurationMinutes
+                });
+            }
 
-            // Notify the server about the meeting end
+            // Notify the server about the meeting end with duration
             fetch("{{ route('participant.left') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}" // Protect against CSRF attacks
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}" 
                 },
                 body: JSON.stringify({
-                    user_id: "{{ Auth::user()->id }}", // Authenticated user's ID
-                    room_name: "{{ $roomName }}", // Room name or session info
+                    user_id: "{{ Auth::user()->id }}", 
+                    room_name: "{{ $roomName }}", 
+                    duration: totalDurationMinutes, 
+                    start_time: callStartTime ? callStartTime.toISOString() : null,
+                    end_time: callEndTime ? callEndTime.toISOString() : null
                 })
             })
             .then(response => {
@@ -171,22 +249,23 @@
                 return response.json();
             })
             .then(data => {
+                console.log('✅ Server notified successfully:', data);
                 
+                setTimeout(() => {
+                    window.location.href = "{{ route('workspace.start') }}";
+                }, 500);
             })
             .catch(error => {
-                console.error('Error ending meeting end notification:', error);
+                console.error('❌ Error sending meeting end notification:', error);
+                
+                setTimeout(() => {
+                    window.location.href = "{{ route('workspace.start') }}";
+                }, 1000);
             });
         });
 
-        api.addListener('participantJoined', function (participant) {
+        jitsiApi.addListener('participantJoined', function (participant) {
             console.log(`${participant.displayName} joined the meeting`);
-            document.getElementById('hangup-button').classList.remove('hidden');
-        });
-
-        // Hide the button if the meeting ends
-        api.addListener('readyToClose', function () {
-            console.log('The meeting has ended');
-            document.getElementById('hangup-button').classList.add('hidden');
         });
     }
 

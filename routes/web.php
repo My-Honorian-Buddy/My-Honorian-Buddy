@@ -197,7 +197,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/video-call/respond', [VideoCallController::class, 'respondToCall'])->name('video.call.respond');
     Route::post('/video-call/cancel', [VideoCallController::class, 'cancelCall'])->name('video.call.cancel');
 
-    Route::get('/video-call/ended', [VideoCallController::class, 'participantLeft'])->name('participant.left');
+    Route::post('/video-call/ended', [VideoCallController::class, 'participantLeft'])->name('participant.left');
     Route::get('/video-call/{roomName}', function ($roomName) {
         return view('components.vc.videocall', compact('roomName'));
     })->name('video.call.room');

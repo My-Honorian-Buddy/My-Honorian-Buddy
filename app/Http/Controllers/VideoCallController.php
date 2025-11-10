@@ -107,32 +107,78 @@ class VideoCallController extends Controller
             );
     }
 
-    public function participantLeft()
+    public function participantLeft(Request $request)
     {
+        Log::info('🎥 Video call ended - Request received', [
+            'user_id' => Auth::id(),
+            'request_data' => $request->all()
+        ]);
+
         $bookedSession = bookedSession::where('student_id', Auth::id())
             ->orWhere('tutor_id', Auth::id())
             ->first();
     
         if (!$bookedSession) {
+            Log::error('❌ No active session found for user:', ['user_id' => Auth::id()]);
             return response()->json(['error' => 'No active session found'], 404);
         }
-        if ($bookedSession->num_session == $bookedSession->total_session) {
 
-            return redirect()->route('workspace.start')->with('MeetEnded', 'You have left the video call room.' . ' ' . 'Cannot add any more session, total session already completed.' );
+        $newDuration = $request->input('duration', 0);
+        $startTime = $request->input('start_time');
+        $endTime = $request->input('end_time');
+
+        Log::info('⏱️ Duration data received', [
+            'session_id' => $bookedSession->id,
+            'new_duration_minutes' => $newDuration,
+            'current_duration_minutes' => $bookedSession->duration ?? 0,
+            'start_time' => $startTime,
+            'end_time' => $endTime
+        ]);
+
+        $currentDuration = $bookedSession->duration ?? 0;
+        $totalDuration = $currentDuration + $newDuration;
+        $bookedSession->duration = $totalDuration;
+
+        Log::info('⏱️ Updating session duration', [
+            'session_id' => $bookedSession->id,
+            'previous_duration' => $currentDuration,
+            'added_duration' => $newDuration,
+            'new_total_duration' => $totalDuration,
+            'duration_in_hours' => round($totalDuration / 60, 2)
+        ]);
+        
+        if ($bookedSession->num_session == $bookedSession->total_session) {
+            $bookedSession->save();
+            
+            Log::info('✅ All sessions completed', [
+                'session_id' => $bookedSession->id,
+                'total_duration' => $totalDuration
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Session duration updated. All sessions completed.',
+                'duration' => $totalDuration,
+                'redirect' => route('workspace.start')
+            ]);
         }
     
         $updatedBefore = $bookedSession->sesUpdate 
             ? Carbon::parse($bookedSession->sesUpdate)->format('F d, Y') 
             : null;
 
-        // Automatically update session if not already updated today
         if ($updatedBefore != now()->format('F d, Y') || $updatedBefore == null) {
-            // Increment the session count
             $bookedSession->num_session += 1;
             $bookedSession->sesUpdate = now()->toDateString();
             $bookedSession->save();
 
-            // Get tutor and update points
+            Log::info('✅ Session updated', [
+                'session_id' => $bookedSession->id,
+                'num_session' => $bookedSession->num_session,
+                'total_session' => $bookedSession->total_session,
+                'total_duration' => $totalDuration
+            ]);
+
             $tutor = Tutor::where('user_id', $bookedSession->tutor_id)->first();
             if ($tutor) {
                 $tutor->exp += 1;
@@ -140,7 +186,6 @@ class VideoCallController extends Controller
                 $tutor->points += $earnedPoints;
                 $tutor->save();
 
-                // Notify tutor about points
                 $pointsNotif = notifSession::create([
                     'notif_info' => json_encode([
                         'NotifType' => 'PointsUpdated',
@@ -156,7 +201,6 @@ class VideoCallController extends Controller
                 broadcast(new \App\Events\NewNotification($bookedSession->tutor_id, $pointsNotif));
             }
 
-            // Notify both student and tutor about session update
             $studentNotif = notifSession::create([
                 'notif_info' => json_encode([
                     'NotifType' => 'SessionUpdated',
@@ -185,19 +229,31 @@ class VideoCallController extends Controller
             ]);
             broadcast(new \App\Events\NewNotification($bookedSession->tutor_id, $tutorNotif));
 
-            // Check if all sessions are completed
             if ($bookedSession->num_session == $bookedSession->total_session) {
-                return redirect()->route('workspace.start')->with('MeetEnded', 'Session updated! All sessions completed.');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Session updated! All sessions completed.',
+                    'duration' => $totalDuration,
+                    'redirect' => route('workspace.start')
+                ]);
             }
+        } else {
+            $bookedSession->save();
+            
+            Log::info('⏱️ Duration updated without session count change', [
+                'session_id' => $bookedSession->id,
+                'reason' => 'Already updated today'
+            ]);
         }
         
-    
-        return redirect()->route('workspace.start')->with('MeetEnded', 'You have left the video call room. Session updated!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Session duration updated successfully.',
+            'duration' => $totalDuration,
+            'redirect' => route('workspace.start')
+        ]);
     }
 
-    /**
-     * Initiate a video call with notification
-     */
     public function initiateCall(Request $request)
     {
         $receiverId = $request->input('receiver_id');
@@ -269,7 +325,6 @@ class VideoCallController extends Controller
         $notifInfo = json_decode($notification->notif_info, true);
 
         if ($action === 'accept') {
-            // Notify the caller that the call was accepted
             $callerId = $notifInfo['caller_id'];
             $receiver = Auth::user();
             
@@ -288,7 +343,6 @@ class VideoCallController extends Controller
                 'read_at' => null,
             ]);
 
-            // Broadcast to caller
             broadcast(new NewNotification($callerId, $acceptNotif));
             
             return response()->json([

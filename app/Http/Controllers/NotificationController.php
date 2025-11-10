@@ -60,7 +60,10 @@ class NotificationController extends Controller
 
             $Tutor = Auth::user();
 
-            $bookedSession = bookedSession::where('tutor_id', $Tutor)->first();
+            // Check if tutor has an ACTIVE (not deleted/archived) session
+            $bookedSession = bookedSession::where('tutor_id', $Tutor->id)
+                ->whereNull('deleted_at')
+                ->first();
             if ($action === 'accept') {
 
                 $notification = notifSession::findOrFail($id);
@@ -69,7 +72,7 @@ class NotificationController extends Controller
                     $notification->update(['read_at' => now()]);
 
                     return redirect($PreviousUrl)->with([
-                        'cannotAccept' => 'You currently have a tutoring session.',
+                        'cannotAccept' => 'You currently have an active tutoring session.',
                     ]);
                 }
                 
@@ -302,8 +305,7 @@ class NotificationController extends Controller
 
                 return response()->json([
                     'success' => false,
-                    'message' => 'The other party has already disagreed. 
-                                Session not updated.',
+                    'message' => 'The other party has already disagreed. Session not updated.',
                 ]);
             }
     
@@ -352,10 +354,14 @@ class NotificationController extends Controller
 
                 if ($response->successful()) {
                     $bookedSession->is_completed = true;
+                    $bookedSession->status = 'completed';
+                    $bookedSession->save();
                 }
-                return response()->json(['success' => true, 
-                'message' => 'The tutoring session has been successfully updated and marked as completed.',
-                'next_step' => 'Please click the "Complete" button on the current session to officially end the session.',]);
+                return response()->json([
+                    'success' => true, 
+                    'message' => 'The tutoring session has been successfully updated and marked as completed.',
+                    'next_step' => 'Please click the "Complete" button on the current session to officially end the session.',
+                ]);
             }
             
             return response()->json(['success' => true, 'message' => 'Agreement recorded.']);
@@ -446,9 +452,18 @@ class NotificationController extends Controller
 
         if ($request->agree) {
             try {
-                // Mark session as completed
+                // Mark session as completed and update status
                 $bookedSession->is_completed = true;
+                $bookedSession->status = 'completed';
                 $bookedSession->save();
+
+                Log::info('Session marked as completed and will be archived (soft deleted)', [
+                    'session_id' => $bookedSession->id,
+                    'is_completed' => $bookedSession->is_completed,
+                    'status' => $bookedSession->status,
+                    'student_id' => $bookedSession->student_id,
+                    'tutor_id' => $bookedSession->tutor_id,
+                ]);
 
                 // Notify tutor of agreement
                 $tutorNotif = notifSession::create([
@@ -465,22 +480,18 @@ class NotificationController extends Controller
                 ]);
                 broadcast(new NewNotification($bookedSession->tutor_id, $tutorNotif));
 
+                $bookedSession->delete();
+                Log::info('Session archived (soft deleted) - visible to admin, both parties freed up', [
+                    'archived_session_id' => $bookedSession->id,
+                ]);
+
                 // Delete the notification
                 $notification->update(['read_at' => now()]);
                 $notification->delete();
 
-                // Delete the bookedSession
-                $bookedSession->delete();
-
-                Log::info('Session completed successfully', [
-                    'session_id' => $bookedSession->id,
-                    'student_id' => $bookedSession->student_id,
-                    'tutor_id' => $bookedSession->tutor_id,
-                ]);
-
                 return response()->json([
                     'success' => true,
-                    'message' => 'Session completed successfully!',
+                    'message' => 'Session completed successfully! Both you and your tutor can now book new sessions.',
                     'reload' => true
                 ]);
             } catch (Exception $e) {
