@@ -14,9 +14,9 @@
 <header class="sticky top-0 z-50 bg-accent shadow-md backdrop-blur border-b-2 border-black relative">
     <div class="w-full">
         <div class="grid xl:grid-cols-[1fr_2fr] bg-accent">
-            <div class="flex justify-center items-center w-2/5 lg:w-3/5 md:w-3/5 sm:w-3/5 sm:shrink-0 text-center ">
+            <div class="flex justify-center items-center w-full lg:w-3/5 md:w-3/5 sm:w-3/5 sm:shrink-0 text-center ">
                 <a href="{{ route('landing-page') }}">
-                    <img src="{{ asset('images/logo.svg') }}" alt="logo" class="mx-auto w-2/3">
+                    <img src="{{ asset('images/logo.svg') }}" alt="logo" class="mx-auto w-1/3 md:w-2/3">
                 </a>
             </div>
 
@@ -24,7 +24,7 @@
                 <header class="md:flex md:justify-between md:items-center">
                     <div class="flex justify-center md:items-center font-black md:h-[75px] md:space-x-2 p-3">
                         <nav
-                            class="font-dela md:space-x-9 sm:space-x-14 md:items-center text-charcoal text-base mr-8 ml-8">
+                            class="font-dela md:space-x-9 space-x-2 md:items-center text-charcoal text-base md:text-lg md:mx-8">
                             <a href="{{ route('workspace.start') }}"
                                 class="transition ease-in-out hover:text-primary hover:underline">WORKSPACE</a>
 
