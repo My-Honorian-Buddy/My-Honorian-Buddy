@@ -5,6 +5,7 @@
     use App\Models\Tutor;
 
     $tutor = Tutor::where('user_id', '1')->first();
+    $totalAverageRating = 0;
 
     $reviews = Review::all();
 @endphp
@@ -308,10 +309,13 @@
                                     @json($user->tutor->department),
                                     @json($user->tutor->gender),
                                     @json($user->tutor->address),
-                                    @json($user->tutor->id)
+                                    @json($user->tutor->id),
+                                    @json ($user->schedule->start_time ?? null),
+                                    @json ($user->schedule->end_time ?? null)
                                 )'>
                                 <div class="flex items-center gap-4">
-                                    <img alt="" src="{{ $user->profile_pic }}" class="size-20 rounded object-cover" />
+                                    <img alt="" src="{{ $user->profile_pic }}"
+                                        class="size-20 rounded object-cover" />
 
                                     <div>
                                         <h3 class="font-medium text-gray-900 sm:text-lg">
@@ -335,10 +339,17 @@
                                             <span class="h-px flex-1 bg-charcoal"></span>
                                         </span>
 
+                                        @foreach ($user->tutor->review as $review)
+                                            @php
+                                                $totalAverageRating += $review->rating;
+                                            @endphp
+                                        @endforeach
+
                                         <div class="mt-0.5 text-yellow-500">
                                             <x-bladewind.icon name="star" type="solid" />
-                                            <span class="text-gray-700">{{ $user->tutor->rating }}
-                                                ({{ $user->tutor->NoOfReviews }})
+                                            <span class="text-gray-700">
+                                                {{ number_format(count($user->tutor->review) > 0 ? $totalAverageRating / count($user->tutor->review) : 0, 1) }}
+                                                ({{ count($user->tutor->review) }})
                                             </span>
                                         </div>
                                     </div>
@@ -385,7 +396,8 @@
                                 A student already booked this tutor.
                             </div>
                         @else
-                            <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}" data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
+                            <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}"
+                                data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
                                 <x-set-appointment />
                             </div>
                         @endif
@@ -431,7 +443,12 @@
                         </div>
                         <div>
                             <p class="font-bold text-primary text-[16px]">Schedule</p>
-                            <div class="grid grid-cols-3 gap-4 mt-2" id="tutor-days"></div>
+                            <div
+                                class="inline-flex justify-center items-center rounded-full bg-primary/5 
+                                border-2 text-primary font-bold w-full px-4 py-0.5 mb-2 border-primary/50">
+                                <p class="" id="tutor-time">-</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2" id="tutor-days"></div>
                         </div>
                     </div>
 
@@ -459,10 +476,10 @@
 
         <script>
             function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
-                address, tutorId) {
-                
+                address, tutorId, startTime, endTime) {
+
                 console.log('Opening modal for tutor ID:', tutorId);
-                
+
                 // Update the set-appointment wrapper with the correct tutor ID
                 const wrapper = document.getElementById('set-appointment-wrapper');
                 if (wrapper && tutorId) {
@@ -470,7 +487,7 @@
                     wrapper.setAttribute('data-tutor-subjects', JSON.stringify(subjects));
                     console.log('Updated wrapper with tutor ID:', tutorId);
                 }
-                
+
                 document.getElementById('tutor-name').textContent = fname + ' ' + lname;
                 document.getElementById('profile-pic').src = profilePic;
                 document.getElementById('tutor-year-level').textContent = year_level + ' ' + department;
@@ -486,21 +503,41 @@
                         const div = document.createElement('div');
                         div.textContent = day;
                         div.classList.add(
-                            'text-primary',
-                            'text-[15px]',
-                            'bg-accent2',
-                            'max-w-[155px]',
-                            'font-bold',
+                            'inline-flex',
+                            'justify-center',
+                            'items-center',
+                            'px-2.5',
+                            'py-1',
                             'rounded-full',
+                            'min-w-[80px]',
+                            'md:min-w-[100px]',
+                            'max-w-[150px]',
+                            'md:max-w-[175px]',
+                            'bg-primary/5',
                             'border-2',
-                            'border-black',
-                            'text-center',
-                            'p-2',
-                            'mb-2');
+                            'text-primary',
+                            'font-bold',
+                            'border-primary/50');
                         daysList.appendChild(div);
                     });
                 } else {
                     daysList.innerHTML = '<div>No schedule available</div>';
+                }
+
+
+                const timeElement = document.getElementById('tutor-time');
+                if (startTime && endTime) {
+                    // Format time to h:i A format (12-hour with AM/PM)
+                    const formatTime = (timeStr) => {
+                        const [hours, minutes] = timeStr.split(':');
+                        const hour = parseInt(hours, 10);
+                        const ampm = hour >= 12 ? 'PM' : 'AM';
+                        const displayHour = hour % 12 || 12;
+                        return `${displayHour}:${minutes} ${ampm}`;
+                    };
+                    timeElement.textContent = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+                } else {
+                    timeElement.textContent = '-';
                 }
 
                 const subjectsList = document.getElementById('tutor-subjects');
@@ -522,18 +559,90 @@
                 reviewsList.innerHTML = '';
 
                 if (Array.isArray(reviews) && reviews.length > 0) {
-                    reviews.forEach(review => {
-                        const div = document.createElement('div');
-                        div.innerHTML = `
-                        <div>
-                            <span class="font-bold">${review.student?.fname ?? 'Anonymous'} ${review.student?.lname ?? ''}</span>
-                            
-                            <span class="ml-2 text-yellow-500">★ ${review.rating}</span>
-                            <p class="italic">"${review.comment}"</p>
-                        </div>
-                    `;
-                        reviewsList.appendChild(div);
-                    });
+                    let currentPage = 0;
+                    const reviewsPerPage = 2;
+                    const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
+                    const renderReviews = (page) => {
+                        const container = document.getElementById('tutor-reviews-container');
+                        container.innerHTML = '';
+
+                        const startIdx = page * reviewsPerPage;
+                        const endIdx = startIdx + reviewsPerPage;
+                        const pageReviews = reviews.slice(startIdx, endIdx);
+
+                        pageReviews.forEach(review => {
+                            const div = document.createElement('div');
+                            div.innerHTML = `
+                            <div>
+                                <span class="text-lg font-bold">${review.student?.fname ?? 'Anonymous'} ${review.student?.lname ?? ''}</span>
+                                
+                                <span class="ml-2 text-yellow-500">★ ${review.rating}</span>
+                                <p class=" font-light italic">"${review.comment}"</p>
+
+                                <span class="flex my-1 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
+                            </div>
+                        `;
+                            container.appendChild(div);
+                        });
+                    };
+
+                    const container = document.createElement('div');
+                    container.id = 'tutor-reviews-container';
+                    reviewsList.appendChild(container);
+
+                    // Only show pagination if more than 2 reviews
+                    if (reviews.length > reviewsPerPage) {
+                        const paginationDiv = document.createElement('div');
+                        paginationDiv.className = 'flex justify-between items-center mt-4';
+
+                        const leftBtn = document.createElement('button');
+                        leftBtn.innerHTML = '← Left';
+                        leftBtn.className =
+                            'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
+                        leftBtn.onclick = () => {
+                            if (currentPage > 0) {
+                                currentPage--;
+                                renderReviews(currentPage);
+                                updateButtonStates();
+                            }
+                        };
+
+                        const pageIndicator = document.createElement('span');
+                        pageIndicator.id = 'page-indicator';
+                        pageIndicator.className = 'font-bold text-primary';
+
+                        const rightBtn = document.createElement('button');
+                        rightBtn.innerHTML = 'Right →';
+                        rightBtn.className =
+                            'px-4 py-2 border-2 border-primary bg-primary text-white rounded font-bold hover:text-primary hover:bg-accent transition';
+                        rightBtn.onclick = () => {
+                            if (currentPage < totalPages - 1) {
+                                currentPage++;
+                                renderReviews(currentPage);
+                                updateButtonStates();
+                            }
+                        };
+
+                        const updateButtonStates = () => {
+                            leftBtn.disabled = currentPage === 0;
+                            rightBtn.disabled = currentPage === totalPages - 1;
+                            pageIndicator.textContent = `${currentPage + 1} / ${totalPages}`;
+                            leftBtn.style.opacity = currentPage === 0 ? '0.5' : '1';
+                            rightBtn.style.opacity = currentPage === totalPages - 1 ? '0.5' : '1';
+                        };
+
+                        paginationDiv.appendChild(leftBtn);
+                        paginationDiv.appendChild(pageIndicator);
+                        paginationDiv.appendChild(rightBtn);
+                        reviewsList.appendChild(paginationDiv);
+
+                        updateButtonStates();
+                    }
+
+                    renderReviews(0);
                 } else {
                     reviewsList.innerHTML = '<div>No reviews available</div>';
                 }
