@@ -10,13 +10,10 @@ class ListBannedSessionArchives extends ListRecords
 {
     protected static string $resource = BannedSessionArchiveResource::class;
 
-    // Enable real-time polling - auto-refresh every 5 seconds
-    protected $pollingInterval = '5s';
-
-    public function getPollingInterval(): ?string
-    {
-        return $this->pollingInterval;
-    }
+    /**
+     * Refresh the page every 5 seconds to show real-time updates
+     */
+    protected static ?string $pollingInterval = '5s';
 
     protected function getHeaderActions(): array
     {

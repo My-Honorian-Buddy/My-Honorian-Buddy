@@ -10,13 +10,10 @@ class ListSubjects extends ListRecords
 {
     protected static string $resource = SubjectResource::class;
 
-    // Enable real-time polling - auto-refresh every 3 seconds
-    protected $pollingInterval = '3s';
-
-    public function getPollingInterval(): ?string
-    {
-        return $this->pollingInterval;
-    }
+    /**
+     * Refresh the page every 5 seconds to show real-time updates
+     */
+    protected static ?string $pollingInterval = '5s';
 
     protected function getHeaderActions(): array
     {
