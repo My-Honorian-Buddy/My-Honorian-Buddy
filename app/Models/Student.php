@@ -43,7 +43,8 @@ class Student extends Model
 
     public function bookedsessions(): HasOne
     {
-        return $this->hasOne(bookedSession::class, 'student_id', 'user_id');
+        return $this->hasOne(bookedSession::class, 'student_id', 'user_id')
+            ->whereNull('deleted_at'); // Exclude archived sessions
     }
 
     public function review(): HasMany //Reviewer

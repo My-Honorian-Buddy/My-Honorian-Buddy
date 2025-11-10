@@ -50,7 +50,8 @@ class Tutor extends Model
 
     public function bookedsessions(): HasOne
     {
-        return $this->hasOne(bookedSession::class, 'tutor_id', 'user_id');
+        return $this->hasOne(bookedSession::class, 'tutor_id', 'user_id')
+            ->whereNull('deleted_at'); // Exclude archived sessions
     }
 
     public function review(): HasMany 

@@ -25,6 +25,7 @@ class VideoCallController extends Controller
         
         $bookedSession = bookedSession::where('student_id', Auth::id())
             ->orWhere('tutor_id', Auth::id())
+            ->whereNull('deleted_at') // Exclude archived sessions
             ->first();
 
         if (!$bookedSession) {
@@ -116,6 +117,7 @@ class VideoCallController extends Controller
 
         $bookedSession = bookedSession::where('student_id', Auth::id())
             ->orWhere('tutor_id', Auth::id())
+            ->whereNull('deleted_at') // Exclude archived sessions
             ->first();
     
         if (!$bookedSession) {
@@ -264,7 +266,9 @@ class VideoCallController extends Controller
             $query->where('student_id', Auth::id())->where('tutor_id', $receiverId);
         })->orWhere(function($query) use ($receiverId) {
             $query->where('tutor_id', Auth::id())->where('student_id', $receiverId);
-        })->first();
+        })
+        ->whereNull('deleted_at') // Exclude archived sessions
+        ->first();
 
         if (!$bookedSession) {
             return response()->json(['success' => false, 'message' => 'No session found'], 404);

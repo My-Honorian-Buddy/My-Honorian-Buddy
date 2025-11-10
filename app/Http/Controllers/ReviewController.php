@@ -25,6 +25,7 @@ class ReviewController extends Controller
 
         $bookedSession = bookedSession::where('student_id', Auth::user()->id)
         ->where('tutor_id', $validated['tutor_id'])
+        ->whereNull('deleted_at') // Exclude archived sessions
         ->first();
 
         if (!$bookedSession) {
