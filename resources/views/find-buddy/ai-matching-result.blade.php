@@ -345,12 +345,31 @@
                                             @endphp
                                         @endforeach
 
-                                        <div class="mt-0.5 text-yellow-500">
-                                            <x-bladewind.icon name="star" type="solid" />
-                                            <span class="text-gray-700">
-                                                {{ number_format(count($user->tutor->review) > 0 ? $totalAverageRating / count($user->tutor->review) : 0, 1) }}
-                                                ({{ count($user->tutor->review) }})
-                                            </span>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex justify-start space-x-4">
+                                                <div
+                                                    class=" my-1 py-1 px-2 rounded-full border-2 border-gray-700 text-gray-700 text-[20px] text-center font-bold">
+                                                    <p class="font-bold text-sm">
+                                                        @if ($user->tutor->exp === 0)
+                                                            No Experience Yet!
+                                                        @else
+                                                            @if ($user->tutor->exp > 9)
+                                                                9+
+                                                            @else
+                                                                {{ $user->tutor->exp }}
+                                                            @endif
+                                                            Session Completed
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-0.5 text-yellow-500">
+                                                <x-bladewind.icon name="star" type="solid" />
+                                                <span class="text-gray-700">
+                                                    {{ number_format(count($user->tutor->review) > 0 ? $totalAverageRating / count($user->tutor->review) : 0, 1) }}
+                                                    ({{ count($user->tutor->review) }})
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
