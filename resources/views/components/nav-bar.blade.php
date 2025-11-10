@@ -57,15 +57,14 @@
                                 <div class="relative">
                                     <x-bladewind.bell id="bell" size="small" color="red"
                                         class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-hover border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
-                                        show_dot="false"
-                                        animate_dot="false" />
-                                    
+                                        show_dot="false" animate_dot="false" />
+
                                     <!-- Red notification badge with counter -->
-                                    @if($hasNotification)
-                                    <span id="notification-badge" 
-                                        class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
-                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
-                                    </span>
+                                    @if ($hasNotification)
+                                        <span id="notification-badge"
+                                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
+                                            {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                        </span>
                                     @endif
                                 </div>
                             </x-slot>
@@ -181,7 +180,6 @@
 
 
 <script>
- 
     const editButton = document.getElementById('edit-button');
     const bulkActions = document.getElementById('bulk-actions');
     const bell = document.getElementById("bell");
@@ -189,14 +187,15 @@
     // Function to update notification badge
     function updateNotificationBadge(count) {
         let badge = document.getElementById('notification-badge');
-        
+
         if (count > 0) {
             if (!badge) {
                 // Create badge if it doesn't exist
                 const bellContainer = bell.closest('.relative');
                 badge = document.createElement('span');
                 badge.id = 'notification-badge';
-                badge.className = 'absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white';
+                badge.className =
+                    'absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white';
                 bellContainer.appendChild(badge);
             }
             badge.textContent = count > 9 ? '9+' : count;
@@ -225,7 +224,7 @@
     let previousUnreadCount = 0;
     const notificationSound = new Audio('/sounds/chatify/new-message-sound.mp3');
     notificationSound.volume = 0.5; // Set volume to 50%
-    
+
     function playNotificationSound() {
         notificationSound.currentTime = 0; // Reset to start
         notificationSound.play().catch(error => {
@@ -237,7 +236,7 @@
     function loadNotifications(playSound = false) {
         console.log('[loadNotifications] Starting to load notifications...');
         const notifContainer = document.querySelector('.bladewind-dropmenunotif');
-        
+
         if (!notifContainer) {
             console.error('[loadNotifications] Notification container not found!');
             return;
@@ -251,7 +250,7 @@
 
         const url = '{{ route('user.notifications') }}';
         console.log('[loadNotifications] Fetching from URL:', url);
-        
+
         fetch(url)
             .then(response => {
                 console.log('[loadNotifications] Response status:', response.status);
@@ -275,14 +274,14 @@
                 // Count unread notifications
                 const unreadCount = notifications.filter(n => n.read_at === null).length;
                 console.log('[loadNotifications] Unread count:', unreadCount);
-                
+
                 // Play sound if there are new notifications and playSound is true
                 if (playSound && unreadCount > previousUnreadCount && unreadCount > 0) {
                     console.log('🔔 Playing notification sound - new notifications detected');
                     playNotificationSound();
                 }
                 previousUnreadCount = unreadCount;
-                
+
                 // Update the notification badge with count
                 updateNotificationBadge(unreadCount);
 
@@ -292,10 +291,11 @@
                         <li class="px-4 py-2 text-gray-500">No new notifications.</li>
                     `;
                 } else {
-                    console.log("[loadNotifications] Processing", notifications.length, "notifications:", notifications);
+                    console.log("[loadNotifications] Processing", notifications.length, "notifications:",
+                        notifications);
                     notifications.forEach(notification => {
                         const info = JSON.parse(notification.notif_info);
-                        const bgClass = notification['read_at'] === null ? 'bg-[#FFFCEF]' : 'bg-secondary';
+                        const bgClass = notification['read_at'] === null ? 'bg-secondary' : 'bg-accent';
                         const fontClass = notification['read_at'] === null ? 'font-black' : 'font-semibold';
                         const dateColor = notification['read_at'] === null ? 'text-primary' :
                             'text-gray-400';
@@ -310,20 +310,22 @@
                         if (info['NotifType'] === "SessionReminder") {
                             // Only play alarm and show toast for UNREAD notifications
                             if (notification.read_at === null) {
-                                console.log('🔔 New SessionReminder notification detected:', notification.id);
-                                
+                                console.log('🔔 New SessionReminder notification detected:', notification
+                                    .id);
+
                                 // Play alarm sound and store it globally so we can stop it later
                                 if (!window.sessionReminderAlarms) {
                                     window.sessionReminderAlarms = {};
                                 }
-                                
+
                                 // Only play if not already playing for this notification
                                 if (!window.sessionReminderAlarms[notification.id]) {
                                     const alarmSound = new Audio('/sounds/alarm-sound.mp3');
                                     alarmSound.loop = true; // Loop the alarm until dismissed
                                     alarmSound.volume = 0.7;
-                                    alarmSound.play().catch(err => console.error('Failed to play alarm:', err));
-                                    
+                                    alarmSound.play().catch(err => console.error('Failed to play alarm:',
+                                        err));
+
                                     // Store the alarm with notification ID so we can stop it when closing toast
                                     window.sessionReminderAlarms[notification.id] = alarmSound;
                                     console.log('🔊 Alarm started for notification:', notification.id);
@@ -332,11 +334,12 @@
                                 // Show persistent toast notification (only if unread)
                                 showSessionReminderToast(notification.id, info);
                             } else {
-                                console.log('📭 SessionReminder already read, skipping alarm/toast:', notification.id);
+                                console.log('📭 SessionReminder already read, skipping alarm/toast:',
+                                    notification.id);
                             }
 
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-charcoal transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="${fontClass}">
                                         <p class="font-semibold">⏰ Session Starting Soon!</p>
@@ -347,10 +350,10 @@
                                     </div>
                                 </li>
                             `;
-                        // Check if NotifType is "Tutor Request"
+                            // Check if NotifType is "Tutor Request"
                         } else if (info['NotifType'] === "Tutor Request") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer">
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer">
                                     <div class="flex justify-between" onclick="markRead(${notification.id})">
                                         <div class="${fontClass}">
                                             <p>${info['NotifType'] || 'Notification'}</p>
@@ -363,30 +366,19 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div> 
                                     
                                     <div class="flex space-x-2 mt-2">
-                                        <!-- Accept Form -->
-                                        <form action="/notifications/tutor-request/${notification.id}" method="POST" class="inline-block">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="action" value="accept">
-                                            <input type="hidden" id="previous_url" value="{{ url()->previous() }}">
-                                            <button 
-                                                type="submit" 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]">
-                                                Accept
-                                            </button>
-                                        </form>
 
                                         <!-- Reject Form -->
                                         <form action="/notifications/tutor-request/${notification.id}" method="POST" class="inline-block">
@@ -395,18 +387,32 @@
                                             <input type="hidden" id="previous_url" value="{{ url()->previous() }}">
                                             <button 
                                                 type="submit" 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]">
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95">
                                                 Reject
                                             </button>
                                         </form>
+
+                                        <!-- Accept Form -->
+                                        <form action="/notifications/tutor-request/${notification.id}" method="POST" class="inline-block">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="action" value="accept">
+                                            <input type="hidden" id="previous_url" value="{{ url()->previous() }}">
+                                            <button 
+                                                type="submit" 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95">
+                                                Accept
+                                            </button>
+                                        </form>
                                     </div>
-                                    
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "Tutor Request Accepted" || info['NotifType'] ===
                             "Tutor Request Rejected") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b  border-black transition-colors duration-200 cursor-pointer" 
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer" 
                                 onclick="markRead(${notification.id})">
                                 <div class="flex justify-between">
                                     <div class="${fontClass}">
@@ -418,22 +424,25 @@
                                     </div>    
                                     <div class="hidden notification-actions self-center space-x-2">
                                         <button 
-                                            class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                            onclick="markAsRead(${notification.id})">
-                                            ✔
-                                        </button>
-                                        <button 
-                                            class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                            onclick="deleteNotification(${notification.id})">
-                                            ✖
-                                        </button>
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
+                                            </button>
                                     </div>
                                 </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "AddNumSession") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -444,36 +453,40 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                         <div class="flex space-x-2 mt-2">
-                                            <button 
-                                                id="agree-btn-${notification.id}"
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"  
-                                                onclick="this.disabled=true; document.getElementById('reject-btn-${notification.id}').disabled=true; handleConfirmation(${notification.id}, true)">
-                                                Agree
-                                            </button>
+                                            
                                             <button 
                                                 id="reject-btn-${notification.id}"
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="this.disabled=true; document.getElementById('agree-btn-${notification.id}').disabled=true; handleConfirmation(${notification.id}, false)">
                                                 Reject
                                             </button>
+                                            <button 
+                                                id="agree-btn-${notification.id}"
+                                                class="bg-accent text-green-900 hover:bg-green-700 px-3 py-1 rounded-sm transition active:scale-95"  
+                                                onclick="this.disabled=true; document.getElementById('reject-btn-${notification.id}').disabled=true; handleConfirmation(${notification.id}, true)">
+                                                Agree
+                                            </button>
                                         </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionDisagreed") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -483,22 +496,25 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionUpdated") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -509,22 +525,25 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionDidNotUpdate") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -540,25 +559,28 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionDropRequested") {
                             const requesterRole = info['requester_role'] || 'Student';
                             const requesterName = info['requester_name'] || 'Someone';
-                            
+
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -575,7 +597,7 @@
                                             <input type="hidden" name="accept" value="true">
                                             <button 
                                                 type="submit"
-                                                class="bg-green-600 text-white px-4 py-2 rounded-md border-2 border-black transition active:scale-95 hover:bg-green-700 hover:scale-[1.05]">
+                                                class="bg-green-900 text-white px-4 py-2 rounded-sm transition active:scale-95 hover:bg-green-700">
                                                 ✓ Accept & Drop Session
                                             </button>
                                         </form>
@@ -586,18 +608,21 @@
                                             <input type="hidden" name="accept" value="false">
                                             <button 
                                                 type="submit"
-                                                class="bg-red-600 text-white px-4 py-2 rounded-md border-2 border-black transition active:scale-95 hover:bg-red-700 hover:scale-[1.05]">
+                                                class="bg-red-900 text-white px-4 py-2 rounded-sm transition active:scale-95 hover:bg-red-700">
                                                 ✗ Deny Request
                                             </button>
                                         </form>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionDropped") {
                             const droppedBy = info['dropped_by'] || 'the other party';
-                            
+
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -606,27 +631,30 @@
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <div class="notification-actions self-center space-x-2">
+                                            <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                    onclick="markAsRead(${notification.id})">
-                                                    ✔
-                                                </button>
-                                                <button 
-                                                    class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="deleteNotification(${notification.id})">
                                                     ✖
+                                                </button>
+                                                <button 
+                                                    class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="markAsRead(${notification.id})">
+                                                    ✔
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionDropRequestDenied") {
                             const deniedBy = info['denied_by'] || 'the other party';
-                            
+
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -636,27 +664,30 @@
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <div class="notification-actions self-center space-x-2">
+                                            <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                    onclick="markAsRead(${notification.id})">
-                                                    ✔
-                                                </button>
-                                                <button 
-                                                    class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="deleteNotification(${notification.id})">
                                                     ✖
+                                                </button>
+                                                <button 
+                                                    class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="markAsRead(${notification.id})">
+                                                    ✔
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "CallAccepted") {
                             const accepterName = info['accepter_name'] || 'User';
-                            
+
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -664,14 +695,31 @@
                                             <p class="text-sm text-gray-500">${accepterName} has accepted your call</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
+                                        <div class="flex space-x-2">
+                                            <div class="hidden notification-actions self-center space-x-2">
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
+                                                </button>
+                                                <button 
+                                                    class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="markAsRead(${notification.id})">
+                                                    ✔
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "CallDeclined") {
                             const declinerName = info['decliner_name'] || 'User';
-                            
+
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -679,26 +727,62 @@
                                             <p class="text-sm text-gray-500">${declinerName} has declined your call</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
+                                        <div class="flex space-x-2">
+                                            <div class="hidden notification-actions self-center space-x-2">
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
+                                                </button>
+                                                <button 
+                                                    class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="markAsRead(${notification.id})">
+                                                    ✔
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "IncomingCall") {
                             const callerName = info['caller_name'] || 'User';
                             const roomName = info['room_name'] || '';
-                            
+
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
-                                    <div class="${fontClass}">
-                                        <p class="font-semibold">📞 Incoming Call</p>
-                                        <p class="text-sm text-gray-500">${callerName} is calling you</p>
-                                        <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">📞 Incoming Call</p>
+                                            <p class="text-sm text-gray-500">${callerName} is calling you</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <div class="hidden notification-actions self-center space-x-2">
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
+                                                </button>
+                                                <button 
+                                                    class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="markAsRead(${notification.id})">
+                                                    ✔
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionCompletionRequest") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -707,37 +791,59 @@
                                             <p class="text-sm text-gray-500">Session: ${info['num_session']} of ${info['total_session']}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
-                                    </div>
-                                    <div class="flex space-x-2 mt-2">
-                                        <button 
-                                            id="completion-agree-btn-${notification.id}"
-                                            class="bg-green-600 text-white px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"  
-                                            onclick="this.disabled=true; document.getElementById('completion-disagree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, true)">
-                                            Agree
-                                        </button>
-                                        <button 
-                                            id="completion-disagree-btn-${notification.id}"
-                                            class="bg-red-600 text-white hover:bg-red-700 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                            onclick="this.disabled=true; document.getElementById('completion-agree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, false)">
-                                            Disagree
-                                        </button>
+                                        <div class="flex space-x-2 mt-2">
+                                            <button 
+                                                id="completion-agree-btn-${notification.id}"
+                                                class="bg-green-900 hover:bg-green-700 text-white px-3 py-1 rounded-md border-2 border-black transition active:scale-95"  
+                                                onclick="this.disabled=true; document.getElementById('completion-disagree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, true)">
+                                                Agree
+                                            </button>
+                                            <button 
+                                                id="completion-disagree-btn-${notification.id}"
+                                                class="bg-red-900 hover:bg-red-700 text-white px-3 py-1 rounded-md border-2 border-black transition active:scale-95"
+                                                onclick="this.disabled=true; document.getElementById('completion-agree-btn-${notification.id}').disabled=true; handleSessionCompletionResponse(${notification.id}, false)">
+                                                Disagree
+                                            </button>
+                                        </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "CompleteSession") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
-                                    <div class="${fontClass}">
-                                        <p class="font-semibold">✅ Session Completed</p>
-                                        <p class="text-sm text-gray-500">${info['message'] || 'The student has confirmed. Session completed successfully!'}</p>
-                                        <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">✅ Session Completed</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || 'The student has confirmed. Session completed successfully!'}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <div class="hidden notification-actions self-center space-x-2">
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
+                                                </button>
+                                                <button 
+                                                    class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="markAsRead(${notification.id})">
+                                                    ✔
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "SessionCompletionDenied") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -747,22 +853,25 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "BanRequest") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -771,19 +880,22 @@
                                             <p class="text-sm text-red-600 font-medium mt-1">Reason: ${info['ban_reason'] || 'No reason provided'}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
-                                    </div>
-                                    <div class="flex space-x-2 mt-2">
-                                        <button 
-                                            class="bg-yellow-600 text-white px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                            onclick="openReportModal(${info['session_id']}, ${notification.id})">
-                                            Submit Report
-                                        </button>
+                                        <div class="flex space-x-2 mt-2">
+                                            <button 
+                                                class="bg-yellow-900 hover:bg-yellow-700 text-white px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="openReportModal(${info['session_id']}, ${notification.id})">
+                                                Submit Report
+                                            </button>
+                                        </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "PointsUpdated") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -794,22 +906,25 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         } else if (info['NotifType'] === "CorVerification") {
                             notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-black transition-colors duration-200 cursor-pointer"
+                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -825,18 +940,21 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-accent2 text-primary px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
-                                                onclick="markAsRead(${notification.id})">
-                                                ✔
-                                            </button>
-                                            <button 
-                                                class="bg-primary text-accent2 hover:bg-red-900 px-3 py-1 rounded-md border-2 border-black transition active:scale-95 hover:scale-[1.1]"
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="deleteNotification(${notification.id})">
                                                 ✖
+                                            </button>
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
                                             </button>
                                         </div>
                                     </div>
                                 </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
                             `;
                         }
                     });
@@ -850,7 +968,7 @@
                 `;
             });
     }
-    
+
     // Make loadNotifications globally accessible for echo.js
     window.fetchUserNotifications = loadNotifications;
 
@@ -1010,8 +1128,11 @@
     }
 
     function handleConfirmation(notificationId, agree) {
-        console.log('🔔 handleConfirmation called', {notificationId, agree});
-        
+        console.log('🔔 handleConfirmation called', {
+            notificationId,
+            agree
+        });
+
         fetch(`/notifications/session-confirm/${notificationId}`, {
                 method: 'POST',
                 headers: {
@@ -1031,11 +1152,11 @@
             })
             .then(data => {
                 console.log('✅ Session confirmation response:', data);
-                
+
                 if (data.success) {
                     console.log('✅ Success:', data.message);
                     loadNotifications();
-                    
+
                     // If session is completed, reload the page
                     if (data.reload === true) {
                         console.log('🔄 Session completed! Reloading page in 2 seconds...');
@@ -1054,8 +1175,11 @@
     }
 
     function handleSessionCompletionResponse(notificationId, agree) {
-        console.log('🔔 handleSessionCompletionResponse called', {notificationId, agree});
-        
+        console.log('🔔 handleSessionCompletionResponse called', {
+            notificationId,
+            agree
+        });
+
         fetch(`/notifications/session-completion-confirm/${notificationId}`, {
                 method: 'POST',
                 headers: {
@@ -1075,11 +1199,11 @@
             })
             .then(data => {
                 console.log('✅ Session completion response:', data);
-                
+
                 if (data.success) {
                     console.log('✅ Success:', data.message);
                     loadNotifications();
-                    
+
                     // If session is completed, reload the page
                     if (data.reload === true) {
                         console.log('🔄 Session completed! Reloading page in 2 seconds...');
@@ -1162,15 +1286,15 @@
                 </div>
             </div>
         `;
-        
+
         // Add modal to body
         document.body.insertAdjacentHTML('beforeend', modalHtml);
-        
+
         // Add image preview functionality
         document.getElementById('reportImages').addEventListener('change', function(e) {
             const preview = document.getElementById('imagePreview');
             preview.innerHTML = '';
-            
+
             Array.from(e.target.files).forEach(file => {
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
@@ -1196,37 +1320,37 @@
 
     function submitReport(event, sessionId, notificationId) {
         event.preventDefault();
-        
+
         const formData = new FormData();
         formData.append('session_id', sessionId);
         formData.append('report_text', document.getElementById('reportText').value);
-        
+
         const images = document.getElementById('reportImages').files;
         for (let i = 0; i < images.length; i++) {
             formData.append('images[]', images[i]);
         }
-        
+
         fetch('/tutor/submit-ban-report', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                closeReportModal();
-                loadNotifications();
-                showToast('Report submitted successfully!', 'success');
-            } else {
-                showToast('Error submitting report: ' + data.message, 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showToast('Error submitting report. Please try again.', 'error');
-        });
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closeReportModal();
+                    loadNotifications();
+                    showToast('Report submitted successfully!', 'success');
+                } else {
+                    showToast('Error submitting report: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error submitting report. Please try again.', 'error');
+            });
     }
 
     // Toast notification function
@@ -1234,7 +1358,7 @@
         const toastId = 'toast-' + Date.now();
         const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
         const icon = type === 'success' ? '✓' : '✕';
-        
+
         const toastHtml = `
             <div id="${toastId}" 
                  class="fixed top-20 right-4 z-50 ${bgColor} text-white px-6 py-4 rounded-lg shadow-2xl border-2 border-white max-w-md transform transition-all duration-300 ease-in-out">
@@ -1252,9 +1376,9 @@
                 </div>
             </div>
         `;
-        
+
         document.body.insertAdjacentHTML('beforeend', toastHtml);
-        
+
         // Auto-remove after 5 seconds
         setTimeout(() => {
             const toast = document.getElementById(toastId);
@@ -1267,7 +1391,7 @@
 
 
     document.addEventListener('DOMContentLoaded', loadNotifications, );
-    
+
     // Session reminder toast function
     function showSessionReminderToast(notificationId, info) {
         // Check if toast already exists to prevent duplicates
@@ -1349,20 +1473,21 @@
             loadNotifications(); // Refresh notification list
         }).catch(err => console.error('Failed to mark notification as read:', err));
     }
-    
-    
+
+
     setTimeout(() => {
         const currentUserId = document.querySelector('meta[name="user-id"]')?.content;
-        
+
         if (currentUserId && typeof window.Echo !== 'undefined') {
             console.log('[Notification System] Setting up listener for user.' + currentUserId);
-            
+
             window.Echo.private(`user.${currentUserId}`)
                 .listen('NewNotification', (e) => {
-                    console.log('[Notification System] New notification received, reloading notifications list');
+                    console.log(
+                        '[Notification System] New notification received, reloading notifications list');
                     loadNotifications(true); // Play sound for new notifications
-                    
-                    
+
+
                     const bell = document.getElementById("bell");
                     if (bell) {
                         bell.setAttribute("show_dot", "true");
