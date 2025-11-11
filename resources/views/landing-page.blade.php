@@ -79,13 +79,13 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-16 sm:py-20 lg:py-28">
                 <div>
-                    <p class="text-sm uppercase tracking-widest text-accent3/70">Focused. Accountable. Together.</p>
+                    <p class="text-sm uppercase tracking-widest text-accent3/70">Focused. Empowered. Together.</p>
                     <h1 class="font-dela mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
                         Your Study Adventure Begins Here!
                     </h1>
                     <p class="mt-5 text-base sm:text-lg text-accent3/80 max-w-prose">
-                        Find the right study buddy, stay accountable, and reach your goals with a platform designed for
-                        productive collaboration.
+                        Connect with the right buddy, get empowered, and level up your learning 
+                        with the right support for productive collaboration.
                     </p>
                     <div class="mt-8 flex items-center gap-3">
                         <a href="#about"
@@ -131,10 +131,10 @@
                     <div class="p-6 sm:p-8 lg:p-10">
                         <h2 class="text-2xl sm:text-3xl font-bold text-black">Our Purpose</h2>
                         <p class="mt-3 text-lg sm:mt-4 text-black/70 leading-relaxed max-w-3xl">
-                            Empowering students to reach their academic potential through collaborative learning, smart
-                            matching, and supportive connections. My Honorian Buddy is a focused space to find
-                            personalized
-                            support, expand knowledge, and grow together.
+                            Empowering every student of Pampanga State University 
+                            to reach peer to peer matching, and supportive connections. At My Honorian Buddy, we
+                            believe in creating space where students can find personalized support, expand their 
+                            knowledge, and grow together.
                         </p>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                                     d="M12 3v3M21 12h-3M12 21v-3M6 12H3M18 6l-2.1 2.1M6 18l2.1-2.1M6 6l2.1 2.1M18 18l-2.1-2.1" />
                             </svg>
                         </span>
-                        <h4 class="text-lg font-semibold text-black">AI-Powered Matching</h4>
+                        <h4 class="text-lg font-semibold text-black">Content-Based Matching</h4>
                     </div>
                     <p class="mt-3 text-sm text-black/70 leading-relaxed">
                         Get paired with the right study buddy based on goals, schedule, and learning style.
@@ -332,15 +332,6 @@
                     </summary>
                     <div class="mt-3 text-sm text-black/70">We blend AI with your preferences (subjects, goals, time)
                         for relevant pairs.</div>
-                </details>
-                <details class="group rounded-md border shadow-md border-black/10 bg-accent p-5 open:shadow-sm">
-                    <summary class="flex cursor-pointer list-none items-center justify-between">
-                        <span class="text-sm sm:text-base font-semibold text-black">Can I use it on mobile?</span>
-                        <span
-                            class="ml-4 h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">+</span>
-                    </summary>
-                    <div class="mt-3 text-sm text-black/70">Yes. The app is responsive and works well on phones and
-                        tablets.</div>
                 </details>
             </div>
         </div>
