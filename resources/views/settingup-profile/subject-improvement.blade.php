@@ -37,6 +37,16 @@
                                 <div id="dropdownMenu"
                                     class="absolute left-0 right-0 mt-2 mb-10 hidden bg-accent border-2 border-charcoal rounded-sm shadow-md z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
 
+                                    <!-- Close button -->
+                                    <div class="flex justify-end p-2 border-b border-charcoal/20">
+                                        <button type="button" id="closeDropdownBtn"
+                                            class="text-charcoal hover:text-accent hover:bg-primary p-1 rounded transition-colors duration-200">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
                                     <div class="flex flex-col items-center space-y-4">
                                         {{-- search bar --}}
                                         <div class="relative w-full mt-4 m-2 px-4 md:px-6">
@@ -90,10 +100,17 @@
             <script>
                 const dropdownButton = document.getElementById('dropdownButton');
                 const dropdownMenu = document.getElementById('dropdownMenu');
+                const closeDropdownBtn = document.getElementById('closeDropdownBtn');
 
                 dropdownButton.addEventListener('click', () => {
                     dropdownMenu.classList.toggle('hidden');
                     dropdownButton.classList.add('border-primary/70');
+                });
+
+                closeDropdownBtn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    dropdownMenu.classList.add('hidden');
+                    dropdownButton.classList.remove('border-primary/70');
                 });
 
                 document.addEventListener('click', (event) => {
@@ -368,7 +385,7 @@
                     if (!showAll && allSubjects.length > showCount) {
                         const showMoreBtn = document.createElement('button');
                         showMoreBtn.textContent = 'Show more...';
-                        showMoreBtn.classList.add('w-full', 'text-accent2', 'hover:text-primary', 'hover:bg-accent2', 'p-2',
+                        showMoreBtn.classList.add('w-full', 'text-accent', 'hover:bg-primary/80', 'p-2',
                             'border-2', 'border-black', 'bg-primary', 'rounded', 'mt-2', 'font-bold');
                         showMoreBtn.onclick = function() {
                             event.stopPropagation();
