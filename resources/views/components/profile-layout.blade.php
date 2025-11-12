@@ -22,30 +22,108 @@
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <x-bladewind.notification />
+    <style>
+        /* Mobile-first approach */
+        #mainLayout {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        #sidebarDiv {
+            width: 100%;
+            flex-shrink: 0;
+            height: auto;
+        }
+
+        /* Inner sidebar content - mobile default is auto height */
+        #sidebarDiv > div {
+            height: auto !important;
+        }
+
+        /* Small devices (640px and up) */
+        @media (min-width: 640px) {
+            #sidebarDiv {
+                width: 100%;
+                height: auto;
+            }
+            #sidebarDiv > div {
+                height: auto !important;
+            }
+        }
+
+        /* Medium devices (768px and up) */
+        @media (min-width: 768px) {
+            #mainLayout {
+                flex-direction: row;
+                gap: 0;
+            }
+            #sidebarDiv {
+                width: 24rem !important;
+                flex-shrink: 0;
+                min-width: 24rem;
+                height: auto;
+            }
+            /* On desktop, make the sidebar content full height */
+            #sidebarDiv > div {
+                min-height: 100vh !important;
+            }
+            #sidebar-item {
+                position: fixed;
+            }
+        }
+
+        /* Large devices (1024px and up) */
+        @media (min-width: 1024px) {
+            #sidebarDiv {
+                width: 28rem !important;
+                min-width: 28rem;
+                height: auto;
+            }
+            #sidebarDiv > div {
+                min-height: 100vh !important;
+            }
+        }
+
+        /* Extra large devices (1280px and up) */
+        @media (min-width: 1280px) {
+            #sidebarDiv {
+                width: 24rem !important;
+                min-width: 24rem;
+                height: auto;
+            }
+            #sidebarDiv > div {
+                min-height: 100vh !important;
+            }
+        }
+
+        /* Prevent sidebar from shrinking */
+        #mainLayout > div:last-child {
+            
+            min-width: 0;
+        }
+    </style>
 </head>
 <body class="font-poppins font-semibold bg-[#F5EFEF]">
+    <!-- nav bar -->
+    <x-nav-bar />
     
-<div class="flex-1">
-        <!-- nav bar -->
-        <x-nav-bar />
-        
-    <div class="flex" >
-        <div class="w-96 min-h-screen p-8 space-y-6 border-r border-black">
-            <div class="flex min-h-screen justify-center w-full">
+    <div class="flex flex-col" id="mainLayout">
+        <div class="w-full p-8 space-y-6 border-r border-black max-md:p-4 max-md:border-r-0 max-md:border-b max-md:border-black" id="sidebarDiv">
+            <div class="flex justify-center w-full">
                 {{ $sidebars }}
             </div>
         </div>
         
         {{-- Main Content --}}
-        <div class="w-full">
-            <div class="mt-32 m-8 pb-32">
+        <div class="w-full flex-1" id="mainContent">
+            <div class="mt-32 m-8 pb-32 max-md:mt-6 max-md:m-4 max-md:pb-16">
                 <!-- Burger -->
                     
                     {{ $maincontent }}
             </div>
         </div>  
     </div>
-</div>
 
 </body>
 {{-- footer --}}

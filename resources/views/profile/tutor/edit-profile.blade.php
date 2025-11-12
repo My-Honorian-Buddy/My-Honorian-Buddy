@@ -6,7 +6,7 @@
     </x-slot>
     
     <x-slot name="maincontent">
-        <div class="m-8">
+        <div class="m-2 mt-24 md:m-8">
             <!-- Page 2 -->
                 <!-- Profile Information Card -->
                 <x-profile.card-profile-info-student/>

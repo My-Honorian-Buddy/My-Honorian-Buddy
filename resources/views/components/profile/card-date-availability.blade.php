@@ -21,16 +21,14 @@
                 @endphp
 
                 @if (is_array($days))
-                    <div class="flex flex-row justify-center gap-4 mt-8 mb-8">
+                    <div style="display: flex; flex-direction: row; justify-content: center; gap: 1rem; margin-top: 2rem; margin-bottom: 2rem; flex-wrap: wrap; @media (max-width: 768px) { gap: 0.25rem; margin-top: 0.75rem; margin-bottom: 0.75rem; }">
                         @foreach ($days as $day)
-                            <span
-                                class="border-2 border-black bg-primary p-2 rounded-full text-white py-8 px-8">{{ $day }}</span>
+                            <span style="border: 2px solid black; background-color: #550000; padding: 0.5rem; border-radius: 9999px; color: white; padding:0.5rem 1rem; font-size: 1rem; @media (max-width: 768px) { border: 1px solid black; padding: 0.75rem 1rem; font-size: 0.875rem; }">{{ $day }}</span>
                         @endforeach
                     </div>
                 @else
-                    <div
-                        class="bg-gray-200 my-1 py-1 px-4 rounded-2xl border-2 border-black shadow-custom-button text-primary text-[20px] text-center font-bold">
-                        <p class="font-bold text-[18px]">No schedule available</p>
+                    <div style="background-color: #e5e7eb; margin: 0.25rem 0; padding: 0.25rem 1rem; border-radius: 1rem; border: 2px solid black; box-shadow: 5px 5px 1px rgba(0, 0, 0, 1); color: #550000; font-size: 1.25rem; text-align: center; font-weight: bold; @media (max-width: 768px) { border: 1px solid black; padding: 0.5rem 0.5rem; font-size: 0.875rem; }">
+                        <p style="font-weight: bold; @media (max-width: 768px) { font-size: 0.875rem; }">No schedule available</p>
                     </div>
                 @endif
             @endif

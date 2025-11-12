@@ -1,13 +1,12 @@
-<div class="flex mt-8 mb-8">
-    <div class="w-full bg-accent rounded-md shadow-black border-charcoal border-4">
-        <div class="relative rounded-[20px] px-6 py-10 text-center">
+<div class="flex" style="margin-top: 2rem; margin-bottom: 2rem; @media (max-width: 768px) { margin-top: 0.5rem; margin-bottom: 0.5rem; }">
+    <div class="w-full bg-accent rounded-md shadow-black" style="border: 4px solid #1A1A1A; @media (max-width: 768px) { border: 2px solid #1A1A1A; }">
+        <div class="relative rounded-[20px]" style="padding: 2.5rem 1.5rem; @media (max-width: 768px) { padding: 1rem 0.5rem; }">
 
             <!-- Profile Picture -->
-            <div class="absolute -top-[75px] left-1/2 transform -translate-x-1/2">
+            <div class="absolute left-1/2 transform -translate-x-1/2" style="top: -75px; @media (max-width: 768px) { top: -50px; }">
                 <img src="{{ Auth::user()->profile_pic ?? asset('https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_neytiri_16x9_1098_01_0e7d844a.jpeg') }}" 
                 alt="Profile" 
-                class="w-[150px] h-[150px] bg-accent3 object-cover rounded-full border-4 border-white ring-2 ring-charcoal
-                 shadow-md">
+                style="width: 150px; height: 150px; background-color: #F6F6F6; object-fit: cover; border-radius: 50%; border: 4px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); @media (max-width: 768px) { width: 100px; height: 100px; border: 2px solid white; }">
             </div>
 
             @if(Auth::check())
@@ -29,24 +28,24 @@
             @endphp      
         @endif
             <!-- Card Content -->
-            <div class="flex flex-col mt-10">
-                <span class="font-dela font-bold text-5xl m-5 leading-relaxed">{{$firstName}} {{$lastName}}</span>
+            <div style="display: flex; flex-direction: column; margin-top: 2.5rem; text-align: center; @media (max-width: 768px) { margin-top: 1.5rem; }">
+                <span style="font-family: 'Dela Gothic One'; font-weight: bold; font-size: 3rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 1.875rem; margin: 0.25rem; }">{{$firstName}} {{$lastName}}</span>
                 
                 @if($user->role === 'Student')
-                    <span class="font-semibold text-2xl m-5 leading-relaxed">{{$user -> student -> year_level}} {{$user -> student -> department}} </span>
+                    <span style="font-weight: 600; font-size: 1.5rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 1.125rem; margin: 0.25rem; }">{{$user -> student -> year_level}} {{$user -> student -> department}} </span>
                 @endif
                 
                 @if($bio !== null)
-                    <span class="italic font-semibold text-2xl m-5 leading-relaxed">"{{$bio}}"</span>
+                    <span style="font-style: italic; font-weight: 600; font-size: 1.5rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 0.875rem; margin: 0.25rem; }">"{{$bio}}"</span>
                 @else
-                    <span class="font-semibold text-2xl m-5 leading-relaxed">No Bio Yet</span>
+                    <span style="font-weight: 600; font-size: 1.5rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 0.875rem; margin: 0.25rem; }">No Bio Yet</span>
                 @endif
 
                 @if ($user -> role === 'Tutor' && $user->tutor)
-                    <span class="font-dela font-bold text-4xl m-5 leading-relaxed">
+                    <span style="font-family: 'Dela Gothic One'; font-weight: bold; font-size: 2.25rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 1.5rem; margin: 0.25rem; }">
                     TOTAL POINTS
                     </span>
-                    <span class="font-dela font-semibold text-2xl m-5 leading-relaxed">
+                    <span style="font-family: 'Dela Gothic One'; font-weight: 600; font-size: 1.5rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 1.125rem; margin: 0.25rem; }">
                         {{ $user->tutor->points ?? 0 }}
                     </span>
                 @endif

@@ -1,4 +1,4 @@
-<ul class="fixed space-y-6 flex justify-center items-center flex-col">
+<ul class="space-y-6 flex justify-center items-center flex-col" id="sidebar-item">
     <li class="w-full flex justify-center items-center">
         <a class="group w-full relative inline-block focus:ring-3 focus:outline-hidden" href="{{ route('tutor.profile') }}">
             <span

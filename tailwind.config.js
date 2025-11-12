@@ -9,6 +9,13 @@ export default {
         './resources/**/*.js',
     './resources/**/*.vue',
         './resources/views/**/*.blade.php',
+        './resources/views/**/*.php',
+    ],
+    safelist: [
+        'md:flex-row',
+        'lg:flex-row',
+        'md:w-96',
+        'lg:w-96',
     ],
     
     theme: {
@@ -58,6 +65,5 @@ export default {
         
     },
 
-    plugins: [require("@tailwindcss/forms")],
-    plugins: [require('tailwind-hamburgers')],
+    plugins: [require("@tailwindcss/forms"), require('tailwind-hamburgers')],
 };

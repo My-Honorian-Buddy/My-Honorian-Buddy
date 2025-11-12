@@ -2,16 +2,18 @@
     $user = Auth::user();
 @endphp
 
-<div class="flex mt-8 mb-8">
-    <div class="w-full bg-accent rounded-md shadow-black border-charcoal border-4">
-        <div class="relative rounded-[20px] px-8">
+<div class="flex" style="margin-top: 2rem; margin-bottom: 2rem; @media (max-width: 768px) { margin-top: 0.5rem; margin-bottom: 0.5rem; }">
+    <div class="w-full bg-accent rounded-md shadow-black" style="border: 4px solid #1A1A1A; @media (max-width: 768px) { border: 2px solid #1A1A1A; }">
+        <div class="relative rounded-[20px]" style="padding: 2rem; @media (max-width: 768px) { padding: 0.75rem; }">
 
             <!-- Card Tittle-->
-            <div class="flex flex-col mt-8 text-left">
-                <span class="font-dela font-bold text-4xl m-5 leading-relaxed">Date Availability</span>
+            <div style="display: flex; flex-direction: column; text-align: left; @media (max-width: 768px) { margin-top: 0.75rem; }">
+                <span style="font-family: 'Dela Gothic One'; font-weight: bold; font-size: 2.25rem; margin: 1.25rem; line-height: 1.5; @media (max-width: 768px) { font-size: 1.5rem; margin: 0.25rem; }">
+                    Date Availability
+                </span>
             </div>
-            <span class="flex mx-4 mb-4 items-center">
-                <span class="h-px flex-1 bg-charcoal"></span>
+            <span style="display: flex; margin: 1rem; margin-bottom: 1rem; align-items: center; @media (max-width: 768px) { margin: 0.25rem; margin-bottom: 0.25rem; }">
+                <span style="height: 1px; flex: 1; background-color: #1A1A1A;"></span>
             </span>
 
             <!-- Card Content-->
@@ -23,23 +25,20 @@
                 @endphp
 
                 @if (is_array($days))
-                    <div class="flex flex-row justify-center gap-4 mt-8 mb-8">
+                    <div style="display: flex; flex-direction: row; justify-content: center; gap: 1rem; margin-top: 2rem; margin-bottom: 2rem; flex-wrap: wrap; @media (max-width: 768px) { gap: 0.25rem; margin-top: 0.75rem; margin-bottom: 0.75rem; }">
                         @foreach ($days as $day)
-                            <span
-                                class="border-2 border-black bg-primary p-2 rounded-full text-white py-8 px-8">{{ $day }}</span>
+                            <span style="border: 2px solid black; background-color: #550000; padding: 0.5rem; border-radius: 9999px; color: white; padding:0.5rem 1rem; font-size: 1rem; @media (max-width: 768px) { border: 1px solid black; padding: 0.75rem 1rem; font-size: 0.875rem; }">{{ $day }}</span>
                         @endforeach
                     </div>
                 @else
-                    <div
-                        class="bg-gray-200 my-1 py-1 px-4 rounded-2xl border-2 border-black shadow-custom-button text-primary text-[20px] text-center font-bold">
-                        <p class="font-bold text-[18px]">No schedule available</p>
+                    <div style="background-color: #e5e7eb; margin: 0.25rem 0; padding: 0.25rem 1rem; border-radius: 1rem; border: 2px solid black; box-shadow: 5px 5px 1px rgba(0, 0, 0, 1); color: #550000; font-size: 1.25rem; text-align: center; font-weight: bold; @media (max-width: 768px) { border: 1px solid black; padding: 0.5rem 0.5rem; font-size: 0.875rem; }">
+                        <p style="font-weight: bold; @media (max-width: 768px) { font-size: 0.875rem; }">No schedule available</p>
                     </div>
                 @endif
             @endif
 
-            <div class="flex flex-row justify-center gap-4 mt-8 mb-8">
-                <span
-                    class="font-bold text-2xl">{{ \Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A') }}
+            <div style="display: flex; flex-direction: row; justify-content: center; gap: 1rem; margin-top: 2rem; margin-bottom: 2rem; @media (max-width: 768px) { flex-direction: column; gap: 0.25rem; margin-top: 0.75rem; margin-bottom: 0.75rem; }">
+                <span style="font-weight: bold; font-size: 1.5rem; @media (max-width: 768px) { font-size: 1.125rem; text-align: center; }">{{ \Carbon\Carbon::parse($user->schedule->start_time)->format('h:i A') }}
                     - {{ \Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A') }}</span>
             </div>
         </div>

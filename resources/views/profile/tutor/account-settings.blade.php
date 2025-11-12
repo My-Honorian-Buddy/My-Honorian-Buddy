@@ -6,7 +6,7 @@
     </x-slot>
     
     <x-slot name="maincontent">
-        <div class="m-8">
+        <div class="m-2 mt-8 md:m-8">
             <!-- Update Card -->
             <x-profile.card-update />
 
