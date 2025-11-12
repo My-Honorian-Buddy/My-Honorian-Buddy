@@ -18,9 +18,7 @@
 </head>
 
 <!-- nav bar -->
-<div class="flex-1 font-poppins font-semibold bg-secondary">
-    <x-nav-bar />
-</div>
+<x-nav-bar />
 
 <body class="font-poppins font-semibold">
 
@@ -438,7 +436,7 @@
             <!-- Founding Story Container -->
             <div class="flex items-center justify-center relative mt-10 mb-20">
                 <div class="bg-accent rounded-[10px] h-[700px] w-[850px] border-charcoal
-            border-2 overflow-hidden"
+            border-2"
                     data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
                     
                     <!-- Founding Story Content -->

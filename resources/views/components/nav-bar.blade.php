@@ -14,34 +14,50 @@
 <header class="sticky top-0 z-50 bg-accent shadow-md backdrop-blur border-b-2 border-black relative">
     <div class="w-full">
         <div class="grid xl:grid-cols-[1fr_2fr] bg-accent">
-            <div class="flex justify-center items-center w-full lg:w-3/5 md:w-3/5 sm:w-3/5 sm:shrink-0 text-center ">
-                <a href="{{ route('landing-page') }}">
-                    <img src="{{ asset('images/logo.svg') }}" alt="logo" class="mx-auto w-1/3 md:w-2/3">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 8px 12px; height: 100%;">
+                <a href="{{ route('landing-page') }}" style="display: flex; align-items: center; height: 100%; flex: 1;">
+                    <img src="{{ asset('images/logo.svg') }}" alt="logo" class="ml-4 w-1/3 md:w-1/4" style="object-fit: contain;">
                 </a>
+                <!-- Hamburger Menu Button (Mobile Only) -->
+                <button id="mobile-menu-btn" style="padding: 8px; border-radius: 6px; background: transparent; border: none; cursor: pointer; transition: background-color 0.2s; height: 40px; width: 40px; display: none; align-items: center; justify-content: center;">
+                    <svg id="menu-icon" style="width: 24px; height: 24px; color: black; stroke: currentColor; fill: none;" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="close-icon" style="width: 24px; height: 24px; color: black; stroke: currentColor; fill: none; display: none;" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
 
-            <div class="p-6">
-                <header class="md:flex md:justify-between md:items-center">
-                    <div class="flex justify-center md:items-center font-black md:h-[75px] p-3">
-                        <nav
-                            class="font-dela md:space-x-8 sm:space-x-8 md:items-center text-charcoal sm:text-xs md:text-base md:mx-8">
+            <div style="display: flex; padding: 16px 24px;" id="nav-content">
+                <header style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div style="display: flex; justify-content: center; align-items: center; font-weight: 900; padding: 0;">
+                        <nav style="display: flex; gap: 32px; align-items: center; color: #2c2c2c; font-family: 'Dela Gothic One', sans-serif; margin: 0 32px;">
                             <a href="{{ route('workspace.start') }}"
-                                class="transition ease-in-out hover:text-primary hover:underline">WORKSPACE</a>
+                                style="transition: all 0.2s ease-in-out; text-decoration: none; color: #2c2c2c;" 
+                                onmouseover="this.style.color='#550000'; this.style.textDecoration='underline';"
+                                onmouseout="this.style.color='#2c2c2c'; this.style.textDecoration='none';">WORKSPACE</a>
 
                             @if ($user->role === 'Student')
                                 <a href="{{ route('match.explore') }}"
-                                    class="transition ease-in-out hover:text-primary hover:underline">EXPLORE</a>
+                                    style="transition: all 0.2s ease-in-out; text-decoration: none; color: #2c2c2c;"
+                                    onmouseover="this.style.color='#550000'; this.style.textDecoration='underline';"
+                                    onmouseout="this.style.color='#2c2c2c'; this.style.textDecoration='none';">EXPLORE</a>
                             @else
                                 <a href="{{ route('tutor.search') }}"
-                                    class="transition ease-in-out hover:text-primary hover:underline">EXPLORE</a>
+                                    style="transition: all 0.2s ease-in-out; text-decoration: none; color: #2c2c2c;"
+                                    onmouseover="this.style.color='#550000'; this.style.textDecoration='underline';"
+                                    onmouseout="this.style.color='#2c2c2c'; this.style.textDecoration='none';">EXPLORE</a>
                             @endif
 
                             <a href="{{ route('about') }}"
-                                class="transition ease-in-out hover:text-primary hover:underline">ABOUT US</a>
+                                style="transition: all 0.2s ease-in-out; text-decoration: none; color: #2c2c2c;"
+                                onmouseover="this.style.color='#550000'; this.style.textDecoration='underline';"
+                                onmouseout="this.style.color='#2c2c2c'; this.style.textDecoration='none';">ABOUT US</a>
                         </nav>
                     </div>
 
-                    <div class="flex justify-center items-center h-[75px] space-x-4 px-4 py-3">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 16px; padding: 0;">
 
                         <!--for notifications  -->
                         <x-bladewind.dropmenunotif class="w-[600px] z-40">
@@ -170,11 +186,208 @@
                 </header>
             </div>
         </div>
-        <div class="absolute inset-x-0 bottom-0 h-1 bg-black/5">
-            <div id="scroll-progress" class="h-full bg-primary w-0"></div>
+
+        <!-- Mobile Menu (Dropdown) -->
+        <div id="mobile-menu" style="display: none; background-color: #FDFBFB; border-top: 2px solid black;">
+            <nav style="font-family: 'Dela Gothic One', sans-serif; display: flex; flex-direction: column; gap: 8px; padding: 16px; color: #2c2c2c;">
+                <a href="{{ route('workspace.start') }}"
+                    style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                    onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
+                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">WORKSPACE</a>
+
+                @if ($user->role === 'Student')
+                    <a href="{{ route('match.explore') }}"
+                        style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                        onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">EXPLORE</a>
+                @else
+                    <a href="{{ route('tutor.search') }}"
+                        style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                        onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">EXPLORE</a>
+                @endif
+
+                <a href="{{ route('about') }}"
+                    style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                    onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
+                    onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">ABOUT US</a>
+
+                <!-- Mobile Buttons Separator -->
+                <hr style="border: none; border-top: 1px solid #2c2c2c; margin: 12px 0;">
+
+                <!-- Mobile Buttons -->
+                <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                    <!-- Notification Bell -->
+                    <x-bladewind.dropmenunotif class="w-[600px] z-40">
+                        @php
+                            $hasNotification = Auth::user()->hasNotification;
+                            $unreadCount = \App\Models\notifSession::where('to', Auth::id())
+                                ->whereNull('read_at')
+                                ->count();
+                        @endphp
+
+                        <x-slot name="trigger">
+                            <div class="relative">
+                                <x-bladewind.bell id="bell" size="small" color="red"
+                                    class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-hover border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
+                                    show_dot="false" animate_dot="false" />
+
+                                <!-- Red notification badge with counter -->
+                                @if ($hasNotification)
+                                    <span id="notification-badge"
+                                        class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
+                                        {{ $unreadCount > 9 ? '9+' : $unreadCount }}
+                                    </span>
+                                @endif
+                            </div>
+                        </x-slot>
+
+                        <div class= "flex justify-between">
+                            <x-bladewind.dropmenunotif-item header="true"
+                                class="flex justify-between items-center">
+                                <div class="text-accent">
+                                    Notification
+                                </div>
+                            </x-bladewind.dropmenunotif-item>
+                        </div>
+                        <div class="flex flex-col justify-between items-end text-base px-4 py-2">
+                            <button id="edit-button"
+                                class="bg-accent rounded-sm text-primary border border-primary px-3 
+                            py-1 hover:bg-primary transition ease-in-out hover:text-accent">
+                                Edit
+                            </button>
+                            <div id="bulk-actions" class="hidden pt-2 space-x-2">
+                                <button id="mark-all-read"
+                                    class="bg-accent text-primary border border-charcoal px-3 py-1 
+                            rounded-sm transition hover:bg-primary hover:text-accent"
+                                    onclick="markAllAsRead()">
+                                    Mark All as Read
+                                </button>
+                                <button id="delete-all"
+                                    class="bg-primary text-accent border border-black px-3 py-1 rounded-sm 
+                                    hover:bg-red-700 transition"
+                                    onclick="deleteAllNotifications()">
+                                    Delete All
+                                </button>
+                            </div>
+                        </div>
+
+                        <ul class="bladewind-dropmenunotif overflow-auto max-h-96" style="scrollbar-width: none;"
+                            onclick="markAsRead()">
+                            {{-- Notifications will be dynamically inserted here by the script --}}
+                        </ul>
+                    </x-bladewind.dropmenunotif>
+
+                    <!-- Chat Button -->
+                    <a href="{{ route(config('chatify.routes.prefix')) }}" class="text-center">
+                        <div
+                            class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-accent bg-primary transition ease-in-out hover:bg-hover border-2 border-charcoal rounded-full flex items-center justify-center">
+                            <x-bladewind.icon name="chat-bubble-left" class="!h-6 !w-6 md:!h-7 md:!w-7" />
+                        </div>
+                    </a>
+
+                    <!-- User Profile Dropdown -->
+                    <div class="p-1 rounded-full text-xl">
+                        <x-bladewind.dropmenu trigger="user-icon"
+                            trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-hover bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out">
+
+                            <form method="GET" action="{{ route('tutor.profile') }}">
+                                @csrf
+                                <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                                    Profile
+                                </x-bladewind.dropmenu-item>
+                            </form>
+
+                            <form method="GET" action="{{ route('contact') }}">
+                                @csrf
+                                <x-bladewind.dropmenu-item padded="true" :href="route('contact-us')"
+                                    onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                                    Contact Us
+                                </x-bladewind.dropmenu-item>
+                            </form>
+
+                            <form method="POST" action="{{ route('role.switch') }}">
+                                @csrf
+                                <input type="hidden" name="mode"
+                                    value="{{ strtolower($user->role === 'Student' ? 'tutor' : 'student') }}">
+                                <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                                    Switch to
+                                    @if ($user->role === 'Student')
+                                        Tutor
+                                    @else
+                                        Student
+                                    @endif
+
+                                </x-bladewind.dropmenu-item>
+                            </form>
+
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-bladewind.dropmenu-item padded="true" :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                                    Log Out
+                                </x-bladewind.dropmenu-item>
+                            </form>
+                        </x-bladewind.dropmenu>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(0, 0, 0, 0.05);">
+            <div id="scroll-progress" style="height: 100%; background-color: #550000; width: 0;"></div>
         </div>
     </div>
 </header>
+
+<style>
+    @media (max-width: 768px) {
+        #mobile-menu-btn {
+            display: block !important;
+        }
+        #nav-content {
+            display: none !important;
+        }
+    }
+</style>
+
+<script>
+    // Hamburger Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', () => {
+            if (mobileMenu.style.display === 'none' || mobileMenu.style.display === '') {
+                mobileMenu.style.display = 'block';
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                mobileMenu.style.display = 'none';
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        });
+
+        // Close menu when a link is clicked
+        const menuLinks = mobileMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.style.display = 'none';
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            });
+        });
+    }
+</script>
 
 @livewireScripts
 
@@ -1505,6 +1718,17 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    // Scroll Progress Bar
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        const progressEl = document.getElementById('scroll-progress');
+        if (progressEl) {
+            progressEl.style.width = scrollPercent + '%';
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         @if (session('success'))
             showNotification("{{ session('success') }}");
