@@ -47,7 +47,7 @@
         </form>
 
         <div class="w-full h-[60px] flex justify-center items-center">
-            <div class="w-[80%] h-[80%] m-10 flex items-center justify-center">
+            <div class="w-[80%] md:w-[50%] h-[80%] m-10 grid grid-cols-2 md:grid-cols-4 gap-4 justify-center items-center">
                 <x-bladewind.dropmenu hide_after_click="false" position="right">
                     <x-slot:trigger>
                         <div class="flex w-30 h-[80%] cursor-pointer mx-2 py-2 px-3 text-charcoal text-center">

@@ -19,6 +19,17 @@
     <link rel="icon" href="{{ asset('/images/favicon.svg') }}" type="image/x-icon">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        .decorative-image {
+            opacity: 0;
+        }
+        
+        @media (min-width: 1024px) {
+            .decorative-image {
+                opacity: 0.8 !important;
+            }
+        }
+    </style>
 </head>
 <body class="font-poppins font-semibold bg-[#F5EFEF]">
     
@@ -50,28 +61,32 @@
             <div class="flex flex-col items-center justify-center h-4/5 font-dela py-56">
                 <div data-aos="fade-up" data-aos-anchor-placement="top-bottom" class="relative text-center space-y-6" >
                     <h1 class="relative z-30 font-bold leading-snug text-center" >
-                        <div  class="text-primary inline-block text-[55px] ml-6  transform">
+                        <div style="color: #550000; display: inline-block; font-size: clamp(28px, 6vw, 55px); margin-left: 24px; transform: none;">
                             GET MATCHED WITH
                         </div>
                         <img src="{{ asset('images/firstPageSvg/star.svg') }}"
-                        class="absolute top-[-30px] left-[23px] w-20 h-20 transform opacity-80 z-10" 
+                        class="decorative-image"
+                        style="position: absolute; top: -30px; left: 23px; width: 80px; height: 80px; transform: none; z-index: 10;" 
                         alt="Curly Bracket Icon" />
-                        <div class="bg-primary text-[75px] text-accent px-2 border-2 border-charcoal mb-2 rounded-lg transform mt-5">
+                        <div style="background-color: #550000; font-size: clamp(40px, 8vw, 75px); color: #FDFBFB; padding-left: 8px; padding-right: 8px; border: 2px solid black; margin-bottom: 8px; border-radius: 8px; transform: none; margin-top: 20px;">
                             THE BEST BUDDY
                             <img src="{{ asset('images/firstPageSvg/spark.svg') }}"
-                            class="absolute right-[-60px] top-[-10px] transform -translate-y-1/2 w-[100px] h-[100px] z-50" 
+                            class="decorative-image"
+                            style="position: absolute; right: -60px; top: -10px; transform: translateY(-50%); width: 100px; height: 100px; z-index: 50;" 
                             alt="Curly Bracket Icon" />
                         </div>
-                        <div class="inline-block bg-accent text-primary text-[70px] px-6 py-3 border-2 border-charcoal rounded-lg transform leading-none relative">
+                        <div style="display: inline-block; background-color: #FDFBFB; color: #550000; font-size: clamp(35px, 8vw, 70px); padding-left: 24px; padding-right: 24px; padding-top: 12px; padding-bottom: 12px; border: 2px solid black; border-radius: 8px; transform: none; line-height: 1; position: relative;">
                             FOR YOU
                         </div>
                     </h1>
                         <img src="{{ asset('images/firstPageSvg/Vector.svg') }}"
-                        class="absolute left-[110px] top-[300px] w-[100px] h-[100px] transform opacity-80 z-50" 
+                        class="decorative-image"
+                        style="position: absolute; left: 110px; top: 300px; width: 100px; height: 100px; transform: none; z-index: 50;" 
                         alt="Curly Bracket Icon" />
                     
                         <img src="{{ asset('images/firstPageSvg/Line 6.svg') }}"
-                        class="absolute left-[470px] bottom-[130px] w-[124px] h-[58px] transform opacity-80 z-50" 
+                        class="decorative-image"
+                        style="position: absolute; left: 470px; bottom: 130px; width: 124px; height: 58px; transform: none; z-index: 50;" 
                         alt="Curly Bracket Icon" />
 
                     {{-- find your buddy button --}}
@@ -79,7 +94,7 @@
                                 data-aos-anchor-placement="top-bottom" class="flex justify-center">
                         <button id="BuddyButton" class="border-2 border-charcoal bg-accent text-primary font-bold mt-20 px-4 py-4 rounded-xl 
                         hover:shadow-custom-button transform active:scale-[0.98] active:bg-primary active:text-accent transition duration-300 hover:scale-[1.01]">
-                            <p class="text-[40px] px-8">FIND YOUR BUDDY</p>
+                            <p style="font-size: clamp(20px, 5vw, 40px); padding-left: 32px; padding-right: 32px;">FIND YOUR BUDDY</p>
                         </button>
                     </div>
                 </div>

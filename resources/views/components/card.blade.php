@@ -114,16 +114,16 @@
                                     <div class="flex justify-start space-x-4">
                                         <div
                                             class=" my-1 py-1 px-2 rounded-full border-2 border-gray-700 text-gray-700 text-[20px] text-center font-bold">
-                                            <p class="font-bold text-sm">
+                                            <p class="font-bold text-sm truncate">
                                                 @if ($user->tutor->exp === 0)
                                                     No Experience Yet!
                                                 @else
                                                     @if ($user->tutor->exp > 9)
                                                         9+
                                                     @else
-                                                        {{ $user->tutor->exp}}
+                                                        {{ $user->tutor->exp }}
                                                     @endif
-                                                     Session Completed
+                                                    Session Completed
                                                 @endif
                                             </p>
                                         </div>
@@ -132,7 +132,7 @@
                                         <x-bladewind.icon name="star" type="solid" />
                                         <span class="text-gray-700">
                                             {{ number_format(count($user->tutor->review) > 0 ? $totalAverageRating / count($user->tutor->review) : 0, 1) }}
-                                            ({{ count($user->tutor->review)}})
+                                            ({{ count($user->tutor->review) }})
                                         </span>
                                     </div>
                                 </div>
@@ -150,20 +150,20 @@
 
     {{-- modal --}}
     <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
-        <div class="grid grid-cols-4 p-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 p-4 md:p-6">
             <div class="flex flex-col items-center col-span-1">
-                <div class="h-auto w-full border-charcoal border-2 rounded-sm overflow-hidden">
+                <div class="h-auto w-32 md:w-full border-charcoal border-2 rounded-sm overflow-hidden">
                     <img class="h-full w-full object-cover" id="profile-pic" alt="">
                 </div>
                 @if (Auth::user()->role === 'Student')
                     @if (Auth::user()->student->bookedsessions()->exists() ?? false)
                         <div
-                            class="inline-block bg-primary text-secondary text-center font-poppins font-bold rounded-full px-5 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-buttonflex items-center mt-10 leading-[2px]">
+                            class="flex bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 md:px-5 py-3 md:py-6 ml-0 md:ml-2 mb-4 h-auto text-sm md:text-[16px] border-2 border-black items-center mt-5 truncate leading-tight md:leading-[2px]">
                             You already have a tutor.
                         </div>
-                    @elseif (bookedSession::where('tutor_id', $user->id)->exists() ?? false)
+                    @elseif (bookedSession::where('tutor_id', $user->id ?? 0)->exists() ?? false)
                         <div
-                            class="bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-button flex items-center mt-5">
+                            class="flex bg-primary text-secondary text-center font-poppins font-bold rounded-full px-3 md:px-4 py-3 md:py-6 ml-0 md:ml-2 mb-4 h-auto text-sm md:text-[16px] border-2 border-black items-center mt-5 truncate">
                             A student already booked this tutor.
                         </div>
                     @else
@@ -174,29 +174,29 @@
                     @endif
                 @endif
 
-                <div class="w-full">
-                    <p class="font-bold text-primary text-base">Name</p>
-                    <p class="font-bold text-black text-xl" id="tutor-name">...</p>
+                <div class="w-full mt-4 md:mt-0">
+                    <p class="font-bold text-primary text-sm md:text-base">Name</p>
+                    <p class="font-bold text-black text-lg md:text-xl" id="tutor-name">...</p>
                 </div>
-                <div class="w-full">
-                    <p class="font-bold text-primary">Gender</p>
-                    <p class="font-bold text-black text-xl" id="tutor-gender">...</p>
+                <div class="w-full mt-2 md:mt-0">
+                    <p class="font-bold text-primary text-sm md:text-base">Gender</p>
+                    <p class="font-bold text-black text-lg md:text-xl" id="tutor-gender">...</p>
                 </div>
             </div>
 
             <!--middle-->
-            <div class="col-span-3 ml-10">
-                <h2 class="text-3xl font-bold text-primary">
+            <div class="col-span-1 md:col-span-3 md:ml-10 mt-4 md:mt-0">
+                <h2 class="text-2xl md:text-3xl font-bold text-primary">
                     Personal Information
                 </h2>
-                <div class="grid grid-cols-2 gap-8 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
                     <div>
-                        <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
-                        <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
+                        <p class="font-bold text-primary text-sm md:text-[16px]">Year Level And Department</p>
+                        <p class="font-bold text-black text-base md:text-[20px]" id="tutor-year-level">...</p>
                     </div>
                     <div>
-                        <p class="font-bold text-primary text-[16px]">Address</p>
-                        <p class="font-bold text-black text-[20px]" id="tutor-address"></p>
+                        <p class="font-bold text-primary text-sm md:text-[16px]">Address</p>
+                        <p class="font-bold text-black text-base md:text-[20px]" id="tutor-address"></p>
                     </div>
                 </div>
 
@@ -204,23 +204,23 @@
                     <span class="h-px flex-1 bg-charcoal"></span>
                 </span>
 
-                <h2 class="text-3xl font-bold text-primary">
+                <h2 class="text-2xl md:text-3xl font-bold text-primary mt-4">
                     Schedule & Subjects
                 </h2>
-                <div class="grid grid-cols-2 gap-8 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
                     <div>
-                        <p class="font-bold text-primary text-[16px]">Subject</p>
+                        <p class="font-bold text-primary text-sm md:text-[16px]">Subject</p>
                         <ul id="tutor-subjects"></ul>
                     </div>
                     <div>
-                        <p class="font-bold text-primary text-[16px]">Schedule</p>
+                        <p class="font-bold text-primary text-sm md:text-[16px]">Schedule</p>
                         <div
                             class="inline-flex justify-center items-center rounded-full bg-primary/5 
-                            border-2 text-primary font-bold w-full px-4 py-0.5 mb-2 border-primary/50">
+                            border-2 text-primary font-bold w-full px-3 md:px-4 py-1 md:py-0.5 mb-2 border-primary/50 text-sm md:text-base">
                             <p class="" id="tutor-time">-</p>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2" id="tutor-days"></div>
+                        <div class="grid grid-cols-2 md:grid-cols-2 gap-2" id="tutor-days"></div>
                     </div>
                 </div>
 
@@ -228,7 +228,7 @@
                     <span class="h-px flex-1 bg-charcoal"></span>
                 </span>
 
-                <h2 class="font-bold text-primary text-3xl">Reviews</h2>
+                <h2 class="font-bold text-primary text-2xl md:text-3xl mt-4">Reviews</h2>
                 <div class="mt-2" id="tutor-reviews"></div>
 
             </div>

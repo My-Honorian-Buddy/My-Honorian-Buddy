@@ -37,14 +37,15 @@
         <!-- nav bar -->
         <x-nav-bar />
 
-        <div class="flex flex-col items-center justify-center h-4/5 mt-20">
-            <div class="relative text-center space-y-6">
-                <h1 class="relative z-30 font-bold leading-snug text-center">
-                    <div class="bg-primary px-2 border-2 border-charcoal mb-6 rounded-lg mt-5">
-                        <p class="font-dela text-[58px] px-5 py-3 text-accent">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: auto; margin-top: 40px; margin-bottom: 32px; padding-left: 16px; padding-right: 16px;">
+            <div style="position: relative; text-align: center; width: 100%; gap: 24px;">
+                <h1 style="position: relative; z-index: 30; font-weight: bold; line-height: 1.375;">
+                    <div style="background-color: #550000; padding-left: 8px; padding-right: 8px; border: 2px solid black; margin-bottom: 16px; border-radius: 8px; margin-top: 20px;">
+                        <p style="font-family: 'Dela Gothic One', sans-serif; font-size: clamp(24px, 5vw, 58px); padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; color: #FDFBFB; word-break: break-word;">
                             MATCHMAKING RESULTS
                         </p>
                     </div>
+                </h1>
             </div>
         </div>
 
@@ -398,20 +399,20 @@
             </div>
         @endif
         <x-bladewind.modal-explore name="test" size="xl" show_action_buttons="false">
-            <div class="grid grid-cols-4 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 p-4 md:p-6">
                 <div class="flex flex-col items-center col-span-1">
-                    <div class="h-auto w-full border-charcoal border-2 rounded-sm overflow-hidden">
+                    <div class="h-auto w-32 md:w-full border-charcoal border-2 rounded-sm overflow-hidden">
                         <img class="h-full w-full object-cover" id="profile-pic" alt="">
                     </div>
                     @if (Auth::user()->role === 'Student')
                         @if (Auth::user()->student->bookedsessions()->exists() ?? false)
                             <div
-                                class="inline-block bg-primary text-secondary text-center font-poppins font-bold rounded-full px-5 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-buttonflex items-center mt-10 leading-[2px]">
+                                class="flex bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 md:px-5 py-3 md:py-6 ml-0 md:ml-2 mb-4 h-auto text-sm md:text-[16px] border-2 border-black items-center mt-5 truncate leading-tight md:leading-[2px]">
                                 You already have a tutor.
                             </div>
                         @elseif (bookedSession::where('tutor_id', $user->id ?? 0)->exists() ?? false)
                             <div
-                                class="bg-primary text-secondary text-center font-poppins font-bold rounded-full px-4 py-6 ml-2 mb-4 h-10 text-[16px] border-2 border-black shadow-custom-button flex items-center mt-5">
+                                class="flex bg-primary text-secondary text-center font-poppins font-bold rounded-full px-3 md:px-4 py-3 md:py-6 ml-0 md:ml-2 mb-4 h-auto text-sm md:text-[16px] border-2 border-black items-center mt-5 truncate">
                                 A student already booked this tutor.
                             </div>
                         @else
@@ -422,29 +423,29 @@
                         @endif
                     @endif
 
-                    <div class="w-full">
-                        <p class="font-bold text-primary text-base">Name</p>
-                        <p class="font-bold text-black text-xl" id="tutor-name">...</p>
+                    <div class="w-full mt-4 md:mt-0">
+                        <p class="font-bold text-primary text-sm md:text-base">Name</p>
+                        <p class="font-bold text-black text-lg md:text-xl" id="tutor-name">...</p>
                     </div>
-                    <div class="w-full">
-                        <p class="font-bold text-primary">Gender</p>
-                        <p class="font-bold text-black text-xl" id="tutor-gender">...</p>
+                    <div class="w-full mt-2 md:mt-0">
+                        <p class="font-bold text-primary text-sm md:text-base">Gender</p>
+                        <p class="font-bold text-black text-lg md:text-xl" id="tutor-gender">...</p>
                     </div>
                 </div>
 
                 <!--middle-->
-                <div class="col-span-3 ml-10">
-                    <h2 class="text-3xl font-bold text-primary">
+                <div class="col-span-1 md:col-span-3 md:ml-10 mt-4 md:mt-0">
+                    <h2 class="text-2xl md:text-3xl font-bold text-primary">
                         Personal Information
                     </h2>
-                    <div class="grid grid-cols-2 gap-8 mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
                         <div>
-                            <p class="font-bold text-primary text-[16px]">Year Level And Department</p>
-                            <p class="font-bold text-black text-[20px]" id="tutor-year-level">...</p>
+                            <p class="font-bold text-primary text-sm md:text-[16px]">Year Level And Department</p>
+                            <p class="font-bold text-black text-base md:text-[20px]" id="tutor-year-level">...</p>
                         </div>
                         <div>
-                            <p class="font-bold text-primary text-[16px]">Address</p>
-                            <p class="font-bold text-black text-[20px]" id="tutor-address">...</p>
+                            <p class="font-bold text-primary text-sm md:text-[16px]">Address</p>
+                            <p class="font-bold text-black text-base md:text-[20px]" id="tutor-address">...</p>
                         </div>
                     </div>
 
@@ -452,22 +453,22 @@
                         <span class="h-px flex-1 bg-charcoal"></span>
                     </span>
 
-                    <h2 class="text-3xl font-bold text-primary">
+                    <h2 class="text-2xl md:text-3xl font-bold text-primary mt-4">
                         Schedule & Subjects
                     </h2>
-                    <div class="grid grid-cols-2 gap-8 mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
                         <div>
-                            <p class="font-bold text-primary text-[16px]">Subject</p>
+                            <p class="font-bold text-primary text-sm md:text-[16px]">Subject</p>
                             <ul id="tutor-subjects"></ul>
                         </div>
                         <div>
-                            <p class="font-bold text-primary text-[16px]">Schedule</p>
+                            <p class="font-bold text-primary text-sm md:text-[16px]">Schedule</p>
                             <div
                                 class="inline-flex justify-center items-center rounded-full bg-primary/5 
-                                border-2 text-primary font-bold w-full px-4 py-0.5 mb-2 border-primary/50">
+                                border-2 text-primary font-bold w-full px-3 md:px-4 py-1 md:py-0.5 mb-2 border-primary/50 text-sm md:text-base">
                                 <p class="" id="tutor-time">-</p>
                             </div>
-                            <div class="grid grid-cols-2 gap-2" id="tutor-days"></div>
+                            <div class="grid grid-cols-2 md:grid-cols-2 gap-2" id="tutor-days"></div>
                         </div>
                     </div>
 
@@ -475,7 +476,7 @@
                         <span class="h-px flex-1 bg-charcoal"></span>
                     </span>
 
-                    <h2 class="font-bold text-primary text-3xl">Reviews</h2>
+                    <h2 class="font-bold text-primary text-2xl md:text-3xl mt-4">Reviews</h2>
                     <div class="mt-2" id="tutor-reviews"></div>
                 </div>
             </div>

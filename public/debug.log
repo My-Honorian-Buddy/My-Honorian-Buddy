@@ -80847,3 +80847,59 @@ RuntimeError: Error running the matchmaking algorithm: (ValueError('No student f
 2025-11-12 16:30:06,824 - INFO - Connected to MySQL database
 2025-11-12 16:30:06,828 - INFO - Connected to MySQL database
 2025-11-12 16:30:06,837 - INFO - Connected to MySQL database
+2025-11-12 16:49:34,889 - INFO - Received auth_id: 12
+2025-11-12 16:49:34,932 - INFO - Connected to MySQL database
+2025-11-12 16:49:34,937 - INFO - Connected to MySQL database
+2025-11-12 16:49:34,945 - INFO - Connected to MySQL database
+2025-11-12 16:49:35,273 - INFO - Received auth_id: 12
+2025-11-12 16:49:35,286 - INFO - Connected to MySQL database
+2025-11-12 16:49:35,295 - INFO - Connected to MySQL database
+2025-11-12 16:49:35,304 - INFO - Connected to MySQL database
+2025-11-12 16:51:50,683 - INFO - Received auth_id: 12
+2025-11-12 16:51:50,714 - INFO - Connected to MySQL database
+2025-11-12 16:51:50,721 - INFO - Connected to MySQL database
+2025-11-12 16:51:50,732 - INFO - Connected to MySQL database
+2025-11-12 16:53:50,188 - INFO - Received auth_id: 12
+2025-11-12 16:53:50,213 - INFO - Connected to MySQL database
+2025-11-12 16:53:50,222 - INFO - Connected to MySQL database
+2025-11-12 16:53:50,235 - INFO - Connected to MySQL database
+2025-11-12 16:55:57,149 - INFO - Received auth_id: 12
+2025-11-12 16:55:57,176 - INFO - Connected to MySQL database
+2025-11-12 16:55:57,185 - INFO - Connected to MySQL database
+2025-11-12 16:55:57,198 - INFO - Connected to MySQL database
+2025-11-12 16:57:28,268 - INFO - Received auth_id: 12
+2025-11-12 16:57:28,295 - INFO - Connected to MySQL database
+2025-11-12 16:57:28,303 - INFO - Connected to MySQL database
+2025-11-12 16:57:28,317 - INFO - Connected to MySQL database
+2025-11-12 16:59:46,623 - INFO - Received auth_id: 12
+2025-11-12 16:59:46,647 - INFO - Connected to MySQL database
+2025-11-12 16:59:46,654 - INFO - Connected to MySQL database
+2025-11-12 16:59:46,665 - INFO - Connected to MySQL database
+2025-11-12 17:00:19,618 - INFO - Received auth_id: 12
+2025-11-12 17:00:19,645 - INFO - Connected to MySQL database
+2025-11-12 17:00:19,654 - INFO - Connected to MySQL database
+2025-11-12 17:00:19,668 - INFO - Connected to MySQL database
+2025-11-12 17:00:52,737 - INFO - Received auth_id: 12
+2025-11-12 17:00:52,760 - INFO - Connected to MySQL database
+2025-11-12 17:00:52,765 - INFO - Connected to MySQL database
+2025-11-12 17:00:52,773 - INFO - Connected to MySQL database
+2025-11-12 17:01:01,183 - INFO - Received auth_id: 12
+2025-11-12 17:01:01,193 - INFO - Connected to MySQL database
+2025-11-12 17:01:01,198 - INFO - Connected to MySQL database
+2025-11-12 17:01:01,207 - INFO - Connected to MySQL database
+2025-11-12 17:01:23,083 - INFO - Received auth_id: 12
+2025-11-12 17:01:23,106 - INFO - Connected to MySQL database
+2025-11-12 17:01:23,112 - INFO - Connected to MySQL database
+2025-11-12 17:01:23,124 - INFO - Connected to MySQL database
+2025-11-12 17:06:25,828 - INFO - Received auth_id: 12
+2025-11-12 17:06:25,857 - INFO - Connected to MySQL database
+2025-11-12 17:06:25,865 - INFO - Connected to MySQL database
+2025-11-12 17:06:25,878 - INFO - Connected to MySQL database
+2025-11-12 17:07:01,649 - INFO - Received auth_id: 12
+2025-11-12 17:07:01,676 - INFO - Connected to MySQL database
+2025-11-12 17:07:01,685 - INFO - Connected to MySQL database
+2025-11-12 17:07:01,694 - INFO - Connected to MySQL database
+2025-11-12 17:20:38,696 - INFO - Received auth_id: 12
+2025-11-12 17:20:38,730 - INFO - Connected to MySQL database
+2025-11-12 17:20:38,738 - INFO - Connected to MySQL database
+2025-11-12 17:20:38,752 - INFO - Connected to MySQL database
