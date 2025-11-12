@@ -185,8 +185,8 @@
             </div>
 
             <!--middle-->
-            <div class="col-span-1 md:col-span-3 md:ml-10 mt-4 md:mt-0">
-                <h2 class="text-2xl md:text-3xl font-bold text-primary">
+            <div id="modal-middle-section" style="grid-column: span 1; margin-top: 1rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: #550000;">
                     Personal Information
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
@@ -304,6 +304,20 @@
         </div>
         </div>
     </x-bladewind.modal-explore>
+
+    <style>
+        @media (min-width: 768px) {
+            #modal-middle-section {
+                grid-column: span 3 !important;
+                margin-left: 2.5rem !important;
+                margin-top: 0 !important;
+            }
+            
+            #modal-middle-section h2 {
+                font-size: 1.875rem !important;
+            }
+        }
+    </style>
 
     <script>
         function openTutorModal(fname, lname, profilePic, days, subjects, reviews, year_level, department, gender,
