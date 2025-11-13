@@ -29,18 +29,22 @@
                                 Subjects:</label>
 
                             <div class="relative">
-                                <!-- Button to open the dropdown, type="button" prevents form submission -->
-                                <button type="button" id="dropdownButton"
-                                    class="bg-accent text-charcoal border-2 border-charcoal p-3 rounded-sm shadow-black w-full text-left text-sm md:text-base">
-                                    Select Subjects
-                                </button>
+                                <!-- Search input field to open the dropdown and search -->
+                                <div class="relative w-full">
+                                    <input type="text" placeholder="Search and select subjects..." id="dropdownButton"
+                                        class="bg-accent text-charcoal border-2 border-charcoal p-3 rounded-sm shadow-black w-full text-left 
+                                        text-sm md:text-base outline-none duration-200 ring-2 ring-[transparent] focus:ring-primary/70 focus:border-primary/70" />
+                                    <span class="absolute right-3 top-3 cursor-pointer pointer-events-none">
+                                        <x-bladewind::icon name="chevron-down" class="w-5 h-5 text-charcoal" />
+                                    </span>
+                                </div>
 
                                 <!-- Dropdown menu -->
                                 <div id="dropdownMenu"
-                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-accent border-2 border-charcoal rounded-sm shadow-md z-10 overflow-y-scroll max-h-[12rem] scroll-smooth">
+                                    class="absolute left-0 right-0 mt-2 mb-10 hidden bg-accent border-2 border-charcoal rounded-sm shadow-md z-10 max-h-[12rem]" style="display: none; flex-direction: column;">
 
                                     <!-- Close button -->
-                                    <div class="flex justify-end p-2 border-b border-charcoal/20">
+                                    <div class="sticky top-0 flex justify-end p-2 border-b border-charcoal/20 bg-accent z-20">
                                         <button type="button" id="closeDropdownBtn"
                                             class="text-charcoal hover:text-accent hover:bg-primary p-1 rounded transition-colors duration-200">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,19 +53,9 @@
                                         </button>
                                     </div>
 
-                                    <div class="flex flex-col items-center space-y-4">
-                                        {{-- search bar --}}
-                                        <div class="relative w-full m-2 mt-4 px-4 md:px-6">
-                                            <input type="text" placeholder="Search subjects..." name="query"
-                                                class="w-full py-1.5 pl-4 pr-10 rounded-lg 
-                                            border-2 border-darkgray bg-accent shadow-inner outline-none duration-200 
-                                        ring-2 ring-[transparent] focus:border-primary/70 font-semibold text-base md:text-[20px] placeholder:text-sm md:placeholder:text-[16px] text-gray-900" />
-                                            <span class="absolute right-6 md:right-10 top-[10px] cursor-pointer">
-                                                <x-bladewind::icon name="magnifying-glass" class="w-5 h-5" />
-                                            </span>
-                                        </div>
+                                    <div class="sticky top-11 bg-accent flex flex-col items-center space-y-4 border-b border-charcoal/20 z-20">
                                     </div>
-                                    <div class="space-y-2 p-2" id="dropdownSubjects">
+                                    <div class="space-y-2 p-2 overflow-y-scroll scroll-smooth" id="dropdownSubjects">
                                     </div>
                                 </div>
                                 <div class="mt-2 text-xs md:text-sm text-gray-500/80 font-medium"> Please choose up to 3 subjects only </div>
@@ -105,20 +99,39 @@
                 const dropdownMenu = document.getElementById('dropdownMenu');
                 const closeDropdownBtn = document.getElementById('closeDropdownBtn');
 
-                dropdownButton.addEventListener('click', () => {
-                    dropdownMenu.classList.toggle('hidden');
+                dropdownButton.addEventListener('focus', () => {
+                    dropdownMenu.classList.remove('hidden');
+                    dropdownMenu.style.display = 'flex';
                     dropdownButton.classList.add('border-primary/70');
+                });
+
+                dropdownButton.addEventListener('blur', (event) => {
+                    // Only close if clicking outside the dropdown menu
+                    setTimeout(() => {
+                        if (!dropdownMenu.contains(document.activeElement)) {
+                            dropdownMenu.classList.add('hidden');
+                            dropdownMenu.style.display = 'none';
+                            dropdownButton.classList.remove('border-primary/70');
+                        }
+                    }, 100);
                 });
 
                 closeDropdownBtn.addEventListener('click', (event) => {
                     event.stopPropagation();
                     dropdownMenu.classList.add('hidden');
+                    dropdownMenu.style.display = 'none';
                     dropdownButton.classList.remove('border-primary/70');
+                    dropdownButton.value = '';
+                });
+
+                dropdownMenu.addEventListener('click', (event) => {
+                    event.stopPropagation();
                 });
 
                 document.addEventListener('click', (event) => {
                     if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                         dropdownMenu.classList.add('hidden');
+                        dropdownMenu.style.display = 'none';
                         dropdownButton.classList.remove('border-primary/70');
                     }
                 });
@@ -135,7 +148,7 @@
                 const container = document.getElementById('dropdownSubjects');
                 const subjectContainer = document.getElementById('subject-container');
                 const subjectList = document.getElementById('subject-list');
-                const searchInput = document.querySelector('input[name="query"]');
+                const searchInput = document.getElementById('dropdownButton'); // Now references the input field
                 let selectedSubjects = [];
                 let allSubjects = [];
 
@@ -219,13 +232,6 @@
                         e.preventDefault();
                         filterSubjects(this.value);
                     }
-                });
-
-
-                const searchForm = searchInput.closest('form');
-                searchForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    filterSubjects(searchInput.value);
                 });
 
 
