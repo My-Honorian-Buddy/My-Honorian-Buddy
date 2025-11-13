@@ -70,7 +70,7 @@
                             @endphp
 
                             <x-slot name="trigger">
-                                <div class="relative">
+                                <div class="relative notification-bell-container">
                                     <x-bladewind.bell id="bell" size="small" color="red"
                                         class="p-3 h-10 w-10 md:!h-12 md:!w-12 text-white bg-primary transition ease-in-out hover:bg-hover border-2 border-charcoal rounded-full flex items-center justify-center cursor-pointer"
                                         show_dot="false" animate_dot="false" />
@@ -1246,7 +1246,13 @@
             .then(data => {
                 if (data.success) {
                     console.log("Notification deleted:", notificationId);
+                    
                     loadNotifications();
+                    
+                    if (typeof window.updateNotificationBadge === 'function') {
+                        window.updateNotificationBadge();
+                    }
+                    
                     const actions = document.querySelectorAll('.notification-actions');
                     bulkActions.classList.toggle('hidden');
                     actions.forEach(action => action.classList.toggle('hidden'));
@@ -1290,7 +1296,15 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data.message);
+                
+                // Reload notifications and update badge
                 loadNotifications();
+                
+                // Also update the badge immediately to 0
+                if (typeof window.updateNotificationBadge === 'function') {
+                    window.updateNotificationBadge();
+                }
+                
                 const actions = document.querySelectorAll('.notification-actions');
                 bulkActions.classList.toggle('hidden');
                 actions.forEach(action => action.classList.toggle('hidden'));

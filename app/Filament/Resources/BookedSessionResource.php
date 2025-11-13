@@ -570,7 +570,25 @@ class BookedSessionResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Delete selected')
+                        ->modalHeading('Delete selected Tutoring History')
+                        ->modalDescription('Are you sure you would like to do this?')
+                        ->action(function ($records) {
+                            foreach ($records as $record) {
+                                
+                                if ($record->trashed()) {
+                                    $record->forceDelete();
+                                } else {
+                                    $record->delete();
+                                }
+                            }
+                            
+                            \Filament\Notifications\Notification::make()
+                                ->title('Deleted')
+                                ->success()
+                                ->send();
+                        }),
                     ExportBulkAction::make()
                         ->label('Export Selected')
                         ->exports([
