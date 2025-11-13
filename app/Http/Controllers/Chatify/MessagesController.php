@@ -61,19 +61,45 @@ class MessagesController extends Controller
      */
     public function idFetchData(Request $request)
     {
-        $user = User::find($request['id']);
+        $user = User::with(['student', 'tutor'])->find($request['id']);
 
         if (!$user) {
             return Response::json([
                 'error' => 'User not found',
             ], 404);
         }
+
+        // Build response with relationships
+        $fetchData = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+            'profile_pic' => $user->profile_pic,
+            'avatar' => $user->avatar,
+            'active_status' => $user->active_status,
+        ];
+
+        // Add relationships if they exist
+        if ($user->student) {
+            $fetchData['student'] = [
+                'fname' => $user->student->fname,
+                'lname' => $user->student->lname,
+            ];
+        }
+
+        if ($user->tutor) {
+            $fetchData['tutor'] = [
+                'fname' => $user->tutor->fname,
+                'lname' => $user->tutor->lname,
+            ];
+        }
     
         return Response::json([
             'favorite' => Chatify::inFavorite($request['id']),
-            'fetch' => $user,
-            'user_avatar' => $user->avatar ?? 'default-avatar.png', // Replace with your default avatar path
-            'user_name' => $user->name ?? 'Unknown User', // Replace 'name' with your desired field
+            'fetch' => $fetchData,
+            'user_avatar' => $user->avatar ?? 'default-avatar.png',
+            'user_name' => $user->name ?? 'Unknown User',
         ]);
 
     }
@@ -254,17 +280,43 @@ class MessagesController extends Controller
             ->orWhere('ch_messages.to_id', Auth::user()->id);
         })
         ->where('users.id','!=',Auth::user()->id)
-        ->select('users.*',DB::raw('MAX(ch_messages.created_at) max_created_at'))
+        ->select('users.id',DB::raw('MAX(ch_messages.created_at) max_created_at'))
         ->orderBy('max_created_at', 'desc')
         ->groupBy('users.id')
         ->paginate($request->per_page ?? $this->perPage);
 
-        $usersList = $users->items();
+        $userIds = collect($users->items())->pluck('id');
 
-        if (count($usersList) > 0) {
+        // Fetch full user models with student/tutor relationships
+        $fullUsers = User::with(['student', 'tutor'])
+            ->whereIn('id', $userIds)
+            ->get()
+            ->keyBy('id');
+
+        if ($fullUsers->count() > 0) {
             $contacts = '';
-            foreach ($usersList as $user) {
-                $contacts .= Chatify::getContactItem($user);
+            // Sort by the original order from messages
+            foreach ($users->items() as $userData) {
+                $user = $fullUsers->get($userData->id);
+                if ($user) {
+                    // Get the last message to display
+                    $lastMessage = Message::where(function ($query) use ($user) {
+                        $query->where('from_id', Auth::user()->id)
+                              ->where('to_id', $user->id);
+                    })->orWhere(function ($query) use ($user) {
+                        $query->where('from_id', $user->id)
+                              ->where('to_id', Auth::user()->id);
+                    })->latest()->first();
+                    
+                    if ($lastMessage) {
+                        $contacts .= view('Chatify::layouts.listItem', [
+                            'get' => 'users',
+                            'user' => $user,
+                            'lastMessage' => $lastMessage,
+                            'unseenCounter' => Chatify::countUnseenMessages($user->id),
+                        ])->render();
+                    }
+                }
             }
         } else {
             $contacts = '<p class="message-hint center-el"><span>Your contact list is empty</span></p>';
@@ -355,13 +407,14 @@ class MessagesController extends Controller
     {
         $getRecords = null;
         $input = trim(filter_var($request['input']));
-        $records = User::where('id','!=',Auth::user()->id)
+        $records = User::with(['student', 'tutor'])
+                    ->where('id','!=',Auth::user()->id)
                     ->where('name', 'LIKE', "%{$input}%")
                     ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
                 'get' => 'search_item',
-                'user' => Chatify::getUserWithAvatar($record),
+                'user' => $record,
             ])->render();
         }
         if($records->total() < 1){

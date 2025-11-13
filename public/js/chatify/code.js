@@ -412,13 +412,17 @@ function IDinfo(id) {
         // focus on messaging input
         messageInput.focus();
         // update info in view
+        
 
-        if (data.fetch.role == "Tutor"){
+        if (data.fetch.role == "tutor" && data.fetch.tutor){
           $(".messenger-infoView .info-name").text(data.fetch.tutor.fname + " " + data.fetch.tutor.lname);
           $(".m-header-messaging .user-name").text(data.fetch.tutor.fname + " " + data.fetch.tutor.lname);
-        } else if (data.fetch.role == "Student"){
+        } else if (data.fetch.role == "student" && data.fetch.student){
           $(".messenger-infoView .info-name").text(data.fetch.student.fname + " " + data.fetch.student.lname);
           $(".m-header-messaging .user-name").text(data.fetch.student.fname + " " + data.fetch.student.lname);
+        } else {
+          $(".messenger-infoView .info-name").text(data.fetch.name);
+          $(".m-header-messaging .user-name").text(data.fetch.name);
         }
 
         // Star status

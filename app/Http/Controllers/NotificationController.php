@@ -151,12 +151,14 @@ class NotificationController extends Controller
 
                 $alltutor = Tutor::all();
                 
-                $tutor = Tutor::where('user_id', $notifInfo['tutor_id'])->first();
+                // Get the current logged-in tutor (who is rejecting) instead of from notif_info
+                $currentTutor = Tutor::where('user_id', Auth::id())->first();
+                $tutorName = $currentTutor ? ($currentTutor->fname . ' ' . $currentTutor->lname) : Auth::user()->name;
 
                 $data = [
                     'NotifType' => 'Tutor Request Rejected',
                     'subjects' => $notifInfo['subjects'],
-                    'tutor_name' => $tutor->fname .' '. $tutor->lname,
+                    'tutor_name' => $tutorName,
                     'total_session' => $notifInfo['total_session']
                 ];
                 notifSession::create([
