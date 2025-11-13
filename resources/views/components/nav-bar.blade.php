@@ -579,14 +579,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div> 
@@ -636,15 +636,15 @@
                                         <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                     </div>    
                                     <div class="hidden notification-actions self-center space-x-2">
-                                        <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
                                             <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                        <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                     </div>
                                 </div>
@@ -666,14 +666,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>
@@ -709,14 +709,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>
@@ -738,14 +738,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>
@@ -772,14 +772,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>
@@ -846,14 +846,14 @@
                                         <div class="flex space-x-2">
                                             <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                                <button 
                                                     class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="markAsRead(${notification.id})">
                                                     ✔
+                                                </button>
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
                                                 </button>
                                             </div>
                                         </div>
@@ -879,14 +879,14 @@
                                         <div class="flex space-x-2">
                                             <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                                <button 
                                                     class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="markAsRead(${notification.id})">
                                                     ✔
+                                                </button>
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
                                                 </button>
                                             </div>
                                         </div>
@@ -911,14 +911,14 @@
                                         <div class="flex space-x-2">
                                             <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                                <button 
                                                     class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="markAsRead(${notification.id})">
                                                     ✔
+                                                </button>
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
                                                 </button>
                                             </div>
                                         </div>
@@ -943,14 +943,14 @@
                                         <div class="flex space-x-2">
                                             <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                                <button 
                                                     class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="markAsRead(${notification.id})">
                                                     ✔
+                                                </button>
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
                                                 </button>
                                             </div>
                                         </div>
@@ -976,14 +976,14 @@
                                         <div class="flex space-x-2">
                                             <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                                <button 
                                                     class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="markAsRead(${notification.id})">
                                                     ✔
+                                                </button>
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
                                                 </button>
                                             </div>
                                         </div>
@@ -1037,14 +1037,14 @@
                                         <div class="flex space-x-2">
                                             <div class="hidden notification-actions self-center space-x-2">
                                                 <button 
-                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                    onclick="deleteNotification(${notification.id})">
-                                                    ✖
-                                                </button>
-                                                <button 
                                                     class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                     onclick="markAsRead(${notification.id})">
                                                     ✔
+                                                </button>
+                                                <button 
+                                                    class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                    onclick="deleteNotification(${notification.id})">
+                                                    ✖
                                                 </button>
                                             </div>
                                         </div>
@@ -1066,14 +1066,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>
@@ -1119,14 +1119,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>
@@ -1153,14 +1153,14 @@
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
-                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="deleteNotification(${notification.id})">
-                                                ✖
-                                            </button>
-                                            <button 
                                                 class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
                                                 onclick="markAsRead(${notification.id})">
                                                 ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
                                             </button>
                                         </div>
                                     </div>

@@ -38,9 +38,9 @@ $lastMessageBody = strlen($lastMessageBody) > 30 ? mb_substr($lastMessageBody, 0
         <td>
         <p data-id="{{ $user->id }}" data-type="user">
             <!-- Name in list -->
-            @if($user->role === 'Tutor')
+            @if($user->role === 'Tutor' && $user->tutor)
              {{$user->tutor->fname . ' ' . $user->tutor->lname}}
-            @elseif ($user->role === 'Student')
+            @elseif ($user->role === 'Student' && $user->student)
              {{$user->student->fname . ' ' . $user->student->lname}}
             @else
              {{ $user->name }}
@@ -83,10 +83,12 @@ $lastMessageBody = strlen($lastMessageBody) > 30 ? mb_substr($lastMessageBody, 0
         {{-- center side --}}
         <td>
             <p data-id="{{ $user->id }}" data-type="user">
-                @if($user->role === 'Tutor')
+                @if($user->role === 'Tutor' && $user->tutor)
                     {{ strlen($user->tutor->fname) > 12 ? trim(substr($user->tutor->fname,0,12), substr($user->tutor->lname,0,12)).'..' : $user->tutor->fname . ' ' . $user->tutor->lname }} ({{ $user->role }})
-                @elseif ($user->role === 'Student')
+                @elseif ($user->role === 'Student' && $user->student)
                     {{ strlen($user->student->fname) > 12 ? trim(substr($user->student->fname,0,12), substr($user->student->lname,0,12)).'..' : $user->student->fname . ' ' . $user->student->lname }} ({{ $user->role }})
+                @else
+                    {{ $user->name }} ({{ $user->role }})
                 @endif
             </p>
         </td>
