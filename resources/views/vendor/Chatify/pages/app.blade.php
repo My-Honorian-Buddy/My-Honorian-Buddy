@@ -3,6 +3,7 @@
 @php
 
 @endphp
+<x-nav-bar />
 <div class="messenger" style="height: 100%;">
     {{-- ----------------------Users/Groups lists side---------------------- --}}
     <div class="messenger-listView {{ !!$id ? 'conversation-active' : '' }}" style="overflow-y: hidden;">
