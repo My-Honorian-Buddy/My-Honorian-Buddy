@@ -573,15 +573,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
     <script>
-        /**
-         * ============================================
-         * ERROR HANDLING UTILITIES
-         * ============================================
-         */
-
-        /**
-         * Show error alert with custom styling
-         */
+        
         function showErrorAlert(title, message) {
             console.error(`[ERROR] ${title}: ${message}`);
             const alertDiv = document.createElement('div');
@@ -801,11 +793,7 @@
         `;
         document.head.appendChild(style);
 
-        /**
-         * ============================================
-         * CALENDAR FUNCTIONS
-         * ============================================
-         */
+        
         function openEventModal(eventInfo) {
             const modal = document.getElementById('eventModal');
             const modalTitle = document.getElementById('modalTitle');

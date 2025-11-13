@@ -162,7 +162,7 @@ class CorController extends Controller
     {
         $output = trim($output);
 
-        // Log raw output for debugging
+        
         Log::debug('Python verification output', ['output' => $output]);
 
         // Check for valid COR
@@ -175,7 +175,7 @@ class CorController extends Controller
 
         // Check for invalid COR
         if (stripos($output, 'invalid') !== false) {
-            // Try to extract missing keywords from output
+            
             if (preg_match('/Missing:\s*(.+)/', $output, $matches)) {
                 $missing = $matches[1];
                 return [
@@ -190,7 +190,7 @@ class CorController extends Controller
             ];
         }
 
-        // Check for errors in output
+        
         if (stripos($output, 'error') !== false) {
             if (preg_match('/Error[:\s]*(.+?)[\n$]/', $output, $matches)) {
                 $errorMsg = trim($matches[1]);
@@ -206,7 +206,7 @@ class CorController extends Controller
             ];
         }
 
-        // Unknown response
+        
         return [
             'success' => false,
             'message' => 'Could not verify COR. Please ensure the file is a valid PDF.',
