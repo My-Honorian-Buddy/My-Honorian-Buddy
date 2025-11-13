@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Exceptions\CorVerificationException;
+use App\Exceptions\FileOperationException;
+use App\Traits\ErrorHandling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -11,6 +14,7 @@ use App\Models\Tutor;
 
 class CorController extends Controller
 {
+    use ErrorHandling;
 
     public function view()
     {
@@ -19,86 +23,219 @@ class CorController extends Controller
     
     public function upload(Request $request)
     {
-        $request->validate([
-            'cor_pdf' => 'required|mimes:pdf|max:5120', // max 5MB lang para di sayang space
-        ]);
-    
-        // Store temporarily then deletes after ma check. ref to line 26
-        $uploadedFile = $request->file('cor_pdf');
-        $filename = time() . '_' . $uploadedFile->getClientOriginalName();
+        try {
+            // Validate file upload
+            $request->validate([
+                'cor_pdf' => 'required|mimes:pdf|max:5120', // max 5MB
+            ]);
 
-        $path = $uploadedFile->storeAs('cor_uploads', $filename, 'public');
-        $fullPath = storage_path('app/public/cor_uploads/' . $filename);
-        // sleep(1);
-        // dd([
-        //     'fullPath' => $fullPath,
-        //     'file_exists' => file_exists($fullPath),
-        // ]);
+            $this->logOperationStart('COR Upload', [
+                'user_id' => Auth::id(),
+                'file_size' => $request->file('cor_pdf')->getSize(),
+            ]);
 
-        // tempo
-        // dd($request->file('cor_pdf'));
-        // dd($fullPath);
-        // Run Python verification
-        // $output = shell_exec("python3 python/cor_verify/cor_verification.py");
+            // Store file temporarily
+            $uploadedFile = $request->file('cor_pdf');
+            $filename = time() . '_' . $uploadedFile->getClientOriginalName();
 
-        $user = Auth::user();
-        $fname = '';
-        $lname = '';
+            $path = $uploadedFile->storeAs('cor_uploads', $filename, 'public');
+            $fullPath = storage_path('app/public/cor_uploads/' . $filename);
 
-        if ($user -> role === 'Student' && $user->student) {
-            
+            if (!file_exists($fullPath)) {
+                throw new FileOperationException('File Storage', 'Uploaded file was not saved properly', 'Failed to save your COR. Please try again.');
+            }
+
+            $this->logOperationStart('COR Verification', [
+                'user_id' => Auth::id(),
+                'file_path' => $fullPath,
+            ]);
+
+            // Get user info
+            $user = Auth::user();
+            $fname = '';
+            $lname = '';
+
+            if ($user->role === 'Student' && $user->student) {
                 $fname = $user->student->fname;
                 $lname = $user->student->lname;
-            
-        } elseif ($user -> role === 'Tutor' && $user->tutor) {
-            
+            } elseif ($user->role === 'Tutor' && $user->tutor) {
                 $fname = $user->tutor->fname;
                 $lname = $user->tutor->lname;
-            
-        }
+            }
 
-        // Run Python verification
-        // naka hard code, lipat sa .env pag uupload na sa hosting service
-        $pythonPath = env('PYTHON_PATH', 'python');
+            if (empty($fname) || empty($lname)) {
+                throw new CorVerificationException(
+                    'Invalid user profile',
+                    'Your profile information is incomplete. Please complete your profile first.'
+                );
+            }
+
+            // Run Python verification with error handling
+            $output = $this->runPythonVerification($fullPath, $fname, $lname);
+
+            // Parse Python output safely
+            $verificationResult = $this->parsePythonOutput($output);
+
+            if ($verificationResult['success']) {
+                $user->cor_status = 'verified';
+                $user->save();
+                
+                $this->logOperationSuccess('COR Verification', [
+                    'user_id' => $user->id,
+                ]);
+
+                return back()->with('status', '✅ COR is valid!');
+            } else {
+                $this->logOperationFailure('COR Verification', $verificationResult['message'], [
+                    'user_id' => $user->id,
+                ]);
+
+                return back()->with('status', '❌ ' . $verificationResult['message']);
+            }
+
+        } catch (CorVerificationException $e) {
+            $this->logOperationFailure('COR Upload', $e->getMessage());
+            return back()->with('status', $e->render());
+        } catch (FileOperationException $e) {
+            $this->logOperationFailure('COR Upload', $e->getMessage());
+            return back()->with('status', '❌ ' . $e->getUserMessage());
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            $this->logOperationFailure('COR Upload', $e->getMessage(), [
+                'user_id' => Auth::id(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return back()->with('status', '⚠️ An unexpected error occurred. Please try again.');
+        } finally {
+            // Always clean up uploaded file
+            $this->cleanupFile($fullPath ?? null);
+        }
+    }
+
+    /**
+     * Run Python verification script with error handling
+     *
+     * @param string $fullPath
+     * @param string $fname
+     * @param string $lname
+     * @return string
+     * @throws CorVerificationException
+     */
+    private function runPythonVerification($fullPath, $fname, $lname)
+    {
+        $pythonPath = env('PYTHON_PATH', 'python3');
         $pythonScriptPath = base_path('python/cor_verify/cor_verification.py');
 
-        // check if same name and same cor :)
-        // dd([
-        // 'role' => $user->role,
-        // 'fname' => $fname,
-        // 'lname' => $lname,
-        // auth::user()
-        // ]);
-
-        $command = $pythonPath . " "
-        . escapeshellarg($pythonScriptPath) . " " 
-        . escapeshellarg($fullPath) . " "
-        . escapeshellarg($fname) . " "
-        . escapeshellarg($lname) . " 2>&1"; // capture errors
-
-        // $command = trim($command);
-        $output = shell_exec($command);
-        // dd($output);
-        // dd($command, $output);
-        // \Log::info('COR command', ['command' => $command]);
-        // \Log::info('COR output', ['output' => $output]);
-    
-        // Delete file after checking (to be revised na dedelete kasi agad)
-        if (file_exists($fullPath)) {
-            unlink($fullPath);
+        if (!file_exists($pythonScriptPath)) {
+            throw new CorVerificationException(
+                'Verification script not found',
+                'The verification service is temporarily unavailable. Please try again later.'
+            );
         }
-    
-        // Handle Python output
-        // Much better if toast message
+
+        $command = $pythonPath . " " .
+            escapeshellarg($pythonScriptPath) . " " .
+            escapeshellarg($fullPath) . " " .
+            escapeshellarg($fname) . " " .
+            escapeshellarg($lname) . " 2>&1";
+
+        $output = shell_exec($command);
+
+        if ($output === null) {
+            throw new CorVerificationException(
+                'Python execution failed',
+                'The verification service encountered an error. Please try again.'
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Parse Python output safely
+     *
+     * @param string $output
+     * @return array
+     */
+    private function parsePythonOutput($output)
+    {
+        $output = trim($output);
+
+        // Log raw output for debugging
+        Log::debug('Python verification output', ['output' => $output]);
+
+        // Check for valid COR
+        if (stripos($output, 'valid') !== false && stripos($output, 'invalid') === false) {
+            return [
+                'success' => true,
+                'message' => 'COR is valid',
+            ];
+        }
+
+        // Check for invalid COR
         if (stripos($output, 'invalid') !== false) {
-            return back()->with('status', '❌ COR is invalid!');
-        } elseif (stripos($output, 'valid') !== false) {
-            $user = Auth::user();
-            $user->cor_status = 'verified';
-            $user->save();
-            return back()->with('status', '✅ COR is valid!');
-        } else {
-            return back()->with('status', '⚠️ Error during COR verification.');
+            // Try to extract missing keywords from output
+            if (preg_match('/Missing:\s*(.+)/', $output, $matches)) {
+                $missing = $matches[1];
+                return [
+                    'success' => false,
+                    'message' => "COR is invalid. Missing or incorrect: {$missing}",
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => 'COR is invalid. Please check your Certificate of Registration.',
+            ];
+        }
+
+        // Check for errors in output
+        if (stripos($output, 'error') !== false) {
+            if (preg_match('/Error[:\s]*(.+?)[\n$]/', $output, $matches)) {
+                $errorMsg = trim($matches[1]);
+                return [
+                    'success' => false,
+                    'message' => "Verification error: {$errorMsg}",
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => 'An error occurred during verification.',
+            ];
+        }
+
+        // Unknown response
+        return [
+            'success' => false,
+            'message' => 'Could not verify COR. Please ensure the file is a valid PDF.',
+        ];
+    }
+
+    /**
+     * Clean up uploaded file
+     *
+     * @param string|null $fullPath
+     * @return void
+     */
+    private function cleanupFile($fullPath)
+    {
+        if (!$fullPath) {
+            return;
+        }
+
+        try {
+            if (file_exists($fullPath)) {
+                if (!unlink($fullPath)) {
+                    Log::warning('Failed to delete temporary file', ['path' => $fullPath]);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::warning('Error cleaning up file', [
+                'path' => $fullPath,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }
