@@ -16,9 +16,18 @@ class EventController extends Controller
             $userId = Auth::id();
             
             // Get both manual events and auto-generated session events for the user
+            
             $events = Event::where('user_id', $userId)
                 ->whereDate('start', '>=', $request->start)
                 ->whereDate('end', '<=', $request->end)
+                ->where(function($query) {
+                    
+                    $query->whereNull('booked_session_id')
+                        
+                        ->orWhereHas('bookedSession', function($q) {
+                            $q->whereNull('deleted_at');
+                        });
+                })
                 ->get(['id', 'user_id', 'title', 'start', 'end', 'description', 'event_type', 'session_number', 'booked_session_id']);
             
             // Format events for FullCalendar with different colors for different types
