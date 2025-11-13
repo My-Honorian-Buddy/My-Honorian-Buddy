@@ -17,7 +17,7 @@
     <link rel="icon" href="{{ asset('/images/favicon.svg') }}" type="image/x-icon">
 
     <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="burger.css">
+    <link rel="stylesheet" href="{{ asset('css/chatify/burger.css') }}">
     <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
@@ -50,23 +50,6 @@
         @include('components.call-notification')
     @endauth
 
-    <script>
-        (function() {
-            const progressEl = document.getElementById('scroll-progress');
-
-            function updateProgress() {
-                const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-                if (progressEl) progressEl.style.width = progress + '%';
-            }
-            window.addEventListener('scroll', updateProgress, {
-                passive: true
-            });
-            window.addEventListener('resize', updateProgress);
-            document.addEventListener('DOMContentLoaded', updateProgress);
-        })();
-    </script>
 </body>
 <script>
     AOS.init();

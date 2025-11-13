@@ -17,11 +17,15 @@
 </div>
 
 <script>
-    // Burger
-    const tham = document.querySelector(".tham");
+    // Burger menu toggle - wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+        const tham = document.querySelector(".tham");
 
-    tham.addEventListener('tham-active', () => {
-        tham.classList.toggle('click');
-        tham.style.setProperty('--animate-duration', '0.5s');
+        if (tham) {
+            tham.addEventListener('tham-active', () => {
+                tham.classList.toggle('click');
+                tham.style.setProperty('--animate-duration', '0.5s');
+            });
+        }
     });
 </script>
