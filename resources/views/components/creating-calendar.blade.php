@@ -899,10 +899,16 @@
 
         // Handle window resize for responsive updates
         let resizeTimeout;
+        let lastWidth = window.innerWidth;
+        
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(function() {
-                location.reload();
+                const currentWidth = window.innerWidth;
+                if (Math.abs(currentWidth - lastWidth) > 50) {
+                    lastWidth = currentWidth;
+                    location.reload();
+                }
             }, 500);
         });
     </script>
