@@ -497,7 +497,7 @@ class BookedSessionResource extends Resource
                                 'tutor_report_submitted_at' => $session->tutor_report_submitted_at,
                                 'ban_status' => $session->ban_status ?? 'approved',
                                 'banned_at' => now(),
-                                'banned_by' => auth()->id(),
+                                'banned_by' => Auth::id(),
                             ]);
                         }
                         
