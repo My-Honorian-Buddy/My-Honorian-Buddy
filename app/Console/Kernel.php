@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         // Register your custom command here
-        Commands\CheckPaymentLinkStatus::class,
         Commands\CheckUpcomingSessions::class,
     ];
 

@@ -810,8 +810,8 @@
                                             <input type="hidden" name="accept" value="true">
                                             <button 
                                                 type="submit"
-                                                class="bg-green-900 text-white px-4 py-2 rounded-sm transition active:scale-95 hover:bg-green-700">
-                                                ✓ Accept & Drop Session
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95">
+                                                Accept
                                             </button>
                                         </form>
                                         <form action="{{ route('drop.session') }}" method="post" class="inline">
@@ -821,8 +821,8 @@
                                             <input type="hidden" name="accept" value="false">
                                             <button 
                                                 type="submit"
-                                                class="bg-red-900 text-white px-4 py-2 rounded-sm transition active:scale-95 hover:bg-red-700">
-                                                ✗ Deny Request
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95">
+                                                Reject
                                             </button>
                                         </form>
                                     </div>
