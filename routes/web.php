@@ -17,6 +17,7 @@ use App\Http\Controllers\GoogleCalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VideoCallController;
+use App\Http\Controllers\Auth\AiController;
 use App\Http\Controllers\Chatify\MessagesController;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\User;
@@ -226,7 +227,12 @@ Route::middleware('auth')->group(function () {
 
 
 
+//not working yet, for future if ever
 Route::middleware(['auth'])->group(function () {
+    Route::get('/chaty', function () {
+        return view('components.settingUp_profile.chat');
+    })->name('chaty');
+    Route::post('/chatty', [AiController::class, 'chatty'])->name('chatty.send');
     Route::get('/about', function () {
         return view('aboutus');
     })->name('about');

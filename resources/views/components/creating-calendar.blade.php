@@ -573,227 +573,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
     <script>
-        
-        function showErrorAlert(title, message) {
-            console.error(`[ERROR] ${title}: ${message}`);
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background-color: #fee;
-                border-left: 4px solid #dc2626;
-                border-radius: 4px;
-                padding: 16px 20px;
-                z-index: 9999;
-                max-width: 400px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                font-family: Arial, sans-serif;
-                animation: slideInRight 0.3s ease;
-            `;
-            alertDiv.innerHTML = `
-                <div style="font-weight: bold; color: #991b1b; margin-bottom: 8px;">${title}</div>
-                <div style="color: #7f1d1d; font-size: 0.9rem;">${message}</div>
-            `;
-            document.body.appendChild(alertDiv);
-            setTimeout(() => alertDiv.remove(), 5000);
-        }
-
-        /**
-         * Show success alert with custom styling
-         */
-        function showSuccessAlert(title, message) {
-            console.info(`[SUCCESS] ${title}: ${message}`);
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background-color: #ecfdf5;
-                border-left: 4px solid #10b981;
-                border-radius: 4px;
-                padding: 16px 20px;
-                z-index: 9999;
-                max-width: 400px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                font-family: Arial, sans-serif;
-                animation: slideInRight 0.3s ease;
-            `;
-            alertDiv.innerHTML = `
-                <div style="font-weight: bold; color: #065f46; margin-bottom: 8px;">${title}</div>
-                <div style="color: #047857; font-size: 0.9rem;">${message}</div>
-            `;
-            document.body.appendChild(alertDiv);
-            setTimeout(() => alertDiv.remove(), 3000);
-        }
-
-        /**
-         * Show warning alert with custom styling
-         */
-        function showWarningAlert(title, message) {
-            console.warn(`[WARNING] ${title}: ${message}`);
-            const alertDiv = document.createElement('div');
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background-color: #fffbeb;
-                border-left: 4px solid #f59e0b;
-                border-radius: 4px;
-                padding: 16px 20px;
-                z-index: 9999;
-                max-width: 400px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                font-family: Arial, sans-serif;
-                animation: slideInRight 0.3s ease;
-            `;
-            alertDiv.innerHTML = `
-                <div style="font-weight: bold; color: #92400e; margin-bottom: 8px;">${title}</div>
-                <div style="color: #b45309; font-size: 0.9rem;">${message}</div>
-            `;
-            document.body.appendChild(alertDiv);
-            setTimeout(() => alertDiv.remove(), 4000);
-        }
-
-        /**
-         * Parse error messages from different error sources
-         */
-        function getErrorMessage(xhr, status, error) {
-            // Network timeout
-            if (status === 'timeout') {
-                return 'Request timed out. Please check your internet connection and try again.';
-            }
-
-            // No internet connection
-            if (status === 'error' && !navigator.onLine) {
-                return 'No internet connection. Please check your network and try again.';
-            }
-
-            // Try to parse JSON error response
-            try {
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    return xhr.responseJSON.message;
-                }
-            } catch (e) {
-                // Not JSON
-            }
-
-            // Try to get text response
-            if (xhr.responseText) {
-                const text = xhr.responseText.substring(0, 200);
-                if (text.length > 0) {
-                    return text;
-                }
-            }
-
-            // HTTP status codes
-            const statusCode = xhr.status;
-            switch (statusCode) {
-                case 400:
-                    return 'Invalid request. Please check your input.';
-                case 401:
-                    return 'You are not authenticated. Please log in again.';
-                case 403:
-                    return 'You do not have permission to perform this action.';
-                case 404:
-                    return 'The requested resource was not found.';
-                case 409:
-                    return 'There is a conflict with the current event state. Please refresh and try again.';
-                case 422:
-                    return 'Validation failed. Please check your input.';
-                case 500:
-                    return 'Server error. Please try again later.';
-                case 503:
-                    return 'Service is temporarily unavailable. Please try again later.';
-                default:
-                    if (statusCode >= 500) {
-                        return 'Server error occurred. Please try again later.';
-                    }
-                    return `Error (${statusCode}): ${error || 'Unknown error'}. Please try again.`;
-            }
-        }
-
-        /**
-         * Show/hide loading state
-         */
-        function showLoadingState(show, message = 'Loading...') {
-            let loadingDiv = document.getElementById('loadingOverlay');
-            
-            if (show) {
-                if (!loadingDiv) {
-                    loadingDiv = document.createElement('div');
-                    loadingDiv.id = 'loadingOverlay';
-                    loadingDiv.style.cssText = `
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(0, 0, 0, 0.3);
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        z-index: 9998;
-                        backdrop-filter: blur(2px);
-                    `;
-                    loadingDiv.innerHTML = `
-                        <div style="
-                            background-color: white;
-                            padding: 30px 40px;
-                            border-radius: 8px;
-                            text-align: center;
-                            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-                        ">
-                            <div style="
-                                width: 40px;
-                                height: 40px;
-                                border: 4px solid #f3f4f6;
-                                border-top-color: #550000;
-                                border-radius: 50%;
-                                margin: 0 auto 15px;
-                                animation: spin 1s linear infinite;
-                            "></div>
-                            <div id="loadingMessage" style="
-                                color: #1a1a1a;
-                                font-weight: bold;
-                                font-family: Arial, sans-serif;
-                            ">${message}</div>
-                        </div>
-                    `;
-                    document.body.appendChild(loadingDiv);
-                } else {
-                    document.getElementById('loadingMessage').textContent = message;
-                    loadingDiv.style.display = 'flex';
-                }
-            } else {
-                if (loadingDiv) {
-                    loadingDiv.style.display = 'none';
-                }
-            }
-        }
-
-        /**
-         * Add loading animation keyframes
-         */
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes spin {
-                to { transform: rotate(360deg); }
-            }
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        
         function openEventModal(eventInfo) {
             const modal = document.getElementById('eventModal');
             const modalTitle = document.getElementById('modalTitle');
@@ -888,34 +667,21 @@
         }
 
         function deleteEventFromModal(eventId) {
-            if (!eventId || typeof eventId !== 'number') {
-                console.error('Invalid event ID:', eventId);
-                showErrorAlert('❌ Error', 'Invalid event ID. Please refresh and try again.');
-                return;
-            }
-
-            if (confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
-                showLoadingState(true, 'Deleting event...');
-
+            if (confirm("Are you sure you want to delete this event?")) {
                 $.ajax({
                     url: "/calendar/action",
                     type: "POST",
-                    timeout: 10000, // 10 second timeout
                     data: {
                         id: eventId,
                         type: 'delete',
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function(response) {
-                        showSuccessAlert('✅ Success', 'Event deleted successfully!');
+                    success: function() {
                         closeEventModal();
-                        setTimeout(() => location.reload(), 1000);
+                        location.reload();
                     },
-                    error: function(xhr, status, error) {
-                        showLoadingState(false);
-                        const errorMsg = getErrorMessage(xhr, status, error);
-                        showErrorAlert('❌ Delete Failed', errorMsg);
-                        console.error('Delete event error:', {xhr, status, error});
+                    error: function(xhr) {
+                        alert("Error deleting event: " + xhr.responseText);
                     }
                 });
             }
@@ -956,336 +722,182 @@
         }
 
         function submitNewEvent() {
-            try {
-                const title = document.getElementById('eventTitle').value.trim();
-                const start = document.getElementById('eventStart').value;
-                const end = document.getElementById('eventEnd').value;
+            const title = document.getElementById('eventTitle').value.trim();
+            const start = document.getElementById('eventStart').value;
+            const end = document.getElementById('eventEnd').value;
 
-                // Validation
-                if (!title) {
-                    showWarningAlert('⚠️ Validation Error', 'Please enter an event title.');
-                    document.getElementById('eventTitle').focus();
-                    return;
-                }
-
-                if (title.length < 2) {
-                    showWarningAlert('⚠️ Validation Error', 'Event title must be at least 2 characters long.');
-                    document.getElementById('eventTitle').focus();
-                    return;
-                }
-
-                if (title.length > 100) {
-                    showWarningAlert('⚠️ Validation Error', 'Event title must not exceed 100 characters.');
-                    return;
-                }
-
-                if (!start) {
-                    showWarningAlert('⚠️ Validation Error', 'Please select a start date and time.');
-                    document.getElementById('eventStart').focus();
-                    return;
-                }
-
-                if (!end) {
-                    showWarningAlert('⚠️ Validation Error', 'Please select an end date and time.');
-                    document.getElementById('eventEnd').focus();
-                    return;
-                }
-
-                const startDate = new Date(start);
-                const endDate = new Date(end);
-
-                if (startDate >= endDate) {
-                    showWarningAlert('⚠️ Validation Error', 'End time must be after start time.');
-                    document.getElementById('eventEnd').focus();
-                    return;
-                }
-
-                // Check if dates are in the future (optional, adjust as needed)
-                if (startDate < new Date()) {
-                    showWarningAlert('⚠️ Invalid Date', 'Cannot create events in the past.');
-                    return;
-                }
-
-                showLoadingState(true, 'Adding event...');
-
-                $.ajax({
-                    url: "/calendar/action",
-                    type: "POST",
-                    timeout: 10000, // 10 second timeout
-                    data: {
-                        title: title,
-                        start: start,
-                        end: end,
-                        type: 'add',
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        showSuccessAlert('✅ Success', 'Event added successfully!');
-                        closeAddEventModal();
-                        setTimeout(() => location.reload(), 1000);
-                    },
-                    error: function(xhr, status, error) {
-                        showLoadingState(false);
-                        const errorMsg = getErrorMessage(xhr, status, error);
-                        showErrorAlert('❌ Add Event Failed', errorMsg);
-                        console.error('Add event error:', {xhr, status, error});
-                    }
-                });
-            } catch (error) {
-                console.error('Unexpected error in submitNewEvent:', error);
-                showErrorAlert('❌ Unexpected Error', 'An unexpected error occurred. Please try again.');
+            if (!title) {
+                alert('Please enter an event title');
+                return;
             }
+
+            if (!start || !end) {
+                alert('Please select start and end dates');
+                return;
+            }
+
+            $.ajax({
+                url: "/calendar/action",
+                type: "POST",
+                data: {
+                    title: title,
+                    start: start,
+                    end: end,
+                    type: 'add',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function() {
+                    closeAddEventModal();
+                    location.reload();
+                },
+                error: function(xhr) {
+                    alert("Error adding event: " + xhr.responseText);
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            try {
-                var calendarEl = document.getElementById('calendar');
+            var calendarEl = document.getElementById('calendar');
 
-                if (!calendarEl) {
-                    console.error('Calendar element not found');
-                    showErrorAlert('❌ Error', 'Calendar element not found. Please refresh the page.');
-                    return;
+            // Determine responsive height and view
+            function getCalendarConfig() {
+                const width = window.innerWidth;
+                let height, initialView, headerToolbar;
+
+                if (width <= 480) {
+                    // Mobile
+                    height = 'auto';
+                    initialView = 'dayGridMonth';
+                    headerToolbar = {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: ''
+                    };
+                } else if (width <= 768) {
+                    // Tablet
+                    height = 500;
+                    initialView = 'dayGridMonth';
+                    headerToolbar = {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek'
+                    };
+                } else {
+                    // Desktop
+                    height = 600;
+                    initialView = 'dayGridMonth';
+                    headerToolbar = {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    };
                 }
 
-                // Determine responsive height and view
-                function getCalendarConfig() {
-                    try {
-                        const width = window.innerWidth;
-                        let height, initialView, headerToolbar;
+                return { height, initialView, headerToolbar };
+            }
 
-                        if (width <= 480) {
-                            // Mobile
-                            height = 'auto';
-                            initialView = 'dayGridMonth';
-                            headerToolbar = {
-                                left: 'prev,next',
-                                center: 'title',
-                                right: ''
-                            };
-                        } else if (width <= 768) {
-                            // Tablet
-                            height = 500;
-                            initialView = 'dayGridMonth';
-                            headerToolbar = {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek'
-                            };
-                        } else {
-                            // Desktop
-                            height = 600;
-                            initialView = 'dayGridMonth';
-                            headerToolbar = {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                            };
-                        }
+            const config = getCalendarConfig();
 
-                        return { height, initialView, headerToolbar };
-                    } catch (error) {
-                        console.error('Error in getCalendarConfig:', error);
-                        // Return default config
-                        return {
-                            height: 600,
-                            initialView: 'dayGridMonth',
-                            headerToolbar: {
-                                left: 'prev,next today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                            }
-                        };
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: config.initialView,
+                height: config.height,
+                contentHeight: 'auto',
+                selectable: true,
+                editable: true,
+                headerToolbar: config.headerToolbar,
+                events: '/calendar/event',
+                displayEventTime: true,
+
+                eventDidMount: function(info) {
+                    if (info.event.extendedProps.description) {
+                        info.el.title = 'Click to view details';
                     }
-                }
 
-                const config = getCalendarConfig();
+                    if (info.event.extendedProps.eventType === 'booked_session') {
+                        info.el.style.cursor = 'pointer';
+                        info.el.style.fontWeight = 'bold';
+                    } else {
+                        info.el.style.cursor = 'pointer';
+                    }
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: config.initialView,
-                    height: config.height,
-                    contentHeight: 'auto',
-                    selectable: true,
-                    editable: true,
-                    headerToolbar: config.headerToolbar,
-                    events: {
-                        url: '/calendar/event',
-                        failure: function() {
-                            console.error('Failed to load calendar events');
-                            showErrorAlert('❌ Load Failed', 'Failed to load events. Please refresh the page.');
-                        }
-                    },
-                    displayEventTime: true,
+                    const dayCell = info.el.closest('.fc-daygrid-day');
+                    if (dayCell) {
+                        dayCell.classList.add('has-events');
+                    }
+                },
 
-                    eventDidMount: function(info) {
-                        try {
-                            if (info.event.extendedProps.description) {
-                                info.el.title = 'Click to view details';
-                            }
-
-                            if (info.event.extendedProps.eventType === 'booked_session') {
-                                info.el.style.cursor = 'pointer';
-                                info.el.style.fontWeight = 'bold';
-                            } else {
-                                info.el.style.cursor = 'pointer';
-                            }
-
-                            const dayCell = info.el.closest('.fc-daygrid-day');
-                            if (dayCell) {
-                                dayCell.classList.add('has-events');
-                            }
-                        } catch (error) {
-                            console.error('Error in eventDidMount:', error);
-                        }
-                    },
-
-                    select: function(info) {
-                        try {
-                            openAddEventModal(info);
-                        } catch (error) {
-                            console.error('Error opening add event modal:', error);
-                            showErrorAlert('❌ Error', 'Failed to open event form. Please try again.');
-                        }
-                    },
+                select: function(info) {
+                    openAddEventModal(info);
+                },
 
                 eventDrop: function(info) {
                     if (info.event.extendedProps.eventType === 'booked_session') {
-                        showWarningAlert(
-                            "⚠️ Cannot Move Session",
+                        alert(
                             "Booked session events cannot be moved. Please contact your tutor/student to reschedule."
                         );
                         info.revert();
                         return;
                     }
 
-                    try {
-                        if (!info.event.start) {
-                            showErrorAlert('❌ Error', 'Event has no start date. Please refresh and try again.');
+                    $.ajax({
+                        url: "/calendar/action",
+                        type: "POST",
+                        data: {
+                            id: info.event.id,
+                            title: info.event.title,
+                            start: info.event.start.toISOString(),
+                            end: info.event.end ? info.event.end.toISOString() : info.event
+                                .start.toISOString(),
+                            type: 'update',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            alert("Event updated!");
+                        },
+                        error: function(xhr) {
+                            alert("Error updating event: " + xhr.responseText);
                             info.revert();
-                            return;
                         }
-
-                        showLoadingState(true, 'Updating event...');
-
-                        $.ajax({
-                            url: "/calendar/action",
-                            type: "POST",
-                            timeout: 10000,
-                            data: {
-                                id: info.event.id,
-                                title: info.event.title,
-                                start: info.event.start.toISOString(),
-                                end: info.event.end ? info.event.end.toISOString() : info.event.start.toISOString(),
-                                type: 'update',
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                showLoadingState(false);
-                                showSuccessAlert('✅ Success', 'Event moved successfully!');
-                                console.log('Event moved:', info.event.id);
-                            },
-                            error: function(xhr, status, error) {
-                                showLoadingState(false);
-                                const errorMsg = getErrorMessage(xhr, status, error);
-                                showErrorAlert('❌ Update Failed', errorMsg);
-                                info.revert();
-                                console.error('Event drag error:', {xhr, status, error});
-                            }
-                        });
-                    } catch (error) {
-                        showLoadingState(false);
-                        console.error('Unexpected error in eventDrop:', error);
-                        showErrorAlert('❌ Unexpected Error', 'Failed to move event. Please try again.');
-                        info.revert();
-                    }
+                    });
                 },
 
                 eventResize: function(info) {
                     if (info.event.extendedProps.eventType === 'booked_session') {
-                        showWarningAlert('⚠️ Cannot Resize', 'Booked session events cannot be resized.');
+                        alert("Booked session events cannot be resized.");
                         info.revert();
                         return;
                     }
 
-                    try {
-                        if (!info.event.start || !info.event.end) {
-                            showErrorAlert('❌ Error', 'Event has invalid dates. Please refresh and try again.');
+                    $.ajax({
+                        url: "/calendar/action",
+                        type: "POST",
+                        data: {
+                            id: info.event.id,
+                            title: info.event.title,
+                            start: info.event.start.toISOString(),
+                            end: info.event.end.toISOString(),
+                            type: 'update',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            alert("Event resized!");
+                        },
+                        error: function(xhr) {
+                            alert("Error resizing event: " + xhr.responseText);
                             info.revert();
-                            return;
                         }
-
-                        showLoadingState(true, 'Updating event...');
-
-                        $.ajax({
-                            url: "/calendar/action",
-                            type: "POST",
-                            timeout: 10000,
-                            data: {
-                                id: info.event.id,
-                                title: info.event.title,
-                                start: info.event.start.toISOString(),
-                                end: info.event.end.toISOString(),
-                                type: 'update',
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(response) {
-                                showLoadingState(false);
-                                showSuccessAlert('✅ Success', 'Event resized successfully!');
-                                console.log('Event resized:', info.event.id);
-                            },
-                            error: function(xhr, status, error) {
-                                showLoadingState(false);
-                                const errorMsg = getErrorMessage(xhr, status, error);
-                                showErrorAlert('❌ Update Failed', errorMsg);
-                                info.revert();
-                                console.error('Event resize error:', {xhr, status, error});
-                            }
-                        });
-                    } catch (error) {
-                        showLoadingState(false);
-                        console.error('Unexpected error in eventResize:', error);
-                        showErrorAlert('❌ Unexpected Error', 'Failed to resize event. Please try again.');
-                        info.revert();
-                    }
+                    });
                 },
 
-                    eventClick: function(info) {
-                        try {
-                            openEventModal(info);
-                        } catch (error) {
-                            console.error('Error opening event modal:', error);
-                            showErrorAlert('❌ Error', 'Failed to open event details. Please try again.');
-                        }
-                    }
-                });
-
-                try {
-                    calendar.render();
-                } catch (error) {
-                    console.error('Error rendering calendar:', error);
-                    showErrorAlert('❌ Calendar Error', 'Failed to render calendar. Please refresh the page.');
+                eventClick: function(info) {
+                    openEventModal(info);
                 }
-            } catch (error) {
-                console.error('Unexpected error in DOMContentLoaded:', error);
-                showErrorAlert('❌ Critical Error', 'An unexpected error occurred. Please refresh the page.');
-            }
+            });
+
+            calendar.render();
         });
 
-        /**
-         * Handle network changes
-         */
-        window.addEventListener('offline', function() {
-            console.warn('Network connection lost');
-            showWarningAlert('⚠️ No Connection', 'You are offline. Some features may not work properly.');
-        });
-
-        window.addEventListener('online', function() {
-            console.info('Network connection restored');
-            showSuccessAlert('✅ Connected', 'Your connection has been restored.');
-        });
-
-        /**
-         * Handle window resize errors
-         */
+        // Handle window resize for responsive updates
         let resizeTimeout;
         let lastWidth = window.innerWidth;
         
