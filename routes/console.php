@@ -8,6 +8,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Artisan::command('check-payment-status', function () {
-    Artisan::call('payment:check-status'); 
-})->purpose('Manually check payment link status')->everyMinute();
+Artisan::command('check-upcoming-sessions', function () {
+    Artisan::call('sessions:check-upcoming'); 
+})->purpose('Check for upcoming tutoring sessions')->everyMinute();
