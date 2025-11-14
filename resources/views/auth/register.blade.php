@@ -74,6 +74,28 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
 
+            <!-- Terms & Conditions and Privacy Policy Agreement -->
+            <div class="flex items-start gap-2 sm:gap-3 pt-2">
+                <input type="checkbox" id="terms" name="terms" value="true" 
+                    class="mt-1 w-4 h-4 sm:w-5 sm:h-5 rounded border-charcoal text-primary focus:ring-primary cursor-pointer"
+                    {{ old('terms') ? 'checked' : '' }}>
+                <div class="flex-1">
+                    <label for="terms" class="text-xs sm:text-sm font-medium text-black cursor-pointer">
+                        I agree to the 
+                        <a href="{{ route('terms') }}" target="_blank" rel="noopener noreferrer" 
+                            class="text-primary font-semibold hover:underline transition-colors">
+                            Terms and Conditions
+                        </a> 
+                        and 
+                        <a href="{{ route('privacy') }}" target="_blank" rel="noopener noreferrer" 
+                            class="text-primary font-semibold hover:underline transition-colors">
+                            Privacy Policy
+                        </a>
+                    </label>
+                    <x-input-error :messages="$errors->get('terms')" class="mt-1" />
+                </div>
+            </div>
+
             <!-- Submit Button and Login Link -->
             <div class="font-poppins flex flex-col gap-4 pt-2">
                 <x-primary-button class="w-full justify-center font-semibold bg-accent3 border-charcoal text-primary hover:text-accent3 hover:bg-primary text-sm sm:text-base py-2.5 sm:py-3 transition-all">

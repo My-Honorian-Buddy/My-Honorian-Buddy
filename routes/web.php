@@ -75,6 +75,13 @@ Route::get('/contactus', function () {
     return view('contact-us');
 })->name('contact-us');
 
+Route::get('/terms-and-agreement', function () {
+    return view('terms-and-agreement');
+})->name('terms');
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy');
 
 Route::get('/api/notifications/status', function () {
     return response()->json(['hasNotification' => Auth::user()->hasNotification]);

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>About Us</title>
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="icon" href="{{ asset('/images/favicon.svg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+</head>
+
+<!-- nav bar -->
+<x-nav-bar />
+
+<body class="font-poppins font-semibold">
+
+    <!-- first page -->
+    <div class="first-page bg-[#F5EFEF] overflow-hidden">
+        <div class="hero-content flex justify-end items-center">
+            <div class="text-left">
+                <h1 class="font-black text-charcoal" data-aos="fade-up" data-aos-delay="300"
+                    data-aos-duration="1500">
+                    WE BELIEVE THAT
+                </h1>
+                <div class="flex items-end flex-wrap mt-4" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
+                    <div class="learning-box relative inline-block font-dela text-primary px-2 md:px-6 leading-tight">
+                        LEARNING
+                        <img src="{{ asset('images/firstPageSvg/spark.svg') }}"
+                            class="hidden md:block absolute right-[-85px] top-[-80px] w-28 h-28" alt="spark">
+                    </div>
+                    <div class="is-text font-black">
+                        IS...
+                    </div>
+                </div>
+                <div class="flex flex-col items-center" data-aos="fade-left" data-aos-delay="300"
+                    data-aos-duration="1500">
+                    <div class="better-box inline-block font-dela bg-accent text-primary border-2 border-charcoal rounded-md px-4 md:px-6 transform">
+                        BETTER
+                    </div>
+                    <div class="together-box relative inline-block font-dela rounded-md w-auto px-6 bg-primary text-accent border-2 border-charcoal transform mt-4 mb-6">
+                        TOGETHER
+                        <img src="{{ asset('images/stars2.svg') }}"
+                            class="hidden md:block absolute top-[-40px] right-[-30px] w-[80px] h-[80px]" alt="star">
+                        <img src="{{ asset('images/stars2.svg') }}"
+                            class="hidden md:block absolute bottom-[-50px] left-[-30px] w-[80px] h-[80px] transform" alt="star">
+                    </div>
+                </div>
+            </div>
+            <div class="teaching-image" data-aos="fade-right" data-aos-delay="300"
+                data-aos-duration="1500">
+                <img src="{{ asset('/images/teaching.svg') }}" alt="teaching">
+            </div>
+        </div>
+    </div>
+
+    <div class="marquee-bar font-dela bg-primary overflow-hidden relative">
+        <div class="animate-marquee tracking-widest items-center whitespace-nowrap flex space-x-8 h-full">
+            <span class="text font-bold text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="text-2xl">☀️</span>
+        </div>
+    </div>
+
+    <!-- second page -->
+    <div class="bg-[#F5EFEF] relative w-full p-6 md:p-20">
+
+        <!-- our mission contents container -->
+        <div class="flex flex-col md:flex-row items-center relative mt-10 p-6 md:p-10" data-aos="fade-right" data-aos-delay="300"
+            data-aos-duration="1000">
+            <div
+                class="bg-accent rounded-md min-h-[420px] md:h-[600px] w-full md:w-[650px] pb-2 mb-4
+             border-black border-2 overflow-hidden">
+                <!-- our mission contents -->
+                <div class="relative items-center">
+                    <img src="{{ asset('images/grid.svg') }}" class="opacity-50 w-full h-auto">
+                    <h1 class="md:absolute md:pt-22 p-6 md:p-10 md:inset-0 font-poppins text-3xl md:text-5xl font-black">
+                        WHY WE ARE HERE.
+                    </h1>
+                    <p class="md:absolute md:inset-0 md:pt-20 md:px-10 text-base md:text-xl font-bold text-justify mt-4 md:mt-10">
+                        At <i>My Honorian Buddy</i>, we're driven by a commitment to empower students to thrive
+                        academically
+                        and personally. We believe that learning is most effective when it's collaborative, adaptive,
+                        and tailored
+                        to individual needs. Through content-based matching algorithm, we connect students with peers
+                        who can
+                        offer the right support, mentorship, and encouragement. Our platform fosters a supportive
+                        learning community
+                        where students can share knowledge, overcome academic challenges, and build meaningful
+                        connections. With
+                        <i>My Honorian Buddy</i>, every student has the tools, resources, and network to unlock their
+                        full potential and
+                        achieve their educational goals.
+                    </p>
+                </div>
+            </div>
+
+            <!-- our mission title container -->
+            <div
+                class="md:absolute md:top-[35px] md:right-[650px] -mt-10 bg-accent rounded-md py-2 mb-4
+         border-black border-2">
+                
+
+                <!-- our mission title-->
+                <div class="inline-block px-4 py-2 text-center text-lg font-black">
+                    <span class="whitespace-nowrap text-2xl md:text-4xl font-extrabold font-poppins">OUR MISSION</span>
+                </div>
+            </div>
+
+            <div class="md:absolute h-auto w-auto md:mt-[100px] md:left-[550px]" data-aos="fade-left" data-aos-delay="300"
+                data-aos-duration="1000">
+                <img src="{{ asset('images/bro_reading.svg') }}" class="w-64 md:w-auto h-auto" alt="reading">
+            </div>
+
+        </div>
+
+        <!-- our vision contents container -->
+        <div class="flex flex-col md:flex-row items-center relative p-6 md:p-10 mt-10 md:mt-[150px] mb-10 md:mb-[150px]" data-aos="zoom-in-left"
+            data-aos-delay="300" data-aos-duration="1000">
+            <div
+                class="bg-accent rounded-md min-h-[320px] md:h-[380px] w-full md:w-[700px] pt-2 pb-2 mb-4 shadow-custom-button shadow-black
+            border-black border-2 md:ml-auto overflow-hidden">
+                
+
+                <!-- our vision contents -->
+                <div class="relative flex justify-end items-center">
+                    <img src="{{ asset('images/grid.svg') }}" class="w-full h-full inset-0 opacity-50">
+                    <h1 class="md:absolute p-6 md:p-10 md:inset-0 font-poppins text-3xl md:text-5xl font-black">
+                        THE FUTURE WE AIM FOR.
+                    </h1>
+                    <p class="md:absolute md:inset-0 md:pt-20 md:px-10 text-base md:text-xl font-bold text-justify mt-4 md:mt-10">
+                        To become a platform that transforms academic journeys by fostering meaningful peer connections,
+                        personalized support, and collaborative learning, empowering students to achieve their fullest
+                        potential and excel together in a community built on shared knowledge and trust.
+                    </p>
+                </div>
+            </div>
+
+            <!-- our vision title container -->
+            <div
+                class="md:absolute md:bottom-5 md:right-[85px] md:translate-y-5 bg-accent rounded-md py-2 mb-4 shadow-custom-button
+                    shadow-black border-black border-2">
+               
+
+                <!-- our vision title-->
+                <div class="inline-block px-4 py-2 text-center text-lg font-black">
+                    <span class="whitespace-nowrap text-2xl md:text-4xl font-extrabold font-poppins">OUR VISION</span>
+                </div>
+            </div>
+
+            <div class="md:absolute h-auto w-auto md:right-[600px]" data-aos="zoom-in-right" data-aos-delay="300"
+                data-aos-duration="1000">
+                <img src="{{ asset('images/bro_imagination.svg') }}" class="hidden md:block w-[420px] h-auto" alt="imagination">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="font-dela text-stroke bg-charcoal overflow-hidden h-[86px] relative z-0">
+        <div class="animate-reverse_marquee items-center whitespace-nowrap flex space-x-8 h-full">
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="text-2xl">☀️</span>
+        </div>
+    </div>
+
+    <!-- third page -->
+    <div class="bg-[#F5EFEF] relative w-full p-6 md:p-20">
+        <div class="flex justify-center items-center mt-[100px] mb-[100px] space-x-10 space-y-[-100px]"
+            data-aos="zoom-in-down" data-aos-delay="300" data-aos-duration="1000"">
+            <h1
+                class="text-charcoal font-dela text-4xl md:text-8xl md:ml-[-100px] mt-10 md:mt-[100px]">
+                HOW IT <br> WORKS
+            </h1>
+            <div class="flex items-center justify-center">
+                <img src="{{ asset('images/bro_thinking.svg') }}" class="w-48 md:w-72 h-auto">
+            </div>
+        </div>
+
+        <!-- contents container -->
+        <div class="flex flex-col space-y-10 items-center justify-center relative mt-5">
+
+            <!-- sign up -->
+            <div class="relative bg-accent rounded-md min-h-[260px] w-full md:w-[1000px]
+            border-charcoal border-2 p-10"
+                data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
+                data-aos-duration="1000">
+                <h1 class="font-poppins font-black text-2xl md:text-7xl md:ml-[300px] text-center md:text-left">
+                    Sign Up
+                </h1>
+                <p class="font-poppins font-semibold text-base md:text-2xl mt-4 md:mt-[30px] md:ml-[300px]">
+                    Create a profile as a tutor or student showcase your interests, expertise, and academic goals.
+                </p>
+                <div class="absolute left-4 bottom-4 w-32 md:w-64">
+                    <img src="{{ asset('images/bro_signup.svg') }}" alt="sign up" class="w-full h-auto">
+                </div>
+            </div>
+
+            <!-- match with a buddy -->
+            <div class="relative bg-accent rounded-md min-h-[260px] w-full md:w-[1000px]
+            border-charcoal border-2 p-10 overflow-hidden"
+                data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
+                data-aos-duration="1000">
+                <h1 class="font-poppins font-black text-2xl md:text-6xl md:ml-[20px]">
+                    Match with a Buddy
+                </h1>
+                <p class="font-poppins font-semibold text-base md:text-2xl mt-4 md:mt-[30px] md:ml-[20px]">
+                    Use content-based algorithm to discover the
+                    <br> perfect tutor suited to your unique learning needs.
+                </p>
+                <div class="absolute right-4 bottom-4 w-36 md:w-[220px]">
+                    <img src="{{ asset('images/bro_buddy.svg') }}" alt="match with a buddy" class="w-full h-auto">
+                </div>
+            </div>
+
+            <!-- book sessions -->
+            <div class="relative bg-accent rounded-md min-h-[260px] w-full md:w-[1000px]
+            border-charcoal border-2 p-10"
+                data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
+                data-aos-duration="1000">
+                <h1 class="font-poppins font-black text-2xl md:text-7xl md:ml-[350px] text-center md:text-left">
+                    Book Sessions
+                </h1>
+                <p class="font-poppins font-semibold text-base md:text-2xl mt-4 md:mt-[30px] md:ml-[350px]">
+                    Set appointments with available tutors and schedule sessions at your convenience.
+                </p>
+                <div class="absolute left-4 bottom-4 w-40 md:w-72">
+                    <img src="{{ asset('images/bro_sessions.svg') }}" alt="book sessions" class="w-full h-auto">
+                </div>
+            </div>
+
+            <!-- learn and connect -->
+            <div class="relative bg-accent rounded-md min-h-[260px] w-full md:w-[1000px]
+            border-charcoal border-2 p-10 overflow-hidden"
+                data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
+                data-aos-duration="1000">
+                <h1 class="font-poppins font-black text-2xl md:text-6xl md:ml-[20px]">
+                    Learn and Connect
+                </h1>
+                <p class="font-poppins font-semibold text-base md:text-2xl mt-4 md:mt-[30px] md:ml-[20px]">
+                    Participate in sessions and receive personalized
+                    <br> guidance to enhance your learning experience.
+                </p>
+                <div class="absolute right-4 bottom-4 w-40 md:w-[250px]">
+                    <img src="{{ asset('images/bro_connect.svg') }}" alt="learn and connect" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="font-dela text-stroke bg-primary overflow-hidden h-[86px] relative">
+        <div class="animate-marquee items-center whitespace-nowrap flex space-x-8 h-full">
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="text-2xl">☀️</span>
+        </div>
+    </div>
+
+    <!-- fourth page -->
+    <div class="w-full h-auto bg-[#F5EFEF] relative">
+
+        <!-- group image -->
+        <div class="flex items-center justify-center space-x-5 pt-10">
+            <img src="{{ asset('images/group.svg') }}" alt="group" class="w-auto h-auto" data-aos="fade-right"
+                data-aos-delay="300" data-aos-duration="1000">
+            <!-- title section -->
+            <div class="relative flex flex-col justify-center mt-8 md:mt-[100px] md:ml-[500px]" data-aos="fade-left"
+                data-aos-delay="300" data-aos-duration="1000">
+                <h1 class="font-black text-4xl text-charcoal">
+                    ABOUT THE
+                </h1>
+                <div class="flex items-center">
+                    <div
+                        class="font-black bg-accent text-primary text-[48px] md:text-[80px]
+                    border-2 px-4 border-charcoal rounded-md">
+                        CREATORS
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- line -->
+        <div class="w-full">
+            <hr class="border-t-2 border-black">
+        </div>
+
+
+    <div class="p-6 md:p-20">
+            <!-- Founding Story Container -->
+            <div class="flex items-center justify-center relative mt-10 mb-20">
+                <div class="bg-accent rounded-[10px] max-w-3xl w-full min-h-[420px] border-charcoal border-2"
+                    data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+                    
+                    <!-- Founding Story Content -->
+                    <div class="relative text-center">
+                        <h1 class="font-poppins text-3xl md:text-5xl font-black mt-6 md:mt-[40px] mb-6">
+                            OUR FOUNDING STORY
+                        </h1>
+                        <p class="text-base md:text-xl font-bold text-justify mx-4 md:mx-[45px] w-auto">
+                            Our journey began with a vision to create an innovative, purpose-driven platform that would
+                            truly
+                            serve the students of Pampanga State University. As proud students of 4B from the
+                            Bachelor
+                            of Science in Computer Science, we recognized a gap in how academic support was being
+                            delivered and
+                            saw an opportunity to make a meaningful impact. <br><br>
+
+                            Motivated by our shared passion for technology and a desire to help our fellow students, we
+                            set out on a journey
+                            to design a platform that goes beyond traditional learning methods. <i>My Honorian Buddy</i>
+                            was born out of
+                            countless brainstorming sessions, late nights, and the enduring commitment that education
+                            thrives
+                            when it is accessible, collaborative, and personalized.<br><br>
+
+                            With the goal to create a platform where students could connect and build meaningful
+                            relationships,
+                            <i>My Honorian Buddy</i> empowers every aspect of the student journey, nurturing a
+                            supportive community
+                            for Pampanga State University and inspiring a culture of collaboration and
+                            growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- members first row -->
+            <div class="flex flex-wrap items-center justify-center px-4 md:px-10 gap-6">
+                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
+            border-2 p-5 flex flex-col items-center"
+                    data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
+                    <div class="h-auto w-auto">
+                        <img src="/storage/images/son.jpg" alt="de leon"
+                            class="mb-6 rounded-full object-cover border-2 border-charcoal w-32 h-32">
+                    </div>
+                    <h1 class="text-center font-poppins font-black text-lg">
+                        Alain Davidson <br> De Leon
+                    </h1>
+                </div>
+                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
+            border-2 p-5 flex flex-col items-center"
+                    data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
+                    <div class="h-auto w-auto">
+                        <img src="/storage/images/nion.jpg" alt="tongol"
+                            class="mb-6 rounded-full object-cover border-2 border-charcoal w-32 h-32">
+                    </div>
+                    <h1 class="text-center font-poppins font-black text-lg">
+                        Nion Czryll <br> Tongol
+                    </h1>
+                </div>
+
+
+                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
+            border-2 p-5 flex flex-col items-center"
+                    data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
+                    <div class="h-auto w-auto">
+                        <img src="/storage/images/jc.jpg" alt="bulaon"
+                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                    </div>
+                    <h1 class="text-center font-poppins font-black text-lg">
+                        John Carl <br> Angelo Bulaon
+                    </h1>
+                </div>
+                
+            </div>
+
+            <!-- members second row -->
+            <div class="flex flex-wrap items-center justify-center px-4 md:px-10 py-10 gap-6">
+                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
+            border-2 p-5 flex flex-col items-center"
+                    data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
+                    <div class="h-auto w-auto">
+                        <img src="/storage/images/pyo.jpg" alt="rabanal"
+                            class="mb-6 rounded-full object-cover border-2 border-charcoal w-32 h-32">
+                    </div>
+                    <h1 class="text-center font-poppins font-black text-lg">
+                        Maria Fiona <br> Rabanal
+                    </h1>
+                </div>
+                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
+            border-2 p-5 flex flex-col items-center"
+                    data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
+                    <div class="h-auto w-auto">
+                        <img src="/storage/images/mireyl.jpg" alt="nulud"
+                            class="mb-6 rounded-full object-cover border-2 border-charcoal w-32 h-32">
+                    </div>
+                    <h1 class="text-center font-poppins font-black text-lg">
+                        Mireyl Fatima <br> Nulud
+                    </h1>
+                </div>
+                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
+        border-2 p-5 flex flex-col items-center"
+                    data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
+                    <div class="h-auto w-auto">
+                        <img src="/storage/images/cil.jpg" alt="trinidad"
+                            class="mb-6 rounded-full object-cover border-2 border-charcoal w-32 h-32">
+                    </div>
+                    <h1 class="text-center font-poppins font-black text-lg">
+                        Cecil Rico <br> Trinidad
+                    </h1>
+                </div>
+
+
+
+                {{--
+        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
+            <div class="h-auto w-auto">
+                <img src="/storage/images/ac.jpg" alt="cabang" class="mb-6 rounded-full object-cover border-2 border-black">
+            </div>
+            <h1 class="text-center font-poppins font-black text-lg">
+                Antoinette <br> Cabang
+            </h1>
+        </div>
+        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
+            <div class="h-auto w-auto">
+                <img src="/storage/images/ian.jpg" alt="gonzales" class="mb-6 rounded-full object-cover border-2 border-black">
+            </div>
+            <h1 class="text-center font-poppins font-black text-lg">
+                Ian Joshua <br> Gonzales
+            </h1>
+        </div>
+        --}}
+        {{--
+        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
+            <div class="h-auto w-auto">
+                <img src="/storage/images/dwight.jpg" alt="pingul" class="mb-6 rounded-full object-cover border-2 border-black">
+            </div>
+            <h1 class="text-center font-poppins font-black text-lg">
+                Dwight Jairo <br> Pingul
+            </h1>
+        </div>
+        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
+            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
+            <div class="h-auto w-auto">
+                <img src="/storage/images/jd.jpg" alt="canlas" class="mb-6 rounded-full object-cover border-2 border-black">
+            </div>
+            <h1 class="text-center font-poppins font-black text-lg">
+                John Daniel <br> Canlas
+            </h1>
+        </div> --}}
+            </div>
+
+        </div>
+
+        <script>
+            AOS.init();
+        </script>
+
+
+        <!-- footer moved inside body for proper structure -->
+        <x-footer />
+
+    </body>
+
+</html>
