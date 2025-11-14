@@ -41,6 +41,7 @@ class bookedSession extends Model
     ];
 
     protected $casts = [
+        'schedule_time' => 'datetime',
         'reviewed' => 'boolean',
         'ban_requested' => 'boolean',
         'tutor_report_images' => 'array',
