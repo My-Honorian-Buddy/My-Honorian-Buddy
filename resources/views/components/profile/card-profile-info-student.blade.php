@@ -26,12 +26,21 @@
                 class="pt-16 ">
                 @csrf
                 @method('PATCH')
-                <x-bladewind.filepicker type="file" name="profile_pic" placeholder_line1="Upload Profile Picture"
-                    placeholder_line2="Choose your most beautiful picture!" accepted_file_types="image/*" can_crop="true" crop_aspect_ratio="1:1"
-                    max_files="1" can_resize="true" image_resize_height="150"/>
+                <x-bladewind.filepicker 
+                    type="file" 
+                    name="profile_pic" 
+                    placeholder_line1="Upload Profile Picture"
+                    placeholder_line2="Choose your most beautiful picture!" 
+                    accepted_file_types="image/*" 
+                    can_crop="true" 
+                    crop_aspect_ratio="1:1"
+                    max_files="1" 
+                    can_resize="true" 
+                    image_resize_height="150"
+                    required="true"/>
 
                 <div class="w-auto flex m-8 justify-end">
-                    <button type="submit"
+                    <button type="submit" id="upload-btn"
                         class="sm:w-auto bg-accent px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 md:py-1 h-auto sm:h-10 md:h-11 border-2 border-black
                                 active:scale-95 transition-all duration-800 ease-in-out flex items-center justify-center rounded-sm font-bold text-sm
                                 hover:bg-primary w-auto hover:text-accent tracking-widest uppercase hover:shadow-custom-button">
@@ -103,8 +112,17 @@
     </div>
 </div>
 <script>
-    document.querySelector('#profile_picture').addEventListener('submit', function(event) {
-        console.log('Form submitted with method:', event.target.method);
+    document.querySelector('#profile-picture').addEventListener('submit', function(event) {
+        const fileInput = document.querySelector('input[name="profile_pic"]');
+        console.log('Form submitted');
+        console.log('File input found:', fileInput);
+        console.log('Files selected:', fileInput?.files.length);
+        
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            event.preventDefault();
+            showNotification('Please select an image file first', 'No File Selected', 'error');
+            return false;
+        }
     });
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -112,5 +130,15 @@
         @if (session('success'))
             showNotification('{{ session('success') }}', 'User updated successfully', 'success');
         @endif
+
+        @if (session('error'))
+            showNotification('{{ session('error') }}', 'Upload failed', 'error');
+        @endif
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                showNotification('{{ $error }}', 'Validation Error', 'error');
+            @endforeach
+        @endif
     });
-</script>
+</script></script>
