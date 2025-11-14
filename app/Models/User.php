@@ -30,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_pic',
         'hasNotification',
         'cor_status',
+        'terms_accepted_at',
     ];
 
     public function scopeVerified ($query){

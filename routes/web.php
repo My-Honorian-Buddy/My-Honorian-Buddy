@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\StudentSubjectController;
 use App\Http\Controllers\Auth\TutorSubjectController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\GoogleCalendarController;
+use App\Http\Controllers\Auth\TermsAgreementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VideoCallController;
@@ -114,8 +115,16 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect('/choose-role');
+    return redirect()->route('terms.agreement');
 })->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Terms Agreement Routes
+Route::get('/terms-agreement', [TermsAgreementController::class, 'show'])
+    ->middleware('auth')
+    ->name('terms.agreement');
+Route::post('/terms-agreement', [TermsAgreementController::class, 'accept'])
+    ->middleware('auth')
+    ->name('terms.accept');
 
 // Route::post('/email/verification-notification', [ProfileController::class, 'sendEmailVerificationNotification'
 // ])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
