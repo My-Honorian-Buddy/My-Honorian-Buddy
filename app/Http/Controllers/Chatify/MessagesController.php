@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Tutor;
 use App\Models\ChMessage as Message;
 use App\Models\ChFavorite as Favorite;
 use Chatify\Facades\ChatifyMessenger as Chatify;
@@ -44,8 +46,37 @@ class MessagesController extends Controller
      */
     public function index( $id = null)
     {
+        $user = Auth::user();
+        
+        // Check COR verification for Students
+        if ($user->role === 'Student') {
+            $student = Student::where('user_id', Auth::id())->first();
+            if (!$student || $student->cor_status !== 'verified') {
+                return view('Chatify::pages.app', [
+                    'verified' => false,
+                    'id' => $id ?? 0,
+                    'messengerColor' => $user->messenger_color ? $user->messenger_color : Chatify::getFallbackColor(),
+                    'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
+                ]);
+            }
+        }
+        
+        // Check COR verification for Tutors
+        if ($user->role === 'Tutor') {
+            $tutor = Tutor::where('user_id', Auth::id())->first();
+            if (!$tutor || $tutor->cor_status !== 'verified') {
+                return view('Chatify::pages.app', [
+                    'verified' => false,
+                    'id' => $id ?? 0,
+                    'messengerColor' => $user->messenger_color ? $user->messenger_color : Chatify::getFallbackColor(),
+                    'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
+                ]);
+            }
+        }
+        
         $messenger_color = Auth::user()->messenger_color;
         return view('Chatify::pages.app', [
+            'verified' => true,
             'id' => $id ?? 0,
             'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
             'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',

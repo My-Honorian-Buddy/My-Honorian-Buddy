@@ -51,7 +51,7 @@
                 <p class="font-bold text-3xl mb-2">You are not verified yet</p>
                 <p class="text-lg mb-4">Please upload your valid Certificate of Registration (COR) to access Explore and matching features.</p>
                 <a href="{{ route('workspace.start') }}" class="inline-block border-2 border-black bg-primary text-white font-bold px-6 py-3 rounded-full
-                 hover:bg-accent hover:text-primary transition tracking-widest uppercase">Back to Workspace</a>
+                hover:bg-accent hover:text-primary transition tracking-widest uppercase">Back to Workspace</a>
             </div>
         </div>
     @elseif($user->role === 'Student')
