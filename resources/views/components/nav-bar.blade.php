@@ -189,26 +189,26 @@
 
         <!-- Mobile Menu (Dropdown) -->
         <div id="mobile-menu" style="display: none; background-color: #FDFBFB; border-top: 2px solid black;">
-            <nav style="font-family: 'Dela Gothic One', sans-serif; display: flex; flex-direction: column; gap: 8px; padding: 16px; color: #2c2c2c;">
+            <nav style="font-family: 'Poppins', sans-serif; display: flex; flex-direction: column; gap: 8px; padding: 16px; color: #2c2c2c;">
                 <a href="{{ route('workspace.start') }}"
-                    style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                    style="font-family: 'Dela Gothic One', sans-serif; display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
                     onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
                     onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">WORKSPACE</a>
 
                 @if ($user->role === 'Student')
                     <a href="{{ route('match.explore') }}"
-                        style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                        style="font-family: 'Dela Gothic One', sans-serif; display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
                         onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
                         onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">EXPLORE</a>
                 @else
                     <a href="{{ route('tutor.search') }}"
-                        style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                        style="font-family: 'Dela Gothic One', sans-serif; display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
                         onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
                         onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">EXPLORE</a>
                 @endif
 
                 <a href="{{ route('about') }}"
-                    style="display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
+                    style="font-family: 'Dela Gothic One', sans-serif; display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
                     onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
                     onmouseout="this.style.backgroundColor='transparent'; this.style.color='#2c2c2c';">ABOUT US</a>
 
@@ -218,7 +218,7 @@
                 <!-- Mobile Buttons -->
                 <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
                     <!-- Notification Bell -->
-                    <x-bladewind.dropmenunotif class="w-[600px] z-40">
+                    <x-bladewind.dropmenunotif class=" w-[300px] md:w-[600px] z-40">
                         @php
                             $hasNotification = Auth::user()->hasNotification;
                             $unreadCount = \App\Models\notifSession::where('to', Auth::id())
@@ -340,8 +340,8 @@
             </nav>
         </div>
         
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(0, 0, 0, 0.05);">
-            <div id="scroll-progress" style="height: 100%; background-color: #550000; width: 0;"></div>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(0, 0, 0, 0.05); z-index: 5;">
+            <div id="scroll-progress" style="height: 100%; background-color: #550000; width: 0; "></div>
         </div>
     </div>
 </header>
@@ -389,11 +389,26 @@
     }
 </script>
 
+<style>
+    /* Truncate notification text (except small date text) so long messages show ellipsis */
+    .bladewind-dropmenunotif li p:not(.text-xs) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+    }
+</style>
+
 @livewireScripts
 
 
 <script>
-    const editButton = document.getElementById('edit-button');
+    // Support multiple edit buttons (desktop + mobile). We select all elements
+    // with id="edit-button" (there are duplicate ids in the markup) and
+    // attach a listener per button that toggles the related notification-actions
+    // inside the same dropmenunotif container. We also keep a reference to the
+    // global bulk actions element for backwards compatibility.
+    const editButtons = document.querySelectorAll('[id="edit-button"]');
     const bulkActions = document.getElementById('bulk-actions');
     const bell = document.getElementById("bell");
 
@@ -427,10 +442,22 @@
     });
 
 
-    editButton.addEventListener('click', () => {
-        const actions = document.querySelectorAll('.notification-actions');
-        bulkActions.classList.toggle('hidden');
-        actions.forEach(action => action.classList.toggle('hidden'));
+    // Attach click handlers to all edit buttons (mobile & desktop)
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Find closest dropmenunotif container for this button. If not found
+            // fall back to document (toggle global actions).
+            const container = btn.closest('.bladewind-dropmenunotif') || document;
+            const actions = container.querySelectorAll('.notification-actions');
+
+            // Toggle the global bulkActions (if present) for compatibility
+            if (bulkActions) {
+                bulkActions.classList.toggle('hidden');
+            }
+
+            // Toggle per-item action buttons inside the container
+            actions.forEach(action => action.classList.toggle('hidden'));
+        });
     });
 
     // Notification sound functionality
@@ -448,18 +475,21 @@
     // Make loadNotifications globally accessible for echo.js
     function loadNotifications(playSound = false) {
         console.log('[loadNotifications] Starting to load notifications...');
-        const notifContainer = document.querySelector('.bladewind-dropmenunotif');
+        const notifContainers = document.querySelectorAll('.bladewind-dropmenunotif');
 
-        if (!notifContainer) {
-            console.error('[loadNotifications] Notification container not found!');
+        if (notifContainers.length === 0) {
+            console.error('[loadNotifications] Notification containers not found!');
             return;
         }
 
-        console.log('[loadNotifications] Container found:', notifContainer);
+        console.log('[loadNotifications] Found', notifContainers.length, 'notification containers');
 
-        notifContainer.innerHTML = `
-            <li class="px-4 py-2 text-gray-500">Loading notifications...</li>
-        `;
+        // Set loading state for all containers
+        notifContainers.forEach(container => {
+            container.innerHTML = `
+                <li class="px-4 py-2 text-gray-500">Loading notifications...</li>
+            `;
+        });
 
         const url = '{{ route('user.notifications') }}';
         console.log('[loadNotifications] Fetching from URL:', url);
@@ -480,7 +510,10 @@
                 } = data;
                 const bell = document.getElementById("bell");
 
-                notifContainer.innerHTML = '';
+                // Clear all containers
+                notifContainers.forEach(container => {
+                    container.innerHTML = '';
+                });
 
                 console.log('[loadNotifications] Number of notifications:', notifications.length);
 
@@ -500,18 +533,22 @@
 
                 if (notifications.length === 0) {
                     console.log("[loadNotifications] No new notifications.");
-                    notifContainer.innerHTML = `
-                        <li class="px-4 py-2 text-gray-500">No new notifications.</li>
-                    `;
+                    notifContainers.forEach(container => {
+                        container.innerHTML = `
+                            <li class="px-4 py-2 text-gray-500">No new notifications.</li>
+                        `;
+                    });
                 } else {
-                    console.log("[loadNotifications] Processing", notifications.length, "notifications:",
-                        notifications);
+                    console.log("[loadNotifications] Processing", notifications.length, "notifications:", notifications);
+                    
+                    // Build the notifications HTML once
+                    let notificationsHTML = '';
+                    
                     notifications.forEach(notification => {
                         const info = JSON.parse(notification.notif_info);
                         const bgClass = notification['read_at'] === null ? 'bg-secondary' : 'bg-accent';
                         const fontClass = notification['read_at'] === null ? 'font-black' : 'font-semibold';
-                        const dateColor = notification['read_at'] === null ? 'text-primary' :
-                            'text-gray-400';
+                        const dateColor = notification['read_at'] === null ? 'text-primary' : 'text-gray-400';
                         const hoverClass = 'hover:bg-accent3';
 
                         console.log(notification['read_at'] === null)
@@ -523,8 +560,7 @@
                         if (info['NotifType'] === "SessionReminder") {
                             // Only play alarm and show toast for UNREAD notifications
                             if (notification.read_at === null) {
-                                console.log('🔔 New SessionReminder notification detected:', notification
-                                    .id);
+                                console.log('🔔 New SessionReminder notification detected:', notification.id);
 
                                 // Play alarm sound and store it globally so we can stop it later
                                 if (!window.sessionReminderAlarms) {
@@ -536,8 +572,7 @@
                                     const alarmSound = new Audio('/sounds/alarm-sound.mp3');
                                     alarmSound.loop = true; // Loop the alarm until dismissed
                                     alarmSound.volume = 0.7;
-                                    alarmSound.play().catch(err => console.error('Failed to play alarm:',
-                                        err));
+                                    alarmSound.play().catch(err => console.error('Failed to play alarm:', err));
 
                                     // Store the alarm with notification ID so we can stop it when closing toast
                                     window.sessionReminderAlarms[notification.id] = alarmSound;
@@ -547,17 +582,16 @@
                                 // Show persistent toast notification (only if unread)
                                 showSessionReminderToast(notification.id, info);
                             } else {
-                                console.log('📭 SessionReminder already read, skipping alarm/toast:',
-                                    notification.id);
+                                console.log('📭 SessionReminder already read, skipping alarm/toast:', notification.id);
                             }
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-charcoal transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-charcoal transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="${fontClass}">
                                         <p class="font-semibold">⏰ Session Starting Soon!</p>
-                                        <p class="text-sm text-gray-500">${info['message'] || 'Your tutoring session starts in 10 minutes!'}</p>
-                                        <p class="text-sm font-medium text-yellow-600">Subject: ${info['subject'] || ''}</p>
+                                        <p class="text-sm text-gray-500 truncate">${info['message'] || 'Your tutoring session starts in 10 minutes!'}</p>
+                                        <p class="text-sm font-medium text-yellow-600 truncate">Subject: ${info['subject'] || ''}</p>
                                         <p class="text-sm text-gray-500">Time: ${new Date(info['schedule_time']).toLocaleString()}</p>
                                         <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                     </div>
@@ -565,8 +599,8 @@
                             `;
                             // Check if NotifType is "Tutor Request"
                         } else if (info['NotifType'] === "Tutor Request") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer">
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer">
                                     <div class="flex justify-between" onclick="markRead(${notification.id})">
                                         <div class="${fontClass}">
                                             <p>${info['NotifType'] || 'Notification'}</p>
@@ -624,8 +658,8 @@
                             `;
                         } else if (info['NotifType'] === "Tutor Request Accepted" || info['NotifType'] ===
                             "Tutor Request Rejected") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer" 
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer" 
                                 onclick="markRead(${notification.id})">
                                 <div class="flex justify-between">
                                     <div class="${fontClass}">
@@ -654,8 +688,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "AddNumSession") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -698,8 +732,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "SessionDisagreed") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -726,8 +760,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "SessionUpdated") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -755,8 +789,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "SessionDidNotUpdate") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -792,13 +826,13 @@
                             const requesterRole = info['requester_role'] || 'Student';
                             const requesterName = info['requester_name'] || 'Someone';
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate  ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
                                             <p class="font-semibold">📩 Session Drop Request</p>
-                                            <p class="text-sm text-gray-500">${requesterName} (${requesterRole}) requested to drop the tutoring session</p>
+                                            <p class="text-ellipsis text-sm text-gray-500">${requesterName} (${requesterRole}) requested to drop the tutoring session</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                     </div>
@@ -834,8 +868,8 @@
                         } else if (info['NotifType'] === "SessionDropped") {
                             const droppedBy = info['dropped_by'] || 'the other party';
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -866,8 +900,8 @@
                         } else if (info['NotifType'] === "SessionDropRequestDenied") {
                             const deniedBy = info['denied_by'] || 'the other party';
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -899,8 +933,8 @@
                         } else if (info['NotifType'] === "CallAccepted") {
                             const accepterName = info['accepter_name'] || 'User';
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -931,8 +965,8 @@
                         } else if (info['NotifType'] === "CallDeclined") {
                             const declinerName = info['decliner_name'] || 'User';
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -964,8 +998,8 @@
                             const callerName = info['caller_name'] || 'User';
                             const roomName = info['room_name'] || '';
 
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -994,8 +1028,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "SessionCompletionRequest") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -1025,8 +1059,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "CompleteSession") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -1055,8 +1089,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "SessionCompletionDenied") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -1083,8 +1117,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "BanRequest") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -1107,8 +1141,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "PointsUpdated") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -1136,8 +1170,8 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "CorVerification") {
-                            notifContainer.innerHTML += `
-                                <li class="${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
                                     <div class="flex justify-between">
                                         <div class="${fontClass}">
@@ -1171,14 +1205,21 @@
                             `;
                         }
                     });
+                    
+                    // Apply the built HTML to all containers
+                    notifContainers.forEach(container => {
+                        container.innerHTML = notificationsHTML;
+                    });
                 }
             })
             .catch(error => {
                 console.error("[loadNotifications] ERROR:", error);
                 console.error("[loadNotifications] Error details:", error.message, error.stack);
-                notifContainer.innerHTML = `
-                    <li class="px-4 py-2 text-red-500">Failed to load notifications. Error: ${error.message}</li>
-                `;
+                notifContainers.forEach(container => {
+                    container.innerHTML = `
+                        <li class="px-4 py-2 text-red-500">Failed to load notifications. Error: ${error.message}</li>
+                    `;
+                });
             });
     }
 

@@ -31,6 +31,28 @@
       }
     }
 @endphp
+<style>
+    /* Mobile only */
+    .{{$name}} .bw-dropmenu-items > div {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+        width: calc(100vw - 32px) !important;
+        margin-left: calc(8vw + 50%) !important;
+    }
+    
+    /* Desktop - reset to default */
+    @media (min-width: 768px) {
+        .{{$name}} .bw-dropmenu-items > div {
+            left: auto !important;
+            right: -0.25rem !important;
+            transform: none !important;
+            width: auto !important;
+            margin-left: auto !important;
+        }
+    }
+</style>
+
 <div class="relative inline-block text-left bw-dropmenu !z-20 {{$name}}" tabindex="0">
     <div class="bw-trigger cursor-pointer inline-block">
         @if(str_ends_with($trigger, '-icon'))
@@ -42,20 +64,19 @@
         @endif
     </div>
     
-    <div class="opacity-0  hidden bw-dropmenu-items  !z-20 animate__animated animate__fadeIn animate__faster"
+    <div class="opacity-0  hidden bw-dropmenu-items  !z-20 animate__animated animate__fadeIn animate__faster pointer-events-none"
         data-open="0">
         
         <div @class([
-                'absolute overflow-hidden bg-accent rounded-md w-80 dark:bg-dark-700 mt-1',
+                'z-50 absolute overflow-hidden bg-accent rounded-md w-80 dark:bg-dark-700 mt-1 pointer-events-auto',
                 'border-2 border-black dark:border-dark-800/20 bw-items-list ring-1 ring-slate-800 ring-opacity-5',
                 'shadow-sm shadow-slate-200/50 dark:shadow-dark-800/70 whitespace-nowrap',
-                '-right-1' => ($position=='right'),
                 'p-0' => $padded,
                 'p-0' => !$padded,
                 'divide-y divide-slate-100 dark:divide-dark-600/90' => $divided,
                 "$class"
                 ])
-             @if($scrollable)style="height: {{$height}}px;overflow-y: scroll"@endif>
+             @if($scrollable)style="height: {{$height}}px;overflow-y: scroll;"@endif>
             {{ $slot }}
         </div>
     </div>
@@ -69,4 +90,5 @@
         triggerOn: '{{$trigger_on}}',
         hideAfterClick: '{{$hide_after_click}}'
     });
+   
 </script>
