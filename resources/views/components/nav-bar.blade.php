@@ -135,7 +135,8 @@
                         <div class="p-1 rounded-full text-xl">
 
                             <x-bladewind.dropmenu trigger="user-icon"
-                                trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-hover bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out">
+                                trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-hover bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out"
+                                modifiers="z-[9999]">
 
                                 <form method="GET" action="{{ route('tutor.profile') }}">
                                     @csrf
@@ -289,7 +290,8 @@
                     <!-- User Profile Dropdown -->
                     <div class="md:p-1 rounded-full text-xl">
                         <x-bladewind.dropmenu trigger="user-icon"
-                            trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-hover bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out">
+                            trigger_css="p-3 !h-10 !w-10 md:!h-12 md:!w-12 hover:bg-hover bg-primary !text-accent border-2 border-charcoal rounded-full transition ease-in-out"
+                            modifiers="z-[60]">
 
                             <form method="GET" action="{{ route('tutor.profile') }}">
                                 @csrf

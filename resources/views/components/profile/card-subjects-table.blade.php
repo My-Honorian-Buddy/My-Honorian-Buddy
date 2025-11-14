@@ -56,10 +56,10 @@
                                 and you will need to choose them again.
                             </span>
                             <button type="submit"
-                                class="p-2 shadow-custom-button border-2 border-black rounded-[4px] text-lg
-                                    transition-all duration-600 ease-in-out hover:scale-105 hover:bg-primary hover:text-accent2
-                                     bg-accent2 text-black ">
-                                Change
+                                class="p-3 px-6 border-2 border-black rounded-md text-base font-bold uppercase tracking-wider
+                                    transition-all duration-300 ease-in-out hover:scale-105 hover:opacity-90
+                                     bg-[#5C0F0F] text-white shadow-lg">
+                                Change Subjects
                             </button>
                         </div>
                     </form>

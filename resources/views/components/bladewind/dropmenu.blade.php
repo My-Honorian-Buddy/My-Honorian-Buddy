@@ -31,7 +31,7 @@
       }
     }
 @endphp
-<div class="relative inline-block text-left bw-dropmenu !z-60 {{$name}}" tabindex="0">
+<div class="relative inline-block text-left bw-dropmenu !z-[9999] {{$name}}" tabindex="0">
     <div class="bw-trigger inline-block">
         @if(str_ends_with($trigger, '-icon'))
             <x-bladewind.icon
@@ -41,7 +41,7 @@
             {!!$trigger!!}
         @endif
     </div>
-    <div class="opacity-0 hidden bw-dropmenu-items  !z-20 animate__animated animate__fadeIn animate__faster"
+    <div class="opacity-0 hidden bw-dropmenu-items  !z-[9999] animate__animated animate__fadeIn animate__faster"
          data-open="0">
         <div @class([
                 'absolute bg-accent w-100 dark:bg-dark-700 mt-1 {{$class}} rounded-md',
