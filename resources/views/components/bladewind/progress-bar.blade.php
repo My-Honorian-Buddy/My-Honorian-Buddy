@@ -27,7 +27,7 @@
     if(! is_numeric($percentageLabelOpacity*1)) $percentageLabelOpacity = '100';
 
     $colour = defaultBladewindColour($color);
-    $bar_colour = ($shade == 'dark') ? "bg-$colour-500" : "bg-$colour-300";
+    $bar_colour = ($shade == 'dark') ? "bg-$colour-900" : "bg-$colour-300";
     $percentageLabelPosition = str_replace(' ', '_', $percentageLabelPosition);
 
     $text_colour_weight = [
@@ -47,7 +47,7 @@
         </div>
     @endif
     <div @class([
-        'mt-1 my-2 rounded-full h-2',
+        'mt-1 my-2 rounded-full h-6',
         '!h-6' => ($showPercentageLabel && $showPercentageLabelInline),
         'bg-slate-200/70 dark:bg-dark-800/70 w-full' => (!$transparent)
         ])>

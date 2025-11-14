@@ -97,8 +97,8 @@
                 <!-- right side column -->
                 <div class="flex flex-col space-y-2 md:space-y-4 bg-accent rounded-br-lg py-4 px-4 md:px-6">
                     <div class="flex items-center justify-center h-full w-full">
-                        <x-bladewind.progress-bar :percentage="$percentage" color="purple" shade="dark" striped="true"
-                            animated="true" show_percentage_label="true" class="w-full" />
+                        <x-bladewind.progress-bar :percentage="$percentage" color="red" shade="dark" striped="true"
+                            animated="true" class="w-full" />
                     </div>
                 </div>
             </div>
