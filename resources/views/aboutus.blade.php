@@ -15,6 +15,85 @@
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link rel="icon" href="{{ asset('/images/favicon.svg') }}" type="image/x-icon">
+    <style>
+        @media (max-width: 1024px) {
+            .hero-section { flex-direction: column !important; justify-content: center !important; }
+            .hero-content-wrapper { width: 100% !important; }
+            .hero-image { position: relative !important; top: auto !important; right: auto !important; margin-top: 2rem !important; width: 100% !important; max-width: 400px !important; margin-left: auto !important; margin-right: auto !important; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section { padding: 2rem 1rem !important; }
+            .hero-content-wrapper { text-align: center !important; }
+            .hero-title { font-size: 2rem !important; text-align: center !important; }
+            .hero-learning-flex { justify-content: center !important; }
+            .hero-large-text { font-size: 2.5rem !important; }
+            .hero-image { width: 100% !important; max-width: 300px !important; }
+            
+            .mission-container { flex-direction: column !important; padding: 1rem !important; padding-top: 2rem !important; }
+            .mission-box { width: 100% !important; height: auto !important; }
+            .mission-title { position: static !important; margin: 1rem 0 !important; }
+            .mission-image { position: static !important; margin-top: 1.5rem !important; left: auto !important; }
+            .mission-heading { font-size: 1.75rem !important; padding-top: 1rem !important; padding: 1rem !important; position: static !important; }
+            .mission-paragraph { font-size: 0.9rem !important; padding-top: 1rem !important; padding-left: 1rem !important; padding-right: 1rem !important; text-align: left !important; margin-top: 0.5rem !important; position: static !important; }
+            
+            .vision-container { flex-direction: column !important; padding: 1rem !important; margin-top: 2rem !important; margin-bottom: 2rem !important; }
+            .vision-box { width: 100% !important; height: auto !important; }
+            .vision-title { position: static !important; margin: 1rem 0 !important; bottom: auto !important; right: auto !important; }
+            .vision-image { position: static !important; margin-top: 1.5rem !important; right: auto !important; }
+            .vision-heading { font-size: 1.75rem !important; padding-top: 1rem !important; padding: 1rem !important; position: static !important; }
+            .vision-paragraph { font-size: 0.9rem !important; padding-top: 1rem !important; padding-left: 1rem !important; padding-right: 1rem !important; text-align: left !important; margin-top: 0.5rem !important; position: static !important; }
+            
+            .how-it-works-title { font-size: 3rem !important; margin-left: 0 !important; }
+            .how-it-works-flex { flex-direction: column !important; margin-top: 2rem !important; margin-bottom: 2rem !important; }
+            .how-it-works-image { position: static !important; margin: 1.5rem 0 !important; }
+            
+            .step-box { width: 100% !important; height: auto !important; }
+            .step-title { font-size: 2rem !important; margin-left: 0 !important; }
+            .step-description { font-size: 1rem !important; margin-left: 0 !important; }
+            .step-image { position: static !important; margin-left: auto !important; margin-right: auto !important; width: auto !important; }
+            
+            .group-section { flex-direction: column !important; gap: 2rem !important; }
+            .group-section img { max-width: 80% !important; height: auto !important; }
+            .about-creators-title { margin-left: 0 !important; margin-top: 0 !important; }
+            .creators-title-text { font-size: 3rem !important; }
+            
+            .founding-story { width: 100% !important; height: auto !important; }
+            .founding-story-text { margin: 1rem !important; }
+            
+            .team-members-row { flex-direction: column !important; gap: 1.5rem !important; padding: 1rem !important; }
+            .team-member-card { width: 100% !important; max-width: 250px !important; margin: 0 auto !important; }
+            
+            .marquee-text { font-size: 1.5rem !important; }
+
+            .banner { height: 50px !important; }
+            .banner-text { font-size: 1.2rem !important; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section { padding: 1rem 0.5rem !important; }
+            .hero-content-wrapper { text-align: center !important; padding: 7rem 0 !important; }
+            .hero-title { font-size: 1.5rem !important; text-align: center !important; }
+            .hero-learning-flex { flex-direction: column !important; align-items: center !important; justify-content: center !important; }
+            .hero-large-text { font-size: 2.5rem !important; padding: 0 0.5rem !important; }
+            .hero-is-text { font-size: 1.25rem !important; margin-left: 0 !important; margin-top: 0.5rem !important; }
+            .hero-image { width: 100% !important; max-width: 250px !important; }
+            
+            .how-it-works-title { font-size: 3.5rem !important; }
+            .step-title { font-size: 1.3rem !important; }
+            .step-description { font-size: 0.9rem !important; }
+            
+            .founders-title-text { font-size: 1rem !important; }
+            .founding-story-text { margin: 0.5rem !important; font-size: 0.9rem !important; padding: 1rem !important; }
+            .mission-heading { font-size: 1.4rem !important; padding: 0.75rem !important; }
+            .mission-paragraph { font-size: 0.8rem !important; padding: 0.75rem !important; }
+            .vision-heading { font-size: 1.4rem !important; padding: 0.75rem !important; }
+            .vision-paragraph { font-size: 0.8rem !important; padding: 0.75rem !important; }
+
+            .hidden-image { display: none !important; }
+
+        }
+    </style>
 </head>
 
 <!-- nav bar -->
@@ -23,118 +102,107 @@
 <body class="font-poppins font-semibold">
 
     <!-- first page -->
-    <div class="w-full h-full bg-[#F5EFEF] p-20 overflow-hidden">
-        <div class="flex justify-end items-center mt-[100px] mb-[100px]">
-            <div class="text-left">
-                <h1 class="font-black text-charcoal text-5xl" data-aos="fade-up" data-aos-delay="300"
-                    data-aos-duration="1500">
-                    WE BELIEVE THAT
-                </h1>
-                <div class="flex items-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
-                    <div class="relative inline-block font-dela text-primary text-[80px] px-6">
-                        LEARNING
-                        <img src="{{ asset('images/firstPageSvg/spark.svg') }}"
-                            class="absolute right-[-85px] top-[-80px]">
-                    </div>
-                    <div class="font-black ml-4 text-[30px] mt-10">
-                        IS...
-                    </div>
-                </div>
-                <div class="flex flex-col items-center" data-aos="fade-left" data-aos-delay="300"
-                    data-aos-duration="1500">
-                    <div
-                        class="inline-block font-dela bg-accent text-primary border-2 border-charcoal rounded-md
-                        text-[80px] px-6 transform ">
-                        BETTER
-                    </div>
-                    <div
-                        class="relative inline-block font-dela rounded-md w-auto px-6 bg-primary
-                        text-accent text-[80px] border-2 border-charcoal
-                        transform mt-4 mb-6">
-                        TOGETHER
-                        <img src="{{ asset('images/stars2.svg') }}"
-                            class="absolute top-[-40px] right-[-30px] w-[80px] h-[80px]">
-                        <img src="{{ asset('images/stars2.svg') }}"
-                            class="absolute bottom-[-50px] left-[-30px] w-[80px] h-[80px] transform">
-                    </div>
-                </div>
-            </div>
-            <div class="absolute top-[200px] right-[800px] h-full w-auto" data-aos="fade-right" data-aos-delay="300"
+    <div class="hero-section w-full h-full bg-[#F5EFEF] overflow-hidden" style="padding: 5rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap;">
+        <div class="hero-content-wrapper" style="display: flex; flex-direction: column; text-align: left; flex: 1; min-width: 300px;">
+            <h1 class="hero-title font-black text-charcoal" style="font-size: 3rem;" data-aos="fade-up" data-aos-delay="300"
                 data-aos-duration="1500">
-                <img src="{{ asset('/images/teaching.svg') }}">
+                WE BELIEVE THAT
+            </h1>
+            <div class="hero-learning-flex justify-center" style="display: flex; align-items: center; justify-content: items-center; flex-wrap: wrap;" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1500">
+                <div class="hero-large-text relative inline-block font-dela text-primary" style="font-size: 5rem; padding: 0 1.5rem; position: relative;">
+                    LEARNING
+                </div>
+                <div class="hero-is-text font-black" style="margin-left: 1rem; font-size: 1.875rem;">
+                    IS...
+                </div>
             </div>
+            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 1rem;" data-aos="fade-left" data-aos-delay="300"
+                data-aos-duration="1500">
+                <div class="hero-large-text font-dela"
+                    style="display: inline-block; background-color: #FDFBFB; color: #550000; border: 2px solid black; border-radius: 0.375rem; font-size: 5rem; padding: 0 1.5rem; transform: translateZ(0);">
+                    BETTER
+                </div>
+                <div class=" hero-large-text font-dela"
+                    style="position: relative; display: inline-block; border-radius: 0.375rem; width: auto; padding: 0 1.5rem; background-color: #550000; color: #FDFBFB; font-size: 5rem; border: 2px solid black; transform: translateZ(0); margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                    TOGETHER
+                </div>
+            </div>
+        </div>
+        <div class="hero-image hidden-image" style="flex: 1; min-width: 250px; display: flex; justify-content: center; align-items: center;" data-aos="fade-right" data-aos-delay="300"
+            data-aos-duration="1500">
+            <img src="{{ asset('/images/teaching.svg') }}" style="width: 100%; height: auto; max-width: 500px;">
         </div>
     </div>
 
-    <div class="font-dela bg-primary overflow-hidden h-[86px] relative">
-        <div class="animate-marquee tracking-widest items-center whitespace-nowrap flex space-x-8 h-full">
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+    <div class="banner font-dela bg-primary overflow-hidden h-[86px] relative">
+        <div class="banner-text text-[40px] animate-marquee tracking-widest items-center whitespace-nowrap flex space-x-8 h-full">
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BETTER TOGETHER</span>
+            <span class="font-bold text-accent">BETTER TOGETHER</span>
             <span class="text-2xl">☀️</span>
         </div>
     </div>
 
     <!-- second page -->
-    <div class="bg-[#F5EFEF] relative w-full h-full p-20">
+    <div class="bg-[#F5EFEF] relative w-full h-full !pb-[5rem]" style="padding: 0 1.25rem;">
 
         <!-- our mission contents container -->
-        <div class="flex items-center relative mt-10 p-10" data-aos="fade-right" data-aos-delay="300"
+        <div class="mission-container" style="display: flex; align-items: center; position: relative; padding: 2.5rem;" data-aos="fade-right" data-aos-delay="300"
             data-aos-duration="1000">
             <div
-                class="bg-accent rounded-md h-[600px] w-[650px] pb-2 mb-4
-             border-black border-2 overflow-hidden">
+                class="mission-box bg-accent rounded-md border-black border-2 overflow-hidden"
+                style="height: auto; width: 650px; padding-bottom: 0.5rem; margin-bottom: 1rem;">
                 <!-- our mission contents -->
-                <div class="relative items-center">
-                    <img src="{{ asset('images/grid.svg') }}" class="opacity-50">
-                    <h1 class="absolute pt-22 p-10 inset-0 font-poppins text-5xl font-black">
+                <div style="height: auto; position: relative; display: flex; align-items: center; flex-direction: column;">
+                    
+                    <h1 class="mission-heading" style="position: relative; z-index: 10; padding-top: 5.5rem; padding: 1.5rem; font-family: poppins; font-size: 3rem; font-weight: 900;">
                         WHY WE ARE HERE.
                     </h1>
-                    <p class="absolute inset-0 pt-20 pl-10 pr-10 text-xl font-bold text-justify mt-10">
+                    <p class="mission-paragraph text-justify" style="position: relative; z-index: 10; padding-left: 2.5rem; padding-right: 2.5rem; font-size: 1.25rem; font-weight: 700;">
                         At <i>My Honorian Buddy</i>, we're driven by a commitment to empower students to thrive
                         academically
                         and personally. We believe that learning is most effective when it's collaborative, adaptive,
@@ -154,38 +222,34 @@
 
             <!-- our mission title container -->
             <div
-                class="absolute top-[35px] right-[650px] -mt-10 bg-accent rounded-md py-2 mb-4
-         border-black border-2">
-                
-
+                class="mission-title text-charcoal border-charcoal"
+                style="position: absolute; top: 155px; right: 650px; margin-top: -2.5rem; background-color: #FDFBFB; border-radius: 0.375rem; padding-top: 0.5rem; padding-bottom: 0.5rem; border: 2px solid;">
                 <!-- our mission title-->
-                <div class="inline-block px-4 py-2 text-center text-lg font-black">
-                    <span class="whitespace-nowrap text-4xl font-extrabold font-poppins">OUR MISSION</span>
+                <div style="display: inline-block; padding: 0.5rem 1rem; text-align: center; font-size: 1.125rem; font-weight: 900;">
+                    <span style="white-space: nowrap; font-size: 2.25rem; font-weight: 800; font-family: poppins;">OUR MISSION</span>
                 </div>
             </div>
 
-            <div class="absolute h-auto w-auto mt-[100px] left-[550px]" data-aos="fade-left" data-aos-delay="300"
+            <div class="mission-image hidden-image" style="height: auto; width: auto; margin-top: 6.25rem; left: 550px;" data-aos="fade-left" data-aos-delay="300"
                 data-aos-duration="1000">
-                <img src="{{ asset('images/bro_reading.svg') }}">
+                <img src="{{ asset('images/bro_reading.svg') }}" style="width: 100%; height: auto;">
             </div>
 
         </div>
 
         <!-- our vision contents container -->
-        <div class="flex items-center relative p-10 mt-[150px] mb-[150px]" data-aos="zoom-in-left"
+        <div class="vision-container" style="display: flex; align-items: center; position: relative; padding: 2.5rem; margin-top: 9.375rem; margin-bottom: 9.375rem;" data-aos="zoom-in-left"
             data-aos-delay="300" data-aos-duration="1000">
             <div
-                class="bg-accent rounded-md h-[380px] w-[700px] pt-2 pb-2 mb-4 shadow-custom-button shadow-black
-            border-black border-2 ml-auto overflow-hidden">
-                
-
+                class="vision-box bg-accent rounded-md border-black border-2 pt-0.5 pb-0.5 mb-1 shadow-black
+            overflow-hidden"
+                style="height: 380px; width: 700px; margin-left: auto;">
                 <!-- our vision contents -->
-                <div class="relative flex justify-end items-center">
-                    <img src="{{ asset('images/grid.svg') }}" class="w-full h-full inset-0 opacity-50">
-                    <h1 class="absolute p-10 inset-0 font-poppins text-5xl font-black">
+                <div style="position: relative; display: flex; flex-direction: column; align-items: center;">
+                    <h1 class="vision-heading" style="position: relative; z-index: 10; padding: 2.5rem; font-family: poppins; font-size: 3rem; font-weight: 900;">
                         THE FUTURE WE AIM FOR.
                     </h1>
-                    <p class="absolute inset-0 pt-20 pl-10 pr-10 text-xl font-bold text-justify mt-10">
+                    <p class="vision-paragraph" style="position: relative; z-index: 10; padding-left: 2.5rem; padding-right: 2.5rem; font-size: 1.25rem; font-weight: 700; text-align: justify;">
                         To become a platform that transforms academic journeys by fostering meaningful peer connections,
                         personalized support, and collaborative learning, empowering students to achieve their fullest
                         potential and excel together in a community built on shared knowledge and trust.
@@ -195,231 +259,227 @@
 
             <!-- our vision title container -->
             <div
-                class="absolute bottom-5 right-[85px] translate-y-5 bg-accent rounded-md py-2 mb-4 shadow-custom-button
-                    shadow-black border-black border-2">
-               
-
-                <!-- our vision title-->
-                <div class="inline-block px-4 py-2 text-center text-lg font-black">
-                    <span class="whitespace-nowrap text-4xl font-extrabold font-poppins">OUR VISION</span>
+                class="vision-title text-charcoal border-charcoal"
+                style="position: absolute; bottom: 1.25rem; right: 85px; transform: translateY(1.25rem); background-color: #FDFBFB; border-radius: 0.375rem; padding-top: 0.5rem; padding-bottom: 0.5rem; border: 2px solid;">
+               <!-- our vision title-->
+                <div style="display: inline-block; padding: 0.5rem 1rem; text-align: center; font-size: 1.125rem; font-weight: 900;">
+                    <span style="white-space: nowrap; font-size: 2.25rem; font-weight: 800; font-family: poppins;">OUR VISION</span>
                 </div>
             </div>
 
-            <div class="absolute h-auto w-auto right-[600px]" data-aos="zoom-in-right" data-aos-delay="300"
+            <div class="vision-image hidden-image" style="position: absolute; height: auto; width: auto; right: 600px;" data-aos="zoom-in-right" data-aos-delay="300"
                 data-aos-duration="1000">
-                <img src="{{ asset('images/bro_imagination.svg') }}">
+                <img src="{{ asset('images/bro_imagination.svg') }}" style="width: 100%; height: auto;">
             </div>
 
         </div>
     </div>
 
-    <div class="font-dela text-stroke bg-charcoal overflow-hidden h-[86px] relative z-0">
-        <div class="animate-reverse_marquee items-center whitespace-nowrap flex space-x-8 h-full">
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+    <div class="banner font-dela text-stroke bg-charcoal overflow-hidden h-[86px] relative z-0">
+        <div class="banner-text text-[40px] animate-reverse_marquee items-center whitespace-nowrap flex space-x-8 h-full">
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BUDDY SYSTEM</span>
+            <span class="font-bold text-accent">BUDDY SYSTEM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">BRIGHTER MINDS</span>
+            <span class="font-bold text-accent">BRIGHTER MINDS</span>
             <span class="text-2xl">☀️</span>
         </div>
     </div>
 
     <!-- third page -->
-    <div class="bg-[#F5EFEF] relative w-full h-full p-20">
-        <div class="flex justify-center items-center mt-[100px] mb-[100px] space-x-10 space-y-[-100px]"
-            data-aos="zoom-in-down" data-aos-delay="300" data-aos-duration="1000"">
+    <div class="bg-[#F5EFEF] relative w-full h-full" style="padding: 5rem 1.25rem;">
+        <div class="how-it-works-flex" style="display: flex; justify-content: center; align-items: center; margin-bottom: 6.25rem; gap: 2.5rem; margin-bottom: 0;"
+            data-aos="zoom-in-down" data-aos-delay="300" data-aos-duration="1000">
             <h1
-                class="text-charcoal font-dela text-8xl ml-[-100px] mt-[100px]">
+                class="how-it-works-title text-charcoal font-dela" style="font-size: 6rem; margin-left: -6.25rem; text-align: center;">
                 HOW IT <br> WORKS
             </h1>
-            <div class="flex items-center justify-center">
-                <img src="{{ asset('images/bro_thinking.svg') }}" class="absolute">
+            <div class="how-it-works-image hidden-image" style="display: flex; align-items: center; justify-content: center;">
+                <img src="{{ asset('images/bro_thinking.svg') }}" style="width: 80%; height: auto;">
             </div>
         </div>
 
         <!-- contents container -->
-        <div class="flex flex-col space-y-10 items-center justify-center relative mt-5">
+        <div style="display: flex; flex-direction: column; gap: 2.5rem; align-items: center; justify-content: center; position: relative; margin-top: 1.25rem;">
 
             <!-- sign up -->
-            <div class="relative bg-accent rounded-md h-[260px] w-[1000px]
-            border-charcoal border-2 p-10"
+            <div class="step-box relative bg-accent rounded-md border-charcoal border-2"
+                style="height: 260px; width: 1000px; padding: 2.5rem;"
                 data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
                 data-aos-duration="1000">
-                <h1 class="font-poppins font-black text-7xl ml-[300px]">
+                <h1 class="step-title font-poppins font-black" style="font-size: 4.375rem; margin-left: 300px;">
                     Sign Up
                 </h1>
-                <p class="font-poppins font-semibold text-2xl mt-[30px] ml-[300px]">
+                <p class="step-description font-poppins font-semibold" style="font-size: 1.5rem; margin-left: 300px;">
                     Create a profile as a tutor or student showcase your interests, expertise, and academic goals.
                 </p>
-                <div class="absolute ml-10 h-auto w-auto inset-0">
-                    <img src="{{ asset('images/bro_signup.svg') }}" alt="sign up">
+                <div class="step-image" style="position: absolute; margin-top: 1.5rem; margin-left: 2.5rem; height: auto; width: 220px; inset: 0;">
+                    <img src="{{ asset('images/bro_signup.svg') }}" alt="sign up" style="width: 100%; height: auto;">
                 </div>
             </div>
 
             <!-- match with a buddy -->
-            <div class="relative bg-accent rounded-md h-[260px] w-[1000px]
-            border-charcoal border-2 p-10 overflow-hidden"
+            <div class="step-box relative bg-accent rounded-md border-charcoal border-2 overflow-hidden"
+                style="height: 260px; width: 1000px; padding: 2.5rem;"
                 data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
                 data-aos-duration="1000">
-                <h1 class="font-poppins font-black text-6xl ml-[20px]">
+                <h1 class="step-title font-poppins font-black" style="font-size: 3.75rem; margin-left: 0.5rem;">
                     Match with a Buddy
                 </h1>
-                <p class="font-poppins font-semibold text-2xl mt-[30px] ml-[20px]">
+                <p class="step-description font-poppins font-semibold" style="font-size: 1.5rem; margin-left: 0.5rem;">
                     Use content-based algorithm to discover the
                     <br> perfect tutor suited to your unique learning needs.
                 </p>
-                <div class="absolute ml-[720px] mt-[15px] h-auto w-[220px] inset-0">
-                    <img src="{{ asset('images/bro_buddy.svg') }}" alt="match with a buddy">
+                <div class="step-image" style="position: absolute; margin-left: 45rem; margin-top: 0.938rem; height: auto; width: 220px; inset: 0;">
+                    <img src="{{ asset('images/bro_buddy.svg') }}" alt="match with a buddy" style="width: 100%; height: auto;">
                 </div>
             </div>
 
             <!-- book sessions -->
-            <div class="relative bg-accent rounded-md h-[260px] w-[1000px]
-            border-charcoal border-2 p-10"
+            <div class="step-box relative bg-accent rounded-md border-charcoal border-2"
+                style="height: 260px; width: 1000px; padding: 2.5rem;"
                 data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
                 data-aos-duration="1000">
-                <h1 class="font-poppins font-black text-7xl ml-[350px]">
+                <h1 class="step-title font-poppins font-black" style="font-size: 4.375rem; margin-left: 350px;">
                     Book Sessions
                 </h1>
-                <p class="font-poppins font-semibold text-2xl mt-[30px] ml-[350px]">
+                <p class="step-description font-poppins font-semibold" style="font-size: 1.5rem; margin-left: 350px;">
                     Set appointments with available tutors and schedule sessions at your convenience.
                 </p>
-                <div class="absolute mt-8 ml-10 h-auto w-full inset-0">
-                    <img src="{{ asset('images/bro_sessions.svg') }}" alt="book sessions">
+                <div class="step-image" style="position: absolute; margin-top: 4rem; margin-left: 2.5rem; height: auto; width: 220px; inset: 0;">
+                    <img src="{{ asset('images/bro_sessions.svg') }}" alt="book sessions" style="width: 100%; height: auto;">
                 </div>
             </div>
 
             <!-- learn and connect -->
-            <div class="relative bg-accent rounded-md h-[260px] w-[1000px]
-            border-charcoal border-2 p-10 overflow-hidden"
+            <div class="step-box relative bg-accent rounded-md border-charcoal border-2 overflow-hidden"
+                style="height: 260px; width: 1000px; padding: 2.5rem;"
                 data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
                 data-aos-duration="1000">
-                <h1 class="font-poppins font-black text-6xl ml-[20px]">
+                <h1 class="step-title font-poppins font-black" style="font-size: 3.75rem; margin-left: 0.5rem;">
                     Learn and Connect
                 </h1>
-                <p class="font-poppins font-semibold text-2xl mt-[30px] ml-[20px]">
+                <p class="step-description font-poppins font-semibold" style="font-size: 1.5rem; margin-left: 0.5rem;">
                     Participate in sessions and receive personalized
                     <br> guidance to enhance your learning experience.
                 </p>
-                <div class="absolute ml-[680px] mt-[25px] h-auto w-[250px] inset-0">
-                    <img src="{{ asset('images/bro_connect.svg') }}" alt="learn and connect">
+                <div class="step-image" style="position: absolute; margin-left: 42.5rem; margin-top: 1.563rem; height: auto; width: 250px; inset: 0;">
+                    <img src="{{ asset('images/bro_connect.svg') }}" alt="learn and connect" style="width: 100%; height: auto;">
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="font-dela text-stroke bg-primary overflow-hidden h-[86px] relative">
-        <div class="animate-marquee items-center whitespace-nowrap flex space-x-8 h-full">
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+    <div class="banner font-dela text-stroke bg-primary overflow-hidden h-[86px] relative">
+        <div class="banner-text text-[40px] animate-marquee items-center whitespace-nowrap flex space-x-8 h-full">
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
-            <span class="text-2xl">☀️</span>
-            <span class="font-bold text-[40px] text-accent">MEET THE TEAM</span>
+            <span class="font-bold text-accent">MEET THE TEAM</span>
             <span class="text-2xl">☀️</span>
         </div>
     </div>
 
     <!-- fourth page -->
-    <div class="w-full h-auto bg-[#F5EFEF] absolute">
+    <div class="w-full h-auto bg-[#F5EFEF]" style="position: relative;">
 
         <!-- group image -->
-        <div class="flex items-center justify-center space-x-5 pt-10">
-            <img src="{{ asset('images/group.svg') }}" alt="group" class="w-auto h-auto" data-aos="fade-right"
+        <div class="group-section" style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; padding-top: 2.5rem;">
+            <img src="{{ asset('images/group.svg') }}" alt="group" style="width: auto; height: auto;" data-aos="fade-right"
                 data-aos-delay="300" data-aos-duration="1000">
             <!-- title section -->
-            <div class="relative flex flex-col justify-center mt-[100px] ml-[500px]" data-aos="fade-left"
+            <div class="about-creators-title" style="position: relative; display: flex; flex-direction: column; justify-content: center; margin-top: 6.25rem;" data-aos="fade-left"
                 data-aos-delay="300" data-aos-duration="1000">
-                <h1 class="font-black text-4xl text-charcoal">
+                <h1 style="font-weight: 900; font-size: 2.25rem;" class="text-charcoal">
                     ABOUT THE
                 </h1>
-                <div class="flex items-center">
+                <div style="display: flex; align-items: center;">
                     <div
-                        class="font-black bg-accent text-primary text-[80px]
-                    border-2 px-4 border-charcoal rounded-md">
+                        class="creators-title-text"
+                        style="font-weight: 900; background-color: var(--accent); color: var(--primary); font-size: 5rem; border: 2px solid var(--charcoal); padding: 0 1rem; border-radius: 0.375rem;">
                         CREATORS
                     </div>
                 </div>
@@ -427,24 +487,23 @@
         </div>
 
         <!-- line -->
-        <div class="w-full">
-            <hr class="border-t-2 border-black">
+        <div style="width: 100%;">
+            <hr style="border-top: 2px solid var(--charcoal);">
         </div>
 
 
-        <div class="p-20">
+        <div style="padding: 5rem 1.25rem;">
             <!-- Founding Story Container -->
-            <div class="flex items-center justify-center relative mt-10 mb-20">
-                <div class="bg-accent rounded-[10px] h-[700px] w-[850px] border-charcoal
-            border-2"
+            <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-top: 2.5rem; margin-bottom: 5rem;">
+                <div class="founding-story border-charcoal bg-accent" style=" border-radius: 10px; height: 700px; width: 850px; border: 2px solid;"
                     data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
                     
                     <!-- Founding Story Content -->
-                    <div class="relative text-center">
-                        <h1 class="font-poppins text-5xl font-black mt-[40px] mb-6">
+                    <div style="position: relative; text-align: center;">
+                        <h1 class="founding-title-text" style="font-family: poppins; font-size: 3rem; font-weight: 900; margin-top: 2.5rem; margin-bottom: 1.5rem;">
                             OUR FOUNDING STORY
                         </h1>
-                        <p class="text-xl font-bold text-justify mx-[45px] w-auto">
+                        <p class="founding-story-text" style="font-size: 1.25rem; font-weight: 700; text-align: justify; margin-left: 2.8125rem; margin-right: 2.8125rem; width: auto;">
                             Our journey began with a vision to create an innovative, purpose-driven platform that would
                             truly
                             serve the students of Pampanga State University. As proud students of 4B from the
@@ -473,39 +532,39 @@
             </div>
 
             <!-- members first row -->
-            <div class="flex flex-row items-center justify-center px-10 space-x-10">
-                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
-            border-2 p-5 flex flex-col items-center"
+            <div class="team-members-row" style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 2.5rem 1.25rem; gap: 2.5rem;">
+                <div class="team-member-card relative bg-accent rounded-md border-charcoal border-2"
+                    style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
-                    <div class="h-auto w-auto">
+                    <div style="height: auto; width: auto;">
                         <img src="/storage/images/son.jpg" alt="de leon"
-                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                            style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
-                    <h1 class="text-center font-poppins font-black text-lg">
+                    <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
                         Alain Davidson <br> De Leon
                     </h1>
                 </div>
-                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
-            border-2 p-5 flex flex-col items-center"
+                <div class="team-member-card relative bg-accent rounded-md border-charcoal border-2"
+                    style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
-                    <div class="h-auto w-auto">
+                    <div style="height: auto; width: auto;">
                         <img src="/storage/images/nion.jpg" alt="tongol"
-                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                            style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
-                    <h1 class="text-center font-poppins font-black text-lg">
+                    <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
                         Nion Czryll <br> Tongol
                     </h1>
                 </div>
 
 
-                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
-            border-2 p-5 flex flex-col items-center"
+                <div class="team-member-card relative bg-accent rounded-md border-charcoal border-2"
+                    style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
-                    <div class="h-auto w-auto">
+                    <div style="height: auto; width: auto;">
                         <img src="/storage/images/jc.jpg" alt="bulaon"
-                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                            style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
-                    <h1 class="text-center font-poppins font-black text-lg">
+                    <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
                         John Carl <br> Angelo Bulaon
                     </h1>
                 </div>
@@ -513,82 +572,40 @@
             </div>
 
             <!-- members second row -->
-            <div class="flex flex-row items-center justify-center px-10 py-10 space-x-10">
-                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
-            border-2 p-5 flex flex-col items-center"
+            <div class="team-members-row" style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 2.5rem 1.25rem; gap: 2.5rem;">
+                <div class="team-member-card relative bg-accent rounded-md border-charcoal border-2"
+                    style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
-                    <div class="h-auto w-auto">
+                    <div style="height: auto; width: auto;">
                         <img src="/storage/images/pyo.jpg" alt="rabanal"
-                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                            style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
-                    <h1 class="text-center font-poppins font-black text-lg">
+                    <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
                         Maria Fiona <br> Rabanal
                     </h1>
                 </div>
-                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
-            border-2 p-5 flex flex-col items-center"
+                <div class="team-member-card relative bg-accent rounded-md border-charcoal border-2"
+                    style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
-                    <div class="h-auto w-auto">
+                    <div style="height: auto; width: auto;">
                         <img src="/storage/images/mireyl.jpg" alt="nulud"
-                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                            style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
-                    <h1 class="text-center font-poppins font-black text-lg">
+                    <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
                         Mireyl Fatima <br> Nulud
                     </h1>
                 </div>
-                <div class="relative bg-accent rounded-md h-[300px] w-[230px]  border-charcoal
-        border-2 p-5 flex flex-col items-center"
+                <div class="team-member-card relative bg-accent rounded-md border-charcoal border-2"
+                    style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
-                    <div class="h-auto w-auto">
+                    <div style="height: auto; width: auto;">
                         <img src="/storage/images/cil.jpg" alt="trinidad"
-                            class="mb-6 rounded-full object-cover border-2 border-charcoal">
+                            style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
-                    <h1 class="text-center font-poppins font-black text-lg">
+                    <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
                         Cecil Rico <br> Trinidad
                     </h1>
                 </div>
-
-
-
-                {{--
-        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
-            <div class="h-auto w-auto">
-                <img src="/storage/images/ac.jpg" alt="cabang" class="mb-6 rounded-full object-cover border-2 border-black">
-            </div>
-            <h1 class="text-center font-poppins font-black text-lg">
-                Antoinette <br> Cabang
-            </h1>
-        </div>
-        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
-            <div class="h-auto w-auto">
-                <img src="/storage/images/ian.jpg" alt="gonzales" class="mb-6 rounded-full object-cover border-2 border-black">
-            </div>
-            <h1 class="text-center font-poppins font-black text-lg">
-                Ian Joshua <br> Gonzales
-            </h1>
-        </div>
-        --}}
-        {{--
-        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
-            <div class="h-auto w-auto">
-                <img src="/storage/images/dwight.jpg" alt="pingul" class="mb-6 rounded-full object-cover border-2 border-black">
-            </div>
-            <h1 class="text-center font-poppins font-black text-lg">
-                Dwight Jairo <br> Pingul
-            </h1>
-        </div>
-        <div class="relative bg-stone-200 rounded-[10px] h-[300px] w-[230px] shadow-custom-button shadow-black border-black
-            border-2 p-5 flex flex-col items-center" data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
-            <div class="h-auto w-auto">
-                <img src="/storage/images/jd.jpg" alt="canlas" class="mb-6 rounded-full object-cover border-2 border-black">
-            </div>
-            <h1 class="text-center font-poppins font-black text-lg">
-                John Daniel <br> Canlas
-            </h1>
-        </div> --}}
             </div>
 
         </div>
