@@ -4,11 +4,16 @@
     use App\Models\Review;
     use App\Models\User;
 
-    $bookedId = bookedSession::where('tutor_id', Auth::user()->id)
-        ->orWhere('student_id', Auth::user()->id)
-        ->first();
-    $sessionId = $bookedId ? $bookedId->id : null;
     $authUser = Auth::user();
+    
+    $bookedId = null;
+    if ($authUser->role === 'Student') {
+        $bookedId = bookedSession::where('student_id', $authUser->id)->first();
+    } elseif ($authUser->role === 'Tutor') {
+        $bookedId = bookedSession::where('tutor_id', $authUser->id)->first();
+    }
+    
+    $sessionId = $bookedId ? $bookedId->id : null;
 
     // Get the other user in the session for video call
     $otherUserId = null;
