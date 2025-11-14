@@ -113,7 +113,16 @@
                             dropdownMenu.style.display = 'none';
                             dropdownButton.classList.remove('border-primary/70');
                         }
-                    }, 100);
+                    }, 200);
+                });
+
+                // Prevent closing dropdown when clicking inside it
+                dropdownMenu.addEventListener('mousedown', (event) => {
+                    event.preventDefault();
+                    if (event.target.classList.contains('courseCheckbox')) {
+                        event.target.checked = !event.target.checked;
+                        event.target.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
                 });
 
                 closeDropdownBtn.addEventListener('click', (event) => {
@@ -124,8 +133,12 @@
                     dropdownButton.value = '';
                 });
 
-                dropdownMenu.addEventListener('click', (event) => {
-                    event.stopPropagation();
+                document.addEventListener('click', (event) => {
+                    if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.add('hidden');
+                        dropdownMenu.style.display = 'none';
+                        dropdownButton.classList.remove('border-primary/70');
+                    }
                 });
 
                 document.addEventListener('click', (event) => {
@@ -143,82 +156,79 @@
                 let subjectMap = @json($subjects);
                 console.log(subjectMap);
 
-
-
                 const container = document.getElementById('dropdownSubjects');
                 const subjectContainer = document.getElementById('subject-container');
                 const subjectList = document.getElementById('subject-list');
                 const searchInput = document.getElementById('dropdownButton'); // Now references the input field
                 let selectedSubjects = [];
-                let allSubjects = [];
+                let allSubjectsData = []; // Store as data, not as DOM elements
 
+                // Create subjects data array instead of DOM elements
                 for (const [code, name] of Object.entries(subjectMap)) {
+                    allSubjectsData.push({
+                        code: code,
+                        name: name
+                    });
+                }
+
+                console.log('All subjects data:', allSubjectsData);
+
+                // Create label element from subject data
+                function createSubjectLabel(subjectData) {
                     const label = document.createElement('label');
                     label.classList.add('flex', 'gap-2', 'font-poppins', 'font-bold', 'items-center', 'p-2', 'hover:bg-[#DCDCDC]',
                         'text-darkgray', 'cursor-pointer', 'rounded-lg', 'peer-checked:bg-primary/20', 'text-sm', 'md:text-base');
-                    label.innerHTML = `
-                        <input
-                            type="checkbox"
-                            name="subj_code[]"
-                            subject-name="${name}"
-                            class="courseCheckbox size-5 peer accent-[#550000]"
-                            value="${code}"
-                        >
-                        <span class="peer-checked:text-primary">${code} - ${name}</span>
-                    `;
-                    container.appendChild(label);
-                    allSubjects.push(label);
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'subj_code[]';
+                    checkbox.setAttribute('subject-name', subjectData.name);
+                    checkbox.classList.add('courseCheckbox', 'size-5', 'peer');
+                    checkbox.style.accentColor = '#550000';
+                    checkbox.value = subjectData.code;
+                    checkbox.checked = selectedSubjects.some(s => s.subj_code === subjectData.code);
+                    
+                    const span = document.createElement('span');
+                    span.classList.add('peer-checked:text-primary');
+                    span.textContent = `${subjectData.code} - ${subjectData.name}`;
+                    
+                    label.appendChild(checkbox);
+                    label.appendChild(span);
+                    
+                    return label;
                 }
 
                 // ETO NA SON SEARCH FILTER LFG
                 function filterSubjects(query) {
                     const searchTerm = query.toLowerCase().trim();
-
-
                     container.innerHTML = '';
 
-                    if (searchTerm === '') {
+                    let subjectsToShow = allSubjectsData;
 
-                        allSubjects.forEach(subject => {
-                            const clonedSubject = subject.cloneNode(true);
-                            container.appendChild(clonedSubject);
-
-
-                            const checkbox = clonedSubject.querySelector('.courseCheckbox');
-                            const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
-                            checkbox.checked = isSelected;
-                        });
-                    } else {
-
-                        const filteredSubjects = allSubjects.filter(subject => {
-                            const text = subject.textContent.toLowerCase();
-                            const checkbox = subject.querySelector('input[type="checkbox"]');
-                            const subjCode = checkbox ? checkbox.value.toLowerCase() : '';
-                            const subjName = checkbox ? checkbox.getAttribute('subject-name').toLowerCase() : '';
-
-                            return subjCode.includes(searchTerm) ||
-                                subjName.includes(searchTerm) ||
-                                text.includes(searchTerm);
+                    if (searchTerm !== '') {
+                        subjectsToShow = allSubjectsData.filter(subject => {
+                            const code = subject.code.toLowerCase();
+                            const name = subject.name.toLowerCase();
+                            return code.includes(searchTerm) || name.includes(searchTerm);
                         });
 
-                        if (filteredSubjects.length === 0) {
-
+                        if (subjectsToShow.length === 0) {
                             const noResults = document.createElement('div');
                             noResults.classList.add('p-4', 'text-center', 'text-gray-500', 'font-poppins', 'text-sm', 'md:text-base');
                             noResults.textContent = 'No subjects found';
                             container.appendChild(noResults);
-                        } else {
-                            filteredSubjects.forEach(subject => {
-                                const clonedSubject = subject.cloneNode(true);
-                                container.appendChild(clonedSubject);
-
-
-                                const checkbox = clonedSubject.querySelector('.courseCheckbox');
-                                const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
-                                checkbox.checked = isSelected;
-                            });
+                            return;
                         }
                     }
+
+                    renderVisibleSubjects(subjectsToShow);
+                }
+
+                function renderVisibleSubjects(subjectsToRender) {
+                    subjectsToRender.forEach(subjectData => {
+                        const label = createSubjectLabel(subjectData);
+                        container.appendChild(label);
+                    });
                 }
 
 
@@ -235,49 +245,45 @@
                 });
 
 
-                container.addEventListener('change', function(e) {
+                document.addEventListener('change', function(e) {
                     const checkbox = e.target;
                     if (!checkbox.classList.contains('courseCheckbox'))
                         return;
 
-                    const checkedCheckboxes = Array.from(
-                        document.querySelectorAll('.courseCheckbox:checked')
-                    );
+                    // Check the total number of selected subjects (from selectedSubjects array)
+                    const isChecked = checkbox.checked;
+                    const subjectCode = checkbox.value;
+                    const subjectName = checkbox.getAttribute('subject-name');
 
-                    if (checkedCheckboxes.length > 3) {
-                        checkbox.checked = false;
-                        showNotification(
-                            'You can not add more than 3 subjects',
-                            'Cannot add more than 3 subjects',
-                            'error',
-                            15,
-                            'small'
-                        );
-                        return;
+                    // If checking a box, verify limit
+                    if (isChecked) {
+                        if (selectedSubjects.length >= 3) {
+                            checkbox.checked = false;
+                            showNotification(
+                                'You can not add more than 3 subjects',
+                                'Cannot add more than 3 subjects',
+                                'error',
+                                15,
+                                'small'
+                            );
+                            return;
+                        }
+                        // Add to selected subjects
+                        selectedSubjects.push({
+                            subj_code: subjectCode,
+                            subj_name: subjectName
+                        });
+                    } else {
+                        // Remove from selected subjects
+                        selectedSubjects = selectedSubjects.filter(s => s.subj_code !== subjectCode);
                     }
 
-                    selectedSubjects = checkedCheckboxes.map((cb) => ({
-                        subj_code: cb.value,
-                        subj_name: cb.getAttribute('subject-name'),
-                    }));
-
-                    console.log('Selected Subjects After checkedCheckboxes: ', selectedSubjects);
+                    console.log('Selected Subjects: ', selectedSubjects);
 
                     updateSubjectList();
                     toggleSubjectContainer();
-
-
-                    updateAllCheckboxStates();
                 });
 
-
-                function updateAllCheckboxStates() {
-                    const currentQuery = searchInput.value;
-                    if (currentQuery.trim() !== '') {
-                        // Re-filter to maintain search results with updated states
-                        filterSubjects(currentQuery);
-                    }
-                }
 
                 function updateSubjectList() {
                     subjectList.innerHTML = '';
@@ -312,14 +318,12 @@
                                 (s) => s.subj_code !== subject.subj_code
                             );
 
-
                             document.querySelectorAll(`.courseCheckbox[value="${subject.subj_code}"]`).forEach(cb => {
                                 cb.checked = false;
                             });
 
                             updateSubjectList();
                             toggleSubjectContainer();
-                            updateAllCheckboxStates();
                         };
 
                         listItem.appendChild(removeButton);
@@ -390,30 +394,24 @@
 
                 function renderSubjects() {
                     container.innerHTML = '';
-                    let subjectsToShow = showAll ? allSubjects : allSubjects.slice(0, showCount);
+                    let subjectsToShow = showAll ? allSubjectsData : allSubjectsData.slice(0, showCount);
 
-                    subjectsToShow.forEach(subject => {
-                        const clonedSubject = subject.cloneNode(true);
-                        container.appendChild(clonedSubject);
-                        const checkbox = clonedSubject.querySelector('.courseCheckbox');
-                        const isSelected = selectedSubjects.some(s => s.subj_code === checkbox.value);
-                        checkbox.checked = isSelected;
-                    });
+                    renderVisibleSubjects(subjectsToShow);
 
-                    if (!showAll && allSubjects.length > showCount) {
+                    if (!showAll && allSubjectsData.length > showCount) {
                         const showMoreBtn = document.createElement('button');
                         showMoreBtn.textContent = 'Show more...';
                         showMoreBtn.classList.add('w-full', 'text-accent', 'hover:bg-primary/80', 'p-2',
                             'border-2', 'border-black', 'bg-primary', 'rounded', 'mt-2', 'font-bold', 'text-sm', 'md:text-base');
-                        showMoreBtn.onclick = function() {
-                            event.stopPropagation();
+                        showMoreBtn.type = 'button';
+                        showMoreBtn.onclick = function(evt) {
+                            evt.stopPropagation();
                             showAll = true;
                             renderSubjects();
                         };
                         container.appendChild(showMoreBtn);
                     }
                 }
-
 
                 renderSubjects();
             </script>
