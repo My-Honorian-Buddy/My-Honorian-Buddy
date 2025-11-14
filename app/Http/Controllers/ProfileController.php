@@ -118,11 +118,11 @@ class ProfileController extends Controller
             Log::info("User profile picture updated in database", ['user_id' => $user->id, 'new_profile_pic' => 'storage/' . $path]);
 
             Log::info("The profile pic:" . $user->profile_pic);
-            return Redirect::to('/profile/edit-profile')->with('success', 'Profile picture uploaded successfully!');
+            return Redirect::to('/profile/edit-profile')->with('success', 'Your profile picture has been updated');
         }
 
         Log::error("Profile picture upload failed - no file detected.");
-        return redirect()->back()->with('error', 'Something went wrong!');
+        return redirect()->back()->with('error', 'No file was selected');
     }
 
     public function changeSubjects(Request $request)
