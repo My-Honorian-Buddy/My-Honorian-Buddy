@@ -416,8 +416,8 @@
                                 A student already booked this tutor.
                             </div>
                         @else
-                            <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id }}"
-                                data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor) }}">
+                            <div class="w-full" id="set-appointment-wrapper" data-tutor-id="{{ $user->tutor->id ?? '' }}"
+                                data-tutor-subjects="{{ json_encode($user->tutor->subject_tutor ?? []) }}">
                                 <x-set-appointment />
                             </div>
                         @endif
