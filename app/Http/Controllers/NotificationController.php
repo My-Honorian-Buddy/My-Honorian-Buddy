@@ -31,6 +31,69 @@ class NotificationController extends Controller
             ->orderBy('created_at', 'desc') // Optional: Order by latest notifications
             ->get();
         
+        // Add recipient role to each notification
+        $notifications = $notifications->map(function($notification) use ($userId) {
+            $recipientRole = null;
+            
+            // Check if user has student account
+            $student = Student::where('user_id', $userId)->first();
+            // Check if user has tutor account
+            $tutor = Tutor::where('user_id', $userId)->first();
+            
+            // Determine recipient role based on notification context
+            $notifInfo = is_string($notification->notif_info) 
+                ? json_decode($notification->notif_info, true) 
+                : $notification->notif_info;
+            
+            // Strategy 1: Check if notification has explicit student_id or tutor_id matching current user
+            if (isset($notifInfo['student_id']) && $notifInfo['student_id'] == $userId) {
+                $recipientRole = 'Student';
+            } elseif (isset($notifInfo['tutor_id']) && $notifInfo['tutor_id'] == $userId) {
+                $recipientRole = 'Tutor';
+            }
+            
+            // Strategy 2: Check booked session to determine recipient role
+            if (!$recipientRole && isset($notifInfo['booked_session_id'])) {
+                $bookedSession = bookedSession::find($notifInfo['booked_session_id']);
+                if ($bookedSession) {
+                    if ($bookedSession->student_id == $userId) {
+                        $recipientRole = 'Student';
+                    } elseif ($bookedSession->tutor_id == $userId) {
+                        $recipientRole = 'Tutor';
+                    }
+                }
+            }
+            
+            // Strategy 3: For notifications sent through 'to' field, determine role by checking who the notification is TO
+            // If user is a tutor and receives notification, it's likely for their tutor role
+            // If user is a student and receives notification, it's likely for their student role
+            if (!$recipientRole) {
+                // Check the notification type and requester role to infer recipient role
+                if (isset($notifInfo['requester_role'])) {
+                    // If student requests, notification goes to tutor
+                    if ($notifInfo['requester_role'] === 'Student') {
+                        $recipientRole = 'Tutor';
+                    } 
+                    // If tutor requests, notification goes to student
+                    elseif ($notifInfo['requester_role'] === 'Tutor') {
+                        $recipientRole = 'Student';
+                    }
+                }
+            }
+            
+            // Strategy 4: Fallback to user's current active role
+            if (!$recipientRole) {
+                $user = User::find($userId);
+                if ($user && $user->role) {
+                    $recipientRole = $user->role;
+                } else {
+                    $recipientRole = 'Student'; // Default fallback
+                }
+            }
+            
+            $notification->recipient_role = $recipientRole;
+            return $notification;
+        });
    
         $hasUnreadNotification = NotifSession::where('to', $userId)
             ->whereNull('read_at')

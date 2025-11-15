@@ -96,6 +96,21 @@
 
                                 </x-bladewind.dropmenunotif-item>
                             </div>
+                            
+                            <!-- Role Tabs -->
+                            <div class="flex border-b border-gray-300 px-4 pt-2">
+                                <button id="student-tab" 
+                                    class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-primary text-primary transition-all"
+                                    onclick="switchNotificationTab('student')">
+                                    Student
+                                </button>
+                                <button id="tutor-tab" 
+                                    class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-primary transition-all"
+                                    onclick="switchNotificationTab('tutor')">
+                                    Tutor
+                                </button>
+                            </div>
+                            
                             <div class="flex flex-col justify-between items-end text-base px-4 py-2">
                                 <button id="edit-button"
                                     class="bg-accent rounded-sm text-primary border border-primary px-3 
@@ -251,6 +266,21 @@
                                 </div>
                             </x-bladewind.dropmenunotif-item>
                         </div>
+                        
+                        <!-- Role Tabs (Mobile) -->
+                        <div class="flex border-b border-gray-300 px-4 pt-2">
+                            <button id="student-tab-mobile" 
+                                class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-primary text-primary transition-all"
+                                onclick="switchNotificationTab('student')">
+                                Student
+                            </button>
+                            <button id="tutor-tab-mobile" 
+                                class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-primary transition-all"
+                                onclick="switchNotificationTab('tutor')">
+                                Tutor
+                            </button>
+                        </div>
+                        
                         <div class="flex flex-col justify-between items-end text-base px-4 py-2">
                             <button id="edit-button"
                                 class="bg-accent rounded-sm text-primary border border-primary px-3 
@@ -546,12 +576,19 @@
                     // Build the notifications HTML once
                     let notificationsHTML = '';
                     
+                    // Store all notifications globally for tab filtering
+                    window.allNotifications = notifications;
+                    
                     notifications.forEach(notification => {
                         const info = JSON.parse(notification.notif_info);
                         const bgClass = notification['read_at'] === null ? 'bg-secondary' : 'bg-accent';
                         const fontClass = notification['read_at'] === null ? 'font-black' : 'font-semibold';
                         const dateColor = notification['read_at'] === null ? 'text-primary' : 'text-gray-400';
                         const hoverClass = 'hover:bg-accent3';
+                        
+                        // Determine recipient role
+                        const recipientRole = notification.recipient_role || 'Student';
+                        const roleDataAttr = `data-role="${recipientRole}"`;
 
                         console.log(notification['read_at'] === null)
                         // Remove these lines since we're using badge now
@@ -588,7 +625,7 @@
                             }
 
                             notificationsHTML += `
-                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-charcoal transition-colors duration-200 cursor-pointer"
+                                <li class="notification-item truncate ${bgClass} ${hoverClass} text-base px-4 py-2 border-b border-charcoal transition-colors duration-200 cursor-pointer" ${roleDataAttr}
                                 onclick="markRead(${notification.id})">
                                     <div class="${fontClass}">
                                         <p class="font-semibold">⏰ Session Starting Soon!</p>
@@ -602,7 +639,7 @@
                             // Check if NotifType is "Tutor Request"
                         } else if (info['NotifType'] === "Tutor Request") {
                             notificationsHTML += `
-                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer">
+                                <li class="notification-item truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer" ${roleDataAttr}>
                                     <div class="flex justify-between" onclick="markRead(${notification.id})">
                                         <div class="${fontClass}">
                                             <p>${info['NotifType'] || 'Notification'}</p>
@@ -1212,6 +1249,19 @@
                     notifContainers.forEach(container => {
                         container.innerHTML = notificationsHTML;
                     });
+                    
+                    // Add role data attribute to all notification items
+                    document.querySelectorAll('.bladewind-dropmenunotif li').forEach((li, index) => {
+                        if (notifications[Math.floor(index / 2)]) { // Divide by 2 because of separator spans
+                            const notification = notifications[Math.floor(index / 2)];
+                            const recipientRole = notification.recipient_role || 'Student';
+                            li.setAttribute('data-role', recipientRole);
+                            li.classList.add('notification-item');
+                        }
+                    });
+                    
+                    // Apply initial tab filter (show Student by default)
+                    filterNotificationsByRole(window.currentNotificationTab || 'student');
                 }
             })
             .catch(error => {
@@ -1227,6 +1277,105 @@
 
     // Make loadNotifications globally accessible for echo.js
     window.fetchUserNotifications = loadNotifications;
+    
+    // Track current notification tab
+    window.currentNotificationTab = 'student';
+    
+    // Function to switch between notification tabs
+    function switchNotificationTab(role) {
+        window.currentNotificationTab = role.toLowerCase();
+        
+        // Update tab button styles (desktop)
+        const studentTab = document.getElementById('student-tab');
+        const tutorTab = document.getElementById('tutor-tab');
+        
+        // Update tab button styles (mobile)
+        const studentTabMobile = document.getElementById('student-tab-mobile');
+        const tutorTabMobile = document.getElementById('tutor-tab-mobile');
+        
+        if (role === 'student') {
+            // Desktop
+            if (studentTab && tutorTab) {
+                studentTab.classList.add('border-primary', 'text-primary');
+                studentTab.classList.remove('border-transparent', 'text-gray-500');
+                tutorTab.classList.remove('border-primary', 'text-primary');
+                tutorTab.classList.add('border-transparent', 'text-gray-500');
+            }
+            // Mobile
+            if (studentTabMobile && tutorTabMobile) {
+                studentTabMobile.classList.add('border-primary', 'text-primary');
+                studentTabMobile.classList.remove('border-transparent', 'text-gray-500');
+                tutorTabMobile.classList.remove('border-primary', 'text-primary');
+                tutorTabMobile.classList.add('border-transparent', 'text-gray-500');
+            }
+        } else {
+            // Desktop
+            if (studentTab && tutorTab) {
+                tutorTab.classList.add('border-primary', 'text-primary');
+                tutorTab.classList.remove('border-transparent', 'text-gray-500');
+                studentTab.classList.remove('border-primary', 'text-primary');
+                studentTab.classList.add('border-transparent', 'text-gray-500');
+            }
+            // Mobile
+            if (studentTabMobile && tutorTabMobile) {
+                tutorTabMobile.classList.add('border-primary', 'text-primary');
+                tutorTabMobile.classList.remove('border-transparent', 'text-gray-500');
+                studentTabMobile.classList.remove('border-primary', 'text-primary');
+                studentTabMobile.classList.add('border-transparent', 'text-gray-500');
+            }
+        }
+        
+        // Filter notifications
+        filterNotificationsByRole(role);
+    }
+    
+    // Function to filter notifications by role
+    function filterNotificationsByRole(role) {
+        const roleCapitalized = role.charAt(0).toUpperCase() + role.slice(1);
+        
+        // Get all notification items
+        const allNotificationItems = document.querySelectorAll('.bladewind-dropmenunotif .notification-item');
+        const allSeparators = document.querySelectorAll('.bladewind-dropmenunotif span.flex');
+        
+        allNotificationItems.forEach(item => {
+            const itemRole = item.getAttribute('data-role');
+            if (itemRole === roleCapitalized) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Hide/show separators based on visible notifications
+        allSeparators.forEach(sep => {
+            const prevElement = sep.previousElementSibling;
+            const nextElement = sep.nextElementSibling;
+            
+            if (prevElement && prevElement.style.display === 'none') {
+                sep.style.display = 'none';
+            } else {
+                sep.style.display = '';
+            }
+        });
+        
+        // Check if any notifications are visible
+        const visibleNotifications = Array.from(allNotificationItems).some(item => item.style.display !== 'none');
+        
+        // Remove existing no-notification messages first
+        document.querySelectorAll('.no-notifications-message').forEach(msg => msg.remove());
+        
+        if (!visibleNotifications) {
+            document.querySelectorAll('.bladewind-dropmenunotif').forEach(container => {
+                const emptyMessage = document.createElement('li');
+                emptyMessage.className = 'no-notifications-message px-4 py-2 text-gray-500';
+                emptyMessage.textContent = `No ${roleCapitalized.toLowerCase()} notifications.`;
+                container.appendChild(emptyMessage);
+            });
+        }
+    }
+    
+    // Make switchNotificationTab globally accessible
+    window.switchNotificationTab = switchNotificationTab;
 
     function markRead(notificationId) {
         fetch(`/notifications/${notificationId}/read`, {

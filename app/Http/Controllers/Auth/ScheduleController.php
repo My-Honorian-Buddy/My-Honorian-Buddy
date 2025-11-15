@@ -59,4 +59,48 @@ class ScheduleController extends Controller
         return redirect()->route('workspace.start');
     }
 
+    public function edit(){
+        $schedule = Schedule::where('user_id', Auth::id())->first();
+        
+        if (!$schedule) {
+            return redirect()->route('user.schedule')->with('error', 'No schedule found. Please create one first.');
+        }
+        
+        return view('settingup-profile.date-availability', compact('schedule'));
+    }
+
+    public function update(Request $request){
+        Log::info('Updating schedule', $request->all());
+
+        $request->validate([
+            'days_week' => 'required|array',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+        ]);
+
+        $userID = Auth::id();
+        $schedule = Schedule::where('user_id', $userID)->first();
+
+        if (!$schedule) {
+            return redirect()->back()->with('error', 'No schedule found.');
+        }
+
+        $schedule->update([
+            'days_week' => $request->days_week,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+        ]);
+
+        Log::info('Schedule updated successfully.', [
+            'user_id' => $userID,
+            'schedule_data' => [
+                'days_week' => $request->days_week,
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
+            ],
+        ]);
+
+        return redirect()->route('workspace.start')->with('success', 'Schedule updated successfully!');
+    }
+
 }

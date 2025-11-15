@@ -52,6 +52,8 @@ class RoleSwitchController extends Controller
             ]);
             Log::info('Switch role', ['mode'], $mode);
 
+            $request->session()->put('changing_subjects', true);
+
             return redirect()->route('subjects.create')->with('success', 'Please fill out your student profile.');
         }
             //if no tutor account
@@ -68,6 +70,8 @@ class RoleSwitchController extends Controller
                 'bio' => $student->bio,
             ]);
             Log::info('Switch role', ['mode'], $mode);
+
+            $request->session()->put('changing_subjects', true);
 
             return redirect()->route('tutor.create')->with('success', 'Please fill out your tutor profile.');
         }
