@@ -11,7 +11,7 @@
     $user = Auth::user();
 
 @endphp
-<header class="sticky top-0 z-50 bg-accent shadow-md backdrop-blur border-b-2 border-black relative">
+<header class="sticky top-0 z-[9999] bg-accent shadow-md backdrop-blur border-b-2 border-black relative">
     <div class="w-full">
         <div class="grid xl:grid-cols-[1fr_2fr] bg-accent">
             <div
@@ -69,7 +69,7 @@
                     <div style="display: flex; justify-content: center; align-items: center; gap: 16px; padding: 0;">
 
                         <!--for notifications  -->
-                        <x-bladewind.dropmenunotif class="w-[600px] z-40">
+                        <x-bladewind.dropmenunotif class="w-[600px] z-[9999]">
 
                             @php
                                 $hasNotification = Auth::user()->hasNotification;
@@ -107,6 +107,13 @@
                             </div>
 
 
+                            @php
+                                $hasStudentAccount = \App\Models\Student::where('user_id', Auth::id())->exists();
+                                $hasTutorAccount = \App\Models\Tutor::where('user_id', Auth::id())->exists();
+                                $showTabs = $hasStudentAccount && $hasTutorAccount;
+                            @endphp
+                            
+                            @if($showTabs)
                             <div class="flex border-b border-gray-300 px-4 justify-between items-center">
                                 <div class="flex">
                                     <button id="student-tab"
@@ -141,9 +148,8 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @endif
                             
-
                             <ul class="bladewind-dropmenunotif overflow-auto max-h-96" style="scrollbar-width: none;"
                                 onclick="markAsRead()">
                                 {{-- Notifications will be dynamically inserted here by the script --}}
@@ -246,7 +252,7 @@
                 <!-- Mobile Buttons -->
                 <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
                     <!-- Notification Bell -->
-                    <x-bladewind.dropmenunotif class=" w-[300px] md:w-[600px] z-40">
+                    <x-bladewind.dropmenunotif class=" w-[300px] md:w-[600px] z-[9999]">
                         @php
                             $hasNotification = Auth::user()->hasNotification;
                             $unreadCount = \App\Models\notifSession::where('to', Auth::id())
@@ -279,6 +285,13 @@
                         </div>
 
                         <!-- Role Tabs (Mobile) -->
+                        @php
+                            $hasStudentAccount = \App\Models\Student::where('user_id', Auth::id())->exists();
+                            $hasTutorAccount = \App\Models\Tutor::where('user_id', Auth::id())->exists();
+                            $showTabs = $hasStudentAccount && $hasTutorAccount;
+                        @endphp
+                        
+                        @if($showTabs)
                         <div class="flex border-b border-gray-300 px-4 pt-2 justify-between items-center">
                             <div class="flex">
                                 <button id="student-tab-mobile"
@@ -313,6 +326,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                         <ul class="bladewind-dropmenunotif overflow-auto max-h-96" style="scrollbar-width: none;"
                             onclick="markAsRead()">
