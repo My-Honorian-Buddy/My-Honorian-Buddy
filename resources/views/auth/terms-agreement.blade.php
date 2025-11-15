@@ -46,7 +46,7 @@
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold text-primary mb-4 font-poppins">1. Introduction</h2>
                     <p class="text-gray-700 leading-relaxed mb-4 text-base">
-                        Welcome to My Honorian Buddy. These Terms and Conditions ("Terms") govern your access to and use of our website and services (collectively, the "Service"). By accessing or using My Honorian Buddy, you agree to be bound by these Terms. If you do not agree to abide by the above, please do not use this service.
+                        Welcome to My Honorian Buddy. These Terms and Conditions govern your access to and use of our website and services. By accessing or using My Honorian Buddy, you agree to be bound by these Terms. If you do not agree to abide by the above, please do not use this service.
                     </p>
                 </section>
 
@@ -100,7 +100,6 @@
                     <ul class="list-disc list-inside text-gray-700 space-y-2 ml-6 mb-4">
                         <li>You agree to honor confirmed bookings and sessions</li>
                         <li>Cancellations must be made with appropriate notice as per our cancellation policy</li>
-                        <li>Late cancellations may result in penalties or restrictions on future bookings</li>
                         <li>The Company acts as a facilitator only and is not responsible for session outcomes</li>
                         <li>All session details must comply with our Community Guidelines</li>
                     </ul>
@@ -137,7 +136,7 @@
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold text-primary mb-4 font-poppins">1. Introduction</h2>
                     <p class="text-gray-700 leading-relaxed mb-4 text-base">
-                        My Honorian Buddy ("Company," "we," "us," or "our") operates the My Honorian Buddy platform (the "Service"). This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.
+                        This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.
                     </p>
                     <p class="text-gray-700 leading-relaxed text-base">
                         We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy.
@@ -149,8 +148,6 @@
                     <h2 class="text-2xl font-bold text-primary mb-4 font-poppins">2. Definitions</h2>
                     <ul class="list-disc list-inside text-gray-700 space-y-2 ml-6">
                         <li><strong>Personal Data:</strong> Any information relating to an identified or identifiable natural person</li>
-                        <li><strong>Usage Data:</strong> Data collected automatically when using the Service (e.g., access logs, device information)</li>
-                        <li><strong>Cookies:</strong> Small files placed on your device to store information</li>
                         <li><strong>Service Provider:</strong> Any natural or legal person who processes data on behalf of the Company</li>
                     </ul>
                 </section>
@@ -163,14 +160,7 @@
                         <li>Email address, name, phone number</li>
                         <li>Profile picture and bio</li>
                         <li>Calendar and scheduling information</li>
-                        <li>Payment information (processed securely)</li>
                         <li>Session booking history and preferences</li>
-                    </ul>
-                    <h3 class="text-xl font-semibold text-primary mt-6 mb-3">3.2 Usage Data Collected:</h3>
-                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-6 mb-4">
-                        <li>Browser type and version</li>
-                        <li>IP address and device information</li>
-                        <li>Pages visited and time spent</li>
                     </ul>
                 </section>
 
@@ -212,8 +202,8 @@
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold text-primary mb-4 font-poppins">7. Contact Us</h2>
                     <div class="bg-gray-100 p-4 rounded-lg">
-                        <p class="text-gray-700"><strong>Email:</strong> privacy@myhonorianbuddy.com</p>
-                        <p class="text-gray-700"><strong>Support:</strong> support@myhonorianbuddy.com</p>
+                        <p class="text-gray-700"><strong>Email:</strong> romansmalakas4@gmail.com</p>
+                        <p class="text-gray-700"><strong>Support:</strong> romansmalakas4@gmail.com</p>
                     </div>
                 </section>
             </div>
