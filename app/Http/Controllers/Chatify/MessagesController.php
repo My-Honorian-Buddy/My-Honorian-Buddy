@@ -48,30 +48,14 @@ class MessagesController extends Controller
     {
         $user = Auth::user();
         
-        // Check COR verification for Students
-        if ($user->role === 'Student') {
-            $student = Student::where('user_id', Auth::id())->first();
-            if (!$student || $student->cor_status !== 'verified') {
-                return view('Chatify::pages.app', [
-                    'verified' => false,
-                    'id' => $id ?? 0,
-                    'messengerColor' => $user->messenger_color ? $user->messenger_color : Chatify::getFallbackColor(),
-                    'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
-                ]);
-            }
-        }
-        
-        // Check COR verification for Tutors
-        if ($user->role === 'Tutor') {
-            $tutor = Tutor::where('user_id', Auth::id())->first();
-            if (!$tutor || $tutor->cor_status !== 'verified') {
-                return view('Chatify::pages.app', [
-                    'verified' => false,
-                    'id' => $id ?? 0,
-                    'messengerColor' => $user->messenger_color ? $user->messenger_color : Chatify::getFallbackColor(),
-                    'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
-                ]);
-            }
+        // Check COR verification - cor_status is in users table
+        if ($user->cor_status !== 'verified') {
+            return view('Chatify::pages.app', [
+                'verified' => false,
+                'id' => $id ?? 0,
+                'messengerColor' => $user->messenger_color ? $user->messenger_color : Chatify::getFallbackColor(),
+                'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
+            ]);
         }
         
         $messenger_color = Auth::user()->messenger_color;
