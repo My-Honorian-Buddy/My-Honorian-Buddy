@@ -14,16 +14,23 @@
 <header class="sticky top-0 z-50 bg-accent shadow-md backdrop-blur border-b-2 border-black relative">
     <div class="w-full">
         <div class="grid xl:grid-cols-[1fr_2fr] bg-accent">
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 8px 12px; height: 100%;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 8px 12px; height: 100%;">
                 <a href="{{ route('landing-page') }}" style="display: flex; align-items: center; height: 100%; flex: 1;">
-                    <img src="{{ asset('images/logo.svg') }}" alt="logo" class="ml-4 w-1/3 md:w-1/4" style="object-fit: contain;">
+                    <img src="{{ asset('images/logo.svg') }}" alt="logo" class="ml-4 w-1/3 md:w-1/4"
+                        style="object-fit: contain;">
                 </a>
                 <!-- Hamburger Menu Button (Mobile Only) -->
-                <button id="mobile-menu-btn" style="padding: 8px; border-radius: 6px; background: transparent; border: none; cursor: pointer; transition: background-color 0.2s; height: 40px; width: 40px; display: none; align-items: center; justify-content: center;">
-                    <svg id="menu-icon" style="width: 24px; height: 24px; color: black; stroke: currentColor; fill: none;" stroke-width="2" viewBox="0 0 24 24">
+                <button id="mobile-menu-btn"
+                    style="padding: 8px; border-radius: 6px; background: transparent; border: none; cursor: pointer; transition: background-color 0.2s; height: 40px; width: 40px; display: none; align-items: center; justify-content: center;">
+                    <svg id="menu-icon"
+                        style="width: 24px; height: 24px; color: black; stroke: currentColor; fill: none;"
+                        stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                    <svg id="close-icon" style="width: 24px; height: 24px; color: black; stroke: currentColor; fill: none; display: none;" stroke-width="2" viewBox="0 0 24 24">
+                    <svg id="close-icon"
+                        style="width: 24px; height: 24px; color: black; stroke: currentColor; fill: none; display: none;"
+                        stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -31,10 +38,12 @@
 
             <div style="display: flex; padding: 16px 24px;" id="nav-content">
                 <header style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                    <div style="display: flex; justify-content: center; align-items: center; font-weight: 900; padding: 0;">
-                        <nav style="display: flex; gap: 32px; align-items: center; color: #2c2c2c; font-family: 'Dela Gothic One', sans-serif; margin: 0 32px;">
+                    <div
+                        style="display: flex; justify-content: center; align-items: center; font-weight: 900; padding: 0;">
+                        <nav
+                            style="display: flex; gap: 32px; align-items: center; color: #2c2c2c; font-family: 'Dela Gothic One', sans-serif; margin: 0 32px;">
                             <a href="{{ route('workspace.start') }}"
-                                style="transition: all 0.2s ease-in-out; text-decoration: none; color: #2c2c2c;" 
+                                style="transition: all 0.2s ease-in-out; text-decoration: none; color: #2c2c2c;"
                                 onmouseover="this.style.color='#550000'; this.style.textDecoration='underline';"
                                 onmouseout="this.style.color='#2c2c2c'; this.style.textDecoration='none';">WORKSPACE</a>
 
@@ -96,42 +105,44 @@
 
                                 </x-bladewind.dropmenunotif-item>
                             </div>
-                            
-                            <!-- Role Tabs -->
-                            <div class="flex border-b border-gray-300 px-4 pt-2">
-                                <button id="student-tab" 
-                                    class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-primary text-primary transition-all"
-                                    onclick="switchNotificationTab('student')">
-                                    Student
-                                </button>
-                                <button id="tutor-tab" 
-                                    class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-primary transition-all"
-                                    onclick="switchNotificationTab('tutor')">
-                                    Tutor
-                                </button>
-                            </div>
-                            
-                            <div class="flex flex-col justify-between items-end text-base px-4 py-2">
-                                <button id="edit-button"
-                                    class="bg-accent rounded-sm text-primary border border-primary px-3 
-                            py-1 hover:bg-primary transition ease-in-out hover:text-accent">
-                                    Edit
-                                </button>
-                                <div id="bulk-actions" class="hidden pt-2 space-x-2">
-                                    <button id="mark-all-read"
-                                        class="bg-accent text-primary border border-charcoal px-3 py-1 
-                            rounded-sm transition hover:bg-primary hover:text-accent"
-                                        onclick="markAllAsRead()">
-                                        Mark All as Read
+
+
+                            <div class="flex border-b border-gray-300 px-4 justify-between items-center">
+                                <div class="flex">
+                                    <button id="student-tab"
+                                        class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-primary text-primary transition-all"
+                                        onclick="switchNotificationTab('student')">
+                                        Student
                                     </button>
-                                    <button id="delete-all"
-                                        class="bg-primary text-accent border border-black px-3 py-1 rounded-sm 
-                                        hover:bg-red-700 transition"
-                                        onclick="deleteAllNotifications()">
-                                        Delete All
+                                    <button id="tutor-tab"
+                                        class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-primary transition-all"
+                                        onclick="switchNotificationTab('tutor')">
+                                        Tutor
                                     </button>
                                 </div>
+                                <div class="relative px-4 py-2">
+                                    <button id="edit-button" class="p-1 hover:bg-gray-200 rounded transition"
+                                        onclick="toggleBulkActionsMenu(event)">
+                                        <x-bladewind.icon name="ellipsis-vertical" class="!h-5 !w-5 text-primary" />
+                                    </button>
+                                    <div id="bulk-actions"
+                                        class="hidden absolute overflow-hidden right-0 top-10 bg-white border-2 border-primary rounded-md shadow-lg z-50 w-48"
+                                        style="display: none; flex-direction: column;">
+                                        <button id="mark-all-read"
+                                            class="w-full text-left px-4 py-2 hover:bg-gray-100 text-primary transition"
+                                            onclick="markAllAsRead(); toggleBulkActionsMenu()">
+                                            Mark All as Read
+                                        </button>
+                                        <button id="delete-all"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 transition border-t border-gray-200"
+                                            onclick="deleteAllNotifications(); toggleBulkActionsMenu()">
+                                            Delete All
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
+                            
 
                             <ul class="bladewind-dropmenunotif overflow-auto max-h-96" style="scrollbar-width: none;"
                                 onclick="markAsRead()">
@@ -205,7 +216,8 @@
 
         <!-- Mobile Menu (Dropdown) -->
         <div id="mobile-menu" style="display: none; background-color: #FDFBFB; border-top: 2px solid black;">
-            <nav style="font-family: 'Poppins', sans-serif; display: flex; flex-direction: column; gap: 8px; padding: 16px; color: #2c2c2c;">
+            <nav
+                style="font-family: 'Poppins', sans-serif; display: flex; flex-direction: column; gap: 8px; padding: 16px; color: #2c2c2c;">
                 <a href="{{ route('workspace.start') }}"
                     style="font-family: 'Dela Gothic One', sans-serif; display: block; padding: 8px 12px; border-radius: 4px; transition: all 0.2s; text-decoration: none; color: #2c2c2c;"
                     onmouseover="this.style.backgroundColor='rgba(85, 0, 0, 0.1)'; this.style.color='#550000';"
@@ -259,47 +271,46 @@
                         </x-slot>
 
                         <div class= "flex justify-between">
-                            <x-bladewind.dropmenunotif-item header="true"
-                                class="flex justify-between items-center">
+                            <x-bladewind.dropmenunotif-item header="true" class="flex justify-between items-center">
                                 <div class="text-accent">
                                     Notification
                                 </div>
                             </x-bladewind.dropmenunotif-item>
                         </div>
-                        
+
                         <!-- Role Tabs (Mobile) -->
-                        <div class="flex border-b border-gray-300 px-4 pt-2">
-                            <button id="student-tab-mobile" 
-                                class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-primary text-primary transition-all"
-                                onclick="switchNotificationTab('student')">
-                                Student
-                            </button>
-                            <button id="tutor-tab-mobile" 
-                                class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-primary transition-all"
-                                onclick="switchNotificationTab('tutor')">
-                                Tutor
-                            </button>
-                        </div>
-                        
-                        <div class="flex flex-col justify-between items-end text-base px-4 py-2">
-                            <button id="edit-button"
-                                class="bg-accent rounded-sm text-primary border border-primary px-3 
-                            py-1 hover:bg-primary transition ease-in-out hover:text-accent">
-                                Edit
-                            </button>
-                            <div id="bulk-actions" class="hidden pt-2 space-x-2">
-                                <button id="mark-all-read"
-                                    class="bg-accent text-primary border border-charcoal px-3 py-1 
-                            rounded-sm transition hover:bg-primary hover:text-accent"
-                                    onclick="markAllAsRead()">
-                                    Mark All as Read
+                        <div class="flex border-b border-gray-300 px-4 pt-2 justify-between items-center">
+                            <div class="flex">
+                                <button id="student-tab-mobile"
+                                    class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-primary text-primary transition-all"
+                                    onclick="switchNotificationTab('student')">
+                                    Student
                                 </button>
-                                <button id="delete-all"
-                                    class="bg-primary text-accent border border-black px-3 py-1 rounded-sm 
-                                    hover:bg-red-700 transition"
-                                    onclick="deleteAllNotifications()">
-                                    Delete All
+                                <button id="tutor-tab-mobile"
+                                    class="tab-button px-4 py-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-primary transition-all"
+                                    onclick="switchNotificationTab('tutor')">
+                                    Tutor
                                 </button>
+                            </div>
+                            <div class="relative px-4 py-2">
+                                <button id="edit-button" class="p-1 hover:bg-gray-200 rounded transition"
+                                    onclick="toggleBulkActionsMenu(event)">
+                                    <x-bladewind.icon name="ellipsis-vertical" class="!h-5 !w-5 text-primary" />
+                                </button>
+                                <div id="bulk-actions"
+                                    class="hidden absolute right-0 top-10 bg-white border-2 border-primary rounded-md shadow-lg z-50 w-48"
+                                    style="display: none; flex-direction: column;">
+                                    <button id="mark-all-read"
+                                        class="w-full text-left px-4 py-2 hover:bg-gray-100 text-primary transition"
+                                        onclick="markAllAsRead(); toggleBulkActionsMenu()">
+                                        Mark All as Read
+                                    </button>
+                                    <button id="delete-all"
+                                        class="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 transition border-t border-gray-200"
+                                        onclick="deleteAllNotifications(); toggleBulkActionsMenu()">
+                                        Delete All
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -371,8 +382,9 @@
                 </div>
             </nav>
         </div>
-        
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(0, 0, 0, 0.05); z-index: 5;">
+
+        <div
+            style="position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: rgba(0, 0, 0, 0.05); z-index: 5;">
             <div id="scroll-progress" style="height: 100%; background-color: #550000; width: 0; "></div>
         </div>
     </div>
@@ -383,6 +395,7 @@
         #mobile-menu-btn {
             display: block !important;
         }
+
         #nav-content {
             display: none !important;
         }
@@ -428,6 +441,52 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         display: block;
+        max-width: 100%;
+    }
+
+    /* Ensure notification items don't overflow */
+    .bladewind-dropmenunotif li {
+        overflow: hidden;
+    }
+
+    /* Ensure text in flex containers respects ellipsis */
+    .bladewind-dropmenunotif li > div {
+        min-width: 0;
+    }
+
+    .bladewind-dropmenunotif li .flex {
+        min-width: 0;
+    }
+
+    /* Mobile view - prevent text overflow and show ellipses */
+    @media (max-width: 768px) {
+        .bladewind-dropmenunotif {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .bladewind-dropmenunotif li {
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .bladewind-dropmenunotif li p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
+
+        .bladewind-dropmenunotif li .flex {
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .bladewind-dropmenunotif li > div {
+            min-width: 0;
+            overflow: hidden;
+        }
     }
 </style>
 
@@ -473,22 +532,40 @@
         // bell.setAttribute("animate_dot", "false");
     });
 
+    // Toggle bulk actions dropdown menu
+    function toggleBulkActionsMenu(event) {
+        if (event) {
+            event.stopPropagation();
+        }
+        const bulkActionsMenu = event ? event.target.closest('.relative').querySelector('#bulk-actions') : document
+            .getElementById('bulk-actions');
+        if (bulkActionsMenu) {
+            const isHidden = bulkActionsMenu.style.display === 'none';
+            bulkActionsMenu.style.display = isHidden ? 'flex' : 'none';
+            bulkActionsMenu.classList.toggle('hidden');
+            
+            // Toggle visibility of action buttons in all notifications
+            const allActionButtons = document.querySelectorAll('.notification-actions');
+            allActionButtons.forEach(button => {
+                button.classList.toggle('hidden');
+            });
+        }
+    }
 
-    // Attach click handlers to all edit buttons (mobile & desktop)
-    editButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Find closest dropmenunotif container for this button. If not found
-            // fall back to document (toggle global actions).
-            const container = btn.closest('.bladewind-dropmenunotif') || document;
-            const actions = container.querySelectorAll('.notification-actions');
-
-            // Toggle the global bulkActions (if present) for compatibility
-            if (bulkActions) {
-                bulkActions.classList.toggle('hidden');
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+        const allBulkActions = document.querySelectorAll('#bulk-actions');
+        allBulkActions.forEach(menu => {
+            if (menu.style.display !== 'none') {
+                menu.style.display = 'none';
+                menu.classList.add('hidden');
+                
+                // Hide all action buttons when closing the menu
+                const allActionButtons = document.querySelectorAll('.notification-actions');
+                allActionButtons.forEach(button => {
+                    button.classList.add('hidden');
+                });
             }
-
-            // Toggle per-item action buttons inside the container
-            actions.forEach(action => action.classList.toggle('hidden'));
         });
     });
 
@@ -571,21 +648,23 @@
                         `;
                     });
                 } else {
-                    console.log("[loadNotifications] Processing", notifications.length, "notifications:", notifications);
-                    
+                    console.log("[loadNotifications] Processing", notifications.length, "notifications:",
+                        notifications);
+
                     // Build the notifications HTML once
                     let notificationsHTML = '';
-                    
+
                     // Store all notifications globally for tab filtering
                     window.allNotifications = notifications;
-                    
+
                     notifications.forEach(notification => {
                         const info = JSON.parse(notification.notif_info);
                         const bgClass = notification['read_at'] === null ? 'bg-secondary' : 'bg-accent';
                         const fontClass = notification['read_at'] === null ? 'font-black' : 'font-semibold';
-                        const dateColor = notification['read_at'] === null ? 'text-primary' : 'text-gray-400';
+                        const dateColor = notification['read_at'] === null ? 'text-primary' :
+                            'text-gray-400';
                         const hoverClass = 'hover:bg-accent3';
-                        
+
                         // Determine recipient role
                         const recipientRole = notification.recipient_role || 'Student';
                         const roleDataAttr = `data-role="${recipientRole}"`;
@@ -599,7 +678,8 @@
                         if (info['NotifType'] === "SessionReminder") {
                             // Only play alarm and show toast for UNREAD notifications
                             if (notification.read_at === null) {
-                                console.log('🔔 New SessionReminder notification detected:', notification.id);
+                                console.log('🔔 New SessionReminder notification detected:', notification
+                                    .id);
 
                                 // Play alarm sound and store it globally so we can stop it later
                                 if (!window.sessionReminderAlarms) {
@@ -611,7 +691,8 @@
                                     const alarmSound = new Audio('/sounds/alarm-sound.mp3');
                                     alarmSound.loop = true; // Loop the alarm until dismissed
                                     alarmSound.volume = 0.7;
-                                    alarmSound.play().catch(err => console.error('Failed to play alarm:', err));
+                                    alarmSound.play().catch(err => console.error('Failed to play alarm:',
+                                        err));
 
                                     // Store the alarm with notification ID so we can stop it when closing toast
                                     window.sessionReminderAlarms[notification.id] = alarmSound;
@@ -621,7 +702,8 @@
                                 // Show persistent toast notification (only if unread)
                                 showSessionReminderToast(notification.id, info);
                             } else {
-                                console.log('📭 SessionReminder already read, skipping alarm/toast:', notification.id);
+                                console.log('📭 SessionReminder already read, skipping alarm/toast:',
+                                    notification.id);
                             }
 
                             notificationsHTML += `
@@ -1244,22 +1326,23 @@
                             `;
                         }
                     });
-                    
+
                     // Apply the built HTML to all containers
                     notifContainers.forEach(container => {
                         container.innerHTML = notificationsHTML;
                     });
-                    
+
                     // Add role data attribute to all notification items
                     document.querySelectorAll('.bladewind-dropmenunotif li').forEach((li, index) => {
-                        if (notifications[Math.floor(index / 2)]) { // Divide by 2 because of separator spans
+                        if (notifications[Math.floor(index /
+                                2)]) { // Divide by 2 because of separator spans
                             const notification = notifications[Math.floor(index / 2)];
                             const recipientRole = notification.recipient_role || 'Student';
                             li.setAttribute('data-role', recipientRole);
                             li.classList.add('notification-item');
                         }
                     });
-                    
+
                     // Apply initial tab filter (show Student by default)
                     filterNotificationsByRole(window.currentNotificationTab || 'student');
                 }
@@ -1277,22 +1360,22 @@
 
     // Make loadNotifications globally accessible for echo.js
     window.fetchUserNotifications = loadNotifications;
-    
+
     // Track current notification tab
     window.currentNotificationTab = 'student';
-    
+
     // Function to switch between notification tabs
     function switchNotificationTab(role) {
         window.currentNotificationTab = role.toLowerCase();
-        
+
         // Update tab button styles (desktop)
         const studentTab = document.getElementById('student-tab');
         const tutorTab = document.getElementById('tutor-tab');
-        
+
         // Update tab button styles (mobile)
         const studentTabMobile = document.getElementById('student-tab-mobile');
         const tutorTabMobile = document.getElementById('tutor-tab-mobile');
-        
+
         if (role === 'student') {
             // Desktop
             if (studentTab && tutorTab) {
@@ -1324,19 +1407,19 @@
                 studentTabMobile.classList.add('border-transparent', 'text-gray-500');
             }
         }
-        
+
         // Filter notifications
         filterNotificationsByRole(role);
     }
-    
+
     // Function to filter notifications by role
     function filterNotificationsByRole(role) {
         const roleCapitalized = role.charAt(0).toUpperCase() + role.slice(1);
-        
+
         // Get all notification items
         const allNotificationItems = document.querySelectorAll('.bladewind-dropmenunotif .notification-item');
         const allSeparators = document.querySelectorAll('.bladewind-dropmenunotif span.flex');
-        
+
         allNotificationItems.forEach(item => {
             const itemRole = item.getAttribute('data-role');
             if (itemRole === roleCapitalized) {
@@ -1345,25 +1428,25 @@
                 item.style.display = 'none';
             }
         });
-        
+
         // Hide/show separators based on visible notifications
         allSeparators.forEach(sep => {
             const prevElement = sep.previousElementSibling;
             const nextElement = sep.nextElementSibling;
-            
+
             if (prevElement && prevElement.style.display === 'none') {
                 sep.style.display = 'none';
             } else {
                 sep.style.display = '';
             }
         });
-        
+
         // Check if any notifications are visible
         const visibleNotifications = Array.from(allNotificationItems).some(item => item.style.display !== 'none');
-        
+
         // Remove existing no-notification messages first
         document.querySelectorAll('.no-notifications-message').forEach(msg => msg.remove());
-        
+
         if (!visibleNotifications) {
             document.querySelectorAll('.bladewind-dropmenunotif').forEach(container => {
                 const emptyMessage = document.createElement('li');
@@ -1373,7 +1456,7 @@
             });
         }
     }
-    
+
     // Make switchNotificationTab globally accessible
     window.switchNotificationTab = switchNotificationTab;
 
@@ -1438,13 +1521,13 @@
             .then(data => {
                 if (data.success) {
                     console.log("Notification deleted:", notificationId);
-                    
+
                     loadNotifications();
-                    
+
                     if (typeof window.updateNotificationBadge === 'function') {
                         window.updateNotificationBadge();
                     }
-                    
+
                     const actions = document.querySelectorAll('.notification-actions');
                     bulkActions.classList.toggle('hidden');
                     actions.forEach(action => action.classList.toggle('hidden'));
@@ -1488,15 +1571,15 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data.message);
-                
+
                 // Reload notifications and update badge
                 loadNotifications();
-                
+
                 // Also update the badge immediately to 0
                 if (typeof window.updateNotificationBadge === 'function') {
                     window.updateNotificationBadge();
                 }
-                
+
                 const actions = document.querySelectorAll('.notification-actions');
                 bulkActions.classList.toggle('hidden');
                 actions.forEach(action => action.classList.toggle('hidden'));

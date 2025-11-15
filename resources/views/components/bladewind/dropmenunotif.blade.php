@@ -47,7 +47,7 @@
             left: auto !important;
             right: -0.25rem !important;
             transform: none !important;
-            width: auto !important;
+            width: 620px !important;
             margin-left: auto !important;
         }
     }
