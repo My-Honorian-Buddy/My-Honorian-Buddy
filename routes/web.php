@@ -180,6 +180,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/tutor/experience', [TutorController::class, 'store_exp'])->name('experience.tutor.store');
     Route::get('/schedule', [ScheduleController::class, 'create'])->name('user.schedule');
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('user.schedule.store');
+    Route::get('/schedule/edit', [ScheduleController::class, 'edit'])->name('user.schedule.edit');
+    Route::patch('/schedule/update', [ScheduleController::class, 'update'])->name('user.schedule.update');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

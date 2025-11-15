@@ -40,15 +40,27 @@
                     - {{ \Carbon\Carbon::parse($user->schedule->end_time)->format('h:i A') }}</span>
             </div>
 
-            <!-- Button-->
+            <!-- Schedule Edit Button-->
             <div class="w-auto mt-6 m-8 flex justify-end">
-                <button type="submit"
+                <a href="{{ route('user.schedule.edit') }}"
                     class="sm:w-auto bg-accent px-6 sm:px-8 md:px-10 py-2 sm:py-2.5 md:py-1 h-auto sm:h-10 md:h-11 border-2 border-black
                                 active:scale-95 transition-all duration-800 ease-in-out flex items-center justify-center rounded-sm font-bold text-sm
                                 hover:bg-primary w-auto hover:text-accent tracking-widest uppercase hover:shadow-custom-button">
-                    Save
-                </button>
+                    Edit
+                </a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @if (session('success'))
+            showNotification('{{ session('success') }}', 'Schedule updated successfully!', 'success');
+        @endif
+
+        @if (session('error'))
+            showNotification('{{ session('error') }}', 'Error', 'error');
+        @endif
+    });
+</script>

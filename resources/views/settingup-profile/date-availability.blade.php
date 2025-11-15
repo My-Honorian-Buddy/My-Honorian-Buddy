@@ -51,12 +51,24 @@
                 <!--FORM-->
                 <div class="w-full md:w-1/2 flex flex-col justify-center p-3 mt-6 md:mt-0">
                     <div class="w-full lg:w-4/5">
-                        <form method="POST" action="{{ route('user.schedule.store') }}">
+                        <form method="POST" action="{{ isset($schedule) ? route('user.schedule.update') : route('user.schedule.store') }}">
                             @csrf
+                            @if(isset($schedule))
+                                @method('PATCH')
+                            @endif
 
                             <!-- Days -->
                             <label for="Day"
                                 class="font-bold font-poppins text-lg md:text-xl lg:text-2xl">Days</label>
+
+                            @php
+                                $selectedDays = [];
+                                if(isset($schedule) && $schedule->days_week) {
+                                    $selectedDays = is_string($schedule->days_week) 
+                                        ? json_decode($schedule->days_week, true) 
+                                        : $schedule->days_week;
+                                }
+                            @endphp
 
                             <div class="py-3">
                                 <div class="font-poppins text-black">
@@ -70,7 +82,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="monday" value="Monday">
+                                                    id="monday" value="Monday" {{ in_array('Monday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
                                                 <span class="flex-1 ml-2 text-center">Monday</span>
@@ -83,7 +95,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="Tuesday" value="Tuesday">
+                                                    id="Tuesday" value="Tuesday" {{ in_array('Tuesday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
                                                 <span class="flex-1 ml-2 text-center">Tuesday</span>
@@ -96,7 +108,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="Wednesday" value="Wednesday">
+                                                    id="Wednesday" value="Wednesday" {{ in_array('Wednesday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
                                                 <span class="flex-1 ml-2 text-center">Wednesday</span>
@@ -112,7 +124,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="thursday" value="Thursday">
+                                                    id="thursday" value="Thursday" {{ in_array('Thursday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
                                                 <span class="flex-1 ml-2 text-center">Thursday</span>
@@ -125,7 +137,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="friday" value="Friday">
+                                                    id="friday" value="Friday" {{ in_array('Friday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
                                                 <span class="flex-1 ml-2 text-center">Friday</span>
@@ -148,7 +160,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="saturday" value="Saturday">
+                                                    id="saturday" value="Saturday" {{ in_array('Saturday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary
                                                  peer-checked:border-primary transition-colors duration-200"></span>
@@ -162,7 +174,7 @@
                                         hover:border-primary/70 text-primary text-sm md:text-[16px] text-center font-bold cursor-pointer w-full md:w-auto">
                                             <label class="w-full h-full cursor-pointer flex items-center px-3">
                                                 <input type="checkbox" class="hidden peer" name="days_week[]"
-                                                    id="sunday" value="Sunday">
+                                                    id="sunday" value="Sunday" {{ in_array('Sunday', $selectedDays) ? 'checked' : '' }}>
                                                 <span
                                                     class="w-5 h-5 bg-accent border-2 border-black rounded-full peer-checked:bg-primary peer-checked:border-primary transition-colors duration-200"></span>
                                                 <span class="font-poppins ml-2 flex-1 text-center">Sunday</span>
@@ -184,6 +196,7 @@
                                             <label for="start_time"
                                                 class="font-poppins font-bold text-sm md:text-base">Start Time:</label>
                                             <input type="time" id="start_time" name="start_time"
+                                                value="{{ isset($schedule) ? \Carbon\Carbon::parse($schedule->start_time)->format('H:i') : '' }}"
                                                 class="border-2 font-semibold font-poppins text-xl md:text-2xl text-darkgray text-center rounded-sm border-charcoal
                                                 bg-accent outline-none duration-200 ring-2 ring-[transparent] focus:ring-primary/70 w-full h-12 px-2"
                                                 required>
@@ -194,6 +207,7 @@
                                             <label for="end_time"
                                                 class="font-poppins font-bold text-sm md:text-base">End Time:</label>
                                             <input type="time" id="end_time" name="end_time"
+                                                value="{{ isset($schedule) ? \Carbon\Carbon::parse($schedule->end_time)->format('H:i') : '' }}"
                                                 class="border-2 font-semibold font-poppins text-xl md:text-2xl text-darkgray text-center rounded-sm border-charcoal
                                                 bg-accent outline-none duration-200 ring-2 ring-[transparent] focus:ring-primary/70 w-full h-12 px-2"
                                                 required>
@@ -210,7 +224,7 @@
                                         <x-primary-button
                                             class="bg-primary text-accent3 font-bold font-poppins w-full sm:w-auto text-sm md:text-base
                                         hover:bg-primary/70 rounded-lg px-6 py-3">
-                                            {{ __('Next') }}
+                                            {{ isset($schedule) ? __('Update') : __('Next') }}
                                         </x-primary-button>
                                     </div>
                                 </div>
