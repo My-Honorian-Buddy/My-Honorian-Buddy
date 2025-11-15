@@ -14,18 +14,25 @@ class EventController extends Controller
         // Detect if the request is from FullCalendar asking for events
         if ($request->has('start') && $request->has('end')) {
             $userId = Auth::id();
+            $userRole = Auth::user()->role; 
             
-            // Get both manual events and auto-generated session events for the user
             
             $events = Event::where('user_id', $userId)
                 ->whereDate('start', '>=', $request->start)
                 ->whereDate('end', '<=', $request->end)
-                ->where(function($query) {
+                ->where(function($query) use ($userRole, $userId) {
                     
                     $query->whereNull('booked_session_id')
                         
-                        ->orWhereHas('bookedSession', function($q) {
+                        ->orWhereHas('bookedSession', function($q) use ($userRole, $userId) {
                             $q->whereNull('deleted_at');
+                            
+                            
+                            if ($userRole === 'Student') {
+                                $q->where('student_id', $userId);
+                            } elseif ($userRole === 'Tutor') {
+                                $q->where('tutor_id', $userId);
+                            }
                         });
                 })
                 ->get(['id', 'user_id', 'title', 'start', 'end', 'description', 'event_type', 'session_number', 'booked_session_id']);
