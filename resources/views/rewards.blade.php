@@ -31,7 +31,7 @@
     <x-bladewind.notification />
 </head>
 
-<body class="font-poppins font-semibold bg-secondary">
+<body class="font-poppins font-semibold bg-mainbackground">
     <div class="flex-1">
         <x-nav-bar />
 
@@ -50,34 +50,28 @@
                     </div>
                     <a href="{{ route('workspace.start') }}">
                         <button
-                            class="justify-center w-auto bg-accent2 text-primary text-center font-poppins font-bold rounded-full px-5 py-5 h-10 text-lg border-2 border-black shadow-custom-button hover:bg-primary hover:text-accent2 flex items-center space-x-2">
+                            class="justify-center w-auto bg-primary text-accent text-center font-poppins font-bold rounded-full px-5 py-5 h-10 text-lg border-2 border-black hover:bg-hover flex items-center space-x-2">
                             <span><a href="{{ route('workspace.start') }}">Back to Workspace</a></span>
                         </button>
                     </a>
                 </div>
             </div>
         @else
-            <div class="flex mt-8 justify-center items-center">
+            <div class="flex mt-28 justify-center items-center">
                 <div class="grid grid-cols-3 gap-8">
 
                     @foreach ($rewards as $reward)
                         <div
-                            class="flex flex-col justify-center shadow-custom-button h-[300px] w-[450px] overflow-hidden bg-accent3 border-black border-2 rounded-[20px]">
-                            <div class="h-[20%] flex bg-primary items-center w-full border-b-2 border-black py-2">
-                                <div class="flex w-full space-x-2 -mt-1 -mb-1 ml-4">
-                                    <span class="h-6 w-6 bg-accent2 border-2 border-black rounded-full"></span>
-                                    <span class="h-6 w-6 bg-secondary border-2 border-black rounded-full"></span>
-                                    <span class="h-6 w-6 bg-accent3 border-2 border-black rounded-full"></span>
-                                </div>
-                            </div>
-                            <div class="h-[80%]">
+                            class="flex flex-col justify-center h-[250px] w-[450px] overflow-hidden bg-accent border-black border-2 rounded-md">
+                            
+                            <div class="h-auto">
                                 <h2
-                                    class="h-[20%] text-2xl pt-6 text-stroke text-center justify-items-start text-accent2 font-bold">
+                                    class="font-dela uppercase h-[20%] text-2xl pt-6 text-center justify-items-start text-charcoal font-bold">
                                     {{ $reward->name }}
                                 </h2>
                                 <div class="flex h-[80%] p-6 justify-center items-center">
                                     <div
-                                        class=" overflow-hidden flex border-2 border-black rounded-xl justify-center items-center h-32 w-32">
+                                        class=" overflow-hidden flex border border-black rounded-md justify-center items-center h-32 w-32">
                                         <img class="w-full h-full object-cover"
                                             src="{{ asset('storage/' . $reward->image) }}" alt="{{ $reward->name }}">
                                     </div>
@@ -91,8 +85,8 @@
                                                 class="flex justify-center">
                                                 @csrf
                                                 <button
-                                                    class="mt-4 border-black border-2 rounded-full text-primary bg-accent2 text-lg 
-                                                hover:text-accent2 hover:bg-primary px-6"
+                                                    class="w-full mt-4 border-black border-2 rounded-full text-accent bg-primary text-lg 
+                                                hover:bg-hover uppercase tracking-widest font-bold"
                                                     type="submit">Collect</button>
                                             </form>
                                         </div>
