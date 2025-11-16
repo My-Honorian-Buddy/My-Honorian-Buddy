@@ -18,6 +18,16 @@
             hover:bg-accent hover:text-primary transition tracking-widest uppercase">Back to Workspace</a>
         </div>
     </div>
+    
+    {{-- CTA Notification (also show alongside modal) --}}
+    <div class="fixed bottom-6 md:right-6 bg-accent text-primary px-5 py-6 border-2 
+        border-primary shadow-xl rounded-md z-[9999] mr-8 max-md:mr-4 max-md:bottom-4">
+        It appears that your COR has not been verified yet. <br>
+        Please verify it
+        <a class="font-bold underline" href="{{ route('cor.view') }}">
+            here
+        </a>.
+    </div>
 @else
 <x-nav-bar />
 <div class="messenger" style="height: 100%;">

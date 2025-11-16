@@ -108,6 +108,20 @@
     <!-- nav bar -->
     <x-nav-bar />
     
+    @auth
+        {{-- Global COR Verification Notification --}}
+        @if(Auth::user()->cor_status !== 'verified')
+            <div class="fixed bottom-6 md:right-6 bg-accent text-primary px-5 py-6 border-2 
+                border-primary shadow-xl rounded-md z-[9999] mr-8 max-md:mr-4 max-md:bottom-4">
+                It appears that your COR has not been verified yet. <br>
+                Please verify it
+                <a class="font-bold underline" href="{{ route('cor.view') }}">
+                    here
+                </a>.
+            </div>
+        @endif
+    @endauth
+    
     <div class="flex flex-col" id="mainLayout">
         <div class="w-full p-8 space-y-6 border-r border-black max-md:p-4 max-md:border-r-0 max-md:border-b max-md:border-black" id="sidebarDiv">
             <div class="flex justify-center w-full">
