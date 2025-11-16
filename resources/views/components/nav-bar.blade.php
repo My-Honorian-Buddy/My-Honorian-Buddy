@@ -127,7 +127,31 @@
                                         Tutor
                                     </button>
                                 </div>
-                                <div class="relative px-4 py-2">
+                                <div id="edit-button-container-desktop" class="relative px-4 py-2" style="display: none;">
+                                    <button id="edit-button" class="p-1 hover:bg-gray-200 rounded transition"
+                                        onclick="toggleBulkActionsMenu(event)">
+                                        <x-bladewind.icon name="ellipsis-vertical" class="!h-5 !w-5 text-primary" />
+                                    </button>
+                                    <div id="bulk-actions"
+                                        class="hidden absolute overflow-hidden right-0 top-10 bg-white border-2 border-primary rounded-md shadow-lg z-50 w-48"
+                                        style="display: none; flex-direction: column;">
+                                        <button id="mark-all-read"
+                                            class="w-full text-left px-4 py-2 hover:bg-gray-100 text-primary transition"
+                                            onclick="markAllAsRead(); toggleBulkActionsMenu()">
+                                            Mark All as Read
+                                        </button>
+                                        <button id="delete-all"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 transition border-t border-gray-200"
+                                            onclick="deleteAllNotifications(); toggleBulkActionsMenu()">
+                                            Delete All
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
+                            <!-- Edit button when no tabs (single role) -->
+                            <div id="edit-button-container-desktop-single" class="flex justify-end px-4 py-2 border-b border-gray-300" style="display: none;">
+                                <div class="relative">
                                     <button id="edit-button" class="p-1 hover:bg-gray-200 rounded transition"
                                         onclick="toggleBulkActionsMenu(event)">
                                         <x-bladewind.icon name="ellipsis-vertical" class="!h-5 !w-5 text-primary" />
@@ -305,7 +329,7 @@
                                     Tutor
                                 </button>
                             </div>
-                            <div class="relative px-4 py-2">
+                            <div id="edit-button-container-mobile" class="relative px-4 py-2" style="display: none;">
                                 <button id="edit-button" class="p-1 hover:bg-gray-200 rounded transition"
                                     onclick="toggleBulkActionsMenu(event)">
                                     <x-bladewind.icon name="ellipsis-vertical" class="!h-5 !w-5 text-primary" />
@@ -654,11 +678,28 @@
                 // Update the notification badge with count
                 updateNotificationBadge(unreadCount);
 
+                // Show/hide edit buttons based on whether there are notifications
+                const editButtonDesktop = document.getElementById('edit-button-container-desktop');
+                const editButtonDesktopSingle = document.getElementById('edit-button-container-desktop-single');
+                const editButtonMobile = document.getElementById('edit-button-container-mobile');
+                
+                if (notifications.length > 0) {
+                    // Show edit buttons if there are notifications
+                    if (editButtonDesktop) editButtonDesktop.style.display = 'block';
+                    if (editButtonDesktopSingle) editButtonDesktopSingle.style.display = 'flex';
+                    if (editButtonMobile) editButtonMobile.style.display = 'block';
+                } else {
+                    // Hide edit buttons if no notifications
+                    if (editButtonDesktop) editButtonDesktop.style.display = 'none';
+                    if (editButtonDesktopSingle) editButtonDesktopSingle.style.display = 'none';
+                    if (editButtonMobile) editButtonMobile.style.display = 'none';
+                }
+
                 if (notifications.length === 0) {
                     console.log("[loadNotifications] No new notifications.");
                     notifContainers.forEach(container => {
                         container.innerHTML = `
-                            <li class="px-4 py-2 text-gray-500">No new notifications.</li>
+                            <li class="no-notifications-message px-4 py-2 text-gray-500">No new notifications.</li>
                         `;
                     });
                 } else {
@@ -1375,8 +1416,8 @@
     // Make loadNotifications globally accessible for echo.js
     window.fetchUserNotifications = loadNotifications;
 
-    // Track current notification tab
-    window.currentNotificationTab = 'student';
+    // Track current notification tab - set based on user's role
+    window.currentNotificationTab = '{{ strtolower($user->role) }}';
 
     // Function to switch between notification tabs
     function switchNotificationTab(role) {
