@@ -47,11 +47,11 @@
                     <!-- Container for buttons with responsive margin and layout -->
                     <div class="mt-6 md:mt-4 items-center flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-0 md:space-x-8 px-2 sm:px-4 md:px-0">
                         <!-- Form to resend verification email -->
-                        <form method="POST" action="{{ route('verification.send') }}" class="w-full sm:w-auto">
+                        <form method="POST" action="{{ route('verification.send') }}" id="verification-form" class="w-full sm:w-auto">
                             @csrf
-                            <x-primary-button class="flex items-center bg-primary text-accent3 hover:bg-primary/80 rounded-lg
-                            border-gray-700/20 hover:border-primary font-semibold w-full sm:w-auto md:ml-[95px] text-sm md:text-base py-2 md:py-3 px-4 md:px-6">
-                                {{ __('Send Verification Email') }}
+                            <x-primary-button id="send-verification-btn" type="submit" class="flex items-center bg-primary text-accent3 hover:bg-primary/80 rounded-lg
+                            border-gray-700/20 hover:border-primary font-semibold w-full sm:w-auto md:ml-[95px] text-sm md:text-base py-2 md:py-3 px-4 md:px-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span id="button-text">{{ __('Send Verification Email') }}</span>
                             </x-primary-button>
                         </form>
 
@@ -68,4 +68,75 @@
             </div>
         </x-slot>
     </x-folder>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('verification-form');
+            const button = document.getElementById('send-verification-btn');
+            const buttonText = document.getElementById('button-text');
+            const COOLDOWN_TIME = 60; // 60 seconds cooldown
+            
+            // Check if there's a cooldown in localStorage
+            const checkCooldown = () => {
+                const cooldownEnd = localStorage.getItem('verificationCooldown');
+                if (cooldownEnd) {
+                    const remainingTime = Math.ceil((parseInt(cooldownEnd) - Date.now()) / 1000);
+                    if (remainingTime > 0) {
+                        startCountdown(remainingTime);
+                        return true;
+                    } else {
+                        localStorage.removeItem('verificationCooldown');
+                    }
+                }
+                return false;
+            };
+            
+            // Start countdown timer
+            const startCountdown = (seconds) => {
+                button.disabled = true;
+                button.classList.add('opacity-50', 'cursor-not-allowed');
+                button.classList.remove('hover:bg-primary/80');
+                
+                let timeLeft = seconds;
+                buttonText.textContent = `Resend in ${timeLeft}s`;
+                
+                const countdown = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft > 0) {
+                        buttonText.textContent = `Resend in ${timeLeft}s`;
+                    } else {
+                        clearInterval(countdown);
+                        button.disabled = false;
+                        button.classList.remove('opacity-50', 'cursor-not-allowed');
+                        button.classList.add('hover:bg-primary/80');
+                        buttonText.textContent = 'Send Verification Email';
+                        localStorage.removeItem('verificationCooldown');
+                    }
+                }, 1000);
+            };
+            
+            // Check for existing cooldown on page load, or start new one if first visit
+            if (!checkCooldown()) {
+                // No existing cooldown, start a new one (email was sent on signup)
+                const cooldownEnd = Date.now() + (COOLDOWN_TIME * 1000);
+                localStorage.setItem('verificationCooldown', cooldownEnd.toString());
+                startCountdown(COOLDOWN_TIME);
+            }
+            
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                if (button.disabled) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                // Set cooldown in localStorage
+                const cooldownEnd = Date.now() + (COOLDOWN_TIME * 1000);
+                localStorage.setItem('verificationCooldown', cooldownEnd.toString());
+                
+                // Start countdown
+                startCountdown(COOLDOWN_TIME);
+            });
+        });
+    </script>
 </x-auth-layout>
