@@ -330,8 +330,8 @@
                         <span
                             class="ml-4 h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">+</span>
                     </summary>
-                    <div class="mt-3 text-sm text-black/70">We blend AI with your preferences (subjects, goals, time)
-                        for relevant pairs.</div>
+                    <div class="mt-3 text-sm text-black/70">We use Content-Based algorithm that analyzes your subjects, schedule, 
+                        and time preferences to suggest compatible pairs.</div>
                 </details>
             </div>
         </div>
