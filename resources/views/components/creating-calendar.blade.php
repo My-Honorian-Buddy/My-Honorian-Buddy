@@ -304,6 +304,86 @@
             font-family: 'Dela Gothic One', sans-serif !important;
         }
 
+        /* Fix calendar container */
+        #calendar {
+            width: 100%;
+            height: auto;
+            clear: both;
+        }
+
+        .fc {
+            width: 100% !important;
+        }
+
+        .fc-view-harness-active {
+            height: auto !important;
+        }
+
+        /* Disable past dates */
+        .fc-day-past {
+            background-color: #f5f5f5 !important;
+            opacity: 0.5;
+            cursor: not-allowed !important;
+        }
+
+        .fc-day-past .fc-daygrid-day-number {
+            color: #999 !important;
+        }
+
+        /* Enhanced event hover effect */
+        .fc-event:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .fc-daygrid-event:hover {
+            z-index: 100;
+        }
+
+        /* Custom tooltip */
+        .custom-tooltip {
+            position: fixed;
+            background-color: #FDFBFB;
+            color: #1A1A1A;
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 2px solid #550000;
+            font-size: 0.875rem;
+            z-index: 99999 !important;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(85, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            max-width: 300px;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .custom-tooltip.show {
+            opacity: 1;
+            display: block !important;
+        }
+
+        .custom-tooltip strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1rem;
+            color: #550000;
+        }
+
+        .custom-tooltip .tooltip-type {
+            display: inline-block;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .custom-tooltip .tooltip-time {
+            color: #666666;
+            font-size: 0.8rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .fc-toolbar-title {
@@ -542,7 +622,7 @@
                 <span class="h-px flex-1 bg-charcoal"></span>
             </span>
             <div class="modal-body">
-                <form id="addEventForm">
+                <form id="addEventForm" onsubmit="submitNewEvent(event)">
                     <div class="form-group">
                         <input type="text" id="eventTitle" class="form-input" placeholder="Enter event title"
                             required>
@@ -563,8 +643,39 @@
                     style="margin-right: 10px;">
                     Cancel
                 </button>
-                <button type="button" onclick="submitNewEvent()" class="btn btn-primary">
+                <button type="submit" form="addEventForm" class="btn btn-primary">
                     Add Event
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="event-modal">
+        <div class="event-modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <button class="close-btn" onclick="closeDeleteConfirmModal()">&times;</button>
+            </div>
+            <span class="flex mx-4 items-center">
+                <span class="h-px flex-1 bg-charcoal"></span>
+            </span>
+            <div class="modal-body">
+                <p style="font-size: 1.1rem; color: #1A1A1A; margin: 0;">
+                    Are you sure you want to delete this event?
+                </p>
+            </div>
+            <span class="flex mx-4 items-center">
+                <span class="h-px flex-1 bg-charcoal"></span>
+            </span>
+            <div class="modal-footer">
+                <button type="button" onclick="closeDeleteConfirmModal()" class="btn btn-secondary"
+                    style="margin-right: 10px;">
+                    Cancel
+                </button>
+                <button type="button" onclick="confirmDeleteEvent()" 
+                    style="background-color: #dc2626; color: white; padding: 10px 20px; border: 2px solid black; border-radius: 2px; font-weight: bold; cursor: pointer;">
+                    Delete Event
                 </button>
             </div>
         </div>
@@ -666,21 +777,35 @@
             document.getElementById('eventModal').style.display = 'none';
         }
 
+        let eventToDelete = null;
+
         function deleteEventFromModal(eventId) {
-            if (confirm("Are you sure you want to delete this event?")) {
+            eventToDelete = eventId;
+            document.getElementById('deleteConfirmModal').style.display = 'block';
+        }
+
+        function closeDeleteConfirmModal() {
+            document.getElementById('deleteConfirmModal').style.display = 'none';
+            eventToDelete = null;
+        }
+
+        function confirmDeleteEvent() {
+            if (eventToDelete) {
                 $.ajax({
                     url: "/calendar/action",
                     type: "POST",
                     data: {
-                        id: eventId,
+                        id: eventToDelete,
                         type: 'delete',
                         _token: '{{ csrf_token() }}'
                     },
                     success: function() {
+                        closeDeleteConfirmModal();
                         closeEventModal();
                         location.reload();
                     },
                     error: function(xhr) {
+                        closeDeleteConfirmModal();
                         alert("Error deleting event: " + xhr.responseText);
                     }
                 });
@@ -690,11 +815,15 @@
         window.onclick = function(event) {
             const modal = document.getElementById('eventModal');
             const addModal = document.getElementById('addEventModal');
+            const deleteModal = document.getElementById('deleteConfirmModal');
             if (event.target == modal) {
                 closeEventModal();
             }
             if (event.target == addModal) {
                 closeAddEventModal();
+            }
+            if (event.target == deleteModal) {
+                closeDeleteConfirmModal();
             }
         }
 
@@ -721,21 +850,14 @@
             selectedDateInfo = null;
         }
 
-        function submitNewEvent() {
+        function submitNewEvent(event) {
+            event.preventDefault(); // Prevent default form submission
+            
             const title = document.getElementById('eventTitle').value.trim();
             const start = document.getElementById('eventStart').value;
             const end = document.getElementById('eventEnd').value;
 
-            if (!title) {
-                alert('Please enter an event title');
-                return;
-            }
-
-            if (!start || !end) {
-                alert('Please select start and end dates');
-                return;
-            }
-
+            // Form validation will be handled by HTML5 required attribute
             $.ajax({
                 url: "/calendar/action",
                 type: "POST",
@@ -807,11 +929,64 @@
                 headerToolbar: config.headerToolbar,
                 events: '/calendar/event',
                 displayEventTime: true,
+                validRange: {
+                    start: new Date().toISOString().split('T')[0] // Only allow current date and future
+                },
+                selectAllow: function(selectInfo) {
+                    // Prevent selection of past dates
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    return selectInfo.start >= today;
+                },
 
                 eventDidMount: function(info) {
-                    if (info.event.extendedProps.description) {
-                        info.el.title = 'Click to view details';
-                    }
+                    // Create custom tooltip
+                    const eventType = info.event.extendedProps.eventType === 'booked_session' ? '📚 Tutoring Session' : '✏️ Personal Event';
+                    const startTime = info.event.start.toLocaleString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric', 
+                        year: 'numeric',
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    // Create tooltip element
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'custom-tooltip';
+                    tooltip.style.position = 'fixed';
+                    tooltip.style.zIndex = '99999';
+                    tooltip.innerHTML = `
+                        <strong>${info.event.title}</strong>
+                        <div class="tooltip-type">${eventType}</div>
+                        <div class="tooltip-time">${startTime}</div>
+                    `;
+                    document.body.appendChild(tooltip);
+
+                    // Show/hide tooltip on hover
+                    info.el.addEventListener('mouseenter', function(e) {
+                        const rect = info.el.getBoundingClientRect();
+                        
+                        // Calculate tooltip position
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+                        tooltip.style.top = (rect.top - 10) + 'px';
+                        tooltip.style.transform = 'translate(-50%, -100%)';
+                        
+                        // Show tooltip immediately
+                        requestAnimationFrame(() => {
+                            tooltip.classList.add('show');
+                        });
+                    });
+
+                    info.el.addEventListener('mouseleave', function() {
+                        tooltip.classList.remove('show');
+                        setTimeout(() => {
+                            tooltip.style.display = 'none';
+                        }, 200);
+                    });
+
+                    // Store tooltip reference for cleanup
+                    info.el._tooltip = tooltip;
 
                     if (info.event.extendedProps.eventType === 'booked_session') {
                         info.el.style.cursor = 'pointer';
@@ -826,7 +1001,21 @@
                     }
                 },
 
+                eventWillUnmount: function(info) {
+                    // Clean up tooltip when event is removed
+                    if (info.el._tooltip && info.el._tooltip.parentNode) {
+                        info.el._tooltip.remove();
+                    }
+                },
+
                 select: function(info) {
+                    // Double-check that we're not selecting a past date
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (info.start < today) {
+                        alert('Cannot create events in the past!');
+                        return;
+                    }
                     openAddEventModal(info);
                 },
 
