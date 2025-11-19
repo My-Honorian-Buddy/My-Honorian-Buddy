@@ -17,9 +17,15 @@
             <form action="{{ route('profile.change-subjects') }}" method="post">
                 @csrf
                 <div class="flex flex-col mb-2 text-left h-auto">
-                    <span class="font-bold text-2xl text-black leading-relaxed">
-                        Subject Change Confirmation
-                    </span>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="font-bold text-2xl text-black leading-relaxed">
+                            Subject Change Confirmation
+                        </span>
+                        <button type="button" onclick="hideModal('changeSubjectModal')" 
+                            class="text-2xl text-black hover:text-primary transition-colors duration-200 font-bold leading-none">
+                            ×
+                        </button>
+                    </div>
                     <span class="font-semibold text-primary text-1xl mb-8 ml-0">
                         Changing your subjects will remove your current selections,
                         and you will need to choose them again.
