@@ -624,13 +624,16 @@
             <div class="modal-body">
                 <form id="addEventForm" onsubmit="submitNewEvent(event)">
                     <div class="form-group">
+                        <h3>Event Title</h3>
                         <input type="text" id="eventTitle" class="form-input" placeholder="Enter event title"
                             required>
                     </div>
                     <div class="form-group">
+                        <h3>Start Date and Time</h3>
                         <input type="datetime-local" id="eventStart" class="form-input" required>
                     </div>
                     <div class="form-group">
+                        <h3>End Date and Time</h3>
                         <input type="datetime-local" id="eventEnd" class="form-input" required>
                     </div>
                 </form>
