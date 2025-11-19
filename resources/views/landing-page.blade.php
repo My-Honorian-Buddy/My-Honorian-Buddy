@@ -26,29 +26,29 @@
 <body class="font-poppins antialiased bg-mainbackground text-black">
     <!-- Navbar -->
     <header
-        class="sticky top-0 z-50 bg-accent/90 supports-[backdrop-filter]:bg-white/60 shadow-lg backdrop-blur border-b border-black/10 relative">
+        class="sticky top-0 z-50 bg-accent shadow-lg border-b border-black/10 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="h-16 flex items-center justify-between">
-                <a href="/" class="inline-flex items-center gap-3">
-                    <img src="{{ asset('/images/logo.svg') }}" alt="My Honorian Buddy" class="h-8 w-auto">
+            <div class="flex items-center justify-between" style="padding: 8px 12px;">
+                <a href="/" class="inline-flex items-center gap-3" style="display: flex; align-items: center; height: 100%; flex: 1;">
+                    <img src="{{ asset('/images/logo.svg') }}" alt="My Honorian Buddy" class="ml-4 w-1/12" style="object-fit: contain;">
                     <span class="sr-only">My Honorian Buddy</span>
                 </a>
                 @if (Route::has('login'))
                     <nav class="flex items-center gap-3 sm:gap-4">
                         @if (Auth::check())
                             <a href="{{ route('workspace.start') }}"
-                                class="inline-flex items-center rounded-md border border-black/20 px-4 py-2 text-sm font-medium hover:bg-black/5 transition">
+                                class="inline-flex items-center rounded-sm border border-primary px-4 py-2 text-md font-medium hover:bg-black/5 transition">
                                 Workspace
                             </a>
                         @else
                             <a href="{{ route('login') }}"
-                                class="inline-flex border-2 items-center rounded-md px-4 py-2 text-sm font-medium text-black hover:text-primary hover:border-2 
+                                class="inline-flex border-2 border-charcoal items-center rounded-sm px-4 py-2 text-sm font-medium text-black hover:text-primary hover:border-2 
                                 hover:border-primary/30 transition">
                                 Login
                             </a>
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
-                                    class="inline-flex border-2 border-primary items-center rounded-md bg-primary text-accent3 px-4 py-2 text-sm font-semibold shadow-sm hover:opacity-85 transition">
+                                    class="inline-flex border-2 border-primary items-center rounded-sm bg-primary text-accent3 px-4 py-2 text-sm font-semibold shadow-sm hover:opacity-85 transition">
                                     Sign Up
                                 </a>
                             @endif
@@ -89,12 +89,12 @@
                     </p>
                     <div class="mt-8 flex items-center gap-3">
                         <a href="#about"
-                            class="inline-flex items-center rounded-md bg-accent text-primary px-6 py-3 text-sm sm:text-base font-semibold shadow-sm hover:bg-white/90 transition">
+                            class="inline-flex items-center rounded-sm bg-accent text-primary px-6 py-3 text-sm sm:text-base font-semibold shadow-sm hover:bg-white/90 transition">
                             Learn More
                         </a>
                         @if (!Auth::check() && Route::has('register'))
                             <a href="{{ route('register') }}"
-                                class="inline-flex items-center rounded-md border border-accent/30 text-accent3 px-6 py-3 text-sm sm:text-base font-medium hover:bg-white/10 transition">
+                                class="inline-flex items-center rounded-sm border border-accent/30 text-accent3 px-6 py-3 text-sm sm:text-base font-medium hover:bg-white/10 transition">
                                 Create Account
                             </a>
                         @endif
@@ -126,7 +126,7 @@
                 </div>
             </div>
             <div class="max-w-7xl mx-auto px-20 sm:px-6 lg:px-8" data-aos="fade-up" data-aos-delay="100">
-                <div class="relative bg-accent rounded-md border-2 border-primary/20 shadow-sm overflow-hidden">
+                <div class="relative bg-accent rounded-md border border-primary shadow-sm overflow-hidden">
                     <div class="absolute inset-y-0 left-0 w-1.5 bg-primary" aria-hidden="true"></div>
                     <div class="p-6 sm:p-8 lg:p-10">
                         <h2 class="text-2xl sm:text-3xl font-bold text-black">Our Purpose</h2>
@@ -150,7 +150,7 @@
             <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 <!-- Feature 1 -->
                 <div data-aos="fade-up" data-aos-delay="50"
-                    class="group rounded-md border border-black/10 p-6 bg-accent transition hover:border-2 hover:border-primary/20 hover:-translate-y-1 hover:shadow-md">
+                    class="group rounded-md border border-charcoal p-6 bg-accent transition hover:border-2 hover:border-primary hover:-translate-y-1 hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <span
                             class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
@@ -167,11 +167,11 @@
                     <p class="mt-3 text-sm text-black/70 leading-relaxed">
                         Get paired with the right study buddy based on goals, schedule, and learning style.
                     </p>
-                    <div class="mt-5 h-0.5 bg-black/10 group-hover:bg-primary/30 transition"></div>
+                    <div class="mt-5 h-0.5 bg-charcoal group-hover:bg-primary/30 transition"></div>
                 </div>
                 <!-- Feature 2 -->
                 <div data-aos="fade-up" data-aos-delay="100"
-                    class="group rounded-md border border-black/10 p-6 bg-accent transition hover:border-2 hover:border-primary/20  hover:-translate-y-1 hover:shadow-md">
+                    class="group rounded-md border border-charcoal p-6 bg-accent transition hover:border-2 hover:border-primary  hover:-translate-y-1 hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <span
                             class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
@@ -187,14 +187,14 @@
                         <h4 class="text-lg font-semibold text-black">1-on-1 Study</h4>
                     </div>
                     <p class="mt-3 text-sm text-black/70 leading-relaxed">
-                        Focused sessions with accountability to keep momentum and build consistent habits.
+                        Focused sessions to keep momentum and build consistent habits.
                     </p>
-                    <div class="mt-5 h-0.5 bg-black/10 group-hover:bg-primary/30 transition"></div>
+                    <div class="mt-5 h-0.5 bg-charcoal group-hover:bg-primary/30 transition"></div>
                 </div>
 
                 <!-- Feature 3 -->
                 <div data-aos="fade-up" data-aos-delay="150"
-                    class="group rounded-md border border-black/10 p-6 bg-accent transition hover:border-2 hover:border-primary/20 hover:-translate-y-1 hover:shadow-md">
+                    class="group rounded-md border border-charcoal p-6 bg-accent transition hover:border-2 hover:border-primary hover:-translate-y-1 hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <span
                             class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
@@ -210,43 +210,39 @@
                     <p class="mt-3 text-sm text-black/70 leading-relaxed">
                         Seamless calls for real-time collaboration, screen sharing, and pair problem-solving.
                     </p>
-                    <div class="mt-5 h-0.5 bg-black/10 group-hover:bg-primary/30 transition"></div>
+                    <div class="mt-5 h-0.5 bg-charcoal group-hover:bg-primary/30 transition"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats -->
-    <section class="py-16 sm:py-20 lg:py-24 pb-16 bg-primary/10 border-y border-black/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <div class="text-3xl sm:text-4xl font-extrabold text-primary">10k+</div>
-                    <p class="mt-1 text-sm text-black/70">Sessions booked</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl sm:text-4xl font-extrabold text-primary">2k+</div>
-                    <p class="mt-1 text-sm text-black/70">Active students</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl sm:text-4xl font-extrabold text-primary">95%</div>
-                    <p class="mt-1 text-sm text-black/70">Satisfaction rate</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl sm:text-4xl font-extrabold text-primary">
-                        < 2min</div>
-                            <p class="mt-1 text-sm text-black/70">Avg. match time</p>
-                    </div>
-                </div>
-            </div>
-    </section>
+    <div class="h-[86px] overflow-hidden bg-primary font-dela  text-stroke">
+        <div class="animate-reverse_marquee whitespace-nowrap flex h-full items-center space-x-8">
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <span class="text-secondary text-2xl">☀️</span>
+            <span class="text-accent font-bold text-[40px]">BRIGHTER MINDS</span>
+            <!-- Repeat as needed for the marquee effect -->
+        </div>
+    </div>
 
     <!-- How it works -->
     <section class="py-16 sm:py-20 lg:py-56">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">How it works</h3>
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <div data-aos="fade-up" data-aos-delay="50" class="relative rounded-md border border-black/10 bg-accent p-6">
+                <div data-aos="fade-up" data-aos-delay="50" class="relative rounded-md border border-charcoal bg-accent p-6">
                     <div 
                         class="absolute -top-3 left-6 h-8 w-8 rounded-full bg-primary text-accent3 text-sm font-bold flex items-center justify-center ring-2 ring-white">
                         1</div>
@@ -254,7 +250,7 @@
                     <p class="mt-2 text-sm text-black/70">Add your programs, subjects, availability, and learning
                         preferences.</p>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="100" class="relative rounded-md border border-black/10 bg-accent p-6">
+                <div data-aos="fade-up" data-aos-delay="100" class="relative rounded-md border border-charcoal bg-accent p-6">
                     <div
                         class="absolute -top-3 left-6 h-8 w-8 rounded-full bg-primary text-accent3 text-sm font-bold flex items-center justify-center ring-2 ring-white">
                         2</div>
@@ -262,7 +258,7 @@
                     <p class="mt-2 text-sm text-black/70">Suggests the best buddies based on your goals and
                         schedule.</p>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="150" class="relative rounded-md border border-black/10 bg-accent p-6">
+                <div data-aos="fade-up" data-aos-delay="150" class="relative rounded-md border border-charcoal bg-accent p-6">
                     <div
                         class="absolute -top-3 left-6 h-8 w-8 rounded-full bg-primary text-accent3 text-sm font-bold flex items-center justify-center ring-2 ring-white">
                         3</div>
@@ -279,7 +275,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">What students say</h3>
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <figure  data-aos="fade-up" data-aos-delay="50" class="rounded-md border border-black/10 bg-accent p-6">
+                <figure  data-aos="fade-up" data-aos-delay="50" class="rounded-md border border-charcoal bg-accent p-6">
                     <blockquote class="text-black/80">“I finally stuck to a study routine. Having the right buddy
                         changed everything.”</blockquote>
                     <figcaption class="mt-4 flex items-center gap-3 text-sm text-black/70">
@@ -288,7 +284,7 @@
                         <span>Ana, BSIT</span>
                     </figcaption>
                 </figure>
-                <figure  data-aos="fade-up" data-aos-delay="100" class="rounded-md border border-black/10 bg-accent p-6">
+                <figure  data-aos="fade-up" data-aos-delay="100" class="rounded-md border border-charcoal bg-accent p-6">
                     <blockquote class="text-black/80">“Matches were actually relevant to my courses. Super quick and
                         easy.”</blockquote>
                     <figcaption class="mt-4 flex items-center gap-3 text-sm text-black/70">
@@ -297,7 +293,7 @@
                         <span>Jared, BSA</span>
                     </figcaption>
                 </figure>
-                <figure  data-aos="fade-up" data-aos-delay="150" class="rounded-md border border-black/10 bg-accent p-6">
+                <figure  data-aos="fade-up" data-aos-delay="150" class="rounded-md border border-charcoal bg-accent p-6">
                     <blockquote class="text-black/80">“The accountability helped me finish projects faster without
                         burning out.”</blockquote>
                     <figcaption class="mt-4 flex items-center gap-3 text-sm text-black/70">
@@ -315,23 +311,30 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-2xl sm:text-3xl font-bold text-black text-center">FAQ</h3>
             <div class="mt-8 space-y-4">
-                <details class="group rounded-md border shadow-md border-black/10 bg-accent p-5 open:shadow-sm">
+                <details class="group rounded-sm border shadow-md border-charcoal bg-accent p-5 open:shadow-sm">
                     <summary class="flex cursor-pointer list-none items-center justify-between">
-                        <span class="text-sm sm:text-base font-semibold text-black">Is it free to use?</span>
+                        <span class="text-sm sm:text-base font-semibold text-black">How do I become a tutor?</span>
                         <span
                             class="ml-4 h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">+</span>
                     </summary>
-                    <div class="mt-3 text-sm text-black/70">Core features are free for students. Advanced tools may be
+                    <div class="mt-3 text-sm text-black/70">Complete onboarding or edit your profile to add subjects and availability.
                         added later.</div>
                 </details>
-                <details class="group rounded-md border shadow-md border-black/10 bg-accent p-5 open:shadow-sm">
+                <details class="group rounded-sm border shadow-md border-charcoal bg-accent p-5 open:shadow-sm">
                     <summary class="flex cursor-pointer list-none items-center justify-between">
-                        <span class="text-sm sm:text-base font-semibold text-black">How are matches made?</span>
+                        <span class="text-sm sm:text-base font-semibold text-black">Where do I view updates?</span>
                         <span
                             class="ml-4 h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">+</span>
                     </summary>
-                    <div class="mt-3 text-sm text-black/70">We use Content-Based algorithm that analyzes your subjects, schedule, 
-                        and time preferences to suggest compatible pairs.</div>
+                    <div class="mt-3 text-sm text-black/70">Open Notifications > Student/Tutor Tab.</div>
+                </details>
+                <details class="group rounded-sm border shadow-md border-charcoal bg-accent p-5 open:shadow-sm">
+                    <summary class="flex cursor-pointer list-none items-center justify-between">
+                        <span class="text-sm sm:text-base font-semibold text-black">Can I switch roles after completing the setup?</span>
+                        <span
+                            class="ml-4 h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">+</span>
+                    </summary>
+                    <div class="mt-3 text-sm text-black/70">Yes. If your account supports both roles, you can switch between Student and Tutor anytime through the role switcher or dashboard.</div>
                 </details>
             </div>
         </div>
@@ -341,7 +344,7 @@
     <section class="pb-16 sm:pb-20 lg:pb-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
-                class="rounded-2xl bg-[#2E0000] text-accent3 p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ring-1 ring-white/10">
+                class="rounded-md bg-[#2E0000] text-accent3 p-8 sm:p-10 lg:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ring-1 ring-white/10">
                 <div>
                     <h3 class="text-2xl sm:text-3xl font-extrabold">Ready to study smarter?</h3>
                     <p class="mt-2 text-accent3/80 max-w-prose">Join a growing community of focused students. Get
@@ -351,11 +354,11 @@
                 <div class="flex items-center gap-3">
                     @if (!Auth::check() && Route::has('register'))
                         <a href="{{ route('register') }}"
-                            class="inline-flex items-center rounded-md bg-accent text-primary px-6 py-3 text-sm sm:text-base font-semibold shadow-sm hover:bg-white/90 transition">Create
+                            class="inline-flex items-center rounded-sm bg-accent text-primary px-6 py-3 text-sm sm:text-base font-semibold shadow-sm hover:bg-white/90 transition">Create
                             Account</a>
                     @endif
                     <a href="#about"
-                        class="inline-flex items-center rounded-md border border-white/30 text-accent3 px-6 py-3 text-sm sm:text-base font-medium hover:bg-white/10 transition">Learn
+                        class="inline-flex items-center rounded-sm border border-white/30 text-accent3 px-6 py-3 text-sm sm:text-base font-medium hover:bg-white/10 transition">Learn
                         More</a>
                 </div>
             </div>
