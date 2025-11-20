@@ -161,25 +161,31 @@ class BookedSessionResource extends Resource
                         $totalMinutes = (int) (($record->duration ?? 0) / 2);
                         
                         if ($totalMinutes <= 0) {
-                            return '0m 0s';
+                            return '0 minutes';
                         }
                         
                         $hours = floor($totalMinutes / 60);
                         $minutes = $totalMinutes % 60;
-                        $seconds = 0;
                         
                         if ($hours > 0) {
                             return $minutes > 0 
-                                ? "{$hours}h {$minutes}m {$seconds}s" 
-                                : "{$hours}h {$seconds}s";
+                                ? "{$hours}h {$minutes}m" 
+                                : "{$hours}h";
                         }
                         
-                        return "{$minutes}m {$seconds}s";
+                        return "{$minutes}m";
                     })
                     ->description(function ($state, $record) {
                         // Divide by 2 to show actual duration
                         $duration = (int) (($record->duration ?? 0) / 2);
-                        return $duration > 0 ? "Total: {$duration} minutes" : 'No duration';
+                        
+                        if ($duration === 0) {
+                            return 'No duration';
+                        } elseif ($duration < 1) {
+                            return 'This session is under 1 minute';
+                        } else {
+                            return "Total: {$duration} minutes";
+                        }
                     })
                     ->alignCenter()
                     ->sortable()
