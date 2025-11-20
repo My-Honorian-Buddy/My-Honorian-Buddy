@@ -10,6 +10,7 @@ use App\Models\Tutor;
 use App\Models\Student;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Events\NewNotification;
 
@@ -122,10 +123,13 @@ class VideoCallController extends Controller
             'request_data' => $request->all()
         ]);
 
-        $bookedSession = bookedSession::where('student_id', Auth::id())
-            ->orWhere('tutor_id', Auth::id())
-            ->whereNull('deleted_at') // Exclude archived sessions
-            ->first();
+        // Use transaction with row locking to prevent race conditions
+        return DB::transaction(function () use ($request) {
+            $bookedSession = bookedSession::where('student_id', Auth::id())
+                ->orWhere('tutor_id', Auth::id())
+                ->whereNull('deleted_at') // Exclude archived sessions
+                ->lockForUpdate() // Lock the row to prevent race conditions
+                ->first();
     
         if (!$bookedSession) {
             Log::error('❌ No active session found for user:', ['user_id' => Auth::id()]);
@@ -145,40 +149,49 @@ class VideoCallController extends Controller
             'call_recorded' => $bookedSession->call_duration_recorded ?? false
         ]);
 
-        // Check if this call's duration has already been recorded RECENTLY (within last 30 seconds)
-        // This prevents double-recording when both participants leave at the same time
-        // But allows new calls to record properly after 30+ seconds
-        if ($bookedSession->call_duration_recorded === true && 
-            $bookedSession->updated_at && 
-            $bookedSession->updated_at->diffInSeconds(now()) < 30) {
+        // Check if this call's duration has already been recorded
+        // If flag is true, it means someone already recorded the duration for this call
+        // We should skip recording to prevent doubling
+        if ($bookedSession->call_duration_recorded === true) {
             
-            Log::info('⏱️ Duration already recorded for this call (within last 30 sec), skipping update', [
+            // Check how long ago it was recorded
+            $secondsAgo = $bookedSession->updated_at ? $bookedSession->updated_at->diffInSeconds(now()) : 999;
+            
+            Log::info('⏱️ Checking if duration was already recorded', [
                 'session_id' => $bookedSession->id,
                 'user_id' => Auth::id(),
-                'last_updated' => $bookedSession->updated_at->toDateTimeString(),
-                'seconds_ago' => $bookedSession->updated_at->diffInSeconds(now())
+                'flag_status' => true,
+                'last_updated' => $bookedSession->updated_at ? $bookedSession->updated_at->toDateTimeString() : 'null',
+                'seconds_ago' => $secondsAgo
             ]);
             
-            return response()->json([
-                'success' => true,
-                'message' => 'Duration already recorded by other participant',
-                'duration' => $bookedSession->duration
-            ]);
-        }
-        
-        // Reset flag if it's been more than 30 seconds (new call session)
-        if ($bookedSession->call_duration_recorded === true) {
-            Log::info('🔄 Resetting duration flag for new call session', [
+            // If recorded within last 60 seconds, skip (prevents double recording)
+            if ($secondsAgo < 60) {
+                Log::info('⏱️ Duration already recorded recently (within 60 sec), skipping to prevent double-recording', [
+                    'session_id' => $bookedSession->id,
+                    'user_id' => Auth::id(),
+                    'seconds_ago' => $secondsAgo
+                ]);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Duration already recorded by other participant',
+                    'duration' => $bookedSession->duration
+                ]);
+            }
+            
+            // If more than 60 seconds, this is a new call, reset the flag
+            Log::info('🔄 More than 60 seconds passed, treating as new call session', [
                 'session_id' => $bookedSession->id,
-                'last_updated' => $bookedSession->updated_at->toDateTimeString(),
-                'seconds_ago' => $bookedSession->updated_at->diffInSeconds(now())
+                'seconds_ago' => $secondsAgo
             ]);
             $bookedSession->call_duration_recorded = false;
         }
 
+        // IMPORTANT: Don't add to current duration, just SET the new duration
+        // Both participants send the same call duration, so we use whichever arrives first
         $currentDuration = $bookedSession->duration ?? 0;
-        $totalDuration = $currentDuration + $newDuration;
-        $bookedSession->duration = $totalDuration;
+        $bookedSession->duration = $currentDuration + $newDuration; // Add to cumulative total
         $bookedSession->call_duration_recorded = true; // Mark as recorded
 
         Log::info('⏱️ Updating session duration', [
@@ -294,6 +307,7 @@ class VideoCallController extends Controller
             'duration' => $totalDuration,
             'redirect' => route('workspace.start')
         ]);
+        }); // End of DB transaction
     }
 
     public function initiateCall(Request $request)
