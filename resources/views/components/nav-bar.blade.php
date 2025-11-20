@@ -731,8 +731,12 @@
 
                         // Check if NotifType is "SessionReminder"
                         if (info['NotifType'] === "SessionReminder") {
-                            // Only play alarm and show toast for UNREAD notifications
-                            if (notification.read_at === null) {
+                            // Check if this notification has been dismissed in this session
+                            const dismissedNotifications = JSON.parse(sessionStorage.getItem('dismissedAlarms') || '[]');
+                            const isDismissed = dismissedNotifications.includes(notification.id);
+                            
+                            // Only play alarm and show toast for UNREAD notifications that haven't been dismissed
+                            if (notification.read_at === null && !isDismissed) {
                                 console.log('🔔 New SessionReminder notification detected:', notification
                                     .id);
 
@@ -757,7 +761,7 @@
                                 // Show persistent toast notification (only if unread)
                                 showSessionReminderToast(notification.id, info);
                             } else {
-                                console.log('📭 SessionReminder already read, skipping alarm/toast:',
+                                console.log('📭 SessionReminder already read or dismissed, skipping alarm/toast:',
                                     notification.id);
                             }
 
@@ -2001,6 +2005,14 @@
     }
 
     function closeSessionReminderToast(notificationId) {
+        // Add notification to dismissed list in session storage
+        const dismissedNotifications = JSON.parse(sessionStorage.getItem('dismissedAlarms') || '[]');
+        if (!dismissedNotifications.includes(notificationId)) {
+            dismissedNotifications.push(notificationId);
+            sessionStorage.setItem('dismissedAlarms', JSON.stringify(dismissedNotifications));
+            console.log('📝 Notification added to dismissed list:', notificationId);
+        }
+        
         // Stop the alarm sound
         if (window.sessionReminderAlarms && window.sessionReminderAlarms[notificationId]) {
             const alarm = window.sessionReminderAlarms[notificationId];
