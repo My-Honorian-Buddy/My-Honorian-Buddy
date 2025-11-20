@@ -201,7 +201,7 @@
         }
 
         .fc-event-main {
-            color: #FDFBFB !important;
+            color: #550000 !important;
         }
 
         @keyframes fadeIn {

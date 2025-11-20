@@ -269,7 +269,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/google-calendar/callback', [GoogleCalendarController::class, 'handleGoogleCallback'])->name('google.callback');
 
     Route::get('/find-buddy', [MatchController::class, 'view'])->name('match.explore');
-    Route::match(['get', 'post'], '/ai-matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
+    Route::match(['get', 'post'], '/matching-result', [MatchController::class, 'showMatches'])->name('ai-matching-result');
     Route::get('/explore/manual', [TutorController::class, 'showWebAndSearch'])->name('tutor.search'); //explore-manual
     Route::get('/explore/card', [TutorController::class, 'showCard'])->name('show.card');
 });
