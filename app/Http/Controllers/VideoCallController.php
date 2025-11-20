@@ -45,7 +45,15 @@ class VideoCallController extends Controller
         $roomName = $this->generateRoomName($bookedSession);
 
         if ($bookedSession) {
-            $bookedSession->update(['room' => $roomName]);
+            $bookedSession->update([
+                'room' => $roomName,
+                'call_duration_recorded' => false // Reset flag for new call
+            ]);
+            
+            Log::info('🎬 New call room created, duration recording flag reset', [
+                'session_id' => $bookedSession->id,
+                'room' => $roomName
+            ]);
         }
 
         return redirect()->route('video.call.room', ['roomName' => $roomName]);
@@ -134,12 +142,28 @@ class VideoCallController extends Controller
             'new_duration_minutes' => $newDuration,
             'current_duration_minutes' => $bookedSession->duration ?? 0,
             'start_time' => $startTime,
-            'end_time' => $endTime
+            'end_time' => $endTime,
+            'call_recorded' => $bookedSession->call_duration_recorded ?? false
         ]);
+
+        // Check if this call's duration has already been recorded
+        if ($bookedSession->call_duration_recorded === true) {
+            Log::info('⏱️ Duration already recorded for this call, skipping update', [
+                'session_id' => $bookedSession->id,
+                'user_id' => Auth::id()
+            ]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Duration already recorded by other participant',
+                'duration' => $bookedSession->duration
+            ]);
+        }
 
         $currentDuration = $bookedSession->duration ?? 0;
         $totalDuration = $currentDuration + $newDuration;
         $bookedSession->duration = $totalDuration;
+        $bookedSession->call_duration_recorded = true; // Mark as recorded
 
         Log::info('⏱️ Updating session duration', [
             'session_id' => $bookedSession->id,
