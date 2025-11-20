@@ -46,11 +46,10 @@ class VideoCallController extends Controller
 
         if ($bookedSession) {
             $bookedSession->update([
-                'room' => $roomName,
-                'call_duration_recorded' => false // Reset flag for new call
+                'room' => $roomName
             ]);
             
-            Log::info('🎬 New call room created, duration recording flag reset', [
+            Log::info('🎬 New call room created', [
                 'session_id' => $bookedSession->id,
                 'room' => $roomName
             ]);
@@ -146,11 +145,18 @@ class VideoCallController extends Controller
             'call_recorded' => $bookedSession->call_duration_recorded ?? false
         ]);
 
-        // Check if this call's duration has already been recorded
-        if ($bookedSession->call_duration_recorded === true) {
-            Log::info('⏱️ Duration already recorded for this call, skipping update', [
+        // Check if this call's duration has already been recorded RECENTLY (within last 2 minutes)
+        // This prevents double-recording when both participants leave at the same time
+        // But allows new calls to record properly after 2+ minutes
+        if ($bookedSession->call_duration_recorded === true && 
+            $bookedSession->updated_at && 
+            $bookedSession->updated_at->diffInMinutes(now()) < 2) {
+            
+            Log::info('⏱️ Duration already recorded for this call (within last 2 min), skipping update', [
                 'session_id' => $bookedSession->id,
-                'user_id' => Auth::id()
+                'user_id' => Auth::id(),
+                'last_updated' => $bookedSession->updated_at->toDateTimeString(),
+                'minutes_ago' => $bookedSession->updated_at->diffInMinutes(now())
             ]);
             
             return response()->json([
@@ -158,6 +164,16 @@ class VideoCallController extends Controller
                 'message' => 'Duration already recorded by other participant',
                 'duration' => $bookedSession->duration
             ]);
+        }
+        
+        // Reset flag if it's been more than 2 minutes (new call session)
+        if ($bookedSession->call_duration_recorded === true) {
+            Log::info('🔄 Resetting duration flag for new call session', [
+                'session_id' => $bookedSession->id,
+                'last_updated' => $bookedSession->updated_at->toDateTimeString(),
+                'minutes_ago' => $bookedSession->updated_at->diffInMinutes(now())
+            ]);
+            $bookedSession->call_duration_recorded = false;
         }
 
         $currentDuration = $bookedSession->duration ?? 0;
