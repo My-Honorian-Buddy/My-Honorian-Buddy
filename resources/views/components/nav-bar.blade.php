@@ -619,10 +619,28 @@
         });
     }
 
+    // Debounce timer for loadNotifications
+    let loadNotificationsTimer = null;
+
     // Make loadNotifications globally accessible for echo.js
     function loadNotifications(playSound = false) {
-        console.log('[loadNotifications] Starting to load notifications...');
-        const notifContainers = document.querySelectorAll('.bladewind-dropmenunotif');
+        // Debounce: clear any pending calls and schedule a new one
+        if (loadNotificationsTimer) {
+            console.log('[loadNotifications] Debouncing - clearing previous timer');
+            clearTimeout(loadNotificationsTimer);
+        }
+
+        loadNotificationsTimer = setTimeout(() => {
+            console.log('[loadNotifications] Starting to load notifications...');
+            const notifContainers = document.querySelectorAll('.bladewind-dropmenunotif');
+            
+            // Continue with the actual loading logic
+            actualLoadNotifications(playSound, notifContainers);
+        }, 300); // Wait 300ms before loading to batch multiple calls
+    }
+
+    // Actual notification loading function
+    function actualLoadNotifications(playSound, notifContainers) {
 
         if (notifContainers.length === 0) {
             console.error('[loadNotifications] Notification containers not found!');
@@ -1418,9 +1436,7 @@
     }
 
     // Make loadNotifications globally accessible for echo.js
-    window.fetchUserNotifications = loadNotifications;
-
-    // Track current notification tab - set based on user's role
+    window.fetchUserNotifications = loadNotifications;    // Track current notification tab - set based on user's role
     window.currentNotificationTab = '{{ strtolower($user->role) }}';
 
     // Function to switch between notification tabs
