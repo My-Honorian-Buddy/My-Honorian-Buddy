@@ -57,7 +57,34 @@
             border-radius: 2px !important;
             padding: 2px 4px !important;
             margin: 1px 2px !important;
-            
+            background-color: #550000 !important;
+            border-color: #1A1A1A !important;
+            color: #FDFBFB !important;
+        }
+
+        .fc-event-main {
+            color: #FDFBFB !important;
+        }
+
+        .fc-event-title {
+            color: #FDFBFB !important;
+            font-weight: 600 !important;
+        }
+
+        .fc-event-time {
+            color: #FFD95C !important;
+            font-weight: 500 !important;
+        }
+
+        /* Different color for booked sessions vs manual events */
+        .fc-event[data-event-type="booked_session"] {
+            background-color: #10b981 !important;
+            border-color: #065f46 !important;
+        }
+
+        .fc-event[data-event-type="manual"] {
+            background-color: #550000 !important;
+            border-color: #1A1A1A !important;
         }
 
         .fc-toolbar-title {
@@ -200,10 +227,6 @@
             font-size: 0.9rem;
         }
 
-        .fc-event-main {
-            color: #550000 !important;
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -299,6 +322,7 @@
             font-weight: bold !important;
             font-size: 20px !important;
         }
+
         .fc-toolbar-title {
             color: #1A1A1A !important;
             font-family: 'Dela Gothic One', sans-serif !important;
