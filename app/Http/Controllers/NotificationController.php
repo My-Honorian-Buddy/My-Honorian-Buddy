@@ -158,7 +158,7 @@ class NotificationController extends Controller
                     'schedule_time' => $notifInfo['schedule_time'],
                     'num_session' => '0',
                     'total_session' => $notifInfo['total_session'],
-                    'duration' => null,
+                    'duration' => 0,
                     'room' => null,
                 ];
                 Log::info('Data: ', $data);

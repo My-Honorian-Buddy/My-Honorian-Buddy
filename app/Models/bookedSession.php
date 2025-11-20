@@ -50,6 +50,16 @@ class bookedSession extends Model
         'duration' => 'integer',
     ];
 
+    protected $attributes = [
+        'duration' => 0,
+    ];
+
+    // Accessor to ensure duration is always an integer
+    public function getDurationAttribute($value)
+    {
+        return (int) ($value ?? 0);
+    }
+
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id', 'user_id');

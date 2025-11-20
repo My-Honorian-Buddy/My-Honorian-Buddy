@@ -157,9 +157,8 @@ class BookedSessionResource extends Resource
                 Tables\Columns\TextColumn::make('duration')
                     ->label('Duration')
                     ->formatStateUsing(function ($state, $record) {
-                        // Get duration from record if state is null/empty
-                        $duration = $state ?? $record->duration ?? 0;
-                        $totalMinutes = (int) $duration;
+                        // Always get duration from the record to ensure we have the latest value
+                        $totalMinutes = (int) ($record->duration ?? 0);
                         
                         if ($totalMinutes <= 0) {
                             return '0m 0s';
@@ -167,7 +166,7 @@ class BookedSessionResource extends Resource
                         
                         $hours = floor($totalMinutes / 60);
                         $minutes = $totalMinutes % 60;
-                        $seconds = 0; // Minutes are whole numbers, but showing format
+                        $seconds = 0;
                         
                         if ($hours > 0) {
                             return $minutes > 0 
@@ -178,13 +177,13 @@ class BookedSessionResource extends Resource
                         return "{$minutes}m {$seconds}s";
                     })
                     ->description(function ($state, $record) {
-                        $duration = $state ?? $record->duration ?? 0;
-                        return $duration > 0 ? "Total: {$duration} minutes" : null;
+                        $duration = (int) ($record->duration ?? 0);
+                        return $duration > 0 ? "Total: {$duration} minutes" : 'No duration';
                     })
                     ->alignCenter()
                     ->sortable()
                     ->tooltip(function ($state, $record) {
-                        $duration = $state ?? $record->duration ?? 0;
+                        $duration = (int) ($record->duration ?? 0);
                         return $duration > 0 ? "Total duration: {$duration} minutes" : 'No duration recorded';
                     }),
                     
