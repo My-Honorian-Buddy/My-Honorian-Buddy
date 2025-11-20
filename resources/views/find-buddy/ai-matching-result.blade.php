@@ -252,26 +252,10 @@
             @if (!empty($pagedMatches) && count($pagedMatches) > 0 && !empty($tutors))
                 @foreach ($pagedMatches as $match)
                     @php
-                        // Check if match is an array and has required keys
-                        if (!is_array($match) || !isset($match['tutor_id'])) {
-                            continue;
-                        }
-
+                        // Find the user associated with this match
                         $user = $users->first(function ($u) use ($match) {
                             return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
                         });
-
-                        // Skip if user not found
-                        if (!$user || !isset($user->tutor)) {
-                            continue;
-                        }
-
-                        $authUser = Auth::user();
-                        $isSameUser = $authUser->id === $user->id;
-                        $isStudent = $authUser->role === 'Student';
-                        $isTutor = $authUser->role === 'Tutor';
-                        $isCurrentTutor = $isStudent && $user->tutor && $isSameUser;
-                        $isCurrentStudent = $isTutor && $user->student && $isSameUser;
 
                         $days = [];
                         if ($user->schedule && $user->schedule->days_week) {
@@ -290,10 +274,6 @@
                             $reviews = $user->tutor->review;
                         }
                     @endphp
-
-                    @if ($isCurrentTutor || $isCurrentStudent)
-                        @continue
-                    @endif
 
                     <body class="bg-primary font-poppins font-semibold">
                         <section class="flex mt-8 justify-center w-full">

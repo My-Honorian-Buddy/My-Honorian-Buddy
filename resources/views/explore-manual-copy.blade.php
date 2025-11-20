@@ -292,7 +292,7 @@
         $showUsers = session('initiator') === 'filter-page' ? $search ?? collect() : $users;
     @endphp
 
-    <x-card :users="$showUsers" :per-page="1" />
+    <x-card :users="$showUsers" :per-page="6" />
 
     </div>
 

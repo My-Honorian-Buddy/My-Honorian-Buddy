@@ -70,12 +70,37 @@ class MatchController extends \App\Http\Controllers\Controller
             }
         }
 
+        // Filter matches before pagination to exclude invalid or current user matches
+        $authUser = Auth::user();
+        $filteredMatches = collect($matches)->filter(function ($match) use ($users, $authUser) {
+            // Check if match is valid array with tutor_id
+            if (!is_array($match) || !isset($match['tutor_id'])) {
+                return false;
+            }
+
+            // Find the user associated with this match
+            $user = $users->first(function ($u) use ($match) {
+                return isset($u->tutor) && $u->tutor->user_id == $match['tutor_id'];
+            });
+
+            // Skip if user not found or doesn't have tutor record
+            if (!$user || !isset($user->tutor)) {
+                return false;
+            }
+
+            // Skip if this is the current user
+            if ($authUser->id === $user->id) {
+                return false;
+            }
+
+            return true;
+        })->values(); // Re-index the collection
+
         $perPage = 6;
         $page = request()->input('page', 1);
-        $matchesCollection = collect($matches);
         $pagedMatches = new LengthAwarePaginator(
-            $matchesCollection->forPage($page, $perPage),
-            $matchesCollection->count(),
+            $filteredMatches->forPage($page, $perPage),
+            $filteredMatches->count(),
             $perPage,
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
