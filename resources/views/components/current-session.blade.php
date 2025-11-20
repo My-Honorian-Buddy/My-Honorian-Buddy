@@ -8,6 +8,8 @@
     $hasBookedSessions = false;
     $userID = Auth::user()->id;
     $percentage = 0;
+    $fname = '';
+    $lname = '';
 
     if ($role === 'Student') {
         $student = Auth::user()->student;

@@ -115,14 +115,8 @@
                 }, 1000);
             };
             
-            // Check for existing cooldown on page load, or start new one if first visit
-            if (!checkCooldown()) {
-                // No existing cooldown, start a new one (email was sent on signup)
-                const cooldownEnd = Date.now() + (COOLDOWN_TIME * 1000);
-                localStorage.setItem('verificationCooldown', cooldownEnd.toString());
-                startCountdown(COOLDOWN_TIME);
-            }
-            
+            checkCooldown();
+
             // Handle form submission
             form.addEventListener('submit', function(e) {
                 if (button.disabled) {

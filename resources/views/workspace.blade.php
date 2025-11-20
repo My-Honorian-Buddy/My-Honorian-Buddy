@@ -24,13 +24,17 @@
         if ($bookedId->student_id == Auth::id()) {
             $otherUserId = $bookedId->tutor_id;
             $otherUser = User::find($otherUserId);
-            $otherUsertemp = $otherUser->tutor->fname;
+            if ($otherUser && $otherUser->tutor) {
+                $otherUsertemp = $otherUser->tutor->fname;
+            }
         } else {
             $otherUserId = $bookedId->student_id;
             $otherUser = User::find($otherUserId);
-            $otherUsertemp = $otherUser->student->fname;
+            if ($otherUser && $otherUser->student) {
+                $otherUsertemp = $otherUser->student->fname;
+            }
         }
-        if ($otherUser) {
+        if ($otherUser && $otherUsertemp) {
             $otherUserName = $otherUsertemp;
         }
     }
