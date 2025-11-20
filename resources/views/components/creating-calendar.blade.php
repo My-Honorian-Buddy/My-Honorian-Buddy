@@ -9,6 +9,11 @@
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
 
     <style>
+        .fc-daygrid-day-number {
+            color: #550000 !important;
+            font-weight: bold !important;
+        }
+
         .fc-button {
             background-color: #550000 !important;
             border-color: #550000 !important;
@@ -72,7 +77,7 @@
         }
 
         .fc-event-time {
-            color: #FFD95C !important;
+            color: #F5F5DC !important;
             font-weight: 500 !important;
         }
 
@@ -355,6 +360,11 @@
         }
 
         /* Enhanced event hover effect */
+        /* Disable dragging completely */
+        .fc-event {
+            cursor: pointer !important;
+        }
+
         .fc-event:hover {
             opacity: 0.9;
             transform: scale(1.02);
@@ -364,6 +374,11 @@
 
         .fc-daygrid-event:hover {
             z-index: 100;
+        }
+        
+        /* Prevent dragging behavior */
+        .fc-event-dragging {
+            cursor: not-allowed !important;
         }
 
         /* Custom tooltip */
@@ -949,7 +964,9 @@
                 height: config.height,
                 contentHeight: 'auto',
                 selectable: true,
-                editable: true,
+                editable: false, // Disable drag and resize
+                eventStartEditable: false, // Disable event dragging
+                eventDurationEditable: false, // Disable event resizing
                 headerToolbar: config.headerToolbar,
                 events: '/calendar/event',
                 displayEventTime: true,
@@ -1012,12 +1029,23 @@
                     // Store tooltip reference for cleanup
                     info.el._tooltip = tooltip;
 
+                    // Set cursor and prevent dragging for all events
+                    info.el.style.cursor = 'pointer';
+                    info.el.draggable = false;
+                    
                     if (info.event.extendedProps.eventType === 'booked_session') {
-                        info.el.style.cursor = 'pointer';
                         info.el.style.fontWeight = 'bold';
-                    } else {
-                        info.el.style.cursor = 'pointer';
                     }
+
+                    // Prevent default drag behavior
+                    info.el.addEventListener('mousedown', function(e) {
+                        e.stopPropagation();
+                    }, true);
+                    
+                    info.el.addEventListener('dragstart', function(e) {
+                        e.preventDefault();
+                        return false;
+                    });
 
                     const dayCell = info.el.closest('.fc-daygrid-day');
                     if (dayCell) {
@@ -1043,66 +1071,8 @@
                     openAddEventModal(info);
                 },
 
-                eventDrop: function(info) {
-                    if (info.event.extendedProps.eventType === 'booked_session') {
-                        alert(
-                            "Booked session events cannot be moved. Please contact your tutor/student to reschedule."
-                        );
-                        info.revert();
-                        return;
-                    }
-
-                    $.ajax({
-                        url: "/calendar/action",
-                        type: "POST",
-                        data: {
-                            id: info.event.id,
-                            title: info.event.title,
-                            start: info.event.start.toISOString(),
-                            end: info.event.end ? info.event.end.toISOString() : info.event
-                                .start.toISOString(),
-                            type: 'update',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            alert("Event updated!");
-                        },
-                        error: function(xhr) {
-                            alert("Error updating event: " + xhr.responseText);
-                            info.revert();
-                        }
-                    });
-                },
-
-                eventResize: function(info) {
-                    if (info.event.extendedProps.eventType === 'booked_session') {
-                        alert("Booked session events cannot be resized.");
-                        info.revert();
-                        return;
-                    }
-
-                    $.ajax({
-                        url: "/calendar/action",
-                        type: "POST",
-                        data: {
-                            id: info.event.id,
-                            title: info.event.title,
-                            start: info.event.start.toISOString(),
-                            end: info.event.end.toISOString(),
-                            type: 'update',
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function() {
-                            alert("Event resized!");
-                        },
-                        error: function(xhr) {
-                            alert("Error resizing event: " + xhr.responseText);
-                            info.revert();
-                        }
-                    });
-                },
-
                 eventClick: function(info) {
+                    info.jsEvent.preventDefault();
                     openEventModal(info);
                 }
             });
