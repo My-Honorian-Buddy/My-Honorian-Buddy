@@ -156,10 +156,15 @@ class BookedSessionResource extends Resource
                     
                 Tables\Columns\TextColumn::make('duration')
                     ->label('Duration')
-                    ->formatStateUsing(function ($state) {
-                        if (!$state) return '0 mins';
+                    ->formatStateUsing(function ($state, $record) {
+                        // Get duration from record if state is null/empty
+                        $duration = $state ?? $record->duration ?? 0;
+                        $totalMinutes = (int) $duration;
                         
-                        $totalMinutes = (int) $state;
+                        if ($totalMinutes <= 0) {
+                            return '0m 0s';
+                        }
+                        
                         $hours = floor($totalMinutes / 60);
                         $minutes = $totalMinutes % 60;
                         $seconds = 0; // Minutes are whole numbers, but showing format
@@ -172,10 +177,16 @@ class BookedSessionResource extends Resource
                         
                         return "{$minutes}m {$seconds}s";
                     })
-                    ->description(fn ($state) => $state ? "Total: {$state} minutes" : null)
+                    ->description(function ($state, $record) {
+                        $duration = $state ?? $record->duration ?? 0;
+                        return $duration > 0 ? "Total: {$duration} minutes" : null;
+                    })
                     ->alignCenter()
                     ->sortable()
-                    ->tooltip(fn ($state) => $state ? "Total duration: {$state} minutes" : 'No duration recorded'),
+                    ->tooltip(function ($state, $record) {
+                        $duration = $state ?? $record->duration ?? 0;
+                        return $duration > 0 ? "Total duration: {$duration} minutes" : 'No duration recorded';
+                    }),
                     
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')

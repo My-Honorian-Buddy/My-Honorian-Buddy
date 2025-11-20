@@ -47,6 +47,7 @@ class bookedSession extends Model
         'tutor_report_images' => 'array',
         'ban_requested_at' => 'datetime',
         'tutor_report_submitted_at' => 'datetime',
+        'duration' => 'integer',
     ];
 
     public function student()
