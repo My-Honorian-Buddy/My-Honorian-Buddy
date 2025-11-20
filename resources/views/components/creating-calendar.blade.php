@@ -61,6 +61,10 @@
             border: 2px solid #550000 !important;
         }
 
+        .fc-daygrid-day.fc-day-today.has-events .fc-daygrid-day-number {
+            color: #550000 !important;
+        }
+
         .fc-daygrid-day.has-events {
             background-color: #55000010 !important;
             border: 2px solid #550000 !important;
