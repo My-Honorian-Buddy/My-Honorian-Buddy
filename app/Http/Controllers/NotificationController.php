@@ -645,6 +645,23 @@ class NotificationController extends Controller
                 ->where('notif_info->session_id', $sessionId)
                 ->update(['read_at' => now()]);
 
+            // Send notification to admin that report was submitted
+            $adminNotif = notifSession::create([
+                'notif_info' => json_encode([
+                    'NotifType' => 'BanReportSubmitted',
+                    'message' => 'Tutor has submitted a ban report.',
+                    'session_id' => $sessionId,
+                    'tutor_name' => Auth::user()->name,
+                    'student_name' => $bookedSession->studentUser->name ?? 'Unknown',
+                ]),
+                'to' => 1, // Admin user ID
+                'user_id' => Auth::id(),
+                'read_at' => null,
+            ]);
+
+            // Broadcast to admin
+            broadcast(new \App\Events\NewNotification(1, $adminNotif));
+
             Log::info('Ban report submitted', [
                 'session_id' => $sessionId,
                 'tutor_id' => Auth::id(),

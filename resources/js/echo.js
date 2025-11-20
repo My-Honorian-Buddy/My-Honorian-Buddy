@@ -54,6 +54,7 @@ function getNotificationIcon(type) {
         'SessionDropped': '🗑️',
         'SessionDropRequestDenied': '❌',
         'BanRequest': '⚠️',
+        'BanReportSubmitted': '📋',
         'PointsUpdated': '⭐',
         'RewardRedemption': '🎁'
     };
@@ -74,6 +75,7 @@ function getNotificationTitle(type) {
         'SessionDropped': 'Session Dropped',
         'SessionDropRequestDenied': 'Drop Request Denied',
         'BanRequest': 'Ban Request',
+        'BanReportSubmitted': 'Report Submitted',
         'PointsUpdated': 'Points Updated',
         'RewardRedemption': 'Reward Redemption'
     };
@@ -403,6 +405,40 @@ setTimeout(() => {
                                     setTimeout(() => {
                                         reloadWorkspaceContent();
                                     }, 2000);
+                                    
+                                    break;
+                                }
+                                
+                                // Handle ban request
+                                if (notifInfo.NotifType === 'BanRequest' && 
+                                    notif.to == currentUserId && 
+                                    notif.read_at === null) {
+                                    
+                                    console.log('⚠️ Ban request received');
+                                    
+                                    // Show toast notification
+                                    showRealtimeToast(
+                                        'BanRequest',
+                                        `Admin has requested to ban your session. Reason: ${notifInfo.ban_reason || 'No reason provided'}`,
+                                        null
+                                    );
+                                    
+                                    break;
+                                }
+                                
+                                // Handle ban report submitted (for admin)
+                                if (notifInfo.NotifType === 'BanReportSubmitted' && 
+                                    notif.to == currentUserId && 
+                                    notif.read_at === null) {
+                                    
+                                    console.log('📋 Ban report submitted by tutor');
+                                    
+                                    // Show toast notification
+                                    showRealtimeToast(
+                                        'BanReportSubmitted',
+                                        `${notifInfo.tutor_name || 'Tutor'} has submitted a ban report for review.`,
+                                        '/admin/booked-sessions'
+                                    );
                                     
                                     break;
                                 }

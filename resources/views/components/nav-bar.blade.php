@@ -1315,23 +1315,29 @@
                                 </span>
                             `;
                         } else if (info['NotifType'] === "BanRequest") {
+                            // Check if report has been submitted (notification is read)
+                            const reportSubmitted = notification.read_at !== null;
+                            
                             notificationsHTML += `
                                 <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
                                 onclick="markRead(${notification.id})">
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col space-y-3">
                                         <div class="${fontClass}">
                                             <p class="font-semibold">⚠️ Session Ban Request</p>
                                             <p class="text-sm text-gray-500">${info['message'] || 'Admin has requested to ban your session.'}</p>
                                             <p class="text-sm text-red-600 font-medium mt-1">Reason: ${info['ban_reason'] || 'No reason provided'}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
+                                            ${reportSubmitted ? '<p class="text-sm text-green-600 font-medium mt-2">✓ Report submitted - awaiting admin review</p>' : ''}
                                         </div>
-                                        <div class="flex space-x-2 mt-2">
-                                            <button 
-                                                class="bg-yellow-900 hover:bg-yellow-700 text-white px-3 py-1 rounded-sm transition active:scale-95"
-                                                onclick="openReportModal(${info['session_id']}, ${notification.id})">
-                                                Submit Report
-                                            </button>
-                                        </div>
+                                        ${!reportSubmitted ? `
+                                            <div class="flex justify-end">
+                                                <button 
+                                                    class="bg-yellow-900 hover:bg-yellow-700 text-white px-4 py-2 rounded-sm transition active:scale-95 font-semibold"
+                                                    onclick="event.stopPropagation(); openReportModal(${info['session_id']}, ${notification.id})">
+                                                    Submit Report
+                                                </button>
+                                            </div>
+                                        ` : ''}
                                     </div>
                                 </li>
                                 <span class="flex mx-4 items-center">
@@ -1348,6 +1354,36 @@
                                             <p class="text-sm text-gray-500">${info['message'] || ''}</p>
                                             <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                             <p class="text-sm text-gray-500">Session: ${info['num_session']} of ${info['total_session']}</p>
+                                        </div>
+                                        <div class="hidden notification-actions self-center space-x-2">
+                                            <button 
+                                                class="bg-green-900 hover:bg-green-700 text-accent px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="markAsRead(${notification.id})">
+                                                ✔
+                                            </button>
+                                            <button 
+                                                class="bg-red-900 text-accent hover:bg-red-700 px-3 py-1 rounded-sm transition active:scale-95"
+                                                onclick="deleteNotification(${notification.id})">
+                                                ✖
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                                <span class="flex mx-4 items-center">
+                                    <span class="h-px flex-1 bg-charcoal"></span>
+                                </span>
+                            `;
+                        } else if (info['NotifType'] === "BanReportSubmitted") {
+                            notificationsHTML += `
+                                <li class="truncate ${bgClass} ${hoverClass} text-base px-4 py-2 transition-colors duration-200 cursor-pointer"
+                                onclick="markRead(${notification.id})">
+                                    <div class="flex justify-between">
+                                        <div class="${fontClass}">
+                                            <p class="font-semibold">📋 Ban Report Submitted</p>
+                                            <p class="text-sm text-gray-500">${info['message'] || 'Tutor has submitted a ban report.'}</p>
+                                            <p class="text-sm text-gray-600 mt-1">Tutor: ${info['tutor_name'] || 'Unknown'}</p>
+                                            <p class="text-sm text-gray-600">Student: ${info['student_name'] || 'Unknown'}</p>
+                                            <p class="${dateColor} text-xs mt-1">${new Date(notification.created_at).toLocaleString()}</p>
                                         </div>
                                         <div class="hidden notification-actions self-center space-x-2">
                                             <button 
