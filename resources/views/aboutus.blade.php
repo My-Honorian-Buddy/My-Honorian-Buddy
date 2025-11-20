@@ -537,7 +537,7 @@
                     style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
                     <div style="height: auto; width: auto;">
-                        <img src="/storage/images/son.jpg" alt="de leon"
+                        <img src="/images/images/son.jpg" alt="de leon"
                             style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
                     <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
@@ -548,7 +548,7 @@
                     style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
                     <div style="height: auto; width: auto;">
-                        <img src="/storage/images/nion.jpg" alt="tongol"
+                        <img src="/images/images/nion.jpg" alt="tongol"
                             style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
                     <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
@@ -561,7 +561,7 @@
                     style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
                     <div style="height: auto; width: auto;">
-                        <img src="/storage/images/jc.jpg" alt="bulaon"
+                        <img src="/images/images/jc.jpg" alt="bulaon"
                             style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
                     <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
@@ -577,7 +577,7 @@
                     style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-right" data-aos-delay="300" data-aos-duration="1000">
                     <div style="height: auto; width: auto;">
-                        <img src="/storage/images/pyo.jpg" alt="rabanal"
+                        <img src="/images/images/pyo.jpg" alt="rabanal"
                             style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
                     <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
@@ -588,7 +588,7 @@
                     style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
                     <div style="height: auto; width: auto;">
-                        <img src="/storage/images/mireyl.jpg" alt="nulud"
+                        <img src="/images/images/mireyl.jpg" alt="nulud"
                             style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
                     <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
@@ -599,7 +599,7 @@
                     style="height: 300px; width: 230px; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;"
                     data-aos="zoom-in-left" data-aos-delay="300" data-aos-duration="1000">
                     <div style="height: auto; width: auto;">
-                        <img src="/storage/images/cil.jpg" alt="trinidad"
+                        <img src="/images/images/cil.jpg" alt="trinidad"
                             style="margin-bottom: 1.5rem; border-radius: 9999px; object-fit: cover; border: 2px solid var(--charcoal); width: 180px; height: 180px;">
                     </div>
                     <h1 style="text-align: center; font-family: poppins; font-weight: 900; font-size: 1.125rem;">
