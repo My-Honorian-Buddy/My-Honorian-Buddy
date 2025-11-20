@@ -41,11 +41,19 @@
             color: #FDFBFB !important;
         }
 
+        .fc-day-today .fc-daygrid-day-number {
+            color: #F5F5DC !important;
+        }
+
         .fc-day-today:hover {
             background-color: #55000010 !important;
             color: #550000 !important;
             border: 2px solid #550000 !important;
             transition: all 0.2s ease-in-out;
+        }
+
+        .fc-day-today:hover .fc-daygrid-day-number {
+            color: #550000 !important;
         }
 
         .fc-daygrid-day.fc-day-today.has-events {
@@ -350,13 +358,33 @@
 
         /* Disable past dates */
         .fc-day-past {
-            background-color: #f5f5f5 !important;
-            opacity: 0.5;
-            cursor: not-allowed !important;
+            cursor: default !important;
+            pointer-events: none !important;
+        }
+
+        .fc-day-past .fc-daygrid-day-frame {
+            visibility: hidden !important;
         }
 
         .fc-day-past .fc-daygrid-day-number {
-            color: #999 !important;
+            visibility: hidden !important;
+        }
+
+        .fc-day-past .fc-daygrid-day-top {
+            visibility: hidden !important;
+        }
+
+        /* Hide events on past dates */
+        .fc-day-past .fc-daygrid-event {
+            display: none !important;
+        }
+
+        .fc-day-past .fc-daygrid-day-events {
+            display: none !important;
+        }
+
+        .fc-day-past .fc-daygrid-day-bg {
+            visibility: hidden !important;
         }
 
         /* Enhanced event hover effect */
@@ -978,6 +1006,17 @@
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     return selectInfo.start >= today;
+                },
+                dayCellClassNames: function(arg) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const cellDate = new Date(arg.date);
+                    cellDate.setHours(0, 0, 0, 0);
+                    
+                    if (cellDate < today) {
+                        return ['fc-day-past'];
+                    }
+                    return [];
                 },
 
                 eventDidMount: function(info) {
