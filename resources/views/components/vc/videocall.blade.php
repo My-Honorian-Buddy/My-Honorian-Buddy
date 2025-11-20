@@ -103,10 +103,13 @@
     <script src='https://meet.jit.si/external_api.js'></script>
     <script>
         // Variables to track call duration
-        let callStartTime = null;
+        // Set start time immediately when page loads (backup if Jitsi event doesn't fire)
+        let callStartTime = new Date();
         let callEndTime = null;
         let totalDurationMinutes = 0;
         let jitsiApi = null; // Global reference to Jitsi API
+        
+        console.log('⏱️ Initial callStartTime set to:', callStartTime.toISOString());
 
         const allTutors = @json($allTutors);
         const allStudents = @json($allStudents);
@@ -144,7 +147,16 @@
                     callEndTime = new Date();
                     const durationMs = callEndTime - callStartTime;
                     totalDurationMinutes = Math.round(durationMs / (1000 * 60));
-                    console.log('⏱️ Call duration:', totalDurationMinutes, 'minutes');
+                    
+                    console.log('⏱️ Manual Hangup - Duration Calculation:', {
+                        startTime: callStartTime.toISOString(),
+                        endTime: callEndTime.toISOString(),
+                        durationMs: durationMs,
+                        durationMinutes: totalDurationMinutes
+                    });
+                } else {
+                    console.error('❌ callStartTime is null at manual hangup!');
+                    totalDurationMinutes = 1; // Fallback to 1 minute
                 }
                 
                 jitsiApi.dispose();
@@ -210,27 +222,36 @@
         jitsiApi.addListener('videoConferenceJoined', function (event) {
             console.log('🎥 Video conference joined by user:', event);
             
+            // Update start time when actually joined (more accurate)
             callStartTime = new Date();
-            console.log('⏱️ Call started at:', callStartTime.toLocaleString());
+            console.log('⏱️ Call started at (updated):', callStartTime.toISOString());
         });
 
         jitsiApi.addListener('readyToClose', function () {
-            console.log('The conference has ended');
-            
+            console.log('🔴 The conference has ended');
             
             callEndTime = new Date();
-            console.log('⏱️ Call ended at:', callEndTime.toLocaleString());
-            
+            console.log('⏱️ Call ended at:', callEndTime.toISOString());
             
             if (callStartTime && callEndTime) {
                 const durationMs = callEndTime - callStartTime;
                 totalDurationMinutes = Math.round(durationMs / (1000 * 60)); 
-                console.log('⏱️ Total call duration:', totalDurationMinutes, 'minutes');
-                console.log('⏱️ Duration breakdown:', {
+                
+                console.log('⏱️ Duration Calculation:', {
+                    startTime: callStartTime.toISOString(),
+                    endTime: callEndTime.toISOString(),
+                    durationMs: durationMs,
+                    durationMinutes: totalDurationMinutes,
                     hours: Math.floor(totalDurationMinutes / 60),
-                    minutes: totalDurationMinutes % 60,
-                    totalMinutes: totalDurationMinutes
+                    minutes: totalDurationMinutes % 60
                 });
+            } else {
+                console.error('❌ Missing time data:', {
+                    callStartTime: callStartTime,
+                    callEndTime: callEndTime
+                });
+                // If start time is somehow null, use minimal duration
+                totalDurationMinutes = 1; // At least 1 minute
             }
 
             // Notify the server about the meeting end with duration
