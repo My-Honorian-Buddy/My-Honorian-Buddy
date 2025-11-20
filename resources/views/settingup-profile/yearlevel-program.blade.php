@@ -33,7 +33,7 @@
                             @csrf
                             <div class="flex flex-col text-left">
                                 <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mb-2">Year Level:</label>
-                                <select name="year_level"
+                                <select name="year_level" id="year_level"
                                     class="border-2 font-poppins border-charcoal p-3 rounded-sm outline-none duration-200 
                                         ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base">
                                     <option value="" disabled selected>Year Level...</option>
@@ -41,13 +41,14 @@
                                     <option value="2nd Year">2nd Year</option>
                                     <option value="3rd Year">3rd Year</option>
                                     <option value="4th Year">4th Year</option>
+                                    <option value="5th Year">5th Year</option>
                                 </select>
 
                                 <label class="font-bold font-poppins text-lg md:text-xl lg:text-2xl mt-6 md:mt-8 mb-2">College Department:</label>
                                 <select
                                     class="border-2 font-poppins border-charcoal p-3 rounded-sm outline-none duration-200 
                                         ring-2 ring-[transparent] focus:border-primary/70 focus:ring-primary/70 w-full text-sm md:text-base"
-                                    name="college">
+                                    name="college" id="college">
                                     <option value=""disabled selected>College Department...</option>
                                     <option value="College Of Computing Studies">College Of Computing Studies</option>
                                     <option value="College of Education">College of Education</option>
@@ -90,6 +91,7 @@
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
+                    const yearLevelSelect = document.getElementById('year_level');
                     const collegeSelect = document.querySelector('select[name="college"]');
                     const departmentSelect = document.querySelector('select[name="department"]');
 
@@ -149,8 +151,44 @@
                         ],
                     };
 
+                    function updateCollegeOptions() {
+                        const selectedYearLevel = yearLevelSelect.value;
+                        
+                        // Reset college and department
+                        collegeSelect.innerHTML = '<option value="" disabled selected>College Department...</option>';
+                        departmentSelect.innerHTML = '<option value="" disabled selected>College Program...</option>';
+                        departmentSelect.disabled = true;
+                        
+                        if (selectedYearLevel === '5th Year') {
+                            // For 5th year, only show Architecture college
+                            collegeSelect.disabled = false;
+                            const option = document.createElement('option');
+                            option.value = 'College of Engineering and Architecture';
+                            option.textContent = 'College of Engineering and Architecture';
+                            collegeSelect.appendChild(option);
+                        } else {
+                            // For other years, show all colleges
+                            collegeSelect.disabled = false;
+                            const colleges = [
+                                'College Of Computing Studies',
+                                'College of Education',
+                                'College of Engineering and Architecture',
+                                'College of Social Sciences and Philosophy',
+                                'College of Business Studies',
+                                'College of Hospitality and Tourism Management'
+                            ];
+                            colleges.forEach(college => {
+                                const option = document.createElement('option');
+                                option.value = college;
+                                option.textContent = college;
+                                collegeSelect.appendChild(option);
+                            });
+                        }
+                    }
+
                     function updateDepartmentOptions() {
                         const selectedCollege = collegeSelect.value;
+                        const selectedYearLevel = yearLevelSelect.value;
 
                         departmentSelect.innerHTML = '<option value="" disabled selected>College Program...</option>';
 
@@ -160,17 +198,25 @@
                         }
 
                         departmentSelect.disabled = false;
-                        const programs = collegePrograms[selectedCollege] || [];
-
-                        programs.forEach(program => {
+                        
+                        // For 5th year, only show Architecture program
+                        if (selectedYearLevel === '5th Year' && selectedCollege === 'College of Engineering and Architecture') {
                             const option = document.createElement('option');
-                            option.value = program;
-                            option.textContent = program;
+                            option.value = 'Bachelor of Science in Architecture';
+                            option.textContent = 'Bachelor of Science in Architecture';
                             departmentSelect.appendChild(option);
-                        });
+                        } else {
+                            const programs = collegePrograms[selectedCollege] || [];
+                            programs.forEach(program => {
+                                const option = document.createElement('option');
+                                option.value = program;
+                                option.textContent = program;
+                                departmentSelect.appendChild(option);
+                            });
+                        }
                     }
 
-
+                    yearLevelSelect.addEventListener('change', updateCollegeOptions);
                     collegeSelect.addEventListener('change', updateDepartmentOptions);
 
                     departmentSelect.disabled = true;
