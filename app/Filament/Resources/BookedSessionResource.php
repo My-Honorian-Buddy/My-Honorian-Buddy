@@ -157,8 +157,8 @@ class BookedSessionResource extends Resource
                 Tables\Columns\TextColumn::make('duration')
                     ->label('Duration')
                     ->formatStateUsing(function ($state, $record) {
-                        // Always get duration from the record to ensure we have the latest value
-                        $totalMinutes = (int) ($record->duration ?? 0);
+                        // Divide by 2 since both participants send duration (gets doubled)
+                        $totalMinutes = (int) (($record->duration ?? 0) / 2);
                         
                         if ($totalMinutes <= 0) {
                             return '0m 0s';
@@ -177,13 +177,15 @@ class BookedSessionResource extends Resource
                         return "{$minutes}m {$seconds}s";
                     })
                     ->description(function ($state, $record) {
-                        $duration = (int) ($record->duration ?? 0);
+                        // Divide by 2 to show actual duration
+                        $duration = (int) (($record->duration ?? 0) / 2);
                         return $duration > 0 ? "Total: {$duration} minutes" : 'No duration';
                     })
                     ->alignCenter()
                     ->sortable()
                     ->tooltip(function ($state, $record) {
-                        $duration = (int) ($record->duration ?? 0);
+                        // Divide by 2 to show actual duration
+                        $duration = (int) (($record->duration ?? 0) / 2);
                         return $duration > 0 ? "Total duration: {$duration} minutes" : 'No duration recorded';
                     }),
                     
