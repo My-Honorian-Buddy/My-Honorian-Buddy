@@ -30,7 +30,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between" style="padding: 8px 12px;">
                 <a href="/" class="inline-flex items-center gap-3" style="display: flex; align-items: center; height: 100%; flex: 1;">
-                    <img src="{{ asset('/images/logo.svg') }}" alt="My Honorian Buddy" class="ml-4 w-1/12" style="object-fit: contain;">
+                    <img src="{{ asset('/images/logo.svg') }}" alt="My Honorian Buddy" class="ml-4 w-[100px]" style="object-fit: contain;">
                     <span class="sr-only">My Honorian Buddy</span>
                 </a>
                 @if (Route::has('login'))
