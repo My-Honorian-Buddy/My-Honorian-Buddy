@@ -55,8 +55,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        @if (session('success'))
-            showNotification('{{ session('success') }}', 'Schedule updated successfully!', 'success');
+        @if (session('schedule_success'))
+            showNotification('{{ session('schedule_success') }}', 'Schedule updated successfully!', 'success');
         @endif
 
         @if (session('error'))

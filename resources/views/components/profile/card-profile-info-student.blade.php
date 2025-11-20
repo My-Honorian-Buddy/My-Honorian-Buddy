@@ -127,8 +127,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        @if (session('success'))
-            showNotification('{{ session('success') }}', 'Profile picture uploaded successfully!', 'success');
+        @if (session('profile_picture_success'))
+            showNotification('{{ session('profile_picture_success') }}', 'Profile picture uploaded successfully!', 'success');
         @endif
 
         @if (session('error'))

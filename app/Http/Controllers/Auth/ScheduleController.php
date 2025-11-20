@@ -100,7 +100,7 @@ class ScheduleController extends Controller
             ],
         ]);
 
-        return redirect()->route('workspace.start')->with('success', 'Schedule updated successfully!');
+        return redirect()->route('workspace.start')->with('schedule_success', 'Schedule updated successfully!');
     }
 
 }
