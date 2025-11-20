@@ -16,7 +16,11 @@
             @csrf
             <input type="hidden" id="tutor_id_input" name="tutor_id" value="{{ $tutor_id }}">
 
-            <div class="flex flex-col px-20">
+            <div class="flex flex-col px-20 relative">
+                <button type="button" onclick="hideModal('reviews-and-feedback')" 
+                    class="absolute -top-10 right-0 text-2xl text-black hover:text-primary transition-colors duration-200 font-bold leading-none">
+                    ×
+                </button>
                 <div class="flex justify-center items-center mt-7">
                     <img src="{{ asset('images/reviews.svg') }}">
                 </div>
