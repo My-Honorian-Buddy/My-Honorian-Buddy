@@ -145,18 +145,18 @@ class VideoCallController extends Controller
             'call_recorded' => $bookedSession->call_duration_recorded ?? false
         ]);
 
-        // Check if this call's duration has already been recorded RECENTLY (within last 2 minutes)
+        // Check if this call's duration has already been recorded RECENTLY (within last 30 seconds)
         // This prevents double-recording when both participants leave at the same time
-        // But allows new calls to record properly after 2+ minutes
+        // But allows new calls to record properly after 30+ seconds
         if ($bookedSession->call_duration_recorded === true && 
             $bookedSession->updated_at && 
-            $bookedSession->updated_at->diffInMinutes(now()) < 2) {
+            $bookedSession->updated_at->diffInSeconds(now()) < 30) {
             
-            Log::info('⏱️ Duration already recorded for this call (within last 2 min), skipping update', [
+            Log::info('⏱️ Duration already recorded for this call (within last 30 sec), skipping update', [
                 'session_id' => $bookedSession->id,
                 'user_id' => Auth::id(),
                 'last_updated' => $bookedSession->updated_at->toDateTimeString(),
-                'minutes_ago' => $bookedSession->updated_at->diffInMinutes(now())
+                'seconds_ago' => $bookedSession->updated_at->diffInSeconds(now())
             ]);
             
             return response()->json([
@@ -166,12 +166,12 @@ class VideoCallController extends Controller
             ]);
         }
         
-        // Reset flag if it's been more than 2 minutes (new call session)
+        // Reset flag if it's been more than 30 seconds (new call session)
         if ($bookedSession->call_duration_recorded === true) {
             Log::info('🔄 Resetting duration flag for new call session', [
                 'session_id' => $bookedSession->id,
                 'last_updated' => $bookedSession->updated_at->toDateTimeString(),
-                'minutes_ago' => $bookedSession->updated_at->diffInMinutes(now())
+                'seconds_ago' => $bookedSession->updated_at->diffInSeconds(now())
             ]);
             $bookedSession->call_duration_recorded = false;
         }
