@@ -2016,7 +2016,7 @@
 
         const toastHtml = `
             <div id="session-reminder-toast-${notificationId}" 
-                 class="fixed top-20 right-4 z-50 bg-yellow-500 text-white px-6 py-4 rounded-lg shadow-2xl border-4 border-yellow-600 max-w-md animate-bounce">
+                 class="fixed top-20 right-4 z-[9999] bg-yellow-500 text-white px-6 py-4 rounded-lg shadow-2xl border-4 border-yellow-600 max-w-md animate-bounce">
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
                         <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
