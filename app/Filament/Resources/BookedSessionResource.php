@@ -176,10 +176,11 @@ class BookedSessionResource extends Resource
                         return "{$minutes}m";
                     })
                     ->description(function ($state, $record) {
-                        // Divide by 2 to show actual duration
-                        $duration = (int) (($record->duration ?? 0) / 2);
+                        // Get raw duration before dividing
+                        $rawDuration = (int) ($record->duration ?? 0);
+                        $duration = (int) ($rawDuration / 2);
                         
-                        if ($duration === 0) {
+                        if ($rawDuration === 0) {
                             return 'No duration';
                         } elseif ($duration < 1) {
                             return 'This session is under 1 minute';
