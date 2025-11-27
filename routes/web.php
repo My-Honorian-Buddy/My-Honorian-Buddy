@@ -296,3 +296,6 @@ Route::post('/switch-role', [RoleSwitchController::class, 'switchRole'])->name('
 
 Route::get('/calendar/event', [EventController::class, 'index']);
 Route::post('/calendar/action', [EventController::class, 'action']);
+
+// COR Verification API route - for Python script to fetch active keywords
+Route::get('/api/cor/keywords', [CorController::class, 'getActiveKeywords'])->name('cor.keywords');
