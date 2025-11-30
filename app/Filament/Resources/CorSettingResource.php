@@ -36,7 +36,7 @@ class CorSettingResource extends Resource
                             ->label('University Name')
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('e.g., PAMPANGA STATE AGRICULTURAL UNIVERSITY')
+                            ->placeholder('e.g., PAMPANGA STATE UNIVERSITY')
                             ->helperText('This will be verified in the COR PDF'),
 
                         Forms\Components\TextInput::make('cor_title')
@@ -50,7 +50,7 @@ class CorSettingResource extends Resource
                             ->label('Campus Name')
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('e.g., Magalang Campus')
+                            ->placeholder('e.g., Bacolor Campus')
                             ->helperText('The specific campus location'),
                     ])
                     ->columns(2),
