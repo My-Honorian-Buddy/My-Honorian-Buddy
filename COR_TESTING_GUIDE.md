@@ -1,5 +1,17 @@
 # COR Verification System - Testing Guide
 
+## ⚠️ IMPORTANT: Test Files
+
+**The following files are for LOCAL TESTING ONLY** and should NOT be pushed to VPS:
+- `test_cor_expiration.php` - Check expiration status
+- `expire_cor_test.php` - Temporarily expire settings  
+- `restore_cor_date.php` - Restore settings after testing
+- `original_cor_date.txt` - Temporary storage for original date
+
+These files are now in `.gitignore` and won't be committed to Git.
+
+---
+
 ## System Overview
 
 Your COR verification system now works with **dynamic keywords** that are managed through the Filament admin panel. The keywords automatically expire based on the academic year dates.
@@ -11,7 +23,7 @@ Your COR verification system now works with **dynamic keywords** that are manage
 - **Academic Year**: AY 2025-2026
 - **Valid From**: August 1, 2025
 - **Valid Until**: July 31, 2026
-- **Status**: ✅ Active (246 days remaining)
+- **Status**: ✅ Active (expires Jul 31, 2026)
 
 ## How Expiration Works
 
@@ -209,6 +221,46 @@ The old setting will automatically be deactivated, and all new COR uploads will 
 - `expire_cor_test.php` - Temporarily expire settings for testing
 - `restore_cor_date.php` - Restore settings after testing
 
+## Important Behaviors
+
+### COR Verification Logging
+
+**Current Status**: ❌ Not implemented
+- COR verifications are NOT currently logged in Filament
+- Only the user's `cor_status` field is updated ('pending' → 'verified')
+- No history or audit trail of when users verified their COR
+
+**To implement logging**, you would need to create:
+1. A `CorVerificationLog` model
+2. A Filament resource to view the logs
+3. Log entries every time a COR is verified
+
+### What Happens to Verified Accounts When Settings Expire?
+
+**Current Behavior**:
+- ✅ **Already verified accounts**: Keep their 'verified' status
+- ❌ **New uploads**: Cannot verify (blocked by expiration)
+- ✅ **System access**: Verified users can continue using the platform
+
+**Important**: Once a user is verified for AY 2025-2026, they **stay verified even after July 31, 2026**. The expiration only prevents NEW verifications.
+
+### Should Verified Status Expire Automatically?
+
+This depends on your business requirements:
+
+**Option A: Keep Status (Current)**
+- Students verified for AY 2025-2026 stay verified forever
+- ✅ Pro: Students don't need to re-verify every year
+- ❌ Con: Cannot enforce annual COR updates
+
+**Option B: Auto-Expire Status (Not Implemented)**
+- On July 31, 2026, reset all `cor_status='verified'` → `cor_status='pending'`
+- ✅ Pro: Forces students to submit new COR each academic year
+- ✅ Pro: Ensures current enrollment status
+- ❌ Con: Students must re-upload COR annually
+
+**Recommendation**: Implement Option B if you want to ensure students are currently enrolled.
+
 ## Summary
 
 ✅ **COR verification is now working!**
@@ -217,4 +269,21 @@ The old setting will automatically be deactivated, and all new COR uploads will 
 ✅ **Easy to update via admin panel**
 ✅ **No code changes needed for future academic years**
 
+⚠️ **Not Yet Implemented**:
+- COR verification history/logging in Filament
+- Automatic expiration of verified user accounts
+
 The system will automatically prevent COR verification after July 31, 2026, and admin will need to create new settings for the next academic year.
+
+### Testing Checklist
+
+Before deploying to VPS:
+
+1. ✅ Test with valid COR from correct university
+2. ✅ Test with invalid COR (different university)
+3. ✅ Test expiration by setting valid_until to past date
+4. ✅ Test new account COR verification flow
+5. ❌ Delete test files (`expire_cor_test.php`, etc.) or ensure they're in `.gitignore`
+6. ✅ Verify COR settings in Filament admin panel
+7. ❌ Decide if you need COR verification logging
+8. ❌ Decide if verified status should expire annually

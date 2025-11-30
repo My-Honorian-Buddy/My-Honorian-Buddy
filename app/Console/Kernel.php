@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         // Register your custom command here
         Commands\CheckUpcomingSessions::class,
+        Commands\ResetExpiredCorStatus::class,
     ];
 
     /**
@@ -28,9 +29,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
         Log::info("🔔 Checking for upcoming sessions every minute");
         $schedule->command('sessions:check-upcoming')->everyMinute()->sendOutputTo(storage_path('sessions_reminder.log'));
+        
+        // COR expiration reset - runs daily at midnight
+        // Note: If scheduler doesn't work, use direct cron: 0 0 * * * php artisan cor:reset-expired
+        $schedule->command('cor:reset-expired')
+            ->daily()
+            ->at('00:00')
+            ->sendOutputTo(storage_path('logs/cor_reset.log'));
     }
     
 

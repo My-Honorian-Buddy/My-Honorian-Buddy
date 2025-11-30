@@ -20,3 +20,10 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
+
+# Testing files (do not push to VPS)
+test_cor_expiration.php
+expire_cor_test.php
+restore_cor_date.php
+original_cor_date.txt
+

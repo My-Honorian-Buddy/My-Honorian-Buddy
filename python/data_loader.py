@@ -1,14 +1,42 @@
 import mysql.connector
 import logging
 from mysql.connector import Error
+import os
+from pathlib import Path
+
+def load_env():
+    """Load environment variables from .env file"""
+    env_path = Path(__file__).resolve().parent.parent / '.env'
+    env_vars = {}
+    
+    if env_path.exists():
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    # Remove quotes if present
+                    value = value.strip().strip('"').strip("'")
+                    env_vars[key] = value
+    
+    return env_vars
 
 def create_db_connection():
+    env = load_env()
+    
+    # Validate required environment variables
+    required_vars = ['DB_HOST', 'DB_USERNAME', 'DB_PASSWORD', 'DB_DATABASE']
+    missing_vars = [var for var in required_vars if var not in env or not env[var]]
+    
+    if missing_vars:
+        raise ValueError(f"Missing required environment variables in .env: {', '.join(missing_vars)}")
+    
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="root",      # Replace with your MySQL username
-            password="12345678",  # Replace with your MySQL password
-            database="final_project"    # Replace with your database name
+            host=env['DB_HOST'],
+            user=env['DB_USERNAME'],
+            password=env['DB_PASSWORD'],
+            database=env['DB_DATABASE']
         )
         if connection.is_connected():
             logging.info("Connected to MySQL database")
