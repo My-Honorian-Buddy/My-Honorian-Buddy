@@ -34,3 +34,5 @@ The goal is simple — make learning more fun, connected, and accessible for eve
 🏫 Made For
 
 All PSU students who want to learn smarter, teach better, and support each other through peer tutoring.
+
+*© Hermanos 2025 - For Hermanos. By Hermanos*
